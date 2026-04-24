@@ -293,6 +293,65 @@
             transform: translateY(-2px);
         }
 
+        .hero-side {
+            display: grid;
+            gap: 1rem;
+        }
+        .photo-drop-card {
+            min-height: 260px;
+            background: var(--bg-card);
+            border: 1.5px dashed rgba(99,102,241,0.45);
+            border-radius: var(--radius-lg);
+            padding: 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
+        }
+        .photo-drop-card:hover {
+            border-color: rgba(236,72,153,0.65);
+            background: var(--bg-card-hover);
+        }
+        .photo-drop-card.drag-active {
+            border-color: var(--cyan);
+            box-shadow: 0 0 0 3px rgba(6,182,212,0.2);
+            background: var(--bg-card-hover);
+        }
+        .photo-drop-placeholder {
+            text-align: center;
+            pointer-events: none;
+        }
+        .photo-drop-icon {
+            font-size: 2rem;
+            margin-bottom: 0.6rem;
+        }
+        .photo-drop-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 0.35rem;
+        }
+        .photo-drop-hint {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+        .hero-photo-preview {
+            width: 100%;
+            height: 100%;
+            min-height: 230px;
+            object-fit: cover;
+            border-radius: var(--radius-md);
+            display: none;
+        }
+        .photo-drop-card.has-photo {
+            border-style: solid;
+            padding: 0.65rem;
+        }
+        .photo-drop-card.has-photo .hero-photo-preview { display: block; }
+        .photo-drop-card.has-photo .photo-drop-placeholder { display: none; }
+
         /* Stats card */
         .stats-card {
             background: var(--bg-card);
@@ -747,8 +806,19 @@
                     <a href="#contact" class="btn btn-outline">Get In Touch</a>
                 </div>
             </div>
-            <div class="stats-card" id="stats-card">
-                <!-- Populated by JS from PORTFOLIO_DATA -->
+            <div class="hero-side">
+                <div class="photo-drop-card" id="photo-drop-zone" role="button" tabindex="0" aria-label="Drop your photo here or click to upload">
+                    <input id="photo-input" type="file" accept="image/*" hidden>
+                    <img id="hero-photo-preview" class="hero-photo-preview" alt="Profile photo preview">
+                    <div class="photo-drop-placeholder" id="photo-drop-placeholder">
+                        <div class="photo-drop-icon">🖼️</div>
+                        <div class="photo-drop-title">Drop your photo here</div>
+                        <div class="photo-drop-hint">or click to upload</div>
+                    </div>
+                </div>
+                <div class="stats-card" id="stats-card">
+                    <!-- Populated by JS from PORTFOLIO_DATA -->
+                </div>
             </div>
         </div>
     </div>
@@ -1037,7 +1107,7 @@ const PORTFOLIO_DATA = {
     contact: {
         intro: [
             "Currently seeking internships and working student positions in 3D visualization, simulation, or software development — ideally starting mid-2025.",
-            "Based in Magdeburg, open to on-site or remote roles across Germany. Reach out via email or LinkedIn."
+            "Based in Magdeburg, open to on-site or remote roles across Germany. Reach out via email, LinkedIn, or GitHub."
         ]
     }
 };
@@ -1167,6 +1237,61 @@ document.getElementById("hero-bio").textContent           = PORTFOLIO_DATA.bio;
 document.getElementById("nav-logo").textContent           = PORTFOLIO_DATA.initials;
 document.getElementById("contact-avatar").textContent     = PORTFOLIO_DATA.initials;
 document.getElementById("loading-initials").textContent   = PORTFOLIO_DATA.initials;
+
+const photoDropZone = document.getElementById("photo-drop-zone");
+const photoInput = document.getElementById("photo-input");
+const photoPreview = document.getElementById("hero-photo-preview");
+const photoDropTitle = document.querySelector("#photo-drop-placeholder .photo-drop-title");
+const DEFAULT_HERO_PHOTO_PATH = "Images/hash.jpeg";
+let activePhotoUrl = "";
+let dragDepth = 0;
+
+function applyHeroPhotoSource(src) {
+    photoPreview.src = src;
+    photoPreview.alt = `${PORTFOLIO_DATA.name} profile photo`;
+    photoDropZone.classList.add("has-photo");
+    photoDropTitle.textContent = "Profile photo loaded";
+}
+
+function setHeroPhoto(file) {
+    if (!file || !file.type.startsWith("image/")) return;
+    if (activePhotoUrl) URL.revokeObjectURL(activePhotoUrl);
+    activePhotoUrl = URL.createObjectURL(file);
+    applyHeroPhotoSource(activePhotoUrl);
+}
+
+["dragenter", "dragover", "dragleave", "drop"].forEach(evt => {
+    photoDropZone.addEventListener(evt, e => e.preventDefault());
+});
+photoDropZone.addEventListener("dragenter", () => {
+    dragDepth += 1;
+    photoDropZone.classList.add("drag-active");
+});
+photoDropZone.addEventListener("dragleave", () => {
+    dragDepth = Math.max(0, dragDepth - 1);
+    if (dragDepth === 0) photoDropZone.classList.remove("drag-active");
+});
+photoDropZone.addEventListener("drop", e => {
+    dragDepth = 0;
+    photoDropZone.classList.remove("drag-active");
+    const [file] = e.dataTransfer.files || [];
+    setHeroPhoto(file);
+});
+photoDropZone.addEventListener("click", () => photoInput.click());
+photoDropZone.addEventListener("keydown", e => {
+    if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        photoInput.click();
+    }
+});
+photoInput.addEventListener("change", () => {
+    const [file] = photoInput.files || [];
+    setHeroPhoto(file);
+});
+
+const defaultHeroPhoto = new Image();
+defaultHeroPhoto.onload = () => applyHeroPhotoSource(DEFAULT_HERO_PHOTO_PATH);
+defaultHeroPhoto.src = DEFAULT_HERO_PHOTO_PATH;
 
 /* Stats card */
 const statsCard = document.getElementById("stats-card");
@@ -1299,6 +1424,7 @@ const contactCards = document.getElementById("contact-cards");
 const contactItems = [
     { icon: "📧", label: "Email",    value: PORTFOLIO_DATA.email,    href: `mailto:${PORTFOLIO_DATA.email}` },
     { icon: "💼", label: "LinkedIn", value: "linkedin.com/in/hashwanthghanta", href: PORTFOLIO_DATA.linkedin, target: "_blank" },
+    { icon: "💻", label: "GitHub",   value: "github.com/hashwanthghanta", href: PORTFOLIO_DATA.github, target: "_blank" },
     { icon: "📱", label: "Phone",    value: PORTFOLIO_DATA.phone,    href: `tel:${PORTFOLIO_DATA.phone}` },
     { icon: "📍", label: "Location", value: PORTFOLIO_DATA.location, href: null },
 ];
