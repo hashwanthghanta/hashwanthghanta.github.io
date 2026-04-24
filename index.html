@@ -33,6 +33,10 @@
             --radius-md:     14px;
             --radius-lg:     20px;
             --transition:    0.3s cubic-bezier(0.4,0,0.2,1);
+            --photo-brightness: 100%;
+            --photo-contrast: 100%;
+            --photo-saturate: 100%;
+            --photo-hue: 0deg;
         }
 
         /* ============================================================
@@ -190,6 +194,8 @@
             background: linear-gradient(135deg, var(--indigo-light), var(--pink));
             -webkit-background-clip: text; background-clip: text;
             -webkit-text-fill-color: transparent;
+            cursor: pointer;
+            user-select: none;
         }
         .nav-links { display: flex; gap: 0.25rem; list-style: none; align-items: center; }
         .nav-links a {
@@ -344,6 +350,7 @@
             object-fit: cover;
             border-radius: var(--radius-md);
             display: none;
+            filter: brightness(var(--photo-brightness)) contrast(var(--photo-contrast)) saturate(var(--photo-saturate)) hue-rotate(var(--photo-hue));
         }
         .photo-drop-card.has-photo {
             border-style: solid;
@@ -624,14 +631,31 @@
             gap: 1.5rem;
         }
         .edu-card {
+            display: block;
             background: var(--bg-card);
             border: 1px solid var(--border);
             border-radius: var(--radius-md);
             padding: 1.75rem;
+            position: relative;
+            overflow: hidden;
             opacity: 0; transform: translateY(24px);
-            transition: opacity 0.55s ease, transform 0.55s ease;
+            transition: opacity 0.55s ease, transform 0.55s ease, box-shadow var(--transition), border-color var(--transition);
         }
+        .edu-card[href] { text-decoration: none; cursor: none; }
         .edu-card.visible { opacity: 1; transform: translateY(0); }
+        .edu-card::after {
+            content: '';
+            position: absolute; top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(236,72,153,0.07), transparent);
+            transition: left 0.55s ease;
+        }
+        .edu-card:hover::after { left: 100%; }
+        .edu-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 16px 40px rgba(0,0,0,0.4);
+            border-color: rgba(236,72,153,0.35);
+        }
         .edu-card-icon { font-size: 1.75rem; margin-bottom: 1rem; }
         .edu-degree {
             font-family: 'Syne', sans-serif;
@@ -702,6 +726,7 @@
             font-size: 2.5rem; font-weight: 800; color: #fff;
             position: relative; overflow: hidden; cursor: none;
             box-shadow: 0 0 0 4px rgba(99,102,241,0.2);
+            filter: brightness(var(--photo-brightness)) contrast(var(--photo-contrast)) saturate(var(--photo-saturate)) hue-rotate(var(--photo-hue));
         }
         .avatar::after {
             content: '';
@@ -727,6 +752,64 @@
             transition: color var(--transition);
         }
         .footer-links a:hover { color: var(--cyan); }
+        .back-to-top {
+            position: fixed;
+            right: 50%;
+            bottom: 4.5rem;
+            z-index: 1200;
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            background: rgba(17,17,28,0.92);
+            color: var(--cyan);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.32);
+            font-size: 1.4rem;
+            font-weight: 700;
+            opacity: 0;
+            transform: translateX(50%) translateY(10px);
+            pointer-events: none;
+            transition: opacity var(--transition), transform var(--transition), border-color var(--transition), background var(--transition);
+        }
+        .back-to-top.visible {
+            opacity: 1;
+            transform: translateX(50%) translateY(0);
+            pointer-events: auto;
+        }
+        .back-to-top:hover {
+            border-color: rgba(6,182,212,0.65);
+            background: rgba(24,24,40,0.98);
+        }
+        .back-to-top::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            left: 50%;
+            bottom: calc(100% + 10px);
+            transform: translateX(-50%) translateY(4px);
+            padding: 0.35rem 0.65rem;
+            border-radius: 999px;
+            background: rgba(7,7,13,0.96);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            font-size: 0.72rem;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity var(--transition), transform var(--transition);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.28);
+        }
+        .back-to-top:hover::after,
+        .back-to-top:focus-visible::after {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+        .back-to-top:focus-visible {
+            outline: 2px solid rgba(6,182,212,0.7);
+            outline-offset: 3px;
+        }
 
         /* ============================================================
            RESPONSIVE
@@ -937,6 +1020,8 @@
     </div>
 </footer>
 
+<button type="button" class="back-to-top" id="back-to-top" aria-label="Back to top" data-tooltip="Back to top">↑</button>
+
 <!-- ============================================================
      SCRIPT — Edit PORTFOLIO_DATA to update your portfolio
 ============================================================ -->
@@ -951,7 +1036,7 @@ const PORTFOLIO_DATA = {
     name:        "Hashwanth Ghanta",
     initials:    "HG",
     role:        "Unity 3D Developer · 3D Simulation & Visualization · M.Sc. Digital Engineering",
-    bio:         "Engineering student at OVGU Magdeburg building interactive 3D simulations in Unity. Background in data analytics and embedded systems. Currently seeking internships or working student roles in visualization, simulation, and software development.",
+    bio:         "Engineering student at OVGU Magdeburg ,Created interactive 3D simulations in Unity. Background in data analytics and embedded systems. Currently seeking internships or working student roles in visualization, simulation, LLM Traning Models and software development.",
     location:    "Magdeburg, Germany",
     email:       "hashwanthghanta@gmail.com",
     phone:       "+49 15510070657",
@@ -970,7 +1055,7 @@ const PORTFOLIO_DATA = {
     about: [
         `I'm a <span class="about-highlight">Unity 3D developer and Digital Engineering M.Sc. student</span> at Otto von Guericke University, Magdeburg. My focus is building interactive simulations that make complex industrial processes understandable and visual.`,
         `My main project is a <span class="about-highlight">CO₂ Carbon Capture Simulation in Unity</span> — a 7-phase educational simulation with real-time parameter controls, C# architecture, and 3D industrial visualization built from scratch.`,
-        `I also bring a strong analytical side: Power BI dashboards, Python data pipelines, and business analytics. I'm actively looking for internships or working student roles in simulation, visualization, or software development.`
+        `I also bring a strong analytical side: Power BI dashboards, Python data pipelines, and business analytics. I'm actively looking for internships or working student roles in simulation, visualization, LLM Traning Models and software development.`
     ],
 
     /* ── Languages spoken ─────────────────────────────────────── */
@@ -1009,11 +1094,12 @@ const PORTFOLIO_DATA = {
         {
             category: "Programming",
             bars: [
+                { name: "C# / .cs",     pct: 82, label: "Advanced"  },
                 { name: "Python",      pct: 85, label: "Advanced"  },
                 { name: "SQL",         pct: 75, label: "Proficient" },
                 { name: "JavaScript",  pct: 60, label: "Familiar"   },
             ],
-            chips: ["Python", "SQL", "JavaScript", "C (Arduino)"]
+            chips: ["C#", "Python", "SQL", "JavaScript", "C (Arduino)"]
         },
         {
             category: "Data & Analytics",
@@ -1049,7 +1135,8 @@ const PORTFOLIO_DATA = {
             period: "2025 – Present  ·  Featured",
             title:  "Post-Combustion CO₂ Carbon Capture Simulation",
             desc:   "Unity 3D educational simulation of a full 7-phase industrial CO₂ capture process using MEA solvent absorption. Architected in C# with dedicated manager classes (SimulationManager, TemperatureController, NotificationManager, UIManager), real-time parameter sliders, phase-by-phase 3D visualization, and a TextMeshPro UI layer. Built entirely from scratch as part of M.Sc. coursework at OVGU.",
-            tags:   ["Unity 3D", "C#", "TextMeshPro", "URP", "3D Modeling", "Simulation"]
+            tags:   ["Unity 3D", "C#", "TextMeshPro", "URP", "3D Modeling", "Simulation"],
+            url:    "https://github.com/hashwanthghanta/co2-carbon-extract"
         },
         {
             icon:   "📊",
@@ -1080,13 +1167,15 @@ const PORTFOLIO_DATA = {
             icon:   "🎓",
             degree: "M.Sc. Digital Engineering",
             period: "April 2025 – Present",
-            detail: "<strong>OVGU, Magdeburg, Germany</strong><br>Digital systems · simulation · software engineering · data science"
+            detail: "<strong>OVGU, Magdeburg, Germany</strong><br>Digital systems · simulation · software engineering · data science",
+            url:    "https://www.ovgu.de/"
         },
         {
             icon:   "⚡",
             degree: "B.Tech Electronics & Communication",
             period: "2020 – 2024",
-            detail: "<strong>VIT-AP University, India</strong><br>CGPA: 7.72 / 10.0<br>IoT · embedded systems · wireless communication"
+            detail: "<strong>VIT-AP University, India</strong><br>CGPA: 7.72 / 10.0<br>IoT · embedded systems · wireless communication",
+            url:    "https://vitap.ac.in/"
         },
         {
             icon:   "📜",
@@ -1106,7 +1195,7 @@ const PORTFOLIO_DATA = {
     /* ── Contact cards ────────────────────────────────────────── */
     contact: {
         intro: [
-            "Currently seeking internships and working student positions in 3D visualization, simulation, or software development — ideally starting mid-2025.",
+            "Currently seeking internships and working student positions in 3D visualization , LLM Training, simulation, or software/Data development — ideally starting mid-2025.",
             "Based in Magdeburg, open to on-site or remote roles across Germany. Reach out via email, LinkedIn, or GitHub."
         ]
     }
@@ -1235,8 +1324,36 @@ document.getElementById("hero-name").textContent          = PORTFOLIO_DATA.name;
 document.getElementById("hero-role").textContent          = PORTFOLIO_DATA.role;
 document.getElementById("hero-bio").textContent           = PORTFOLIO_DATA.bio;
 document.getElementById("nav-logo").textContent           = PORTFOLIO_DATA.initials;
-document.getElementById("contact-avatar").textContent     = PORTFOLIO_DATA.initials;
+const contactAvatar = document.getElementById("contact-avatar");
+const CONTACT_AVATAR_PATH = "Images/hash2.jpeg";
+contactAvatar.textContent = PORTFOLIO_DATA.initials;
+const contactAvatarImage = new Image();
+contactAvatarImage.onload = () => {
+    contactAvatar.style.background = `url("${CONTACT_AVATAR_PATH}") center/cover no-repeat`;
+    contactAvatar.textContent = "";
+};
+contactAvatarImage.src = CONTACT_AVATAR_PATH;
 document.getElementById("loading-initials").textContent   = PORTFOLIO_DATA.initials;
+const navLogo = document.getElementById("nav-logo");
+const backToTopBtn = document.getElementById("back-to-top");
+const contactSection = document.getElementById("contact");
+let backToTopShowY = 700;
+
+function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+navLogo.addEventListener("click", scrollToTop);
+backToTopBtn.addEventListener("click", scrollToTop);
+
+function updateBackToTopVisibility() {
+    backToTopShowY = Math.max(700, contactSection.offsetTop - window.innerHeight * 0.6);
+    backToTopBtn.classList.toggle("visible", window.scrollY > backToTopShowY);
+}
+
+window.addEventListener("scroll", updateBackToTopVisibility);
+window.addEventListener("resize", updateBackToTopVisibility);
+updateBackToTopVisibility();
 
 const photoDropZone = document.getElementById("photo-drop-zone");
 const photoInput = document.getElementById("photo-input");
@@ -1382,8 +1499,14 @@ PORTFOLIO_DATA.experience.forEach(item => {
 /* ── PROJECTS ───────────────────────────────────────────── */
 const projGrid = document.getElementById("projects-grid");
 PORTFOLIO_DATA.projects.forEach(proj => {
-    const c = document.createElement("div");
+    const c = document.createElement(proj.url ? "a" : "div");
     c.className = "proj-card";
+    if (proj.url) {
+        c.href = proj.url;
+        c.target = "_blank";
+        c.rel = "noopener noreferrer";
+        c.setAttribute("aria-label", `Open project details for ${proj.title}`);
+    }
     c.innerHTML = `
         <div class="proj-icon">${proj.icon}</div>
         <div class="proj-period">${proj.period}</div>
@@ -1397,8 +1520,14 @@ PORTFOLIO_DATA.projects.forEach(proj => {
 /* ── EDUCATION ──────────────────────────────────────────── */
 const eduGrid = document.getElementById("edu-grid");
 PORTFOLIO_DATA.education.forEach(item => {
-    const c = document.createElement("div");
+    const c = document.createElement(item.url ? "a" : "div");
     c.className = "edu-card";
+    if (item.url) {
+        c.href = item.url;
+        c.target = "_blank";
+        c.rel = "noopener noreferrer";
+        c.setAttribute("aria-label", `Open ${item.degree}`);
+    }
     let inner = `<div class="edu-card-icon">${item.icon}</div>
                  <div class="edu-degree">${item.degree}</div>`;
     if (item.period) inner += `<div class="edu-period">${item.period}</div>`;
@@ -1467,6 +1596,7 @@ if (PORTFOLIO_DATA.email) {
     a.href = `mailto:${PORTFOLIO_DATA.email}`;
     a.textContent = "Email"; footerLinks.appendChild(a);
 }
+
 </script>
 </body>
 </html>
