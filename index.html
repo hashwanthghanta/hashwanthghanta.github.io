@@ -317,8 +317,9 @@
             width: 100%;
             height: 420px;
             object-fit: cover;
-            object-position: center center;
+            object-position: center 20%;
             display: block;
+            filter: brightness(0.82) saturate(0.88);
         }
         .hero-photo-initials {
             font-family: 'Syne', sans-serif;
@@ -596,7 +597,7 @@
         /* ============================================================
            FOOTER
         ============================================================ */
-        footer { padding: 2.5rem 0; border-top: 1px solid var(--border); text-align: center; }
+        footer { padding: 2.5rem 0; border-top: 1px solid var(--border); text-align: center; display: flex; flex-direction: column; align-items: center; }
         footer p { font-size: 0.875rem; color: var(--text-muted); }
         .footer-links { display: flex; justify-content: center; gap: 1.5rem; margin-top: 0.75rem; }
         .footer-links a { font-size: 0.8125rem; color: var(--text-muted); transition: color var(--transition); }
@@ -604,19 +605,15 @@
 
         /* Back to top */
         .back-to-top {
-            position: fixed; left: 50%; bottom: 2rem; z-index: 1200;
-            transform: translateX(-50%) translateY(10px);
+            display: inline-flex; align-items: center; justify-content: center;
             width: 44px; height: 44px; border-radius: 50%;
             border: 1px solid var(--border);
             background: rgba(17,17,28,0.92); color: var(--cyan);
-            display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.3); font-size: 1.1rem; font-weight: 700;
-            opacity: 0; pointer-events: none;
-            transition: opacity var(--transition), transform var(--transition), border-color var(--transition);
-            cursor: none;
+            font-size: 1.1rem; font-weight: 700;
+            transition: border-color var(--transition), background var(--transition);
+            cursor: pointer; margin-bottom: 1.25rem;
         }
-        .back-to-top.visible { opacity: 1; transform: translateX(-50%) translateY(0); pointer-events: auto; }
-        .back-to-top:hover { border-color: rgba(6,182,212,0.65); }
+        .back-to-top:hover { border-color: rgba(6,182,212,0.65); background: var(--bg-card-hover); }
 
         /* ============================================================
            RESPONSIVE
@@ -638,7 +635,7 @@
             .cursor-dot, .cursor-ring { display: none; }
             .hero-actions { flex-direction: column; }
             .btn { justify-content: center; }
-            .back-to-top { left: 50%; bottom: 1rem; }
+            .back-to-top { margin-bottom: 1rem; }
         }
     </style>
 </head>
@@ -766,12 +763,11 @@
 
 <footer>
     <div class="container">
+        <button type="button" class="back-to-top" id="back-to-top" aria-label="Back to top">↑</button>
         <p id="footer-copy"></p>
         <div class="footer-links" id="footer-links"></div>
     </div>
 </footer>
-
-<button type="button" class="back-to-top" id="back-to-top" aria-label="Back to top">↑</button>
 
 <script>
 /* ================================================================
@@ -1041,7 +1037,6 @@ const navLogo = document.getElementById("nav-logo");
 function scrollToTop() { window.scrollTo({ top: 0, behavior: "smooth" }); }
 navLogo.addEventListener("click", scrollToTop);
 backToTopBtn.addEventListener("click", scrollToTop);
-window.addEventListener("scroll", () => { backToTopBtn.classList.toggle("visible", window.scrollY > 600); });
 
 /* ── HERO ── */
 document.getElementById("hero-name").textContent = PORTFOLIO_DATA.name;
