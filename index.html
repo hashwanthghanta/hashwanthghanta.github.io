@@ -214,6 +214,17 @@
         }
         .nav-links a.active { color: var(--indigo-light); }
 
+        /* Language switcher */
+        .lang-switcher { display: flex; gap: 0.375rem; align-items: center; margin-left: 1.25rem; }
+        .lang-btn {
+            padding: 0.25rem 0.6rem; border-radius: 6px; font-size: 0.8rem; font-weight: 600;
+            border: 1px solid var(--border); background: transparent;
+            color: var(--text-muted); cursor: pointer;
+            transition: color var(--transition), background var(--transition), border-color var(--transition);
+        }
+        .lang-btn:hover { color: var(--text-primary); background: rgba(255,255,255,0.07); }
+        .lang-btn.active { color: var(--indigo-light); border-color: var(--indigo-light); background: rgba(99,102,241,0.12); }
+
         /* ============================================================
            HERO SECTION
         ============================================================ */
@@ -654,13 +665,17 @@
     <div class="container">
         <div class="logo" id="nav-logo">HG</div>
         <ul class="nav-links" id="nav-links">
-            <li><a href="#about">About</a></li>
-            <li><a href="#skills">Skills</a></li>
-            <li><a href="#experience">Experience</a></li>
-            <li><a href="#projects">Projects</a></li>
-            <li><a href="#education">Education</a></li>
-            <li><a href="#contact">Contact</a></li>
+            <li><a href="#about"      data-i18n="nav_about">About</a></li>
+            <li><a href="#skills"     data-i18n="nav_skills">Skills</a></li>
+            <li><a href="#experience" data-i18n="nav_exp">Experience</a></li>
+            <li><a href="#projects"   data-i18n="nav_proj">Projects</a></li>
+            <li><a href="#education"  data-i18n="nav_edu">Education</a></li>
+            <li><a href="#contact"    data-i18n="nav_contact">Contact</a></li>
         </ul>
+        <div class="lang-switcher">
+            <button class="lang-btn active" data-lang="en" onclick="setLanguage('en')">🇬🇧 EN</button>
+            <button class="lang-btn"        data-lang="de" onclick="setLanguage('de')">🇩🇪 DE</button>
+        </div>
     </div>
 </nav>
 
@@ -670,15 +685,15 @@
             <div class="hero-text">
                 <div class="hero-eyebrow">
                     <div class="hero-eyebrow-line"></div>
-                    <span>Digital Engineering Portfolio</span>
+                    <span data-i18n="hero_eyebrow">Digital Engineering Portfolio</span>
                 </div>
                 <h1 class="hero-name" id="hero-name">Hashwanth Ghanta</h1>
                 <p class="hero-role" id="hero-role"></p>
                 <p class="hero-bio" id="hero-bio"></p>
                 <div class="hero-actions">
-                    <a href="#projects" class="btn btn-primary">View Projects</a>
-                    <a href="#contact" class="btn btn-outline">Get In Touch</a>
-                    <a id="resume-btn" href="resume.pdf" target="_blank" rel="noopener" class="btn btn-outline" download style="display:none;">📄 Resume</a>
+                    <a href="#projects" class="btn btn-primary" data-i18n="btn_projects">View Projects</a>
+                    <a href="#contact" class="btn btn-outline" data-i18n="btn_contact">Get In Touch</a>
+                    <a id="resume-btn" href="resume.pdf" target="_blank" rel="noopener" class="btn btn-outline" download style="display:none;" data-i18n="btn_resume">📄 Resume</a>
                 </div>
             </div>
             <div class="hero-side">
@@ -695,8 +710,8 @@
 <section id="about">
     <div class="container">
         <div class="section-header">
-            <div class="section-label">Background</div>
-            <h2 class="section-title">About Me</h2>
+            <div class="section-label" data-i18n="sec_about_label">Background</div>
+            <h2 class="section-title" data-i18n="sec_about_title">About Me</h2>
         </div>
         <div class="about-grid">
             <div class="about-text" id="about-text"></div>
@@ -708,8 +723,8 @@
 <section id="skills">
     <div class="container">
         <div class="section-header">
-            <div class="section-label">Expertise</div>
-            <h2 class="section-title">Technical Skills</h2>
+            <div class="section-label" data-i18n="sec_skills_label">Expertise</div>
+            <h2 class="section-title" data-i18n="sec_skills_title">Technical Skills</h2>
         </div>
         <div class="skills-layout" id="skills-layout"></div>
     </div>
@@ -718,8 +733,8 @@
 <section id="experience">
     <div class="container">
         <div class="section-header">
-            <div class="section-label">Track Record</div>
-            <h2 class="section-title">Experience &amp; Leadership</h2>
+            <div class="section-label" data-i18n="sec_exp_label">Track Record</div>
+            <h2 class="section-title" data-i18n="sec_exp_title">Experience &amp; Leadership</h2>
         </div>
         <div class="timeline" id="experience-timeline"></div>
     </div>
@@ -728,8 +743,8 @@
 <section id="projects">
     <div class="container">
         <div class="section-header">
-            <div class="section-label">Work</div>
-            <h2 class="section-title">Featured Projects</h2>
+            <div class="section-label" data-i18n="sec_proj_label">Work</div>
+            <h2 class="section-title" data-i18n="sec_proj_title">Featured Projects</h2>
         </div>
         <div class="projects-grid" id="projects-grid"></div>
     </div>
@@ -738,8 +753,8 @@
 <section id="education">
     <div class="container">
         <div class="section-header">
-            <div class="section-label">Academic Background</div>
-            <h2 class="section-title">Education &amp; Certifications</h2>
+            <div class="section-label" data-i18n="sec_edu_label">Academic Background</div>
+            <h2 class="section-title" data-i18n="sec_edu_title">Education &amp; Certifications</h2>
         </div>
         <div class="edu-grid" id="edu-grid"></div>
     </div>
@@ -748,8 +763,8 @@
 <section id="contact">
     <div class="container">
         <div class="section-header">
-            <div class="section-label">Connect</div>
-            <h2 class="section-title">Get In Touch</h2>
+            <div class="section-label" data-i18n="sec_contact_label">Connect</div>
+            <h2 class="section-title" data-i18n="sec_contact_title">Get In Touch</h2>
         </div>
         <div class="contact-layout">
             <div class="contact-intro">
@@ -860,7 +875,7 @@ const PORTFOLIO_DATA = {
             bars: [
                 { name: "Git / GitHub", pct: 78, label: "Proficient" },
             ],
-            chips: ["Git", "GitHub", "Jira", "Arduino", "Raspberry Pi"]
+            chips: ["Git", "GitHub", "Jira", "SAP", "Arduino", "Raspberry Pi"]
         },
         {
             category: "Currently Exploring",
@@ -907,6 +922,14 @@ const PORTFOLIO_DATA = {
             tags:   ["IoT", "GPS", "Arduino", "Sensors", "Safety Systems"]
         },
         {
+            icon:   "🌐",
+            period: "2025 – 2026",
+            title:  "Personal Portfolio Website",
+            desc:   "Built a fully custom single-page portfolio with particle canvas background, smooth scroll animations, custom cursor, config-driven data architecture, and GitHub Pages deployment. No frameworks — pure HTML, CSS, and JavaScript.",
+            tags:   ["HTML", "CSS", "JavaScript", "GitHub Pages", "Responsive Design"],
+            url:    "https://hashwanthghanta.github.io"
+        },
+        {
             icon:   "🚑",
             period: "2022 – 2023",
             title:  "IoT Safety Systems — B.Tech Projects",
@@ -928,7 +951,7 @@ const PORTFOLIO_DATA = {
             icon:   "⚡",
             degree: "B.Tech Electronics & Communication",
             period: "2020 – 2024",
-            detail: "<strong>VIT-AP University, India</strong><br>CGPA: 7.72 / 10.0<br>IoT · embedded systems · wireless communication",
+            detail: "<strong>VIT-AP University, India</strong><br>CGPA: 7.72 / 10.0 (≈ 2.3 DE)<br>IoT · embedded systems · wireless communication",
             url:    "https://vitap.ac.in/"
         },
         {
@@ -939,8 +962,9 @@ const PORTFOLIO_DATA = {
                 "Data Visualization – Tata",
                 "Business Analysis – Microsoft",
                 "Business Analytics – Coursera",
-                "IoT Cloud Computing",
-                "Project Management",
+                "IoT Cloud Computing – Coursera",
+                "IoT Programming with Boards – Coursera",
+                "Project Management – Coursera",
                 "Power BI Workshop",
             ]
         },
@@ -949,12 +973,196 @@ const PORTFOLIO_DATA = {
     /* ── Contact section intro ────────────────────────────────── */
     contact: {
         intro: [
-            "Currently seeking internships and working student positions in 3D visualization, simulation, or software development — immediately available.",
+            "Currently seeking internships and Werkstudent positions in 3D visualization, simulation, or software development — immediately available.",
             "Based in Magdeburg, open to on-site or remote roles across Germany. Reach out via email, LinkedIn, or GitHub."
         ]
     }
 };
 
+/* ================================================================
+   GERMAN TRANSLATIONS
+   Extend/override PORTFOLIO_DATA with German text.
+   Non-text fields (email, phone, links, photos) are inherited.
+================================================================ */
+const PORTFOLIO_DATA_DE = {
+    ...PORTFOLIO_DATA,
+    resumeUrl: "lebenslauf.pdf",   // German CV — auto-served when visitor is on DE version
+    role: "Unity-3D-Entwickler · 3D-Simulation & Visualisierung · M.Sc. Digital Engineering",
+    bio:  "M.Sc.-Student Digital Engineering an der OVGU Magdeburg. Ich entwickle interaktive 3D-Simulationen in Unity und arbeite mit Datenanalyse-Tools. Hintergrund in eingebetteten Systemen und IoT. Aktuell erforsche ich Large Language Models und KI/ML. Auf der Suche nach Praktikums- oder Werkstudentenstellen in Deutschland.",
+    stats: [
+        { icon: "🏭", value: "1",  label: "Hauptsimulation"      },
+        { icon: "💻", value: "4",  label: "Entwickelte Projekte"  },
+        { icon: "📜", value: "8+", label: "Zertifizierungen"      },
+    ],
+    about: [
+        `Ich bin ein <span class="about-highlight">Unity-3D-Entwickler und M.Sc.-Student Digital Engineering</span> an der Otto-von-Guericke-Universität Magdeburg. Mein Schwerpunkt liegt auf der Entwicklung interaktiver Simulationen, die komplexe industrielle Prozesse verständlich und visuell darstellen.`,
+        `Mein Hauptprojekt ist eine <span class="about-highlight">CO₂-Kohlenstoffabscheidungs-Simulation in Unity</span> — eine 7-phasige Lernsimulation mit Echtzeit-Parametersteuerung, C#-Architektur und 3D-Industrievisualisierung, vollständig von Grund auf entwickelt.`,
+        `Ich bringe auch analytische Stärken mit: Power-BI-Dashboards, Python-Datenpipelines und Business Analytics. Ich suche aktiv nach Praktika oder Werkstudentenstellen in Simulation, Visualisierung und Softwareentwicklung.`
+    ],
+    aboutTimeline: [
+        {
+            date:  "Apr. 2025 – Heute",
+            title: "M.Sc. Digital Engineering",
+            org:   "OVGU, Magdeburg, Deutschland",
+            body:  "Schwerpunkte: Digitale Systeme, Simulation, Software-Engineering und Data Science."
+        },
+        {
+            date:  "2020 – 2024",
+            title: "B.Tech Elektrotechnik & Kommunikation",
+            org:   "VIT-AP Universität, Indien",
+            body:  "CGPA 7,72. Spezialisierung auf IoT, eingebettete Systeme und drahtlose Kommunikation."
+        },
+    ],
+    skills: [
+        {
+            category: "3D & Simulation",
+            bars: [
+                { name: "Unity 3D",   pct: 82, label: "Fortgeschritten" },
+                { name: "C# (Unity)", pct: 80, label: "Fortgeschritten" },
+            ],
+            chips: ["Unity 3D", "C#", "TextMeshPro", "URP", "3D-Modellierung", "Simulationsdesign"]
+        },
+        {
+            category: "Programmierung",
+            bars: [
+                { name: "Python",     pct: 85, label: "Fortgeschritten"  },
+                { name: "SQL",        pct: 75, label: "Kompetent"        },
+                { name: "JavaScript", pct: 60, label: "Grundkenntnisse"  },
+            ],
+            chips: ["Python", "SQL", "JavaScript", "C (Arduino)"]
+        },
+        {
+            category: "Daten & Analytik",
+            bars: [
+                { name: "Power BI", pct: 85, label: "Fortgeschritten" },
+                { name: "Excel",    pct: 90, label: "Experte"         },
+            ],
+            chips: ["Power BI", "Excel", "Datenvisualisierung", "Business Analytics"]
+        },
+        {
+            category: "Werkzeuge & Plattformen",
+            bars: [
+                { name: "Git / GitHub", pct: 78, label: "Kompetent" },
+            ],
+            chips: ["Git", "GitHub", "Jira", "SAP", "Arduino", "Raspberry Pi"]
+        },
+        {
+            category: "Aktuell in Erkundung",
+            bars: [
+                { name: "Large Language Models",      pct: 45, label: "Lernend" },
+                { name: "Machine Learning (Python)",  pct: 50, label: "Lernend" },
+            ],
+            chips: ["LLMs", "Hugging Face", "Prompt Engineering", "Transformers", "KI/ML-Konzepte"]
+        },
+    ],
+    experience: [
+        {
+            date:  "2024",
+            title: "Ehrenamtlicher Leiter — VITOPIA 2024",
+            org:   "Jährliches Kulturfestival der VIT-AP Universität, Indien",
+            body:  "Organisation des größten jährlichen Uni-Events mit über 1.000 Teilnehmern, darunter Studierende und Gastauftritte. Verantwortlich für Logistik, Studierendenteams, Veranstaltungsplanung und Live-Aktivitäten."
+        },
+    ],
+    projects: [
+        {
+            icon:   "🏭",
+            period: "2025 – Heute  ·  Hervorgehoben",
+            title:  "Post-Combustion CO₂-Abscheidungs-Simulation",
+            desc:   "Unity-3D-Lernsimulation eines vollständigen 7-phasigen industriellen CO₂-Abscheidungsprozesses mit MEA-Lösungsabsorption. C#-Architektur mit dedizierten Manager-Klassen, Echtzeit-Parameter-Slider, phasenweise 3D-Visualisierung und TextMeshPro-UI. Vollständig von Grund auf im M.Sc.-Studium an der OVGU entwickelt.",
+            tags:   ["Unity 3D", "C#", "TextMeshPro", "URP", "3D-Modellierung", "Simulation"],
+            url:    "https://github.com/hashwanthghanta/co2-carbon-extract"
+        },
+        {
+            icon:   "📊",
+            period: "2023 – 2024",
+            title:  "Datenanalyse & Business-Intelligence-Dashboards",
+            desc:   "Entwicklung von Power-BI-Dashboards und Excel-Modellen für Geschäftsdatenanalysen im Rahmen von Zertifizierungsprogrammen mit Tata und Microsoft. Anwendung von Datenvisualisierungsprinzipien zur klaren Darstellung von KPIs, Trends und Betriebskennzahlen.",
+            tags:   ["Power BI", "Excel", "Datenvisualisierung", "Business Analytics", "Python"]
+        },
+        {
+            icon:   "🏍️",
+            period: "2024",
+            title:  "IoT Smart-Helm & Fahrradsicherheitssystem",
+            desc:   "GPS- und Alkoholsensor-ausgestatteter Smart-Helm zur Erkennung unsicherer Fahrbedingungen und automatischen Alarmierung von Notfallkontakten. Konzipiert zur Reduzierung von Motorradunfällen durch Echtzeit-Überwachung.",
+            tags:   ["IoT", "GPS", "Arduino", "Sensoren", "Sicherheitssysteme"]
+        },
+        {
+            icon:   "🚑",
+            period: "2022 – 2023",
+            title:  "IoT-Sicherheitssysteme — B.Tech-Projekte",
+            desc:   "Eingebettete Systemprojekte: Verkehrsknotenpunktsteuerung für bevorzugte Signalschaltung für Krankenwagen sowie ein Ultraschall-Toter-Winkel-Detektor für Fahrzeuge. Entwickelt auf Arduino- und Mikrocontroller-Plattformen.",
+            tags:   ["IoT", "Arduino", "Sensoren", "Eingebettetes C"]
+        },
+    ],
+    education: [
+        {
+            icon:   "🎓",
+            degree: "M.Sc. Digital Engineering",
+            period: "April 2025 – Heute",
+            detail: "<strong>OVGU, Magdeburg, Deutschland</strong><br>Digitale Systeme · Simulation · Software-Engineering · Data Science",
+            url:    "https://www.ovgu.de/"
+        },
+        {
+            icon:   "⚡",
+            degree: "B.Tech Elektrotechnik & Kommunikation",
+            period: "2020 – 2024",
+            detail: "<strong>VIT-AP Universität, Indien</strong><br>CGPA: 7,72 / 10,0 (≈ 2,3 DE)<br>IoT · Eingebettete Systeme · Drahtlose Kommunikation",
+            url:    "https://vitap.ac.in/"
+        },
+        {
+            icon:   "📜",
+            degree: "Zertifizierungen",
+            period: "",
+            badges: [
+                "Datenvisualisierung – Tata",
+                "Business Analysis – Microsoft",
+                "Business Analytics – Coursera",
+                "IoT Cloud Computing – Coursera",
+                "IoT Boards Programmierung – Coursera",
+                "Projektmanagement – Coursera",
+                "Power BI Workshop",
+            ]
+        },
+    ],
+    contact: {
+        intro: [
+            "Ich suche derzeit Praktika und Werkstudentenstellen in 3D-Visualisierung, Simulation oder Softwareentwicklung — ab sofort verfügbar.",
+            "Wohnhaft in Magdeburg, offen für Präsenz- oder Remote-Stellen in ganz Deutschland. Kontaktaufnahme per E-Mail, LinkedIn oder GitHub."
+        ]
+    }
+};
+
+/* Static UI string translations (nav, buttons, section headers) */
+const UI_STRINGS = {
+    en: {
+        nav_about:"About", nav_skills:"Skills", nav_exp:"Experience",
+        nav_proj:"Projects", nav_edu:"Education", nav_contact:"Contact",
+        hero_eyebrow:"Digital Engineering Portfolio",
+        btn_projects:"View Projects", btn_contact:"Get In Touch", btn_resume:"📄 Resume",
+        sec_about_label:"Background",     sec_about_title:"About Me",
+        sec_skills_label:"Expertise",     sec_skills_title:"Technical Skills",
+        sec_exp_label:"Track Record",     sec_exp_title:"Experience & Leadership",
+        sec_proj_label:"Work",            sec_proj_title:"Featured Projects",
+        sec_edu_label:"Academic Background", sec_edu_title:"Education & Certifications",
+        sec_contact_label:"Connect",      sec_contact_title:"Get In Touch",
+        contact_email:"Email", contact_linkedin:"LinkedIn", contact_github:"GitHub",
+        contact_phone:"Phone", contact_location:"Location",
+    },
+    de: {
+        nav_about:"Über mich", nav_skills:"Fähigkeiten", nav_exp:"Erfahrung",
+        nav_proj:"Projekte", nav_edu:"Bildung", nav_contact:"Kontakt",
+        hero_eyebrow:"Digital Engineering Portfolio",
+        btn_projects:"Projekte ansehen", btn_contact:"Kontakt aufnehmen", btn_resume:"📄 Lebenslauf",
+        sec_about_label:"Hintergrund",    sec_about_title:"Über mich",
+        sec_skills_label:"Fachkompetenz", sec_skills_title:"Technische Fähigkeiten",
+        sec_exp_label:"Werdegang",        sec_exp_title:"Erfahrung & Führung",
+        sec_proj_label:"Arbeiten",        sec_proj_title:"Ausgewählte Projekte",
+        sec_edu_label:"Akademischer Hintergrund", sec_edu_title:"Bildung & Zertifizierungen",
+        sec_contact_label:"Verbinden",    sec_contact_title:"Kontakt aufnehmen",
+        contact_email:"E-Mail", contact_linkedin:"LinkedIn", contact_github:"GitHub",
+        contact_phone:"Telefon", contact_location:"Standort",
+    }
+};
 
 /* ================================================================
    RENDERER — Do not edit below unless changing layout/structure
@@ -1038,120 +1246,166 @@ function scrollToTop() { window.scrollTo({ top: 0, behavior: "smooth" }); }
 navLogo.addEventListener("click", scrollToTop);
 backToTopBtn.addEventListener("click", scrollToTop);
 
-/* ── HERO ── */
-document.getElementById("hero-name").textContent = PORTFOLIO_DATA.name;
-document.getElementById("hero-role").textContent = PORTFOLIO_DATA.role;
-document.getElementById("hero-bio").textContent  = PORTFOLIO_DATA.bio;
-document.getElementById("nav-logo").textContent  = PORTFOLIO_DATA.initials;
+/* ── Language state ── */
+let currentLang = "en";
 
-/* Hero photo */
+/* ── Static UI string updater ── */
+function applyUIStrings(lang) {
+    const s = UI_STRINGS[lang];
+    document.querySelectorAll("[data-i18n]").forEach(el => {
+        const key = el.getAttribute("data-i18n");
+        if (s[key] !== undefined) el.textContent = s[key];
+    });
+}
+
+/* ── Language switcher ── */
+function setLanguage(lang) {
+    currentLang = lang;
+    document.querySelectorAll(".lang-btn").forEach(b => b.classList.toggle("active", b.getAttribute("data-lang") === lang));
+    applyUIStrings(lang);
+    const data = lang === "de" ? PORTFOLIO_DATA_DE : PORTFOLIO_DATA;
+    renderDynamic(data, lang);
+}
+
+/* ── Dynamic render functions ── */
+function renderDynamic(data, lang) {
+    const s = UI_STRINGS[lang];
+
+    /* Resume button — switches file based on language */
+    if (data.resumeUrl) {
+        resumeBtn.href     = data.resumeUrl;
+        resumeBtn.download = data.resumeUrl;   // filename shown in download dialog
+        resumeBtn.style.display = "none";      // hide while we probe
+        fetch(data.resumeUrl, { method: "HEAD" })
+            .then(r => { if (r.ok) resumeBtn.style.display = ""; })
+            .catch(() => {});
+    }
+
+    /* Hero text */
+    document.getElementById("hero-role").textContent = data.role;
+    document.getElementById("hero-bio").textContent  = data.bio;
+
+    /* Stats */
+    const statsCard = document.getElementById("stats-card");
+    statsCard.innerHTML = "";
+    data.stats.forEach(st => {
+        const row = document.createElement("div"); row.className = "stat-row";
+        row.innerHTML = `<div class="stat-icon-wrap">${st.icon}</div><div><div class="stat-val">${st.value}</div><div class="stat-label">${st.label}</div></div>`;
+        statsCard.appendChild(row);
+    });
+
+    /* About */
+    const aboutText = document.getElementById("about-text");
+    aboutText.innerHTML = "";
+    data.about.forEach(p => { const el = document.createElement("p"); el.innerHTML = p; aboutText.appendChild(el); });
+    const langGrid = document.createElement("div"); langGrid.className = "lang-grid";
+    data.languages.forEach(l => { const b = document.createElement("div"); b.className = "lang-badge"; b.innerHTML = `<span>${l.flag}</span><span>${l.name}</span><span style="color:var(--text-muted);font-size:0.78rem">${l.level}</span>`; langGrid.appendChild(b); });
+    aboutText.appendChild(langGrid);
+
+    const aboutCards = document.getElementById("about-cards");
+    aboutCards.innerHTML = "";
+    data.aboutTimeline.forEach(item => {
+        const c = document.createElement("div"); c.className = "about-side-card";
+        c.innerHTML = `<div class="side-card-date">${item.date}</div><div class="side-card-title">${item.title}</div><div class="side-card-location">${item.org}</div><div class="side-card-body">${item.body}</div>`;
+        aboutCards.appendChild(c);
+    });
+
+    /* Skills */
+    const skillsLayout = document.getElementById("skills-layout");
+    skillsLayout.innerHTML = "";
+    data.skills.forEach(grp => {
+        const g = document.createElement("div"); g.className = "skill-group";
+        let html = `<div class="skill-group-title">${grp.category}</div>`;
+        grp.bars.forEach(b => { html += `<div class="skill-bar-row"><div class="skill-bar-meta"><span class="skill-name">${b.name}</span><span class="skill-pct">${b.label}</span></div><div class="skill-track"><div class="skill-fill" style="--w:${b.pct}%"></div></div></div>`; });
+        if (grp.chips.length) html += `<div class="chip-cloud">${grp.chips.map(c=>`<span class="chip">${c}</span>`).join("")}</div>`;
+        g.innerHTML = html; skillsLayout.appendChild(g); observe(g);
+    });
+
+    /* Experience */
+    const expTimeline = document.getElementById("experience-timeline");
+    expTimeline.innerHTML = "";
+    data.experience.forEach(item => {
+        const el = document.createElement("div"); el.className = "tl-item";
+        el.innerHTML = `<div class="tl-dot"></div><div class="tl-card"><div class="tl-date">${item.date}</div><div class="tl-title">${item.title}</div><div class="tl-org">${item.org}</div><div class="tl-body">${item.body}</div></div>`;
+        expTimeline.appendChild(el); observe(el);
+    });
+
+    /* Projects */
+    const projGrid = document.getElementById("projects-grid");
+    projGrid.innerHTML = "";
+    data.projects.forEach(proj => {
+        const c = document.createElement(proj.url ? "a" : "div"); c.className = "proj-card";
+        if (proj.url) { c.href = proj.url; c.target = "_blank"; c.rel = "noopener noreferrer"; }
+        c.innerHTML = `<div class="proj-icon">${proj.icon}</div><div class="proj-period">${proj.period}</div><div class="proj-title">${proj.title}</div><div class="proj-desc">${proj.desc}</div><div class="proj-tags">${proj.tags.map(t=>`<span class="proj-tag">${t}</span>`).join("")}</div>`;
+        projGrid.appendChild(c); observe(c);
+    });
+
+    /* Education */
+    const eduGrid = document.getElementById("edu-grid");
+    eduGrid.innerHTML = "";
+    data.education.forEach(item => {
+        const c = document.createElement(item.url ? "a" : "div"); c.className = "edu-card";
+        if (item.url) { c.href = item.url; c.target = "_blank"; c.rel = "noopener noreferrer"; }
+        let inner = `<div class="edu-card-icon">${item.icon}</div><div class="edu-degree">${item.degree}</div>`;
+        if (item.period) inner += `<div class="edu-period">${item.period}</div>`;
+        if (item.detail) inner += `<div class="edu-detail">${item.detail}</div>`;
+        if (item.badges) inner += `<div class="cert-cloud">${item.badges.map(b=>`<span class="cert-badge">${b}</span>`).join("")}</div>`;
+        c.innerHTML = inner; eduGrid.appendChild(c); observe(c);
+    });
+
+    /* Contact */
+    const introDiv = document.getElementById("contact-intro-text");
+    introDiv.innerHTML = "";
+    data.contact.intro.forEach(p => { const el = document.createElement("p"); el.style.cssText = "color:var(--text-secondary);line-height:1.8;margin-bottom:1rem;"; el.textContent = p; introDiv.appendChild(el); });
+
+    const contactCards = document.getElementById("contact-cards");
+    contactCards.innerHTML = "";
+    [
+        { icon:"📧", labelKey:"contact_email",    value: data.email,                          href:`mailto:${data.email}` },
+        { icon:"💼", labelKey:"contact_linkedin",  value:"linkedin.com/in/hashwanthghanta",   href: data.linkedin, target:"_blank" },
+        { icon:"💻", labelKey:"contact_github",    value:"github.com/hashwanthghanta",        href: data.github,   target:"_blank" },
+        { icon:"📱", labelKey:"contact_phone",     value: data.phone,                         href:`tel:${data.phone}` },
+        { icon:"📍", labelKey:"contact_location",  value: data.location,                      href: null },
+    ].forEach(item => {
+        const el = document.createElement(item.href ? "a" : "div"); el.className = "contact-item";
+        if (item.href) { el.href = item.href; if (item.target) el.target = item.target; }
+        el.innerHTML = `<div class="contact-item-icon">${item.icon}</div><div><div class="contact-item-label">${s[item.labelKey]}</div><div class="contact-item-value">${item.value}</div></div>`;
+        contactCards.appendChild(el); setTimeout(() => observe(el), 50);
+    });
+
+    /* Footer */
+    document.getElementById("footer-copy").textContent = `© ${new Date().getFullYear()} ${data.name}`;
+    const footerLinks = document.getElementById("footer-links");
+    footerLinks.innerHTML = "";
+    [
+        { text:"LinkedIn", url: data.linkedin },
+        { text:"GitHub",   url: data.github },
+        { text: lang === "de" ? "E-Mail" : "Email", url:`mailto:${data.email}` },
+    ].forEach(({ text, url }) => { if (!url) return; const a = document.createElement("a"); a.href = url; a.target = "_blank"; a.textContent = text; footerLinks.appendChild(a); });
+}
+
+/* ── One-time setup (photos, resume btn, logo — language-independent) ── */
+document.getElementById("nav-logo").textContent = PORTFOLIO_DATA.initials;
+
 const heroImg = document.getElementById("hero-photo-img");
 const heroInitials = document.getElementById("hero-photo-initials");
 heroImg.onload = () => { heroImg.style.display = "block"; heroInitials.style.display = "none"; };
 heroImg.src = PORTFOLIO_DATA.heroPhoto;
 
-/* Resume button — shows automatically when resume.pdf exists in repo */
-const resumeBtn = document.getElementById("resume-btn");
-if (PORTFOLIO_DATA.resumeUrl) {
-    resumeBtn.href = PORTFOLIO_DATA.resumeUrl;
-    // Probe if file actually exists before showing the button
-    fetch(PORTFOLIO_DATA.resumeUrl, { method: "HEAD" })
-        .then(r => { if (r.ok) resumeBtn.style.display = ""; })
-        .catch(() => {}); // silently hide if not found
-}
+document.getElementById("hero-name").textContent = PORTFOLIO_DATA.name;
 
-/* Contact avatar photo */
+/* Resume button is updated inside renderDynamic on every language switch */
+const resumeBtn = document.getElementById("resume-btn");
+
 const avatarEl = document.getElementById("contact-avatar");
 avatarEl.textContent = PORTFOLIO_DATA.initials;
 const avatarImg = new Image();
 avatarImg.onload = () => { avatarEl.style.background = `url("${PORTFOLIO_DATA.avatarPhoto}") center/cover no-repeat`; avatarEl.textContent = ""; };
 avatarImg.src = PORTFOLIO_DATA.avatarPhoto;
 
-/* Stats */
-const statsCard = document.getElementById("stats-card");
-PORTFOLIO_DATA.stats.forEach(s => {
-    const row = document.createElement("div"); row.className = "stat-row";
-    row.innerHTML = `<div class="stat-icon-wrap">${s.icon}</div><div><div class="stat-val">${s.value}</div><div class="stat-label">${s.label}</div></div>`;
-    statsCard.appendChild(row);
-});
-
-/* About */
-const aboutText = document.getElementById("about-text");
-PORTFOLIO_DATA.about.forEach(p => { const el = document.createElement("p"); el.innerHTML = p; aboutText.appendChild(el); });
-const langGrid = document.createElement("div"); langGrid.className = "lang-grid";
-PORTFOLIO_DATA.languages.forEach(l => { const b = document.createElement("div"); b.className = "lang-badge"; b.innerHTML = `<span>${l.flag}</span><span>${l.name}</span><span style="color:var(--text-muted);font-size:0.78rem">${l.level}</span>`; langGrid.appendChild(b); });
-aboutText.appendChild(langGrid);
-const aboutCards = document.getElementById("about-cards");
-PORTFOLIO_DATA.aboutTimeline.forEach(item => {
-    const c = document.createElement("div"); c.className = "about-side-card";
-    c.innerHTML = `<div class="side-card-date">${item.date}</div><div class="side-card-title">${item.title}</div><div class="side-card-location">${item.org}</div><div class="side-card-body">${item.body}</div>`;
-    aboutCards.appendChild(c);
-});
-
-/* Skills */
-const skillsLayout = document.getElementById("skills-layout");
-PORTFOLIO_DATA.skills.forEach(grp => {
-    const g = document.createElement("div"); g.className = "skill-group";
-    let html = `<div class="skill-group-title">${grp.category}</div>`;
-    grp.bars.forEach(b => { html += `<div class="skill-bar-row"><div class="skill-bar-meta"><span class="skill-name">${b.name}</span><span class="skill-pct">${b.label}</span></div><div class="skill-track"><div class="skill-fill" style="--w:${b.pct}%"></div></div></div>`; });
-    if (grp.chips.length) html += `<div class="chip-cloud">${grp.chips.map(c=>`<span class="chip">${c}</span>`).join("")}</div>`;
-    g.innerHTML = html; skillsLayout.appendChild(g); observe(g);
-});
-
-/* Experience */
-const expTimeline = document.getElementById("experience-timeline");
-PORTFOLIO_DATA.experience.forEach(item => {
-    const el = document.createElement("div"); el.className = "tl-item";
-    el.innerHTML = `<div class="tl-dot"></div><div class="tl-card"><div class="tl-date">${item.date}</div><div class="tl-title">${item.title}</div><div class="tl-org">${item.org}</div><div class="tl-body">${item.body}</div></div>`;
-    expTimeline.appendChild(el); observe(el);
-});
-
-/* Projects */
-const projGrid = document.getElementById("projects-grid");
-PORTFOLIO_DATA.projects.forEach(proj => {
-    const c = document.createElement(proj.url ? "a" : "div"); c.className = "proj-card";
-    if (proj.url) { c.href = proj.url; c.target = "_blank"; c.rel = "noopener noreferrer"; }
-    c.innerHTML = `<div class="proj-icon">${proj.icon}</div><div class="proj-period">${proj.period}</div><div class="proj-title">${proj.title}</div><div class="proj-desc">${proj.desc}</div><div class="proj-tags">${proj.tags.map(t=>`<span class="proj-tag">${t}</span>`).join("")}</div>`;
-    projGrid.appendChild(c); observe(c);
-});
-
-/* Education */
-const eduGrid = document.getElementById("edu-grid");
-PORTFOLIO_DATA.education.forEach(item => {
-    const c = document.createElement(item.url ? "a" : "div"); c.className = "edu-card";
-    if (item.url) { c.href = item.url; c.target = "_blank"; c.rel = "noopener noreferrer"; }
-    let inner = `<div class="edu-card-icon">${item.icon}</div><div class="edu-degree">${item.degree}</div>`;
-    if (item.period) inner += `<div class="edu-period">${item.period}</div>`;
-    if (item.detail) inner += `<div class="edu-detail">${item.detail}</div>`;
-    if (item.badges) inner += `<div class="cert-cloud">${item.badges.map(b=>`<span class="cert-badge">${b}</span>`).join("")}</div>`;
-    c.innerHTML = inner; eduGrid.appendChild(c); observe(c);
-});
-
-/* Contact */
-const introDiv = document.getElementById("contact-intro-text");
-PORTFOLIO_DATA.contact.intro.forEach(p => { const el = document.createElement("p"); el.style.cssText = "color:var(--text-secondary);line-height:1.8;margin-bottom:1rem;"; el.textContent = p; introDiv.appendChild(el); });
-const contactCards = document.getElementById("contact-cards");
-[
-    { icon:"📧", label:"Email",    value: PORTFOLIO_DATA.email,                       href:`mailto:${PORTFOLIO_DATA.email}` },
-    { icon:"💼", label:"LinkedIn", value:"linkedin.com/in/hashwanthghanta",            href: PORTFOLIO_DATA.linkedin, target:"_blank" },
-    { icon:"💻", label:"GitHub",   value:"github.com/hashwanthghanta",                href: PORTFOLIO_DATA.github,   target:"_blank" },
-    { icon:"📱", label:"Phone",    value: PORTFOLIO_DATA.phone,                       href:`tel:${PORTFOLIO_DATA.phone}` },
-    { icon:"📍", label:"Location", value: PORTFOLIO_DATA.location,                    href: null },
-].forEach(item => {
-    const el = document.createElement(item.href ? "a" : "div"); el.className = "contact-item";
-    if (item.href) { el.href = item.href; if (item.target) el.target = item.target; }
-    el.innerHTML = `<div class="contact-item-icon">${item.icon}</div><div><div class="contact-item-label">${item.label}</div><div class="contact-item-value">${item.value}</div></div>`;
-    contactCards.appendChild(el); setTimeout(() => observe(el), 50);
-});
-
-/* Footer */
-document.getElementById("footer-copy").textContent = `© ${new Date().getFullYear()} ${PORTFOLIO_DATA.name}`;
-const footerLinks = document.getElementById("footer-links");
-[
-    { text:"LinkedIn", url: PORTFOLIO_DATA.linkedin },
-    { text:"GitHub",   url: PORTFOLIO_DATA.github },
-    { text:"Email",    url:`mailto:${PORTFOLIO_DATA.email}` },
-].forEach(({ text, url }) => { if (!url) return; const a = document.createElement("a"); a.href = url; a.target = "_blank"; a.textContent = text; footerLinks.appendChild(a); });
+/* ── Initial render in English ── */
+applyUIStrings("en");
+renderDynamic(PORTFOLIO_DATA, "en");
 </script>
 </body>
 </html>
