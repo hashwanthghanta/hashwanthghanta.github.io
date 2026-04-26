@@ -1222,19 +1222,20 @@
         .proj-media-link:hover::after { opacity: 1; transform: translateY(0); }
         .proj-media img { width: 100%; height: 100%; object-fit: cover; }
         .proj-media-fallback {
-            position: absolute;
-            inset: 0;
-            display: flex; flex-direction: column; justify-content: space-between;
-            padding: 1rem;
-            background: linear-gradient(160deg, rgba(15,23,42,0.2), rgba(2,6,23,0.5));
+            position: absolute; inset: 0;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center; gap: 0.75rem;
+            /* subtle dot grid overlay */
+            background-image: radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px);
+            background-size: 22px 22px;
         }
-        .proj-media-icon { font-size: 1.5rem; line-height: 1; }
+        .proj-media-icon { font-size: 2.5rem; line-height: 1; filter: drop-shadow(0 0 12px rgba(255,255,255,0.3)); }
         .proj-media-label {
             font-family: 'Syne', sans-serif;
-            font-size: 0.98rem;
-            line-height: 1.25;
-            color: #fff;
-            max-width: 92%;
+            font-size: 0.88rem; font-weight: 600;
+            line-height: 1.3; text-align: center;
+            color: rgba(255,255,255,0.75);
+            max-width: 80%; letter-spacing: 0.02em;
         }
         .proj-icon { font-size: 2.5rem; margin-bottom: 1.25rem; }
         .proj-period { font-size: 0.75rem; font-weight: 700; color: var(--amber); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 0.5rem; }
@@ -1324,43 +1325,6 @@
         /* ============================================================
            GITHUB ACTIVITY
         ============================================================ */
-        .github-activity-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-md);
-            padding: 1.5rem;
-            box-shadow: 0 10px 35px rgba(0,0,0,0.16);
-        }
-        .github-activity-top {
-            display: flex; align-items: center; justify-content: space-between; gap: 0.75rem;
-            margin-bottom: 1rem;
-        }
-        .github-activity-title {
-            font-family: 'Syne', sans-serif;
-            font-size: 1.1rem;
-            font-weight: 700;
-        }
-        .github-activity-user {
-            font-size: 0.86rem;
-            color: var(--text-muted);
-        }
-        .github-activity-link {
-            font-size: 0.8rem;
-            font-weight: 700;
-            color: var(--indigo-light);
-        }
-        .github-heatmap-wrap {
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            overflow: hidden;
-            background: rgba(79,70,229,0.06);
-        }
-        .github-heatmap-wrap img { width: 100%; height: auto; display: block; }
-        .github-stat-badges {
-            display: flex; flex-wrap: wrap; gap: 0.5rem;
-            margin-top: 0.9rem;
-        }
-        .github-stat-badges img { height: 24px; width: auto; }
 
         /* ============================================================
            EDUCATION
@@ -1797,15 +1761,6 @@
     </div>
 </section>
 
-<section id="github-activity">
-    <div class="container">
-        <div class="section-header">
-            <div class="section-label" data-i18n="sec_git_label">Code Activity</div>
-            <h2 class="section-title" data-i18n="sec_git_title">GitHub Contributions</h2>
-        </div>
-        <div class="github-activity-card" id="github-activity-card"></div>
-    </div>
-</section>
 
 <section id="education">
     <div class="container">
@@ -2021,21 +1976,24 @@ const PORTFOLIO_DATA = {
             period: "2023 – 2024",
             title:  "Data Analytics & Business Intelligence Dashboards",
             desc:   "Developed Power BI dashboards and Excel models for business data analysis as part of certification work with Tata and Microsoft programs. Applied data visualization principles to present KPIs, trends, and operational insights clearly.",
-            tags:   ["Power BI", "Excel", "Data Visualization", "Business Analytics", "Python"]
+            tags:   ["Power BI", "Excel", "Data Visualization", "Business Analytics", "Python"],
+            mediaGradient: "linear-gradient(135deg,#0f2027 0%,#203a43 50%,#2c5364 100%)"
         },
         {
             icon:   "🏍️",
             period: "2024",
             title:  "IoT Smart Helmet & Bike Safety System",
             desc:   "GPS and alcohol sensor-equipped smart helmet that detects unsafe riding conditions and automatically alerts emergency contacts. Designed to reduce motorcycle fatalities through real-time monitoring and automated safety enforcement.",
-            tags:   ["IoT", "GPS", "Arduino", "Sensors", "Safety Systems"]
+            tags:   ["IoT", "GPS", "Arduino", "Sensors", "Safety Systems"],
+            mediaGradient: "linear-gradient(135deg,#1a1a2e 0%,#16213e 45%,#0f3460 100%)"
         },
         {
             icon:   "🚑",
             period: "2022 – 2023",
             title:  "IoT Safety Systems — B.Tech Projects",
             desc:   "Embedded systems projects including a traffic junction controller giving ambulances signal priority and an ultrasonic blind spot detector for vehicles. Built on Arduino and microcontroller platforms.",
-            tags:   ["IoT", "Arduino", "Sensors", "Embedded C"]
+            tags:   ["IoT", "Arduino", "Sensors", "Embedded C"],
+            mediaGradient: "linear-gradient(135deg,#0d1117 0%,#161b22 45%,#1f2937 100%)"
         },
     ],
     education: [
@@ -2502,79 +2460,6 @@ window.addEventListener("scroll", () => {
     progressBar.style.width = (window.scrollY / total * 100) + "%";
 }, { passive: true });
 
-/* ================================================================
-   PARTICLES + MOUSE REPULSION
-================================================================ */
-(function () {
-    const canvas = document.getElementById("particle-canvas");
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    let particles = [];
-    let mouseX = -9999, mouseY = -9999;
-    const N = 90, CONNECT_DIST = 140, REPEL_DIST = 110, MAX_SPEED = 1.8;
-
-    function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-    resize();
-    window.addEventListener("resize", () => { resize(); particles = init(); }, { passive: true });
-    window.addEventListener("mousemove", e => { mouseX = e.clientX; mouseY = e.clientY; }, { passive: true });
-
-    function init() {
-        return Array.from({ length: N }, () => ({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
-            vx: (Math.random() - 0.5) * 0.4,
-            vy: (Math.random() - 0.5) * 0.4,
-        }));
-    }
-    particles = init();
-
-    function frame() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        particles.forEach(p => {
-            const dx = p.x - mouseX, dy = p.y - mouseY;
-            const dist = Math.sqrt(dx * dx + dy * dy);
-            if (dist < REPEL_DIST && dist > 0) {
-                const force = (1 - dist / REPEL_DIST) * 2.8;
-                p.vx += (dx / dist) * force * 0.08;
-                p.vy += (dy / dist) * force * 0.08;
-            }
-            const speed = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
-            if (speed > MAX_SPEED) { p.vx *= 0.94; p.vy *= 0.94; }
-
-            p.x += p.vx; p.y += p.vy;
-            if (p.x < 0 || p.x > canvas.width)  p.vx *= -1;
-            if (p.y < 0 || p.y > canvas.height)  p.vy *= -1;
-
-            const isLightMode = document.body.getAttribute("data-theme") === "light";
-            ctx.beginPath(); ctx.arc(p.x, p.y, isLightMode ? 1.7 : 1.5, 0, Math.PI * 2);
-            ctx.fillStyle = isLightMode ? "rgba(79,70,229,0.5)" : "rgba(99,102,241,0.45)";
-            ctx.fill();
-        });
-
-        for (let i = 0; i < particles.length; i++) {
-            for (let j = i + 1; j < particles.length; j++) {
-                const dx = particles[i].x - particles[j].x;
-                const dy = particles[i].y - particles[j].y;
-                const d = Math.sqrt(dx * dx + dy * dy);
-                if (d < CONNECT_DIST) {
-                    const a = 1 - d / CONNECT_DIST;
-                    ctx.beginPath();
-                    const isLightMode = document.body.getAttribute("data-theme") === "light";
-                    ctx.strokeStyle = isLightMode
-                        ? `rgba(79,70,229,${a * 0.26})`
-                        : `rgba(236,72,153,${a * 0.15})`;
-                    ctx.lineWidth = 1;
-                    ctx.moveTo(particles[i].x, particles[i].y);
-                    ctx.lineTo(particles[j].x, particles[j].y);
-                    ctx.stroke();
-                }
-            }
-        }
-        requestAnimationFrame(frame);
-    }
-    frame();
-})();
 
 /* ================================================================
    CUSTOM CURSOR
@@ -2956,12 +2841,13 @@ function renderDynamic(data, lang) {
         const liveBtn = proj.url
             ? `<a href="${proj.url}" target="_blank" rel="noopener noreferrer" class="proj-btn proj-btn-primary">${s.proj_open_live}</a>`
             : "";
+        const gradStyle = proj.mediaGradient ? ` style="background:${proj.mediaGradient};"` : "";
         const mediaInner = proj.thumb
             ? `<img src="${proj.thumb}" alt="${proj.title} preview" loading="lazy" decoding="async" style="object-position:${proj.thumbPosition || "50% 50%"};">`
             : `<div class="proj-media-fallback"><div class="proj-media-icon">${proj.icon}</div><div class="proj-media-label">${proj.title}</div></div>`;
         const media = proj.url
-            ? `<a class="proj-media proj-media-link" href="${proj.url}" target="_blank" rel="noopener noreferrer" aria-label="Open ${proj.title} demo">${mediaInner}</a>`
-            : `<div class="proj-media">${mediaInner}</div>`;
+            ? `<a class="proj-media proj-media-link"${gradStyle} href="${proj.url}" target="_blank" rel="noopener noreferrer" aria-label="Open ${proj.title} demo">${mediaInner}</a>`
+            : `<div class="proj-media"${gradStyle}>${mediaInner}</div>`;
         c.innerHTML = `${media}<div class="proj-icon">${proj.icon}${liveBadge}</div><div class="proj-period">${proj.period}</div><div class="proj-title">${proj.title}</div><div class="proj-desc">${proj.desc}</div><div class="proj-tags">${proj.tags.map(t => `<span class="proj-tag">${t}</span>`).join("")}</div><div class="proj-actions">${liveBtn}<button type="button" class="proj-btn js-proj-details" data-proj-index="${index}">${s.proj_details}</button></div>`;
         projGrid.appendChild(c); observe(c); initTilt(c); addSpotlight(c);
     });
@@ -2969,12 +2855,6 @@ function renderDynamic(data, lang) {
         btn.addEventListener("click", () => openProjectModal(Number(btn.getAttribute("data-proj-index"))));
     });
 
-    /* GitHub activity */
-    const ghCard = document.getElementById("github-activity-card");
-    const username = data.githubUsername || "hashwanthghanta";
-    const isLight = document.body.getAttribute("data-theme") === "light";
-    const heatmapColor = isLight ? "4f46e5" : "6366f1";
-    ghCard.innerHTML = `<div class="github-activity-top"><div><div class="github-activity-title">GitHub</div><div class="github-activity-user">@${username}</div></div><a class="github-activity-link" href="${data.github}" target="_blank" rel="noopener noreferrer">Open Profile ↗</a></div><a class="github-heatmap-wrap" href="${data.github}" target="_blank" rel="noopener noreferrer"><img src="https://ghchart.rshah.org/${heatmapColor}/${username}" alt="GitHub contribution heatmap for ${username}"></a><div class="github-stat-badges"><img src="https://img.shields.io/github/followers/${username}?style=flat&logo=github&label=followers" alt="GitHub followers"><img src="https://img.shields.io/github/repo-size/${username}/${username}.github.io?style=flat&logo=github&label=portfolio%20repo" alt="Portfolio repository size"></div>`;
 
     /* Education */
     const eduGrid = document.getElementById("edu-grid");
