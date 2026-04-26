@@ -1801,6 +1801,218 @@
         body[data-theme="light"] .skill-group-title { border-left-color: #d94f1e; }
         body[data-theme="light"] .contact-item-value { color: #d94f1e; }
         body[data-theme="light"] .skill-fill { background: linear-gradient(90deg, #d94f1e, #ff6b35) !important; }
+
+        /* ================================================================
+           NEW ANIMATION LAYER — 2024-2025 reference quality
+        ================================================================ */
+
+        /* 1 ── Dark-mode hero name: shimmer sweep — MUST keep heroUp so opacity 0→1 works */
+        body[data-theme="dark"] .hero-name {
+            background: linear-gradient(
+                90deg,
+                var(--cream) 0%,
+                var(--cream) 28%,
+                var(--ember-soft) 44%,
+                var(--gold) 50%,
+                var(--ember-soft) 56%,
+                var(--cream) 72%,
+                var(--cream) 100%
+            );
+            background-size: 280% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            /* heroUp brings opacity 0→1, shimmer runs after (1.5s delay) */
+            animation: heroUp 0.9s var(--ease-out) forwards 0.4s,
+                       heroNameShimmer 9s ease-in-out 1.5s infinite;
+        }
+        @keyframes heroNameShimmer {
+            0%   { background-position: 100% 50%; }
+            50%  { background-position:   0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+
+        /* 2 ── About highlight: ember↔gold shimmer (dark mode) */
+        body[data-theme="dark"] .about-highlight {
+            background: linear-gradient(90deg, var(--ember-soft) 0%, var(--gold) 40%, var(--ember-soft) 80%, var(--gold) 100%);
+            background-size: 220% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: transparent; /* fallback for browsers that don't support background-clip:text */
+            animation: highlightShimmer 5s ease-in-out infinite;
+            font-weight: 600;
+        }
+        @keyframes highlightShimmer {
+            0%, 100% { background-position:   0% 50%; }
+            50%       { background-position: 100% 50%; }
+        }
+
+        /* 3 ── Open badge float */
+        .open-badge {
+            animation: heroUp 0.7s ease forwards 0.1s, badgeFloat 4s ease-in-out 1.8s infinite;
+        }
+        @keyframes badgeFloat {
+            0%, 100% { transform: translateY(0px); }
+            50%       { transform: translateY(-5px); }
+        }
+
+        /* 4 ── Hero stack chips: staggered float */
+        .hero-stack-row .hero-stack-chip { animation: chipFloat 3.6s ease-in-out infinite; }
+        .hero-stack-row .hero-stack-chip:nth-child(1) { animation-delay: 0.0s; }
+        .hero-stack-row .hero-stack-chip:nth-child(2) { animation-delay: 0.7s; }
+        .hero-stack-row .hero-stack-chip:nth-child(3) { animation-delay: 1.4s; }
+        .hero-stack-row .hero-stack-chip:nth-child(4) { animation-delay: 2.1s; }
+        @keyframes chipFloat {
+            0%, 100% { transform: translateY(0px); }
+            50%       { transform: translateY(-4px); }
+        }
+
+        /* 5 ── Button ripple */
+        .btn, .proj-btn { position: relative; overflow: hidden; }
+        .btn-ripple {
+            position: absolute; border-radius: 50%;
+            background: rgba(255,255,255,0.25);
+            transform: scale(0);
+            animation: rippleSpread 0.65s linear forwards;
+            pointer-events: none;
+        }
+        @keyframes rippleSpread {
+            to { transform: scale(4); opacity: 0; }
+        }
+
+        /* 6 ── Nav link animated underline (slides in from centre) */
+        .nav-links a { position: relative; }
+        .nav-links a::after {
+            content: '';
+            position: absolute; bottom: -3px;
+            left: 50%; right: 50%;
+            height: 1.5px;
+            background: var(--ember);
+            border-radius: 2px;
+            transition: left 0.3s var(--ease-out), right 0.3s var(--ease-out);
+        }
+        .nav-links a:hover::after, .nav-links a.active::after { left: 10px; right: 10px; }
+        @media (max-width: 768px) { .nav-links a::after { display: none; } }
+
+        /* 7 ── Section label line: draws itself on reveal */
+        .section-label::before {
+            width: 0;
+            transition: width 0.65s var(--ease-out) 0.15s;
+        }
+        .section-label.visible::before { width: 36px; }
+
+        /* 8 ── Hero photo: clip-path wipe reveal */
+        .hero-photo-img {
+            clip-path: inset(0 100% 0 0);
+            transition: clip-path 0.95s cubic-bezier(0.4,0,0.2,1) 0.25s,
+                        opacity 0.4s ease,
+                        transform 0.45s ease;
+        }
+        .hero-photo-img.revealed { clip-path: inset(0 0% 0 0); }
+
+        /* 9 ── Project + skill cards: micro-rotate on entrance (removes on .visible) */
+        .proj-card:nth-child(odd)  { transform: translateX(-32px) rotate(-0.4deg); }
+        .proj-card:nth-child(even) { transform: translateX(32px)  rotate(0.4deg); }
+        .proj-card.visible { opacity: 1; transform: none; }
+        .skill-group { transform: translateY(28px) rotate(0.3deg); }
+        .skill-group.visible { opacity: 1; transform: none; }
+
+        /* 10 ── Cursor sparkle trail (CSS - JS re-enables it) */
+        .cursor-trail {
+            position: fixed; border-radius: 50%;
+            pointer-events: none; z-index: 9997;
+            transform: translate(-50%, -50%);
+            mix-blend-mode: screen;
+            animation: trailFade 0.7s ease-out forwards;
+        }
+        @keyframes trailFade {
+            0%   { opacity: 0.85; transform: translate(-50%,-50%) scale(1); }
+            100% { opacity: 0;    transform: translate(calc(-50% + var(--dx,0px)), calc(-50% + var(--dy,0px))) scale(0.1); }
+        }
+
+        /* 11 ── Chip hover glow */
+        .chip { transition: all var(--transition), box-shadow var(--transition); }
+        .chip:hover {
+            box-shadow: 0 0 14px rgba(255,107,53,0.45), 0 0 28px rgba(255,107,53,0.18);
+            transform: translateY(-3px) scale(1.04);
+        }
+
+        /* 12 ── Education card: icon bounce on hover */
+        .edu-card-icon { display: inline-block; transition: transform 0.35s var(--spring); }
+        .edu-card:hover .edu-card-icon {
+            animation: iconBounce 0.55s var(--spring) 1;
+        }
+        @keyframes iconBounce {
+            0%   { transform: scale(1)   translateY(0); }
+            38%  { transform: scale(1.35) translateY(-7px); }
+            68%  { transform: scale(0.9)  translateY(2px); }
+            100% { transform: scale(1)   translateY(0); }
+        }
+
+        /* 13 ── Timeline card: inner warmth on hover */
+        .tl-card { isolation: isolate; }
+        .tl-card::before {
+            content: ''; position: absolute; inset: 0;
+            border-radius: inherit;
+            background: linear-gradient(135deg, rgba(255,107,53,0.05) 0%, transparent 55%);
+            opacity: 0; transition: opacity 0.4s ease;
+            pointer-events: none; z-index: 0;
+        }
+        .tl-card:hover::before { opacity: 1; }
+        .tl-card > * { position: relative; z-index: 1; }
+
+        /* 14 ── Skill bar: animate gradient position after fill */
+        .skill-group.visible .skill-fill {
+            animation: barGlow 2.8s ease-in-out 1.3s infinite alternate;
+        }
+        @keyframes barGlow {
+            from { filter: brightness(1); }
+            to   { filter: brightness(1.25) saturate(1.2); }
+        }
+
+        /* 15 ── Scroll progress bar glow */
+        #scroll-progress {
+            box-shadow: 0 0 8px var(--ember), 0 0 18px rgba(255,107,53,0.4);
+        }
+
+        /* 16 ── Hero availability text: subtle pulse */
+        .hero-availability {
+            animation: heroUp 0.7s ease forwards 1s, availPulse 5s ease-in-out 2.5s infinite;
+        }
+        @keyframes availPulse {
+            0%, 100% { opacity: 1; }
+            50%       { opacity: 0.72; }
+        }
+
+        /* 17 ── Stat icon wrap: spin-on-hover */
+        .stat-icon-wrap {
+            transition: transform 0.45s var(--spring), background var(--transition);
+        }
+        .stat-icon-wrap:hover { transform: rotate(12deg) scale(1.1); }
+
+        /* 18 ── Footer back-to-top: spring bounce */
+        .back-to-top { transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out), border-color var(--transition), background var(--transition); }
+        .back-to-top:hover { animation: btBounce 0.5s var(--spring); }
+        @keyframes btBounce {
+            0%   { transform: translateY(0); }
+            35%  { transform: translateY(-10px); }
+            70%  { transform: translateY(-3px); }
+            100% { transform: translateY(-4px); }
+        }
+
+        /* Reduced motion: suppress new animations too */
+        @media (prefers-reduced-motion: reduce) {
+            body[data-theme="dark"] .hero-name,
+            body[data-theme="dark"] .about-highlight,
+            .open-badge, .hero-stack-chip, .cursor-trail,
+            .skill-group.visible .skill-fill,
+            .hero-availability { animation: none !important; }
+            .hero-photo-img { clip-path: none !important; }
+            .proj-card:nth-child(odd)  { transform: translateX(-32px) !important; }
+            .proj-card:nth-child(even) { transform: translateX(32px) !important; }
+            .skill-group { transform: translateY(28px) !important; }
+        }
     </style>
 </head>
 <body class="preload" data-theme="dark">
@@ -2488,7 +2700,7 @@ window.addEventListener("load", () => {
    CURSOR TRAIL PARTICLES
 ================================================================ */
 (function () {
-    return;
+    if (!window.matchMedia("(pointer: fine)").matches) return;
     let lastX = 0, lastY = 0, frame = 0;
     document.addEventListener("mousemove", e => {
         frame++;
@@ -2833,6 +3045,11 @@ function setLanguage(lang) {
     document.querySelectorAll(".lang-btn").forEach(b => b.classList.toggle("active", b.getAttribute("data-lang") === lang));
     applyUIStrings(lang);
     renderDynamic(lang === "de" ? PORTFOLIO_DATA_DE : PORTFOLIO_DATA, lang);
+    /* Re-split section titles after language update resets textContent */
+    setTimeout(() => {
+        document.querySelectorAll(".section-title[data-split]").forEach(el => delete el.dataset.split);
+        splitSectionTitles();
+    }, 0);
 }
 
 function setHeroName(fullName) {
@@ -3111,7 +3328,7 @@ document.getElementById("nav-logo").textContent = PORTFOLIO_DATA.initials;
 
 const heroImg      = document.getElementById("hero-photo-img");
 const heroInitials = document.getElementById("hero-photo-initials");
-heroImg.onload  = () => { heroImg.style.opacity = "1"; heroInitials.style.display = "none"; };
+heroImg.onload  = () => { heroImg.style.opacity = "1"; heroInitials.style.display = "none"; heroImg.classList.add("revealed"); };
 heroImg.onerror = () => { heroImg.style.display = "none"; };
 heroImg.src = PORTFOLIO_DATA.heroPhoto;
 
@@ -3201,6 +3418,107 @@ renderDynamic(PORTFOLIO_DATA, "en");
                 });
         });
     }
+})();
+
+/* ================================================================
+   BUTTON RIPPLE — delegated, works on static + dynamic buttons
+================================================================ */
+document.addEventListener("click", function (e) {
+    const btn = e.target.closest(".btn, .proj-btn");
+    if (!btn) return;
+    const ripple = document.createElement("span");
+    ripple.className = "btn-ripple";
+    const r = btn.getBoundingClientRect();
+    const size = Math.max(r.width, r.height);
+    ripple.style.cssText = `width:${size}px;height:${size}px;left:${e.clientX - r.left - size / 2}px;top:${e.clientY - r.top - size / 2}px`;
+    btn.appendChild(ripple);
+    setTimeout(() => ripple.remove(), 700);
+});
+
+/* ================================================================
+   SECTION TITLE WORD-BY-WORD REVEAL
+   Splits each .section-title into per-word spans so words
+   pop in individually as the element enters the viewport.
+================================================================ */
+function splitSectionTitles() {
+    document.querySelectorAll(".section-title").forEach(el => {
+        /* Don't re-split if already done */
+        if (el.dataset.split) return;
+        el.dataset.split = "1";
+        const raw = el.textContent.trim();
+        /* Reset clip-path (we use per-word transforms instead) */
+        el.style.clipPath = "none";
+        el.innerHTML = raw.split(" ").map((word, i) =>
+            `<span class="sw" style="display:inline-block;overflow:hidden;vertical-align:bottom;"><span class="sw-i" style="display:inline-block;transform:translateY(110%);transition:transform 0.72s cubic-bezier(0.22,1,0.36,1) ${(i * 0.1).toFixed(2)}s">${word}</span></span>`
+        ).join(" ");
+    });
+}
+
+/* Re-split titles after language switches by patching setLanguage */
+
+/* Reveal words when IO fires .visible on the parent .section-header */
+const titleWordIO = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        const title = e.target.querySelector(".section-title");
+        if (!title) return;
+        title.querySelectorAll(".sw-i").forEach(span => {
+            span.style.transform = "translateY(0)";
+        });
+        titleWordIO.unobserve(e.target);
+    });
+}, { threshold: 0.1 });
+
+/* Observe all section-headers (includes both label + title) */
+setTimeout(() => {
+    splitSectionTitles();
+    document.querySelectorAll(".section-header").forEach(h => titleWordIO.observe(h));
+}, 80);
+
+/* ================================================================
+   PARALLAX DEPTH — hero bio + availability move at different rates
+================================================================ */
+(function () {
+    const hero = document.getElementById("hero");
+    if (!hero) return;
+    window.addEventListener("scroll", () => {
+        if (window.scrollY > window.innerHeight) return;
+        const p = window.scrollY / window.innerHeight;
+        const bio  = document.getElementById("hero-bio");
+        const avail = document.getElementById("hero-availability");
+        const stack = document.getElementById("hero-stack-row");
+        if (bio)   bio.style.transform   = `translateY(${p * 18}px)`;
+        if (avail) avail.style.transform = `translateY(${p * 12}px)`;
+        if (stack) stack.style.transform = `translateY(${p *  8}px)`;
+    }, { passive: true });
+})();
+
+/* ================================================================
+   LOGO SCRAMBLE — subtle text scramble on nav-logo hover
+================================================================ */
+(function () {
+    const logo = document.getElementById("nav-logo");
+    if (!logo) return;
+    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    const original = logo.textContent;
+    let timer = null;
+    logo.addEventListener("mouseenter", () => {
+        let steps = 0;
+        clearInterval(timer);
+        timer = setInterval(() => {
+            logo.textContent = original.split("").map((c, i) =>
+                steps >= 6 + i * 2 ? c : chars[Math.floor(Math.random() * chars.length)]
+            ).join("");
+            if (steps++ >= original.length * 2 + 8) {
+                clearInterval(timer);
+                logo.textContent = original;
+            }
+        }, 42);
+    });
+    logo.addEventListener("mouseleave", () => {
+        clearInterval(timer);
+        logo.textContent = original;
+    });
 })();
 </script>
 </body>
