@@ -1188,7 +1188,8 @@
         .proj-card:nth-child(3)    { transition-delay: 0.08s; }
         .proj-card:nth-child(4)    { transition-delay: 0.20s; }
         .proj-card.visible { opacity: 1; transform: none; }
-        /* Featured card — same style as all other cards, no special border */
+
+        /* Featured card — same style as all other cards */
         .proj-card::after {
             content: ''; position: absolute; top: 0; left: -100%;
             width: 100%; height: 100%;
@@ -1740,6 +1741,66 @@
             }
             .cursor-dot, .cursor-ring { display: none !important; }
         }
+
+        /* ============================================================
+           POLISH & REFINEMENTS — senior-level finish
+        ============================================================ */
+
+        /* Hero: tighten the right panel stats card */
+        .stats-card {
+            padding: 1.5rem;
+        }
+        .stat-row { padding: 0.85rem 0; gap: 0.875rem; }
+        .stat-icon-wrap { width: 42px; height: 42px; font-size: 1.2rem; border-radius: 12px; }
+        .stat-val { font-size: 1.5rem; }
+        .stat-label { font-size: 0.775rem; }
+
+        /* Hero: stronger visual separation of CTA row */
+        .hero-actions { gap: 0.75rem; margin-top: 0.25rem; }
+        .btn-primary { background: linear-gradient(135deg, var(--ember) 0%, var(--ember-deep) 100%); }
+        .btn-primary:hover { background: linear-gradient(135deg, var(--ember-soft) 0%, var(--ember) 100%); }
+
+        /* Skills: add subtle left accent border on group title */
+        .skill-group-title {
+            padding-left: 0.75rem;
+            border-left: 2px solid var(--ember);
+            display: flex; align-items: center; gap: 0.5rem;
+        }
+        .skill-group-icon {
+            font-size: 1rem; line-height: 1; flex-shrink: 0;
+        }
+        /* Skills: better bar track in dark mode */
+        .skill-track { background: rgba(255,255,255,0.07); border-radius: 10px; }
+        .skill-fill { background: linear-gradient(90deg, var(--ember-deep), var(--ember), var(--ember-soft)); }
+
+        /* Timeline: tighter dot alignment */
+        .tl-dot { top: 0.5rem; }
+        .tl-org { letter-spacing: 0.01em; }
+
+        /* Education cards: cleaner hover */
+        .edu-card:hover { border-color: rgba(255,107,53,0.45); box-shadow: var(--shadow-hover), 0 0 36px rgba(255,107,53,0.14); }
+
+        /* Contact: stronger item label */
+        .contact-item-label { font-size: 0.7rem; letter-spacing: 0.06em; }
+        .contact-item-value { font-size: 0.9rem; font-weight: 600; color: var(--ember-soft); }
+
+        /* Section header: tighten gap */
+        .section-header { margin-bottom: 3rem; }
+
+        /* Scrollbar: use ember */
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--ember-deep), var(--ember));
+        }
+
+        /* Footer: ember accent on hover */
+        .footer-links a:hover { color: var(--ember-soft); }
+        .back-to-top { color: var(--ember); border-color: rgba(255,107,53,0.25); }
+        .back-to-top.visible:hover { border-color: rgba(255,107,53,0.6); background: rgba(255,107,53,0.08); transform: translateY(-4px); }
+
+        /* Light mode overrides for new elements */
+        body[data-theme="light"] .skill-group-title { border-left-color: #d94f1e; }
+        body[data-theme="light"] .contact-item-value { color: #d94f1e; }
+        body[data-theme="light"] .skill-fill { background: linear-gradient(90deg, #d94f1e, #ff6b35) !important; }
     </style>
 </head>
 <body class="preload" data-theme="dark">
@@ -1765,10 +1826,10 @@
         <div class="logo" id="nav-logo" role="link" tabindex="0" aria-label="Hashwanth Ghanta - Back to top">HG</div>
         <ul class="nav-links" id="nav-links" role="list">
             <li><a href="#about"      data-i18n="nav_about">About</a></li>
-            <li><a href="#skills"     data-i18n="nav_skills">Skills</a></li>
             <li><a href="#projects"   data-i18n="nav_proj">Projects</a></li>
-            <li><a href="#education"  data-i18n="nav_edu">Education</a></li>
+            <li><a href="#skills"     data-i18n="nav_skills">Skills</a></li>
             <li><a href="#experience" data-i18n="nav_exp">Experience</a></li>
+            <li><a href="#education"  data-i18n="nav_edu">Education</a></li>
             <li><a href="#contact"    data-i18n="nav_contact">Contact</a></li>
             <span class="nav-pill" id="nav-pill"></span>
         </ul>
@@ -1834,16 +1895,6 @@
     </div>
 </section>
 
-<section id="skills">
-    <div class="container">
-        <div class="section-header">
-            <div class="section-label" data-i18n="sec_skills_label">Expertise</div>
-            <h2 class="section-title" data-i18n="sec_skills_title">Technical Skills</h2>
-        </div>
-        <div class="skills-layout" id="skills-layout"></div>
-    </div>
-</section>
-
 <section id="projects">
     <div class="container">
         <div class="section-header">
@@ -1854,14 +1905,13 @@
     </div>
 </section>
 
-
-<section id="education">
+<section id="skills">
     <div class="container">
         <div class="section-header">
-            <div class="section-label" data-i18n="sec_edu_label">Academic Background</div>
-            <h2 class="section-title" data-i18n="sec_edu_title">Education &amp; Certifications</h2>
+            <div class="section-label" data-i18n="sec_skills_label">Expertise</div>
+            <h2 class="section-title" data-i18n="sec_skills_title">Technical Skills</h2>
         </div>
-        <div class="edu-grid" id="edu-grid"></div>
+        <div class="skills-layout" id="skills-layout"></div>
     </div>
 </section>
 
@@ -1872,6 +1922,16 @@
             <h2 class="section-title" data-i18n="sec_exp_title">Experience &amp; Leadership</h2>
         </div>
         <div class="timeline" id="experience-timeline"></div>
+    </div>
+</section>
+
+<section id="education">
+    <div class="container">
+        <div class="section-header">
+            <div class="section-label" data-i18n="sec_edu_label">Academic Background</div>
+            <h2 class="section-title" data-i18n="sec_edu_title">Education &amp; Certifications</h2>
+        </div>
+        <div class="edu-grid" id="edu-grid"></div>
     </div>
 </section>
 
@@ -2320,11 +2380,11 @@ const UI_STRINGS = {
         btn_projects:"View Projects", btn_contact:"Get In Touch", btn_resume:"📄 Resume",
         proj_details:"View Details", proj_open_live:"Open Live Demo", modal_stack:"Tech Stack",
         sec_about_label:"01 / About",        sec_about_title:"Who I am",
-        sec_skills_label:"02 / Skills",      sec_skills_title:"What I work with",
-        sec_exp_label:"05 / Experience",     sec_exp_title:"Where I've shown up",
-        sec_proj_label:"03 / Selected Work", sec_proj_title:"Things I've built",
+        sec_proj_label:"02 / Selected Work", sec_proj_title:"Things I've built",
+        sec_skills_label:"03 / Skills",      sec_skills_title:"What I work with",
+        sec_exp_label:"04 / Experience",     sec_exp_title:"Where I've shown up",
+        sec_edu_label:"05 / Education",      sec_edu_title:"How I got here",
         sec_git_label:"Code Activity",       sec_git_title:"GitHub Contributions",
-        sec_edu_label:"04 / Education",      sec_edu_title:"How I got here",
         sec_contact_label:"06 / Contact",    sec_contact_title:"Let's talk",
         contact_email:"Email", contact_linkedin:"LinkedIn", contact_github:"GitHub",
         contact_phone:"Phone", contact_location:"Location",
@@ -2345,11 +2405,11 @@ const UI_STRINGS = {
         btn_projects:"Projekte ansehen", btn_contact:"Kontakt aufnehmen", btn_resume:"📄 Lebenslauf",
         proj_details:"Details ansehen", proj_open_live:"Live-Demo oeffnen", modal_stack:"Technologie-Stack",
         sec_about_label:"01 / Über mich",     sec_about_title:"Wer ich bin",
-        sec_skills_label:"02 / Fähigkeiten",  sec_skills_title:"Womit ich arbeite",
-        sec_exp_label:"05 / Erfahrung",       sec_exp_title:"Wo ich beigetragen habe",
-        sec_proj_label:"03 / Projekte",       sec_proj_title:"Was ich gebaut habe",
+        sec_proj_label:"02 / Projekte",       sec_proj_title:"Was ich gebaut habe",
+        sec_skills_label:"03 / Fähigkeiten",  sec_skills_title:"Womit ich arbeite",
+        sec_exp_label:"04 / Erfahrung",       sec_exp_title:"Wo ich beigetragen habe",
+        sec_edu_label:"05 / Bildung",         sec_edu_title:"Mein Weg",
         sec_git_label:"Code-Aktivitaet",      sec_git_title:"GitHub-Beitraege",
-        sec_edu_label:"04 / Bildung",         sec_edu_title:"Mein Weg",
         sec_contact_label:"06 / Kontakt",     sec_contact_title:"Schreiben wir uns",
         contact_email:"E-Mail", contact_linkedin:"LinkedIn", contact_github:"GitHub",
         contact_phone:"Telefon", contact_location:"Standort",
@@ -2401,8 +2461,8 @@ window.addEventListener("load", () => {
 ================================================================ */
 (function () {
     const navEl = document.getElementById("section-nav");
-    const sectionIds = ["hero","about","skills","projects","education","experience","contact"];
-    const labels     = ["Hero","About","Skills","Projects","Education","Experience","Contact"];
+    const sectionIds = ["hero","about","projects","skills","experience","education","contact"];
+    const labels     = ["Hero","About","Projects","Skills","Experience","Education","Contact"];
     const dots = sectionIds.map((id, i) => {
         const d = document.createElement("div");
         d.className = "sn-dot"; d.title = labels[i];
@@ -2907,11 +2967,26 @@ function renderDynamic(data, lang) {
     setTimeout(() => observeStaggered(sideCards, 0.1, 0.18), 50);
 
     /* Skills */
+    const SKILL_ICONS = {
+        "3D & Simulation": "🎮",
+        "Programming": "💻",
+        "Tools & Platforms": "🔧",
+        "2025 Research Focus": "🧠",
+        "Editing & Visualization": "🎨",
+        "Data & Analytics": "📊",
+        "3D & Simulation": "🎮",
+        "Programmierung": "💻",
+        "Werkzeuge & Plattformen": "🔧",
+        "Forschungsfokus 2025": "🧠",
+        "Bearbeitung & Visualisierung": "🎨",
+        "Daten & Analytik": "📊",
+    };
     const skillsLayout = document.getElementById("skills-layout");
     skillsLayout.innerHTML = "";
     data.skills.forEach(grp => {
         const g = document.createElement("div"); g.className = "skill-group";
-        let html = `<div class="skill-group-title">${grp.category}</div>`;
+        const icon = SKILL_ICONS[grp.category] || "⚡";
+        let html = `<div class="skill-group-title"><span class="skill-group-icon">${icon}</span>${grp.category}</div>`;
         grp.bars.forEach(b => {
             html += `<div class="skill-bar-row"><div class="skill-bar-meta"><span class="skill-name">${b.name}</span><span class="skill-pct">${b.label}</span></div><div class="skill-track"><div class="skill-fill" style="--w:${b.pct}%"></div></div></div>`;
         });
@@ -2934,7 +3009,8 @@ function renderDynamic(data, lang) {
     currentProjects = data.projects;
     data.projects.forEach((proj, index) => {
         const c = document.createElement("div");
-        c.className = "proj-card" + (index === 0 ? " featured" : "");
+        const isFeatured = index === 0;
+        c.className = "proj-card" + (isFeatured ? " featured" : "");
         const liveBadge = proj.url
             ? `<span class="proj-live-badge"><span class="proj-live-dot"></span> Live</span>`
             : "";
@@ -2943,11 +3019,12 @@ function renderDynamic(data, lang) {
             : "";
         const gradStyle = proj.mediaGradient ? ` style="background:${proj.mediaGradient};"` : "";
         const mediaInner = proj.thumb
-            ? `<img src="${proj.thumb}" alt="${proj.title} preview" loading="lazy" decoding="async" style="object-position:${proj.thumbPosition || "50% 50%"};">`
+            ? `<img src="${proj.thumb}" alt="${proj.title} preview" loading="lazy" decoding="async" style="object-position:${proj.thumbPosition || "50% 50%"}; width:100%; height:100%; object-fit:cover;">`
             : `<div class="proj-media-fallback"><div class="proj-media-icon">${proj.icon}</div><div class="proj-media-label">${proj.title}</div></div>`;
         const media = proj.url
             ? `<a class="proj-media proj-media-link"${gradStyle} href="${proj.url}" target="_blank" rel="noopener noreferrer" aria-label="Open ${proj.title} demo">${mediaInner}</a>`
             : `<div class="proj-media"${gradStyle}>${mediaInner}</div>`;
+
         c.innerHTML = `${media}<div class="proj-icon">${proj.icon}${liveBadge}</div><div class="proj-period">${proj.period}</div><div class="proj-title">${proj.title}</div><div class="proj-desc">${proj.desc}</div><div class="proj-tags">${proj.tags.map(t => `<span class="proj-tag">${t}</span>`).join("")}</div><div class="proj-actions">${liveBtn}<button type="button" class="proj-btn js-proj-details" data-proj-index="${index}">${s.proj_details}</button></div>`;
         projGrid.appendChild(c); observe(c); initTilt(c); addSpotlight(c);
     });
