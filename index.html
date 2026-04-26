@@ -1905,14 +1905,13 @@ const PORTFOLIO_DATA = {
     avatarPhoto:  "Images/hash2.jpeg",
     stack: [
         { name: "Unity", icon: "https://cdn.simpleicons.org/unity" },
-        { name: "C#", icon: "https://cdn.simpleicons.org/csharp" },
+        { name: "C#",    icon: "https://cdn.simpleicons.org/csharp" },
         { name: "Python", icon: "https://cdn.simpleicons.org/python" },
-        { name: "Power BI", icon: "https://cdn.simpleicons.org/powerbi" },
-        { name: "Git", icon: "https://cdn.simpleicons.org/git" },
+        { name: "Git",   icon: "https://cdn.simpleicons.org/git" },
     ],
     stats: [
-        { icon: "🧠", value: "3+", label: "Years Unity + C#" },
         { icon: "🏭", value: "7",  label: "Phase CO₂ Simulation" },
+        { icon: "💻", value: "4",  label: "Projects Built" },
         { icon: "🌍", value: "2",  label: "Working Languages (EN/DE)" },
     ],
     about: [
@@ -2088,8 +2087,8 @@ const PORTFOLIO_DATA_DE = {
     availability: "Verfuegbar ab Mai 2026 · Magdeburg · Remote / Hybrid",
     currentlyBuilding: "Aktuell in Arbeit: KI-gestuetzte Simulationssteuerung und fortgeschrittene Unity-Interaktionen",
     stats: [
-        { icon: "🧠", value: "3+", label: "Jahre Unity + C#" },
         { icon: "🏭", value: "7",  label: "Phasen CO₂-Simulation" },
+        { icon: "💻", value: "4",  label: "Entwickelte Projekte" },
         { icon: "🌍", value: "2",  label: "Arbeitssprachen (EN/DE)" },
     ],
     about: [
@@ -3124,15 +3123,22 @@ renderDynamic(PORTFOLIO_DATA, "en");
             submitBtn.disabled = true;
             submitBtn.textContent = "Sending…";
 
-            emailjs.sendForm(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, form)
+            const params = {
+                from_name:  document.getElementById("contact-name").value.trim(),
+                from_email: document.getElementById("contact-email").value.trim(),
+                message:    document.getElementById("contact-message").value.trim(),
+            };
+
+            emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, params)
                 .then(() => {
-                    showStatus("✓ Message sent! I'll reply within 24–48 hours.", true);
+                    showStatus("✓ Message sent! I'll reply as soon as possible.", true);
                     form.reset();
                     submitBtn.disabled = false;
                     submitBtn.textContent = "Send Message";
                 })
-                .catch(() => {
-                    showStatus("Something went wrong. Please email me directly at hashwanthghanta@gmail.com", false);
+                .catch((err) => {
+                    console.error("EmailJS error:", err);
+                    showStatus("Could not send — please email hashwanthghanta@gmail.com directly.", false);
                     submitBtn.disabled = false;
                     submitBtn.textContent = "Send Message";
                 });
