@@ -14,7 +14,7 @@
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231c1c1e'/%3E%3Ctext x='50%25' y='52%25' text-anchor='middle' font-family='Syne,Arial,sans-serif' font-size='28' font-weight='800' fill='%23f5f5f7'%3EHG%3C/text%3E%3C/svg%3E">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
     <!-- EmailJS — sends contact form without leaving the page -->
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <style>
@@ -22,15 +22,31 @@
            DESIGN TOKENS
         ============================================================ */
         :root {
-            /* ── Brand palette ─────────────────────────────── */
-            --indigo:        #1f6f5b;
-            --indigo-dark:   #0f3d2e;
-            --indigo-light:  #3b8f7a;
-            --pink:          #f59e0b;
-            --pink-dark:     #d97706;
-            --cyan:          #14b8a6;
-            --amber:         #f59e0b;
-            --green:         #10b981;
+            /* ── Brand palette — Editorial / Signature ─────────────────────────────
+               Warm ink black background with single signature accent: ember orange.
+               Inspired by Linear, Vercel, modern editorial sites. Distinctive, not generic.
+            ─────────────────────────────────────────────────────────────────── */
+            --ink:            #0a0a0a;        /* warm near-black */
+            --ink-elevated:   #141414;
+            --ink-card:       #1a1a1a;
+            --cream:          #f5f0e8;        /* warm cream for accents */
+
+            --ember:          #ff6b35;        /* signature ember orange */
+            --ember-soft:     #ff8c61;
+            --ember-deep:     #d94f1e;
+
+            --sage:           #7a8471;        /* muted sage for secondary accents */
+            --gold:           #d4a373;        /* warm gold */
+
+            /* Legacy aliases — keep old code working without rewriting everything */
+            --indigo:        #ff6b35;
+            --indigo-dark:   #d94f1e;
+            --indigo-light:  #ff8c61;
+            --pink:          #d4a373;
+            --pink-dark:     #b8895c;
+            --cyan:          #d4a373;
+            --amber:         #ff6b35;
+            --green:         #7a8471;
 
             /* ── Apple System colors ────────────────────────── */
             --apple-blue:    #0a84ff;   /* iOS blue dark  */
@@ -38,18 +54,18 @@
             --apple-gray-6:  #1c1c1e;   /* Apple dark surface */
             --apple-separator-dark: rgba(255,255,255,0.15);
 
-            /* ── Backgrounds (Apple dark: near-black) ──────── */
-            --bg-dark:       #000000;   /* True Apple black */
-            --bg-surface:    #1c1c1e;   /* Apple elevated dark */
-            --bg-card:       rgba(28,28,30,0.65);
-            --bg-card-solid: #1c1c1e;
-            --bg-card-hover: rgba(44,44,46,0.75);
+            /* ── Backgrounds — warm editorial ink ──────── */
+            --bg-dark:       #0a0a0a;   /* warm ink */
+            --bg-surface:    #141414;
+            --bg-card:       rgba(20,20,20,0.72);
+            --bg-card-solid: #141414;
+            --bg-card-hover: rgba(30,30,30,0.85);
 
-            /* ── Text hierarchy (Impeccable: 4 levels) ──────── */
-            --text-primary:  #f5f5f7;   /* Apple primary text */
-            --text-secondary:#aeaeb2;   /* Apple gray-1 */
-            --text-muted:    #636366;   /* Apple gray-3 */
-            --text-quaternary:rgba(235,235,245,0.3);
+            /* ── Text hierarchy — warm cream ──────── */
+            --text-primary:  #f5f0e8;   /* warm cream */
+            --text-secondary:#b8b0a3;   /* warm gray */
+            --text-muted:    #6b655d;   /* deeper warm gray */
+            --text-quaternary:rgba(245,240,232,0.3);
 
             /* ── Borders ────────────────────────────────────── */
             --border:        rgba(255,255,255,0.10);
