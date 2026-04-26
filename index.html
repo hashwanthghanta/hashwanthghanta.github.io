@@ -262,6 +262,35 @@
         body:has(button:hover) .cursor-dot  { width: 12px; height: 12px; background: var(--indigo-light); }
 
         /* ============================================================
+           UNIFIED REVEAL SYSTEM  (inspired by user's fadeUp concept)
+           — one easing curve used everywhere for consistency
+        ============================================================ */
+        :root { --ease-out: cubic-bezier(0.22,1,0.36,1); }
+
+        .reveal-up {
+            opacity: 0; transform: translateY(28px);
+            transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out);
+        }
+        .reveal-left {
+            opacity: 0; transform: translateX(-32px);
+            transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out);
+        }
+        .reveal-right {
+            opacity: 0; transform: translateX(32px);
+            transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out);
+        }
+        .reveal-up.visible,
+        .reveal-left.visible,
+        .reveal-right.visible { opacity: 1; transform: none; }
+
+        /* Stagger helpers — set via JS or nth-child */
+        .stagger-1 { transition-delay: 0.08s !important; }
+        .stagger-2 { transition-delay: 0.16s !important; }
+        .stagger-3 { transition-delay: 0.24s !important; }
+        .stagger-4 { transition-delay: 0.32s !important; }
+        .stagger-5 { transition-delay: 0.40s !important; }
+
+        /* ============================================================
            LAYOUT HELPERS
         ============================================================ */
         .container { max-width: 1160px; margin: 0 auto; padding: 0 2rem; position: relative; z-index: 2; }
@@ -652,18 +681,17 @@
            ABOUT SECTION
         ============================================================ */
         .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
-        /* Slide from left */
+        /* About — container reveals */
         .about-text {
             opacity: 0; transform: translateX(-36px);
-            transition: opacity 0.7s ease, transform 0.7s ease;
+            transition: opacity 0.75s var(--ease-out), transform 0.75s var(--ease-out);
         }
-        .about-text.visible { opacity: 1; transform: translateX(0); }
-        /* Slide from right */
+        .about-text.visible { opacity: 1; transform: none; }
         #about-cards {
             opacity: 0; transform: translateX(36px);
-            transition: opacity 0.7s ease 0.15s, transform 0.7s ease 0.15s;
+            transition: opacity 0.75s var(--ease-out) 0.12s, transform 0.75s var(--ease-out) 0.12s;
         }
-        #about-cards.visible { opacity: 1; transform: translateX(0); }
+        #about-cards.visible { opacity: 1; transform: none; }
         .about-text p { color: var(--text-secondary); line-height: 1.8; margin-bottom: 1.25rem; }
         .about-text p:last-child { margin-bottom: 0; }
         .about-highlight { color: var(--cyan); font-weight: 600; }
@@ -673,16 +701,22 @@
             padding: 0.5rem 1rem; background: var(--bg-card);
             border: 1px solid var(--border); border-radius: 30px;
             font-size: 0.875rem; font-weight: 500; color: var(--text-secondary);
-            transition: border-color var(--transition), transform var(--transition);
+            opacity: 0; transform: translateY(18px);
+            transition: opacity 0.55s var(--ease-out), transform 0.55s var(--ease-out),
+                        border-color var(--transition);
         }
-        .lang-badge:hover { border-color: rgba(99,102,241,0.3); transform: translateY(-2px); }
+        .lang-badge.visible { opacity: 1; transform: none; }
+        .lang-badge.visible:hover { transform: translateY(-2px); }
         .about-side-card {
             background: var(--bg-card); border: 1px solid var(--border);
             border-radius: var(--radius-md); padding: 1.75rem; margin-bottom: 1.5rem;
-            transition: border-color var(--transition), transform var(--transition), box-shadow var(--transition);
+            opacity: 0; transform: translateX(28px);
+            transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out),
+                        border-color var(--transition), box-shadow var(--transition);
         }
         .about-side-card:last-child { margin-bottom: 0; }
-        .about-side-card:hover { border-color: rgba(99,102,241,0.3); transform: translateX(5px); box-shadow: 0 8px 32px rgba(0,0,0,0.3); }
+        .about-side-card.visible { opacity: 1; transform: none; }
+        .about-side-card.visible:hover { transform: translateX(5px); box-shadow: 0 8px 32px rgba(0,0,0,0.3); border-color: rgba(99,102,241,0.3); }
         .side-card-date { font-size: 0.8125rem; font-weight: 600; color: var(--amber); letter-spacing: 0.04em; margin-bottom: 0.5rem; }
         .side-card-title { font-family: 'Syne', sans-serif; font-size: 1.0625rem; font-weight: 700; margin-bottom: 0.25rem; }
         .side-card-location { font-size: 0.8125rem; color: var(--text-muted); margin-bottom: 0.75rem; }
@@ -695,14 +729,15 @@
         .skill-group {
             background: var(--bg-card); border: 1px solid var(--border);
             border-radius: var(--radius-md); padding: 1.75rem;
-            opacity: 0; transform: translateY(24px);
-            transition: opacity 0.55s ease, transform 0.55s ease,
+            opacity: 0; transform: translateY(28px);
+            transition: opacity 0.65s var(--ease-out), transform 0.65s var(--ease-out),
                         border-color var(--transition), box-shadow var(--transition);
         }
-        .skill-group:nth-child(2) { transition-delay: 0.08s; }
-        .skill-group:nth-child(3) { transition-delay: 0.16s; }
-        .skill-group:nth-child(5) { transition-delay: 0.08s; }
-        .skill-group:nth-child(6) { transition-delay: 0.16s; }
+        .skill-group:nth-child(2) { transition-delay: 0.10s; }
+        .skill-group:nth-child(3) { transition-delay: 0.20s; }
+        .skill-group:nth-child(4) { transition-delay: 0.06s; }
+        .skill-group:nth-child(5) { transition-delay: 0.16s; }
+        .skill-group:nth-child(6) { transition-delay: 0.26s; }
         .skill-group.visible { opacity: 1; transform: translateY(0); }
         .skill-group:hover { border-color: rgba(99,102,241,0.25); box-shadow: 0 8px 32px rgba(0,0,0,0.3); }
         .skill-group-title {
@@ -743,8 +778,8 @@
         }
         .tl-item {
             position: relative; margin-bottom: 2.5rem;
-            opacity: 0; transform: translateX(-20px);
-            transition: opacity 0.55s ease, transform 0.55s ease;
+            opacity: 0; transform: translateX(-28px);
+            transition: opacity 0.65s var(--ease-out), transform 0.65s var(--ease-out);
         }
         .tl-item:last-child { margin-bottom: 0; }
         .tl-item.visible { opacity: 1; transform: translateX(0); }
@@ -780,10 +815,10 @@
         }
         /* Odd cards slide from left, even from right */
         .proj-card:nth-child(odd)  { transform: translateX(-32px); }
-        .proj-card:nth-child(even) { transform: translateX(32px);  transition-delay: 0.1s; }
+        .proj-card:nth-child(even) { transform: translateX(32px); transition-delay: 0.12s; }
         .proj-card:nth-child(3)    { transition-delay: 0.08s; }
-        .proj-card:nth-child(4)    { transition-delay: 0.18s; }
-        .proj-card.visible { opacity: 1; transform: translateX(0); }
+        .proj-card:nth-child(4)    { transition-delay: 0.20s; }
+        .proj-card.visible { opacity: 1; transform: none; }
         .proj-card::after {
             content: ''; position: absolute; top: 0; left: -100%;
             width: 100%; height: 100%;
@@ -978,12 +1013,12 @@
             display: block; background: var(--bg-card); border: 1px solid var(--border);
             border-radius: var(--radius-md); padding: 1.75rem;
             position: relative; overflow: hidden;
-            opacity: 0; transform: translateY(24px);
-            transition: opacity 0.55s ease, transform 0.55s ease,
+            opacity: 0; transform: translateY(28px);
+            transition: opacity 0.65s var(--ease-out), transform 0.65s var(--ease-out),
                         box-shadow var(--transition), border-color var(--transition);
         }
-        .edu-card:nth-child(2) { transition-delay: 0.1s; }
-        .edu-card:nth-child(3) { transition-delay: 0.2s; }
+        .edu-card:nth-child(2) { transition-delay: 0.12s; }
+        .edu-card:nth-child(3) { transition-delay: 0.24s; }
         .edu-card[href] { text-decoration: none; cursor: none; }
         .edu-card.visible { opacity: 1; transform: translateY(0); }
         .edu-card::after {
@@ -1017,12 +1052,12 @@
             display: flex; align-items: center; gap: 1rem;
             background: var(--bg-card); border: 1px solid var(--border);
             border-radius: var(--radius-sm); padding: 1.125rem 1.25rem;
-            transition: border-color var(--transition), background var(--transition),
-                        box-shadow var(--transition), opacity 0.55s ease, transform 0.55s ease;
-            opacity: 0; transform: translateX(28px);
+            opacity: 0; transform: translateX(32px);
+            transition: opacity 0.65s var(--ease-out), transform 0.65s var(--ease-out),
+                        border-color var(--transition), background var(--transition), box-shadow var(--transition);
             will-change: transform;
         }
-        .contact-item.visible { opacity: 1; transform: translateX(0); }
+        .contact-item.visible { opacity: 1; transform: none; }
         .contact-item:hover { border-color: rgba(99,102,241,0.4); background: var(--bg-card-hover); box-shadow: 0 8px 28px rgba(79,70,229,0.15); }
         .contact-item-icon {
             width: 40px; height: 40px; flex-shrink: 0; border-radius: 10px;
@@ -1053,8 +1088,18 @@
            FOOTER
         ============================================================ */
         footer { padding: 2.5rem 0; border-top: 1px solid var(--border); text-align: center; display: flex; flex-direction: column; align-items: center; }
-        footer p { font-size: 0.875rem; color: var(--text-muted); }
-        .footer-links { display: flex; justify-content: center; gap: 1.5rem; margin-top: 0.75rem; }
+        footer p {
+            font-size: 0.875rem; color: var(--text-muted);
+            opacity: 0; transform: translateY(14px);
+            transition: opacity 0.6s var(--ease-out) 0.1s, transform 0.6s var(--ease-out) 0.1s;
+        }
+        footer p.visible { opacity: 1; transform: none; }
+        .footer-links {
+            display: flex; justify-content: center; gap: 1.5rem; margin-top: 0.75rem;
+            opacity: 0; transform: translateY(14px);
+            transition: opacity 0.6s var(--ease-out) 0.2s, transform 0.6s var(--ease-out) 0.2s;
+        }
+        .footer-links.visible { opacity: 1; transform: none; }
         .footer-links a { font-size: 0.8125rem; color: var(--text-muted); transition: color var(--transition); }
         .footer-links a:hover { color: var(--cyan); }
         .back-to-top {
@@ -1062,9 +1107,12 @@
             width: 44px; height: 44px; border-radius: 50%;
             border: 1px solid var(--border); background: rgba(17,17,28,0.92); color: var(--cyan);
             font-size: 1.1rem; font-weight: 700; cursor: pointer; margin-bottom: 1.25rem;
-            transition: border-color var(--transition), background var(--transition), transform var(--transition);
+            opacity: 0; transform: translateY(16px);
+            transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out),
+                        border-color var(--transition), background var(--transition);
         }
-        .back-to-top:hover { border-color: rgba(6,182,212,0.65); background: var(--bg-card-hover); transform: translateY(-4px); }
+        .back-to-top.visible { opacity: 1; transform: none; }
+        .back-to-top.visible:hover { border-color: rgba(6,182,212,0.65); background: var(--bg-card-hover); transform: translateY(-4px); }
 
         /* ============================================================
            RESPONSIVE
@@ -1869,12 +1917,26 @@ document.getElementById("nav-logo").addEventListener("click",    () => window.sc
 ================================================================ */
 const io = new IntersectionObserver(entries => {
     entries.forEach(e => { if (e.isIntersecting) e.target.classList.add("visible"); });
-}, { threshold: 0.08, rootMargin: "0px 0px -40px 0px" });
-function observe(el) { io.observe(el); }
+}, { threshold: 0.07, rootMargin: "0px 0px -36px 0px" });
+function observe(el) { if (el) io.observe(el); }
+
+/* Observe a list of elements with automatic stagger delays */
+function observeStaggered(elements, baseDelay = 0, step = 0.1) {
+    elements.forEach((el, i) => {
+        el.style.transitionDelay = (baseDelay + i * step) + "s";
+        observe(el);
+    });
+}
 
 document.querySelectorAll(".section-label, .section-title").forEach(el => observe(el));
 observe(document.getElementById("about-text"));
 observe(document.getElementById("about-cards"));
+/* Footer elements */
+observeStaggered([
+    document.getElementById("back-to-top"),
+    document.getElementById("footer-copy"),
+    document.getElementById("footer-links"),
+], 0, 0.1);
 
 /* ================================================================
    TYPEWRITER
@@ -2119,20 +2181,27 @@ function renderDynamic(data, lang) {
     aboutText.innerHTML = "";
     data.about.forEach(p => { const el = document.createElement("p"); el.innerHTML = p; aboutText.appendChild(el); });
     const langGrid = document.createElement("div"); langGrid.className = "lang-grid";
+    const langBadges = [];
     data.languages.forEach(l => {
         const b = document.createElement("div"); b.className = "lang-badge";
         b.innerHTML = `<span>${l.flag}</span><span>${l.name}</span><span style="color:var(--text-muted);font-size:0.78rem">${l.level}</span>`;
         langGrid.appendChild(b);
+        langBadges.push(b);
     });
     aboutText.appendChild(langGrid);
+    /* Stagger lang badges after about-text becomes visible */
+    setTimeout(() => observeStaggered(langBadges, 0.05, 0.12), 50);
 
     const aboutCards = document.getElementById("about-cards");
     aboutCards.innerHTML = "";
+    const sideCards = [];
     data.aboutTimeline.forEach(item => {
         const c = document.createElement("div"); c.className = "about-side-card";
         c.innerHTML = `<div class="side-card-date">${item.date}</div><div class="side-card-title">${item.title}</div><div class="side-card-location">${item.org}</div><div class="side-card-body">${item.body}</div>`;
         aboutCards.appendChild(c);
+        sideCards.push(c);
     });
+    setTimeout(() => observeStaggered(sideCards, 0.1, 0.18), 50);
 
     /* Skills */
     const skillsLayout = document.getElementById("skills-layout");
@@ -2204,11 +2273,15 @@ function renderDynamic(data, lang) {
     /* Contact */
     const introDiv = document.getElementById("contact-intro-text");
     introDiv.innerHTML = "";
+    const introParagraphs = [];
     data.contact.intro.forEach(p => {
         const el = document.createElement("p");
         el.style.cssText = "color:var(--text-secondary);line-height:1.8;margin-bottom:1rem;";
+        el.classList.add("reveal-up");
         el.textContent = p; introDiv.appendChild(el);
+        introParagraphs.push(el);
     });
+    setTimeout(() => observeStaggered(introParagraphs, 0, 0.14), 50);
 
     const contactCards = document.getElementById("contact-cards");
     contactCards.innerHTML = "";
@@ -2223,8 +2296,14 @@ function renderDynamic(data, lang) {
         if (item.href) { el.href = item.href; if (item.target) el.target = item.target; }
         el.innerHTML = `<div class="contact-item-icon">${item.icon}</div><div><div class="contact-item-label">${s[item.labelKey]}</div><div class="contact-item-value">${item.value}</div></div>`;
         contactCards.appendChild(el);
-        setTimeout(() => { observe(el); initMagnetic(el); }, 60);
     });
+    /* Stagger contact items */
+    setTimeout(() => {
+        Array.from(contactCards.children).forEach((el, i) => {
+            el.style.transitionDelay = (i * 0.09) + "s";
+            observe(el); initMagnetic(el);
+        });
+    }, 60);
 
     /* Footer */
     document.getElementById("footer-copy").textContent = `© ${new Date().getFullYear()} ${data.name}`;
