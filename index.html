@@ -9,8 +9,9 @@
     <meta property="og:description" content="M.Sc. Digital Engineering student at OVGU Magdeburg. Unity 3D simulation developer, data analytics specialist. Open to internships in Germany.">
     <meta property="og:url" content="https://hashwanthghanta.github.io/">
     <meta property="og:type" content="website">
-    <meta property="og:image" content="https://hashwanthghanta.github.io/Images/hash.jpeg">
+    <meta property="og:image" content="https://hashwanthghanta.github.io/Images/hash22.jpeg">
     <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231c1c1e'/%3E%3Ctext x='50%25' y='52%25' text-anchor='middle' font-family='Syne,Arial,sans-serif' font-size='28' font-weight='800' fill='%23f5f5f7'%3EHG%3C/text%3E%3C/svg%3E">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
@@ -20,13 +21,13 @@
         ============================================================ */
         :root {
             /* ── Brand palette ─────────────────────────────── */
-            --indigo:        #5b50f0;
-            --indigo-dark:   #3730a3;
-            --indigo-light:  #7c7ff5;
-            --pink:          #f0559f;
-            --pink-dark:     #db2777;
-            --cyan:          #0ed4f5;
-            --amber:         #f8b133;
+            --indigo:        #1f6f5b;
+            --indigo-dark:   #0f3d2e;
+            --indigo-light:  #3b8f7a;
+            --pink:          #f59e0b;
+            --pink-dark:     #d97706;
+            --cyan:          #14b8a6;
+            --amber:         #f59e0b;
             --green:         #10b981;
 
             /* ── Apple System colors ────────────────────────── */
@@ -173,7 +174,7 @@
         body[data-theme="light"] .proj-tag { background: rgba(67,56,202,0.1); border-color: rgba(67,56,202,0.2); color: #4338ca; }
         body[data-theme="light"] .cert-badge { background: rgba(67,56,202,0.1); border-color: rgba(67,56,202,0.2); color: #3730a3; }
         body[data-theme="light"] .hero-name {
-            background: linear-gradient(140deg, #1d1d1f 20%, #3730a3 55%, #5b50f0);
+            background: linear-gradient(140deg, #1d1d1f 25%, #1f6f5b 80%);
             -webkit-background-clip: text; background-clip: text;
         }
         body[data-theme="light"] .grid-overlay { opacity: 0.25; }
@@ -195,7 +196,6 @@
             background: var(--bg-dark);
             color: var(--text-primary);
             overflow-x: hidden;
-            cursor: none;
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
@@ -390,11 +390,6 @@
         @keyframes gradShift { 0%,100% { background-position: 0% 50% } 50% { background-position: 100% 50% } }
 
         /* ============================================================
-           PARTICLE CANVAS
-        ============================================================ */
-        #particle-canvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
-
-        /* ============================================================
            CUSTOM CURSOR
         ============================================================ */
         .cursor-dot {
@@ -419,20 +414,6 @@
         body:has(button:hover) .cursor-ring { width: 52px; height: 52px; border-color: rgba(99,102,241,0.6); }
         body:has(a:hover) .cursor-dot,
         body:has(button:hover) .cursor-dot  { width: 12px; height: 12px; background: var(--indigo-light); }
-
-        /* ============================================================
-           CURSOR TRAIL PARTICLES
-        ============================================================ */
-        .cursor-trail {
-            position: fixed; width: 5px; height: 5px; border-radius: 50%;
-            background: var(--indigo-light); pointer-events: none; z-index: 9997;
-            transform: translate(-50%,-50%);
-            animation: trailFade 0.75s var(--ease-out) forwards;
-        }
-        @keyframes trailFade {
-            0%   { opacity: 0.7; transform: translate(-50%,-50%) scale(1); }
-            100% { opacity: 0; transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(0.1); }
-        }
 
         /* ============================================================
            CARD CURSOR SPOTLIGHT
@@ -517,15 +498,11 @@
         }
 
         /* ============================================================
-           APPLE LIQUID GLASS — Prismatic specular edge on all cards
-           Creates the characteristic iOS 26 chromatic glass effect
+           GLASS ACCENTS (reserved for hero + nav)
         ============================================================ */
-        .proj-card::before,
-        .edu-card::before,
-        .skill-group::before,
-        .tl-card::before,
-        .contact-item::before,
-        .about-side-card::before {
+        .stats-card::before,
+        .hero-photo-wrap::before,
+        nav::before {
             content: ''; position: absolute; inset: 0;
             border-radius: inherit;
             /* Prismatic gradient simulating light refraction on glass */
@@ -537,12 +514,9 @@
             pointer-events: none; z-index: 0;
         }
         /* Ensure card content stays above the prismatic layer — exclude .card-spotlight (position:absolute) */
-        .proj-card > :not(.card-spotlight),
-        .edu-card > :not(.card-spotlight),
-        .skill-group > :not(.card-spotlight),
-        .tl-card > :not(.card-spotlight),
-        .contact-item > :not(.card-spotlight),
-        .about-side-card > :not(.card-spotlight) { position: relative; z-index: 1; }
+        .stats-card > :not(.card-spotlight),
+        .hero-photo-wrap > :not(.card-spotlight),
+        nav > :not(.card-spotlight) { position: relative; z-index: 1; }
 
         /* ============================================================
            SCROLL VELOCITY DISTORTION (cards tilt while scrolling)
@@ -785,7 +759,7 @@
         #hero { min-height: 100vh; display: flex; align-items: center; padding-top: 80px; }
         .hero-inner {
             display: grid; grid-template-columns: 1fr 420px;
-            gap: 5rem; align-items: center;
+            gap: 4rem; align-items: center;
         }
 
         @keyframes heroUp {
@@ -817,16 +791,11 @@
             font-size: clamp(2.75rem, 6vw, 4.25rem);
             font-weight: 800; line-height: 1.05;
             letter-spacing: -0.02em; margin-bottom: 1rem;
-            background: linear-gradient(140deg, var(--text-primary) 30%, var(--cyan) 65%, var(--pink));
+            background: linear-gradient(140deg, var(--text-primary) 25%, var(--indigo-light) 80%);
             -webkit-background-clip: text; background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-size: 200% 200%;
             opacity: 0;
-            animation: heroUp 0.7s ease forwards 0.5s, heroShimmer 5s ease 1.5s infinite;
-        }
-        @keyframes heroShimmer {
-            0%,100% { background-position: 0% 50% }
-            50%      { background-position: 100% 50% }
+            animation: heroUp 0.7s ease forwards 0.5s;
         }
         .hero-role {
             font-size: 1.125rem; color: var(--text-secondary);
@@ -906,22 +875,16 @@
                         box-shadow 0.28s var(--spring-smooth),
                         background 0.28s ease,
                         border-color 0.28s ease;
-            border: none; cursor: none; white-space: nowrap;
+            border: none; cursor: pointer; white-space: nowrap;
         }
         /* Active press — Apple's tactile feedback feel */
         .btn:active { transform: scale(0.96) !important; }
 
         .btn-primary {
-            background: linear-gradient(135deg, var(--indigo) 0%, #8b5cf6 50%, var(--pink) 100%);
-            background-size: 200% 200%;
+            background: linear-gradient(135deg, var(--indigo) 0%, var(--pink) 100%);
             color: #fff;
             box-shadow: 0 1px 0 rgba(255,255,255,0.2) inset,
-                        0 4px 16px rgba(91,80,240,0.4);
-            animation: btnShimmer 5s ease infinite;
-        }
-        @keyframes btnShimmer {
-            0%,100% { background-position: 0% 50%; }
-            50%      { background-position: 100% 50%; }
+                        0 4px 16px rgba(31,111,91,0.4);
         }
         .btn-primary:hover {
             transform: translateY(-2px) scale(1.015);
@@ -929,12 +892,10 @@
                         0 8px 28px rgba(91,80,240,0.5);
         }
         .btn-outline {
-            background: var(--glass-bg);
-            backdrop-filter: var(--glass-blur);
-            -webkit-backdrop-filter: var(--glass-blur);
-            border: 0.5px solid var(--glass-border);
+            background: var(--bg-card-solid);
+            border: 1px solid var(--border);
             color: var(--text-primary);
-            box-shadow: var(--glass-specular), 0 2px 8px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.18);
         }
         .btn-outline:hover {
             background: rgba(91,80,240,0.15);
@@ -1004,8 +965,7 @@
             position: relative; overflow: hidden;
             box-shadow: var(--shadow-card);
             opacity: 0;
-            animation: heroFadeIn 0.9s var(--spring-smooth) forwards 0.9s,
-                       floatCard 5s ease-in-out 3s infinite;
+            animation: heroFadeIn 0.9s var(--spring-smooth) forwards 0.9s;
         }
         /* Prismatic specular edge — iOS 26 Liquid Glass characteristic */
         .stats-card::before {
@@ -1017,10 +977,6 @@
                 rgba(255,255,255,0.10) 65%,
                 rgba(255,255,255,0.16) 100%);
             pointer-events: none; z-index: 1;
-        }
-        @keyframes floatCard {
-            0%,100% { transform: translateY(0px); }
-            50%      { transform: translateY(-12px); }
         }
         .stat-row {
             display: flex; align-items: center; gap: 1rem;
@@ -1071,12 +1027,10 @@
         .lang-badge.visible:hover { transform: translateY(-2px); }
         .about-side-card {
             position: relative; overflow: hidden;
-            background: var(--glass-bg);
-            backdrop-filter: var(--glass-blur);
-            -webkit-backdrop-filter: var(--glass-blur);
-            border: 0.5px solid var(--glass-border);
+            background: var(--bg-card-solid);
+            border: 1px solid var(--border);
             border-radius: var(--radius-md); padding: 1.75rem; margin-bottom: 1.25rem;
-            box-shadow: var(--shadow-card);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.2);
             opacity: 0; transform: translateX(28px);
             transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out),
                         border-color var(--transition), box-shadow var(--transition);
@@ -1095,12 +1049,10 @@
         .skills-layout { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
         .skill-group {
             position: relative; overflow: hidden;
-            background: var(--glass-bg);
-            backdrop-filter: var(--glass-blur);
-            -webkit-backdrop-filter: var(--glass-blur);
-            border: 0.5px solid var(--glass-border);
+            background: var(--bg-card-solid);
+            border: 1px solid var(--border);
             border-radius: var(--radius-md); padding: 1.75rem;
-            box-shadow: var(--shadow-card);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.2);
             opacity: 0; transform: translateY(28px);
             transition: opacity 0.65s var(--ease-out), transform 0.65s var(--ease-out),
                         border-color var(--transition), box-shadow var(--transition);
@@ -1164,12 +1116,10 @@
         }
         .tl-card {
             position: relative; overflow: hidden;
-            background: var(--glass-bg);
-            backdrop-filter: var(--glass-blur);
-            -webkit-backdrop-filter: var(--glass-blur);
-            border: 0.5px solid var(--glass-border);
+            background: var(--bg-card-solid);
+            border: 1px solid var(--border);
             border-radius: var(--radius-md); padding: 1.5rem;
-            box-shadow: var(--shadow-card);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.2);
             transition: border-color var(--transition), box-shadow var(--transition), transform var(--transition);
         }
         .tl-card:hover { border-color: rgba(240,85,159,0.4); box-shadow: 0 0 32px var(--glow-pink), var(--shadow-hover); transform: translateX(8px); }
@@ -1183,13 +1133,11 @@
         ============================================================ */
         .projects-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.75rem; }
         .proj-card {
-            background: var(--glass-bg);
-            backdrop-filter: var(--glass-blur);
-            -webkit-backdrop-filter: var(--glass-blur);
-            border: 0.5px solid var(--glass-border);
+            background: var(--bg-card-solid);
+            border: 1px solid var(--border);
             border-radius: var(--radius-lg); padding: 2rem;
             position: relative; overflow: hidden;
-            box-shadow: var(--shadow-card);
+            box-shadow: 0 14px 36px rgba(0,0,0,0.2);
             opacity: 0;
             transition: box-shadow var(--transition), border-color var(--transition),
                         opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out);
@@ -1396,20 +1344,18 @@
         .edu-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
         .edu-card {
             display: block;
-            background: var(--glass-bg);
-            backdrop-filter: var(--glass-blur);
-            -webkit-backdrop-filter: var(--glass-blur);
-            border: 0.5px solid var(--glass-border);
+            background: var(--bg-card-solid);
+            border: 1px solid var(--border);
             border-radius: var(--radius-lg); padding: 1.75rem;
             position: relative; overflow: hidden;
-            box-shadow: var(--shadow-card);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.2);
             opacity: 0; transform: translateY(28px);
             transition: opacity 0.65s var(--ease-out), transform 0.65s var(--ease-out),
                         box-shadow var(--transition), border-color var(--transition);
         }
         .edu-card:nth-child(2) { transition-delay: 0.12s; }
         .edu-card:nth-child(3) { transition-delay: 0.24s; }
-        .edu-card[href] { text-decoration: none; cursor: none; }
+        .edu-card[href] { text-decoration: none; cursor: pointer; }
         .edu-card.visible { opacity: 1; transform: translateY(0); }
         .edu-card::after {
             content: ''; position: absolute; top: 0; left: -100%;
@@ -1441,17 +1387,15 @@
         .contact-item {
             position: relative; overflow: hidden;
             display: flex; align-items: center; gap: 1rem;
-            background: var(--glass-bg);
-            backdrop-filter: var(--glass-blur);
-            -webkit-backdrop-filter: var(--glass-blur);
-            border: 0.5px solid var(--glass-border);
+            background: var(--bg-card-solid);
+            border: 1px solid var(--border);
             border-radius: var(--radius-md); padding: 1.125rem 1.5rem;
-            box-shadow: var(--shadow-card);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.2);
             text-decoration: none; color: inherit;
             opacity: 0; transform: translateX(40px);
             transition: opacity 0.55s var(--ease-out), transform 0.55s var(--ease-out),
                         border-color var(--transition), box-shadow var(--transition);
-            cursor: none;
+            cursor: pointer;
         }
         .contact-item.visible { opacity: 1; transform: none; }
         .contact-item:hover {
@@ -1466,6 +1410,51 @@
         }
         .contact-item-label { font-size: 0.75rem; color: var(--text-muted); font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; }
         .contact-item-value { font-size: 0.9375rem; font-weight: 500; color: var(--cyan); }
+        .contact-form-card {
+            background: var(--bg-card-solid);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            box-shadow: 0 14px 34px rgba(0,0,0,0.2);
+        }
+        .contact-form-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.1rem;
+            margin-bottom: 0.4rem;
+        }
+        .contact-form-sub { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1.25rem; }
+        .contact-form { display: grid; gap: 0.75rem; }
+        .contact-label {
+            font-size: 0.78rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            font-weight: 700;
+        }
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: rgba(255,255,255,0.03);
+            color: var(--text-primary);
+            padding: 0.75rem 0.9rem;
+            font-family: inherit;
+            font-size: 0.95rem;
+        }
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            outline: none;
+            border-color: rgba(20,184,166,0.6);
+            box-shadow: 0 0 0 3px rgba(20,184,166,0.15);
+        }
+        .contact-form-submit { justify-content: center; margin-top: 0.5rem; }
+        body[data-theme="light"] .contact-form input,
+        body[data-theme="light"] .contact-form textarea {
+            background: #fff;
+            color: #0a0f1e;
+            border-color: rgba(0,0,0,0.12);
+        }
 
         /* Avatar */
         .avatar-wrap { text-align: center; margin-bottom: 2rem; }
@@ -1474,7 +1463,7 @@
             background: linear-gradient(135deg, var(--indigo), var(--pink));
             display: inline-flex; align-items: center; justify-content: center;
             font-family: 'Syne', sans-serif; font-size: 2.5rem; font-weight: 800; color: #fff;
-            position: relative; overflow: hidden; cursor: none;
+            position: relative; overflow: hidden; cursor: default;
             animation: avatarPulse 3s ease-in-out 2s infinite;
         }
         @keyframes avatarPulse {
@@ -1553,6 +1542,31 @@
             .project-modal { padding: 0.8rem; }
             .project-modal-card { padding: 1.2rem; }
         }
+        @media (pointer: fine) {
+            body { cursor: none; }
+            .btn,
+            .proj-btn,
+            .contact-item,
+            .edu-card[href],
+            .back-to-top,
+            .logo,
+            .nav-links a,
+            .lang-btn,
+            .theme-toggle { cursor: none; }
+        }
+        @media (pointer: coarse) {
+            body { cursor: default; }
+            .cursor-dot, .cursor-ring { display: none; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+            .cursor-dot, .cursor-ring { display: none !important; }
+        }
     </style>
 </head>
 <body class="preload" data-theme="dark">
@@ -1570,7 +1584,6 @@
     <div class="loading-bar-wrap"><div class="loading-bar"></div></div>
 </div>
 
-<canvas id="particle-canvas"></canvas>
 <div class="cursor-dot" id="cursor-dot"></div>
 <div class="cursor-ring" id="cursor-ring"></div>
 
@@ -1619,14 +1632,14 @@
                 </div>
                 <div class="hero-stack-row" id="hero-stack-row"></div>
                 <div class="hero-actions">
-                    <a id="resume-btn" href="resume.pdf" target="_blank" rel="noopener" class="btn btn-primary btn-resume-hero" download style="display:none;" data-i18n="btn_resume">📄 Resume</a>
+                    <a id="resume-btn" href="resume.pdf" target="_blank" rel="noopener" class="btn btn-primary btn-resume-hero" download data-i18n="btn_resume">📄 Resume</a>
                     <a href="#projects" class="btn btn-outline" data-i18n="btn_projects">View Projects</a>
                     <a href="#contact"  class="btn btn-outline" data-i18n="btn_contact">Get In Touch</a>
                 </div>
             </div>
             <div class="hero-side">
                 <div class="hero-photo-wrap" id="hero-photo-wrap">
-                    <img id="hero-photo-img" class="hero-photo-img" alt="Hashwanth Ghanta" style="display:none;">
+                    <img id="hero-photo-img" class="hero-photo-img" alt="Hashwanth Ghanta" loading="lazy" decoding="async" style="display:none;">
                     <div class="hero-photo-initials" id="hero-photo-initials">HG</div>
                 </div>
                 <div class="stats-card" id="stats-card"></div>
@@ -1706,10 +1719,23 @@
         </div>
         <div class="contact-layout">
             <div class="contact-intro">
-                <div class="avatar-wrap"><div class="avatar" id="contact-avatar">HG</div></div>
+                <div class="avatar-wrap"><div class="avatar" id="contact-avatar" aria-label="Hashwanth Ghanta"></div></div>
                 <div id="contact-intro-text"></div>
             </div>
             <div class="contact-cards" id="contact-cards"></div>
+            <div class="contact-form-card" id="contact-form-card">
+                <h3 class="contact-form-title" data-i18n="contact_form_title">Send a message</h3>
+                <p class="contact-form-sub" data-i18n="contact_form_sub">I typically reply within 24–48 hours.</p>
+                <form id="contact-message-form" class="contact-form" method="POST" enctype="text/plain">
+                    <label class="contact-label" for="contact-name" data-i18n="contact_form_name_label">Your name</label>
+                    <input id="contact-name" name="name" type="text" required placeholder="Jane Doe">
+                    <label class="contact-label" for="contact-email" data-i18n="contact_form_email_label">Email address</label>
+                    <input id="contact-email" name="email" type="email" required placeholder="jane@company.com">
+                    <label class="contact-label" for="contact-message" data-i18n="contact_form_message_label">Message</label>
+                    <textarea id="contact-message" name="message" rows="5" required placeholder="Tell me about your role, timeline, and project goals."></textarea>
+                    <button type="submit" class="btn btn-primary contact-form-submit" data-i18n="contact_form_submit">Send Message</button>
+                </form>
+            </div>
         </div>
     </div>
 </section>
@@ -1748,7 +1774,7 @@ const PORTFOLIO_DATA = {
     name:       "Hashwanth Ghanta",
     initials:   "HG",
     role:       "Unity 3D Developer · 3D Simulation & Visualization · M.Sc. Digital Engineering",
-    bio:        "M.Sc. Digital Engineering student at OVGU Magdeburg. I build interactive 3D simulations in Unity and work with data analytics tools. Background in embedded systems and IoT. Currently exploring Large Language Models and AI/ML. Actively seeking internships or working student roles in Germany.",
+    bio:        "Unity 3D developer building industrial simulations at OVGU Magdeburg. Available May 2026 for internships across Germany.",
     availability: "Available from May 2026 · Magdeburg · Remote / Hybrid",
     currentlyBuilding: "Currently building: AI-assisted simulation controls and advanced Unity interaction systems",
     location:   "Magdeburg, Germany",
@@ -1762,13 +1788,15 @@ const PORTFOLIO_DATA = {
     avatarPhoto:  "Images/hash2.jpeg",
     stack: [
         { name: "Unity", icon: "https://cdn.simpleicons.org/unity" },
+        { name: "C#", icon: "https://cdn.simpleicons.org/csharp" },
         { name: "Python", icon: "https://cdn.simpleicons.org/python" },
+        { name: "Power BI", icon: "https://cdn.simpleicons.org/powerbi" },
         { name: "Git", icon: "https://cdn.simpleicons.org/git" },
     ],
     stats: [
-        { icon: "🏭", value: "1",  label: "Featured Simulation" },
-        { icon: "💻", value: "4",  label: "Projects Built"      },
-        { icon: "📜", value: "8",  label: "Certifications"      },
+        { icon: "🧠", value: "3+", label: "Years Unity + C#" },
+        { icon: "🏭", value: "7",  label: "Phase CO₂ Simulation" },
+        { icon: "🌍", value: "2",  label: "Working Languages (EN/DE)" },
     ],
     about: [
         `I'm a <span class="about-highlight">Unity 3D developer and Digital Engineering M.Sc. student</span> at Otto von Guericke University, Magdeburg. My focus is building interactive simulations that make complex industrial processes understandable and visual.`,
@@ -1820,11 +1848,8 @@ const PORTFOLIO_DATA = {
             chips: ["Git", "GitHub", "Jira", "SAP", "Arduino", "Raspberry Pi"]
         },
         {
-            category: "Currently Exploring",
-            bars: [
-                { name: "Large Language Models",   pct: 35, label: "Learning" },
-                { name: "Machine Learning (Python)", pct: 20, label: "Learning" },
-            ],
+            category: "2025 Research Focus",
+            bars: [],
             chips: ["LLMs", "Hugging Face", "Prompt Engineering", "Transformers", "AI/ML Concepts"]
         },
         {
@@ -1845,6 +1870,18 @@ const PORTFOLIO_DATA = {
         },
     ],
     experience: [
+        {
+            date:  "2025 – Present",
+            title: "Simulation Coursework & Lab Projects",
+            org:   "OVGU Magdeburg · Digital Engineering",
+            body:  "Built Unity simulations, C# system architecture, and interactive UI workflows across lab modules in industrial systems and visualization."
+        },
+        {
+            date:  "2025 – Present",
+            title: "Web Development — Portfolio & Case Studies",
+            org:   "Personal Project",
+            body:  "Designed and shipped a bilingual, recruiter-focused portfolio with project case studies, accessibility improvements, and performance-first UI."
+        },
         {
             date:  "2024",
             title: "Volunteer Head — VITOPIA 2024",
@@ -1930,13 +1967,13 @@ const PORTFOLIO_DATA_DE = {
     ...PORTFOLIO_DATA,
     resumeUrl: "lebenslauf.pdf",
     role: "Unity-3D-Entwickler · 3D-Simulation & Visualisierung · M.Sc. Digital Engineering",
-    bio:  "M.Sc.-Student Digital Engineering an der OVGU Magdeburg. Ich entwickle interaktive 3D-Simulationen in Unity und arbeite mit Datenanalyse-Tools. Hintergrund in eingebetteten Systemen und IoT. Aktuell erforsche ich Large Language Models und KI/ML. Auf der Suche nach Praktikums- oder Werkstudentenstellen in Deutschland.",
+    bio:  "Unity-3D-Entwickler mit Fokus auf industrielle Simulationen an der OVGU Magdeburg. Verfuegbar ab Mai 2026 fuer Praktika in Deutschland.",
     availability: "Verfuegbar ab Mai 2026 · Magdeburg · Remote / Hybrid",
     currentlyBuilding: "Aktuell in Arbeit: KI-gestuetzte Simulationssteuerung und fortgeschrittene Unity-Interaktionen",
     stats: [
-        { icon: "🏭", value: "1",  label: "Hauptsimulation"     },
-        { icon: "💻", value: "4",  label: "Entwickelte Projekte" },
-        { icon: "📜", value: "8",  label: "Zertifizierungen"     },
+        { icon: "🧠", value: "3+", label: "Jahre Unity + C#" },
+        { icon: "🏭", value: "7",  label: "Phasen CO₂-Simulation" },
+        { icon: "🌍", value: "2",  label: "Arbeitssprachen (EN/DE)" },
     ],
     about: [
         `Ich bin ein <span class="about-highlight">Unity-3D-Entwickler und M.Sc.-Student Digital Engineering</span> an der Otto-von-Guericke-Universität Magdeburg. Mein Schwerpunkt liegt auf der Entwicklung interaktiver Simulationen, die komplexe industrielle Prozesse verständlich und visuell darstellen.`,
@@ -1983,11 +2020,8 @@ const PORTFOLIO_DATA_DE = {
             chips: ["Git", "GitHub", "Jira", "SAP", "Arduino", "Raspberry Pi"]
         },
         {
-            category: "Aktuell in Erkundung",
-            bars: [
-                { name: "Large Language Models",     pct: 35, label: "Lernend" },
-                { name: "Machine Learning (Python)", pct: 20, label: "Lernend" },
-            ],
+            category: "Forschungsfokus 2025",
+            bars: [],
             chips: ["LLMs", "Hugging Face", "Prompt Engineering", "Transformers", "KI/ML-Konzepte"]
         },
         {
@@ -2008,6 +2042,18 @@ const PORTFOLIO_DATA_DE = {
         },
     ],
     experience: [
+        {
+            date:  "2025 – Heute",
+            title: "Simulations- & Laborprojekte",
+            org:   "OVGU Magdeburg · Digital Engineering",
+            body:  "Entwicklung von Unity-Simulationen, C#-Architektur und interaktiven UI-Workflows in Labor- und Modulprojekten."
+        },
+        {
+            date:  "2025 – Heute",
+            title: "Webentwicklung — Portfolio & Case Studies",
+            org:   "Eigenes Projekt",
+            body:  "Konzeption und Umsetzung eines zweisprachigen Portfolios mit Fokus auf Recruiter-UX, Accessibility und Performance."
+        },
         {
             date:  "2024",
             title: "Ehrenamtlicher Leiter — VITOPIA 2024",
@@ -2108,6 +2154,12 @@ const UI_STRINGS = {
         sec_contact_label:"Connect",         sec_contact_title:"Get In Touch",
         contact_email:"Email", contact_linkedin:"LinkedIn", contact_github:"GitHub",
         contact_phone:"Phone", contact_location:"Location",
+        contact_form_title:"Send a message",
+        contact_form_sub:"I typically reply within 24–48 hours.",
+        contact_form_name_label:"Your name",
+        contact_form_email_label:"Email address",
+        contact_form_message_label:"Message",
+        contact_form_submit:"Send Message",
     },
     de: {
         nav_about:"Über mich", nav_skills:"Fähigkeiten", nav_exp:"Erfahrung",
@@ -2127,6 +2179,12 @@ const UI_STRINGS = {
         sec_contact_label:"Verbinden",        sec_contact_title:"Kontakt aufnehmen",
         contact_email:"E-Mail", contact_linkedin:"LinkedIn", contact_github:"GitHub",
         contact_phone:"Telefon", contact_location:"Standort",
+        contact_form_title:"Nachricht senden",
+        contact_form_sub:"Ich antworte in der Regel innerhalb von 24–48 Stunden.",
+        contact_form_name_label:"Ihr Name",
+        contact_form_email_label:"E-Mail-Adresse",
+        contact_form_message_label:"Nachricht",
+        contact_form_submit:"Nachricht senden",
     }
 };
 
@@ -2201,6 +2259,7 @@ window.addEventListener("load", () => {
    CURSOR TRAIL PARTICLES
 ================================================================ */
 (function () {
+    return;
     let lastX = 0, lastY = 0, frame = 0;
     document.addEventListener("mousemove", e => {
         frame++;
@@ -2332,6 +2391,7 @@ window.addEventListener("scroll", () => {
 ================================================================ */
 (function () {
     const canvas = document.getElementById("particle-canvas");
+    if (!canvas) return;
     const ctx = canvas.getContext("2d");
     let particles = [];
     let mouseX = -9999, mouseY = -9999;
@@ -2404,6 +2464,7 @@ window.addEventListener("scroll", () => {
    CUSTOM CURSOR
 ================================================================ */
 (function () {
+    if (!window.matchMedia("(pointer: fine)").matches) return;
     const dot = document.getElementById("cursor-dot");
     const ring = document.getElementById("cursor-ring");
     let mx = 0, my = 0, rx = 0, ry = 0;
@@ -2479,7 +2540,7 @@ document.getElementById("nav-logo").addEventListener("click",    () => window.sc
 ================================================================ */
 const io = new IntersectionObserver(entries => {
     entries.forEach(e => { if (e.isIntersecting) e.target.classList.add("visible"); });
-}, { threshold: 0.07, rootMargin: "0px 0px -36px 0px" });
+}, { threshold: 0.04, rootMargin: "0px 0px -20px 0px" });
 function observe(el) { if (el) io.observe(el); }
 
 /* Observe a list of elements with automatic stagger delays */
@@ -2669,9 +2730,11 @@ function renderDynamic(data, lang) {
 
     /* Resume button */
     if (data.resumeUrl) {
-        resumeBtn.href = data.resumeUrl; resumeBtn.download = data.resumeUrl;
+        resumeBtn.href = data.resumeUrl;
+        resumeBtn.download = data.resumeUrl;
+        resumeBtn.style.display = "";
+    } else {
         resumeBtn.style.display = "none";
-        fetch(data.resumeUrl, { method: "HEAD" }).then(r => { if (r.ok) resumeBtn.style.display = ""; }).catch(() => {});
     }
 
     /* Hero */
@@ -2778,7 +2841,7 @@ function renderDynamic(data, lang) {
             ? `<a href="${proj.url}" target="_blank" rel="noopener noreferrer" class="proj-btn proj-btn-primary">${s.proj_open_live}</a>`
             : "";
         const mediaInner = proj.thumb
-            ? `<img src="${proj.thumb}" alt="${proj.title} preview" style="object-position:${proj.thumbPosition || "50% 50%"};">`
+            ? `<img src="${proj.thumb}" alt="${proj.title} preview" loading="lazy" decoding="async" style="object-position:${proj.thumbPosition || "50% 50%"};">`
             : `<div class="proj-media-fallback"><div class="proj-media-icon">${proj.icon}</div><div class="proj-media-label">${proj.title}</div></div>`;
         const media = proj.url
             ? `<a class="proj-media proj-media-link" href="${proj.url}" target="_blank" rel="noopener noreferrer" aria-label="Open ${proj.title} demo">${mediaInner}</a>`
@@ -2837,6 +2900,15 @@ function renderDynamic(data, lang) {
         el.innerHTML = `<div class="contact-item-icon">${item.icon}</div><div><div class="contact-item-label">${s[item.labelKey]}</div><div class="contact-item-value">${item.value}</div></div>`;
         contactCards.appendChild(el);
     });
+    const contactForm = document.getElementById("contact-message-form");
+    if (contactForm) {
+        contactForm.action = `mailto:${data.email}`;
+        document.getElementById("contact-name").placeholder = lang === "de" ? "Max Mustermann" : "Jane Doe";
+        document.getElementById("contact-email").placeholder = lang === "de" ? "max@firma.de" : "jane@company.com";
+        document.getElementById("contact-message").placeholder = lang === "de"
+            ? "Beschreiben Sie Rolle, Zeitraum und Projektziele."
+            : "Tell me about the role, timeline, and project goals.";
+    }
     /* Stagger contact items */
     setTimeout(() => {
         Array.from(contactCards.children).forEach((el, i) => {
@@ -2875,7 +2947,8 @@ setHeroName(PORTFOLIO_DATA.name);
 const resumeBtn = document.getElementById("resume-btn");
 
 const avatarEl  = document.getElementById("contact-avatar");
-avatarEl.textContent = PORTFOLIO_DATA.initials;
+avatarEl.textContent = "";
+avatarEl.style.background = `url("${PORTFOLIO_DATA.avatarPhoto}") center/cover no-repeat`;
 const avatarImg = new Image();
 avatarImg.onload = () => {
     avatarEl.style.background = `url("${PORTFOLIO_DATA.avatarPhoto}") center/cover no-repeat`;
