@@ -201,58 +201,31 @@
         #loading-screen.fade-out { opacity: 0; visibility: hidden; pointer-events: none; }
         .loading-initials {
             font-family: 'Syne', sans-serif;
-            font-size: 5rem; font-weight: 800;
+            font-size: 5.5rem; font-weight: 800;
             background: linear-gradient(135deg, var(--indigo), var(--pink), var(--cyan));
             -webkit-background-clip: text; background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 2rem;
             letter-spacing: -0.02em;
             animation: loadPulse 1.4s ease-in-out infinite;
             display: inline-flex;
-            gap: 0.08em;
-            transition: opacity 0.35s ease, transform 0.35s ease;
+            gap: 0.06em;
         }
         .loading-initials span { display: inline-block; }
-        #loading-screen.morphing .loading-initials {
-            opacity: 0;
-            transform: scale(0.92);
-        }
         @keyframes loadPulse {
-            0%,100% { transform: scale(1); opacity: 1; }
-            50%      { transform: scale(1.07); opacity: 0.75; }
+            0%,100% { transform: scale(1);    opacity: 1;    }
+            50%      { transform: scale(1.08); opacity: 0.72; }
         }
         .loading-bar-wrap {
             width: 240px; height: 3px;
             background: rgba(255,255,255,0.08);
             border-radius: 10px; overflow: hidden;
-            transition: opacity 0.35s ease, transform 0.35s ease;
-        }
-        #loading-screen.morphing .loading-bar-wrap {
-            opacity: 0;
-            transform: translateY(8px);
+            margin-top: 2rem;
         }
         .loading-bar {
             height: 100%;
             background: linear-gradient(90deg, var(--indigo), var(--pink), var(--cyan));
             background-size: 200% 100%;
-            animation: loadFill 2s ease-in-out forwards, gradShift 1s linear infinite;
-        }
-        .morph-ghost {
-            position: fixed;
-            z-index: 10002;
-            pointer-events: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Syne', sans-serif;
-            font-weight: 800;
-            line-height: 1;
-            background: linear-gradient(140deg, var(--text-primary) 30%, var(--cyan) 65%, var(--pink));
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            transform-origin: center center;
-            transition: transform 0.95s cubic-bezier(0.2,0.9,0.2,1), opacity 0.95s ease;
+            animation: loadFill 1.9s ease-in-out forwards, gradShift 1s linear infinite;
         }
         @keyframes loadFill  { from { width: 0 } to { width: 100% } }
         @keyframes gradShift { 0%,100% { background-position: 0% 50% } 50% { background-position: 100% 50% } }
@@ -506,11 +479,6 @@
             opacity: 0;
             animation: heroUp 0.7s ease forwards 0.5s, heroShimmer 5s ease 1.5s infinite;
         }
-        .hero-name .name-initial { display: inline-block; }
-        body.morph-done .hero-name {
-            opacity: 1;
-            animation: heroShimmer 5s ease 0.2s infinite;
-        }
         @keyframes heroShimmer {
             0%,100% { background-position: 0% 50% }
             50%      { background-position: 100% 50% }
@@ -684,6 +652,18 @@
            ABOUT SECTION
         ============================================================ */
         .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+        /* Slide from left */
+        .about-text {
+            opacity: 0; transform: translateX(-36px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .about-text.visible { opacity: 1; transform: translateX(0); }
+        /* Slide from right */
+        #about-cards {
+            opacity: 0; transform: translateX(36px);
+            transition: opacity 0.7s ease 0.15s, transform 0.7s ease 0.15s;
+        }
+        #about-cards.visible { opacity: 1; transform: translateX(0); }
         .about-text p { color: var(--text-secondary); line-height: 1.8; margin-bottom: 1.25rem; }
         .about-text p:last-child { margin-bottom: 0; }
         .about-highlight { color: var(--cyan); font-weight: 600; }
@@ -792,16 +772,18 @@
             background: var(--bg-card); border: 1px solid var(--border);
             border-radius: var(--radius-md); padding: 2rem;
             position: relative; overflow: hidden;
-            opacity: 0; transform: translateY(24px);
+            opacity: 0;
             transition: box-shadow var(--transition), border-color var(--transition),
-                        opacity 0.55s ease, transform 0.55s ease;
+                        opacity 0.6s ease, transform 0.6s cubic-bezier(0.4,0,0.2,1);
             will-change: transform;
             transform-style: preserve-3d;
         }
-        .proj-card:nth-child(2) { transition-delay: 0.1s; }
-        .proj-card:nth-child(3) { transition-delay: 0.05s; }
-        .proj-card:nth-child(4) { transition-delay: 0.15s; }
-        .proj-card.visible { opacity: 1; transform: translateY(0); }
+        /* Odd cards slide from left, even from right */
+        .proj-card:nth-child(odd)  { transform: translateX(-32px); }
+        .proj-card:nth-child(even) { transform: translateX(32px);  transition-delay: 0.1s; }
+        .proj-card:nth-child(3)    { transition-delay: 0.08s; }
+        .proj-card:nth-child(4)    { transition-delay: 0.18s; }
+        .proj-card.visible { opacity: 1; transform: translateX(0); }
         .proj-card::after {
             content: ''; position: absolute; top: 0; left: -100%;
             width: 100%; height: 100%;
@@ -1035,11 +1017,12 @@
             display: flex; align-items: center; gap: 1rem;
             background: var(--bg-card); border: 1px solid var(--border);
             border-radius: var(--radius-sm); padding: 1.125rem 1.25rem;
-            transition: border-color var(--transition), background var(--transition), box-shadow var(--transition);
-            opacity: 0; transform: translateY(16px);
+            transition: border-color var(--transition), background var(--transition),
+                        box-shadow var(--transition), opacity 0.55s ease, transform 0.55s ease;
+            opacity: 0; transform: translateX(28px);
             will-change: transform;
         }
-        .contact-item.visible { opacity: 1; transform: translateY(0); }
+        .contact-item.visible { opacity: 1; transform: translateX(0); }
         .contact-item:hover { border-color: rgba(99,102,241,0.4); background: var(--bg-card-hover); box-shadow: 0 8px 28px rgba(79,70,229,0.15); }
         .contact-item-icon {
             width: 40px; height: 40px; flex-shrink: 0; border-radius: 10px;
@@ -1715,69 +1698,14 @@ function setLoadingInitials(initialsText) {
 }
 setLoadingInitials(PORTFOLIO_DATA.initials);
 
-function runInitialsMorph() {
-    const loadingScreen = document.getElementById("loading-screen");
-    const heroH = document.querySelector("#hero-name .name-h");
-    const heroG = document.querySelector("#hero-name .name-g");
-    if (!heroH || !heroG) return Promise.resolve();
-
-    const startH = loadingH.getBoundingClientRect();
-    const startG = loadingG.getBoundingClientRect();
-    const endH = heroH.getBoundingClientRect();
-    const endG = heroG.getBoundingClientRect();
-
-    function makeGhost(letter, startRect) {
-        const g = document.createElement("span");
-        g.className = "morph-ghost";
-        g.textContent = letter;
-        g.style.left = `${startRect.left}px`;
-        g.style.top = `${startRect.top}px`;
-        g.style.width = `${startRect.width}px`;
-        g.style.height = `${startRect.height}px`;
-        g.style.fontSize = `${startRect.height}px`;
-        document.body.appendChild(g);
-        return g;
-    }
-    const ghostH = makeGhost(loadingH.textContent, startH);
-    const ghostG = makeGhost(loadingG.textContent, startG);
-    loadingScreen.classList.add("morphing");
-
-    requestAnimationFrame(() => {
-        const dxH = (endH.left + endH.width / 2) - (startH.left + startH.width / 2);
-        const dyH = (endH.top + endH.height / 2) - (startH.top + startH.height / 2);
-        const sxH = Math.max(endH.width / Math.max(startH.width, 1), 0.35);
-        const syH = Math.max(endH.height / Math.max(startH.height, 1), 0.35);
-        ghostH.style.transform = `translate(${dxH}px, ${dyH}px) scale(${sxH}, ${syH})`;
-        ghostH.style.opacity = "0.08";
-
-        const dxG = (endG.left + endG.width / 2) - (startG.left + startG.width / 2);
-        const dyG = (endG.top + endG.height / 2) - (startG.top + startG.height / 2);
-        const sxG = Math.max(endG.width / Math.max(startG.width, 1), 0.35);
-        const syG = Math.max(endG.height / Math.max(startG.height, 1), 0.35);
-        ghostG.style.transform = `translate(${dxG}px, ${dyG}px) scale(${sxG}, ${syG})`;
-        ghostG.style.opacity = "0.08";
-    });
-
-    return new Promise(resolve => {
-        setTimeout(() => {
-            ghostH.remove();
-            ghostG.remove();
-            resolve();
-        }, 980);
-    });
-}
-
 window.addEventListener("load", () => {
     window.scrollTo(0, 0);
-    setTimeout(async () => {
-        await runInitialsMorph();
-        document.body.classList.add("morph-done");
+    setTimeout(() => {
         document.getElementById("loading-screen").classList.add("fade-out");
-        setTimeout(() => {
-            document.body.classList.remove("preload");
-            startTypewriter(pendingRole || (currentLang === "de" ? PORTFOLIO_DATA_DE.role : PORTFOLIO_DATA.role));
-        }, 420);
-    }, 1300);
+        document.body.classList.remove("preload");
+        document.body.classList.add("morph-done");
+        startTypewriter(pendingRole || (currentLang === "de" ? PORTFOLIO_DATA_DE.role : PORTFOLIO_DATA.role));
+    }, 2000);
 });
 
 /* ================================================================
@@ -1945,6 +1873,8 @@ const io = new IntersectionObserver(entries => {
 function observe(el) { io.observe(el); }
 
 document.querySelectorAll(".section-label, .section-title").forEach(el => observe(el));
+observe(document.getElementById("about-text"));
+observe(document.getElementById("about-cards"));
 
 /* ================================================================
    TYPEWRITER
@@ -2084,12 +2014,7 @@ function setLanguage(lang) {
 
 function setHeroName(fullName) {
     const heroNameEl = document.getElementById("hero-name");
-    const parts = (fullName || "").trim().split(/\s+/);
-    const first = parts[0] || "Hashwanth";
-    const second = parts[1] || "Ghanta";
-    const firstInitial = first.charAt(0) || "H";
-    const secondInitial = second.charAt(0) || "G";
-    heroNameEl.innerHTML = `<span class="name-initial name-h">${firstInitial}</span>${first.slice(1)} <span class="name-initial name-g">${secondInitial}</span>${second.slice(1)}`;
+    heroNameEl.textContent = (fullName || "Hashwanth Ghanta").trim();
 }
 
 const modalEl = document.getElementById("project-modal");
