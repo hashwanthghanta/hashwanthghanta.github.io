@@ -95,31 +95,34 @@ Key dynamic targets (populated by JS, empty in HTML):
 
 ## DESIGN SYSTEM
 
-### Current Color Palette (Dark Mode)
+### Current Color Palette (Dark Mode) — UPDATED to Cool Indigo
 ```
---ember:       #ff6b35   (primary accent — ember orange)
---ember-soft:  #ff8c61
---ember-deep:  #d94f1e
---gold:        #d4a373   (warm gold — also aliased as --pink, --cyan)
---sage/green:  #7a8471
---bg-dark:     #0a0a0a
---bg-card:     #1a1a1a
---text-primary: #f5f0e8  (warm cream)
---text-secondary: #b8b0a3
+--ember:       #818cf8   (primary accent — signature indigo, THE ONE accent)
+--ember-soft:  #a5b4fc
+--ember-deep:  #6366f1
+--gold:        #c7d2fe   (periwinkle lavender — replaces warm gold)
+--sage:        #64748b
+--bg-dark:     #020817   (deep navy)
+--bg-card:     rgba(13,18,37,0.72)
+--text-primary: #f1f5f9  (cool near-white)
+--text-secondary: #94a3b8
 ```
 **To change the entire color scheme:** override `:root` variables at lines 24–120. ALL rules use these variables, so one block change propagates everywhere.
 
-### Fonts
+### Fonts (updated — reduced from 5 to 3, M9; body upgraded to Plus Jakarta Sans)
 - **Instrument Serif italic** — hero name, section titles, project/timeline titles
-- **JetBrains Mono** — section labels, dates, chips, badges
-- **DM Sans** — buttons
-- **Syne** — stats values, skill titles, edu card text
-- **Inter** — body text
+- **JetBrains Mono** — section labels, dates, chips, badges, mono data
+- **Plus Jakarta Sans** — body text, buttons (Inter, DM Sans and Syne all removed)
+
+### Ghost Section Numbers (added May 2025)
+- CSS: `.section-header[data-num]::before { content: attr(data-num); }` — translucent italic serif numbers behind each section title
+- HTML: `data-num="01"` through `data-num="06"` on each `.section-header` div
+- Inspired by editorial magazine aesthetics
 
 ### Key CSS Patterns
 - Reveal: elements start `opacity:0 + transform`, get `.visible` class via IntersectionObserver → animate to `opacity:1; transform:none`
 - Spotlight: `addSpotlight(el)` on any `position:relative; overflow:hidden` card
-- Tilt: `initTilt(card)` — desktop only, disabled <768px
+- Tilt: `initTilt(card)` — **NO-OP** (3D tilt disabled, M11)
 - Magnetic: `initMagnetic(el)` — contact items only
 - Stagger: `observeStaggered(elements, baseDelay, step)`
 
@@ -158,25 +161,28 @@ Key dynamic targets (populated by JS, empty in HTML):
 All of these are new, do not repeat them:
 1. Dark-mode hero name: animated shimmer gradient (cream→ember→gold sweep)
 2. About highlight text: ember↔gold shimmer (dark mode)
-3. Open badge: float up/down 4s infinite
-4. Hero stack chips: staggered float (4 chips, 0.7s stagger)
+3. Open badge: entrance only — badgeFloat loop REMOVED (M11)
+4. Hero stack chips: chipFloat loop REMOVED (M11)
 5. Button ripple: on click, spread circle animation (delegated listener)
 6. Nav link underline: slides in from centre on hover/active
 7. Section label line: draws itself (width 0→36px on .visible)
 8. Hero photo: clip-path wipe reveal on image load (.revealed class)
 9. Project + skill cards: micro-rotate on entrance (removed on .visible)
-10. Cursor sparkle trail: re-enabled (was `return;`), now pointer:fine only
+10. Cursor sparkle trail: **DISABLED** (early return in IIFE, M11/M30)
 11. Chip hover glow: box-shadow pulse
 12. Education card icon: bounce animation on card hover
 13. Timeline card: warm gradient overlay on hover (::before)
 14. Skill bar: brightness pulse after fill
 15. Scroll progress bar: ember glow
-16. Hero availability: subtle opacity pulse
+16. Hero availability: availPulse loop REMOVED (M11)
 17. Stat icon wrap: rotate+scale on hover
 18. Back-to-top: spring bounce on hover
 19. Word-by-word section title reveal: JS splits titles into spans, IO reveals per-word
-20. Parallax depth: bio/availability/stack-row at different scroll speeds
-21. Logo scramble: HG text scrambles on mouseenter
+20. Parallax depth: **DISABLED** (early return in IIFE, M11)
+21. Logo scramble: **DISABLED** (early return in IIFE, M11)
+22. Scroll-velocity-skew: **DISABLED** (early return in IIFE, M11)
+23. 3D card tilt (initTilt): **NO-OP** (M11)
+24. Hero 3D mouse parallax: **DISABLED** (early return in IIFE, M11)
 
 ### Skills Section
 Currently renders: category title + progress bars (pct-based) + chip cloud.
@@ -202,13 +208,17 @@ Due to JS hoisting, `_origApplyUIStrings` captures the NEW function → **infini
 4. ✅ P4 — Skill % bars replaced with level tags (Expert/Advanced/Proficient/Familiar) in `renderDynamic`
 5. ✅ P5 — All emoji icons replaced with SVG via `SVG_ICONS` constant; contact, edu, stats, skills all use SVGs
 
-### Next Audit Items (medium priority — not yet done)
-A full redesign was planned:
+### M1–M45 Comprehensive Audit — May 2025 (COMPLETED SESSION)
+Applied in one session. See memory file `project_audit_2025.md` for full detail.
+Key items DONE: M1 (eyebrow removed), M4 (stats replaced), M5 (value prop), M6 (availability reframed), M7 (CO₂ desc shortened), M9 (fonts → 3), M11 (6 animations disabled), M15 (CGPA fixed), M17 (loading instant), M18 (phone removed), M19 (flags removed), M21 (featured card ember border), M22 (git strings removed), M24 (about personality), M25 (theme persistent), M26 (resume emoji), M27 (photo brightness), M29 (hover consistent), M30+M32 (sparkle+download), M36 (signature section removed), M39 (og:image).
+Items NOT done: M3, M8, M13, M14, M23, M28, M33, M34, M37, M38, M40-M44 — see memory for reasoning.
+
+### Next Audit Items (if revisiting the design)
+A full redesign was considered:
 - New palette: cool indigo (#818cf8) instead of ember orange
 - Deep navy background (#020817) instead of warm black
 - Ghost section numbers (large transparent numerals behind each section header)
 - Cards with left accent border instead of full border (border-radius 8px)
-- Skills level tags (Expert/Proficient/Familiar badges) instead of progress bars
 - Aurora blobs changed to indigo + cyan
 
 ---

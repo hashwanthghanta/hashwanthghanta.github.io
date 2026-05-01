@@ -9,12 +9,12 @@
     <meta property="og:description" content="M.Sc. Digital Engineering student at OVGU Magdeburg. Unity 3D simulation developer, data analytics specialist. Open to internships in Germany.">
     <meta property="og:url" content="https://hashwanthghanta.github.io/">
     <meta property="og:type" content="website">
-    <meta property="og:image" content="https://hashwanthghanta.github.io/Images/hash22.jpeg">
+    <meta property="og:image" content="https://hashwanthghanta.github.io/Images/hash.jpeg">
     <meta name="twitter:card" content="summary_large_image">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231c1c1e'/%3E%3Ctext x='50%25' y='52%25' text-anchor='middle' font-family='Syne,Arial,sans-serif' font-size='28' font-weight='800' fill='%23f5f5f7'%3EHG%3C/text%3E%3C/svg%3E">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <!-- EmailJS — sends contact form without leaving the page -->
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <style>
@@ -26,56 +26,56 @@
                Warm ink black background with single signature accent: ember orange.
                Inspired by Linear, Vercel, modern editorial sites. Distinctive, not generic.
             ─────────────────────────────────────────────────────────────────── */
-            --ink:            #0a0a0a;        /* warm near-black */
-            --ink-elevated:   #141414;
-            --ink-card:       #1a1a1a;
-            --cream:          #f5f0e8;        /* warm cream for accents */
+            --ink:            #020817;        /* deep navy */
+            --ink-elevated:   #0d1225;
+            --ink-card:       #111827;
+            --cream:          #e8ecf5;        /* cool off-white for accents */
 
-            --ember:          #ff6b35;        /* signature ember orange */
-            --ember-soft:     #ff8c61;
-            --ember-deep:     #d94f1e;
+            --ember:          #818cf8;        /* signature indigo — THE one accent */
+            --ember-soft:     #a5b4fc;
+            --ember-deep:     #6366f1;
 
-            --sage:           #7a8471;        /* muted sage for secondary accents */
-            --gold:           #d4a373;        /* warm gold */
+            --sage:           #64748b;        /* slate for secondary accents */
+            --gold:           #c7d2fe;        /* periwinkle replaces warm gold */
 
             /* Legacy aliases — keep old code working without rewriting everything */
-            --indigo:        #ff6b35;
-            --indigo-dark:   #d94f1e;
-            --indigo-light:  #ff8c61;
-            --pink:          #d4a373;
-            --pink-dark:     #b8895c;
-            --cyan:          #d4a373;
-            --amber:         #ff6b35;
-            --green:         #7a8471;
+            --indigo:        #818cf8;
+            --indigo-dark:   #6366f1;
+            --indigo-light:  #a5b4fc;
+            --pink:          #c7d2fe;
+            --pink-dark:     #a5b4fc;
+            --cyan:          #c7d2fe;
+            --amber:         #818cf8;
+            --green:         #4ade80;
 
-            /* ── Apple System colors ────────────────────────── */
-            --apple-blue:    #0a84ff;   /* iOS blue dark  */
-            --apple-gray-1:  #8e8e93;
-            --apple-gray-6:  #1c1c1e;   /* Apple dark surface */
-            --apple-separator-dark: rgba(255,255,255,0.15);
+            /* ── System colors ──────────────────────────────── */
+            --apple-blue:    #60a5fa;
+            --apple-gray-1:  #94a3b8;
+            --apple-gray-6:  #0f172a;
+            --apple-separator-dark: rgba(255,255,255,0.10);
 
-            /* ── Backgrounds — warm editorial ink ──────── */
-            --bg-dark:       #0a0a0a;   /* warm ink */
-            --bg-surface:    #141414;
-            --bg-card:       rgba(20,20,20,0.72);
-            --bg-card-solid: #141414;
-            --bg-card-hover: rgba(30,30,30,0.85);
+            /* ── Backgrounds — deep navy ──────────────────── */
+            --bg-dark:       #020817;   /* deep navy */
+            --bg-surface:    #0d1225;
+            --bg-card:       rgba(13,18,37,0.72);
+            --bg-card-solid: #0d1225;
+            --bg-card-hover: rgba(17,24,39,0.88);
 
-            /* ── Text hierarchy — warm cream ──────── */
-            --text-primary:  #f5f0e8;   /* warm cream */
-            --text-secondary:#b8b0a3;   /* warm gray */
-            --text-muted:    #6b655d;   /* deeper warm gray */
-            --text-quaternary:rgba(245,240,232,0.3);
+            /* ── Text hierarchy — cool slate ──────────────── */
+            --text-primary:  #f1f5f9;   /* cool near-white */
+            --text-secondary:#94a3b8;   /* slate gray */
+            --text-muted:    #475569;   /* deep slate */
+            --text-quaternary:rgba(241,245,249,0.25);
 
             /* ── Borders ────────────────────────────────────── */
-            --border:        rgba(255,255,255,0.10);
-            --border-glow:   rgba(92,80,240,0.4);
-            --separator:     rgba(255,255,255,0.08);
+            --border:        rgba(255,255,255,0.08);
+            --border-glow:   rgba(129,140,248,0.4);
+            --separator:     rgba(255,255,255,0.06);
 
             /* ── Glow / ambient ─────────────────────────────── */
-            --glow-pink:     rgba(240,85,159,0.2);
-            --glow-indigo:   rgba(91,80,240,0.2);
-            --glow-cyan:     rgba(14,212,245,0.16);
+            --glow-pink:     rgba(129,140,248,0.2);
+            --glow-indigo:   rgba(99,102,241,0.25);
+            --glow-cyan:     rgba(165,180,252,0.16);
 
             /* ── Apple Liquid Glass (iOS 26) ─────────────────
                Characteristics:
@@ -84,7 +84,7 @@
                • Chromatic/prismatic border feel
                • Very subtle background tint
             ─────────────────────────────────────────────────── */
-            --glass-bg:      rgba(28,28,30,0.58);
+            --glass-bg:      rgba(13,18,37,0.62);
             --glass-border:  rgba(255,255,255,0.12);
             --glass-blur:    blur(52px) saturate(200%) brightness(1.10) contrast(0.88);
             --glass-specular:inset 0 1.5px 0 rgba(255,255,255,0.18),
@@ -132,8 +132,8 @@
             --text-quaternary:rgba(60,60,67,0.3);
             --border:        rgba(0,0,0,0.08);
             --separator:     rgba(0,0,0,0.06);
-            --glow-pink:     rgba(240,85,159,0.12);
-            --glow-indigo:   rgba(91,80,240,0.12);
+            --glow-pink:     rgba(129,140,248,0.12);
+            --glow-indigo:   rgba(99,102,241,0.15);
 
             /* Light Liquid Glass */
             --glass-bg:      rgba(255,255,255,0.68);
@@ -171,9 +171,9 @@
         body[data-theme="light"] .tl-date,
         body[data-theme="light"] .proj-period,
         body[data-theme="light"] .edu-period,
-        body[data-theme="light"] .side-card-date { color: #b45309; }
-        body[data-theme="light"] .contact-item-value { color: #0e7490; }
-        body[data-theme="light"] .about-highlight { color: #0e7490; }
+        body[data-theme="light"] .side-card-date { color: #4f46e5; }
+        body[data-theme="light"] .contact-item-value { color: #4338ca; }
+        body[data-theme="light"] .about-highlight { color: #4338ca; }
         body[data-theme="light"] .skill-track { background: rgba(15,23,42,0.1); }
         body[data-theme="light"] nav {
             background: rgba(240,244,255,0.88);
@@ -188,13 +188,14 @@
         body[data-theme="light"] .lang-btn:hover { color: #0a0f1e; background: rgba(79,70,229,0.1); }
         body[data-theme="light"] .theme-toggle { background: #fff; border-color: rgba(15,23,42,0.15); color: #334155; }
         body[data-theme="light"] .section-label { color: #4338ca; border-color: rgba(67,56,202,0.3); background: rgba(67,56,202,0.08); }
-        body[data-theme="light"] .section-label::before { background: #4338ca; }
+        /* section-label::before removed — no line rendered */
         body[data-theme="light"] .chip { background: rgba(67,56,202,0.1); border-color: rgba(67,56,202,0.25); color: #4338ca; }
         body[data-theme="light"] .proj-tag { background: rgba(67,56,202,0.1); border-color: rgba(67,56,202,0.2); color: #4338ca; }
         body[data-theme="light"] .cert-badge { background: rgba(67,56,202,0.1); border-color: rgba(67,56,202,0.2); color: #3730a3; }
         body[data-theme="light"] .hero-name {
-            background: linear-gradient(140deg, #1d1d1f 25%, #1f6f5b 80%);
+            background: linear-gradient(140deg, #0f172a 20%, #4338ca 70%, #6366f1 100%);
             -webkit-background-clip: text; background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
         body[data-theme="light"] .grid-overlay { opacity: 0.25; }
         /* Apple-style light mode chip */
@@ -208,18 +209,40 @@
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; font-size: 16px; }
 
-        /* Inter (primary body) → Apple system fallback */
+        /* Plus Jakarta Sans — premium geometric sans */
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont,
-                         "SF Pro Text", "Helvetica Neue", system-ui, sans-serif;
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont,
+                         "Helvetica Neue", system-ui, sans-serif;
             font-feature-settings: "ss01", "cv11";
-            background: var(--bg-dark);
+            /*
+              Rich deep-space background:
+              Pure black at top (hero pops) → deep midnight navy → rising indigo
+              horizon glow at bottom. Violet aurora top-left. Purple depth bottom-right.
+              Never flat — always atmospheric. Scrolls as one fixed canvas.
+            */
+            background:
+                /* Bright indigo horizon rising from below every viewport */
+                radial-gradient(125% 55% at 50% 108%, rgba(99,102,241,0.28) 0%, rgba(67,56,202,0.1) 30%, transparent 52%),
+                /* Violet aurora — upper left atmospheric glow */
+                radial-gradient(ellipse 70% 65% at -10% 5%,  rgba(139,92,246,0.18) 0%, transparent 50%),
+                /* Deep purple accent — lower right depth */
+                radial-gradient(ellipse 55% 45% at 108% 92%, rgba(109,40,217,0.12) 0%, transparent 45%),
+                /* Core gradient: true black → deep midnight → rich navy */
+                linear-gradient(175deg,
+                    #000000 0%,
+                    #120601 12%,
+                    #010816 30%,
+                    #020b1c 55%,
+                    #020d20 78%,
+                    #030f24 100%
+                );
+            background-attachment: fixed;
             color: var(--text-primary);
             overflow-x: hidden;
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
-            transition: background 0.5s var(--spring-smooth), color 0.5s var(--spring-smooth);
+            transition: color 0.5s var(--spring-smooth);
         }
 
         /* ── WCAG 2.2 AA: Skip to main content (Accessibility Agents) ── */
@@ -252,6 +275,23 @@
             -webkit-backdrop-filter: var(--glass-blur) !important;
             border: 0.5px solid var(--glass-border) !important;
             box-shadow: var(--shadow-card) !important;
+        }
+        /* Scrolling horizon glow — vivid indigo crown rising from bottom of viewport */
+        body::after {
+            content: '';
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            height: 45vh;
+            z-index: 0; pointer-events: none;
+            background: radial-gradient(ellipse 110% 100% at 50% 110%,
+                rgba(99,102,241,0.22) 0%,
+                rgba(99,102,241,0.08) 45%,
+                transparent 68%);
+            mix-blend-mode: screen;
+        }
+        body[data-theme="light"]::after {
+            background: radial-gradient(ellipse 100% 100% at 50% 100%,
+                rgba(99,102,241,0.08) 0%, transparent 65%);
         }
         /* Noise texture overlay for depth — stops the page feeling flat */
         body::before {
@@ -294,7 +334,7 @@
             z-index: 10001;
             border-radius: 0 2px 2px 0;
             transition: width 0.08s linear;
-            box-shadow: 0 0 8px rgba(236,72,153,0.5);
+            box-shadow: 0 0 8px rgba(129,140,248,0.6);
         }
 
         /* ============================================================
@@ -303,38 +343,38 @@
         .aurora-blob {
             position: fixed;
             border-radius: 50%;
-            filter: blur(90px);
+            filter: blur(100px);
             pointer-events: none;
             z-index: 0;
             opacity: 0;
+            mix-blend-mode: screen;
         }
         .blob-1 {
-            width: 520px; height: 520px;
-            background: radial-gradient(circle, rgba(255,107,53,0.18), transparent 65%);
-            top: -120px; left: -120px;
+            width: 620px; height: 620px;
+            background: radial-gradient(circle, rgba(99,102,241,0.3), rgba(139,92,246,0.1) 50%, transparent 70%);
+            top: -160px; left: -160px;
             animation: blobFadeIn 2s ease 0.5s forwards, blobDrift1 24s ease-in-out 2.5s infinite alternate;
         }
         .blob-2 {
-            width: 460px; height: 460px;
-            background: radial-gradient(circle, rgba(212,163,115,0.15), transparent 70%);
-            bottom: 8%; right: -100px;
+            width: 520px; height: 520px;
+            background: radial-gradient(circle, rgba(109,40,217,0.22), rgba(99,102,241,0.1) 45%, transparent 70%);
+            bottom: 6%; right: -120px;
             animation: blobFadeIn 2s ease 0.8s forwards, blobDrift2 28s ease-in-out 2.8s infinite alternate;
         }
-        /* Light mode body: warm cream editorial gradient */
+        /* Light mode body: cool lavender-tinted atmospheric gradient */
         body[data-theme="light"] {
-            background: linear-gradient(160deg,
-                #faf6ee 0%,      /* warm cream */
-                #f5f0e8 35%,     /* deeper cream */
-                #f0e9dc 70%,     /* soft sand */
-                #faf6ee 100%
-            ) fixed;
+            background:
+                radial-gradient(125% 70% at 50% 110%, rgba(99,102,241,0.12) 0%, transparent 55%),
+                radial-gradient(ellipse 80% 50% at 8% 2%, rgba(99,102,241,0.08) 0%, transparent 40%),
+                linear-gradient(180deg, #f4f6ff 0%, #eef0fd 40%, #f0f3ff 100%);
+            background-attachment: fixed;
         }
         body[data-theme="light"] .blob-1 {
-            background: radial-gradient(circle, rgba(255,107,53,0.22), transparent 65%);
+            background: radial-gradient(circle, rgba(99,102,241,0.18), transparent 65%);
             width: 580px; height: 580px;
         }
         body[data-theme="light"] .blob-2 {
-            background: radial-gradient(circle, rgba(212,163,115,0.20), transparent 65%);
+            background: radial-gradient(circle, rgba(129,140,248,0.15), transparent 65%);
             width: 500px; height: 500px;
         }
         @keyframes blobFadeIn { from { opacity: 0; } to { opacity: 1; } }
@@ -431,7 +471,7 @@
         }
         .cursor-ring {
             position: fixed; width: 36px; height: 36px;
-            border: 1.5px solid rgba(236,72,153,0.45);
+            border: 1.5px solid rgba(129,140,248,0.4);
             border-radius: 50%;
             pointer-events: none; z-index: 9998;
             transform: translate(-50%, -50%);
@@ -479,8 +519,8 @@
         ============================================================ */
         .tl-dot { animation: dotGlow 2.4s ease-in-out infinite; }
         @keyframes dotGlow {
-            0%,100% { box-shadow: 0 0 10px rgba(240,85,159,0.65), 0 0 0 0 rgba(240,85,159,0.25); }
-            50%      { box-shadow: 0 0 20px rgba(240,85,159,1), 0 0 0 7px rgba(240,85,159,0); }
+            0%,100% { box-shadow: 0 0 10px rgba(99,102,241,0.7), 0 0 0 0 rgba(129,140,248,0.3); }
+            50%      { box-shadow: 0 0 22px rgba(129,140,248,1), 0 0 0 7px rgba(99,102,241,0); }
         }
 
         /* ============================================================
@@ -599,8 +639,8 @@
             pointer-events: none;
             background:
                 radial-gradient(120% 80px at 50% 100%, rgba(99,102,241,0.1), transparent 70%),
-                radial-gradient(120% 70px at 20% 100%, rgba(236,72,153,0.07), transparent 72%),
-                radial-gradient(120% 70px at 80% 100%, rgba(6,182,212,0.07), transparent 72%);
+                radial-gradient(120% 70px at 20% 100%, rgba(99,102,241,0.09), transparent 72%),
+                radial-gradient(120% 70px at 80% 100%, rgba(165,180,252,0.07), transparent 72%);
         }
 
         /* ============================================================
@@ -612,7 +652,7 @@
         }
         /* Editorial numbered label: monospace number + thin line + uppercase tag */
         .section-label {
-            display: inline-flex; align-items: center; gap: 1rem;
+            display: inline-flex; align-items: center; gap: 0;
             font-family: 'JetBrains Mono', ui-monospace, monospace;
             font-size: 0.78rem; font-weight: 500;
             letter-spacing: 0.08em; text-transform: uppercase;
@@ -623,19 +663,14 @@
             transition: opacity 0.55s var(--ease-out), transform 0.55s var(--ease-out);
         }
         .section-label::before {
-            content: '';
-            width: 36px; height: 1px;
-            background: var(--ember);
-            display: inline-block;
-            animation: none;
-            border-radius: 0; box-shadow: none;
-            flex-shrink: 0;
+            content: none;
+            display: none;
         }
         .section-label.visible { opacity: 1; transform: translateY(0); }
 
         /* Editorial section title — Instrument Serif italic, big */
         .section-title {
-            font-family: 'Instrument Serif', 'Syne', serif;
+            font-family: 'Instrument Serif', Georgia, serif;
             font-style: italic;
             font-size: clamp(2.5rem, 5.5vw, 4.25rem);
             font-weight: 400; line-height: 1; letter-spacing: -0.025em;
@@ -762,16 +797,44 @@
            OPEN-TO-WORK BADGE
         ============================================================ */
         .open-badge {
-            display: inline-flex; align-items: center; gap: 0.55rem;
-            padding: 0.35rem 0;
-            background: none; border: none; border-radius: 0;
+            display: inline-flex; align-items: center; gap: 0.6rem;
+            padding: 0.48rem 1.15rem 0.48rem 0.78rem;
+            background: rgba(99,102,241,0.09);
+            border: 1px solid rgba(129,140,248,0.38);
+            border-radius: 999px;
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.78rem; font-weight: 500;
+            font-size: 0.76rem; font-weight: 500;
             letter-spacing: 0.04em;
-            color: var(--sage);
-            margin-bottom: 1.5rem;
+            color: var(--ember-soft);
+            margin-bottom: 1.75rem;
             opacity: 0;
-            animation: heroUp 0.7s ease forwards 0.1s;
+            animation: heroUp 0.7s ease forwards 0.1s, badgePulseGlow 3.2s ease-in-out 1.2s infinite;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
+            position: relative;
+        }
+        /* Outer breathing ring */
+        .open-badge::after {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 999px;
+            border: 1px solid rgba(129,140,248,0.22);
+            animation: badgeRingPulse 3.2s ease-in-out 1.2s infinite;
+            pointer-events: none;
+        }
+        @keyframes badgePulseGlow {
+            0%, 100% {
+                box-shadow: 0 0 10px rgba(99,102,241,0.2), inset 0 1px 0 rgba(255,255,255,0.08);
+                border-color: rgba(129,140,248,0.38);
+            }
+            50% {
+                box-shadow: 0 0 24px rgba(99,102,241,0.42), 0 0 48px rgba(99,102,241,0.14), inset 0 1px 0 rgba(255,255,255,0.08);
+                border-color: rgba(129,140,248,0.65);
+            }
+        }
+        @keyframes badgeRingPulse {
+            0%, 100% { opacity: 0.5; transform: scale(1); }
+            50%       { opacity: 0; transform: scale(1.18); }
         }
         .open-badge-dot {
             width: 7px; height: 7px; border-radius: 50%;
@@ -819,12 +882,12 @@
             color: var(--ember);
         }
         .hero-name {
-            font-family: 'Instrument Serif', 'Syne', serif;
+            font-family: 'Instrument Serif', Georgia, serif;
             font-style: italic;
-            font-size: clamp(3.5rem, 8.5vw, 7.5rem);
-            font-weight: 400; line-height: 0.95;
-            letter-spacing: -0.035em;
-            margin-bottom: 1.25rem;
+            font-size: clamp(3.8rem, 10.5vw, 9.5rem);
+            font-weight: 400; line-height: 0.92;
+            letter-spacing: -0.04em;
+            margin-bottom: 1.5rem;
             color: var(--text-primary);
             opacity: 0;
             animation: heroUp 0.9s var(--ease-out) forwards 0.4s;
@@ -905,7 +968,7 @@
             display: inline-flex; align-items: center; gap: 0.5rem;
             padding: 0.72rem 1.8rem;
             border-radius: var(--radius-pill); /* True Apple pill */
-            font-family: 'DM Sans', -apple-system, sans-serif;
+            font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
             font-size: 0.9375rem; font-weight: 600; letter-spacing: -0.01em;
             transition: transform 0.18s var(--spring),
                         box-shadow 0.28s var(--spring-smooth),
@@ -917,33 +980,45 @@
         .btn:active { transform: scale(0.96) !important; }
 
         .btn-primary {
-            background: linear-gradient(135deg, var(--indigo) 0%, var(--pink) 100%);
+            background: linear-gradient(135deg, var(--ember-deep) 0%, var(--ember) 60%, var(--ember-soft) 100%);
             color: #fff;
-            box-shadow: 0 1px 0 rgba(255,255,255,0.2) inset,
-                        0 4px 16px rgba(31,111,91,0.4);
+            box-shadow: 0 1px 0 rgba(255,255,255,0.15) inset,
+                        0 4px 20px rgba(99,102,241,0.45);
         }
         .btn-primary:hover {
             transform: translateY(-2px) scale(1.015);
-            box-shadow: 0 1px 0 rgba(255,255,255,0.25) inset,
-                        0 8px 28px rgba(91,80,240,0.5);
+            box-shadow: 0 1px 0 rgba(255,255,255,0.2) inset,
+                        0 8px 32px rgba(99,102,241,0.6);
+            filter: brightness(1.08);
         }
         .btn-outline {
-            background: var(--bg-card-solid);
-            border: 1px solid var(--border);
+            background: rgba(13,18,37,0.6);
+            border: 1px solid rgba(129,140,248,0.3);
             color: var(--text-primary);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.18);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
         }
         .btn-outline:hover {
-            background: rgba(91,80,240,0.15);
-            border-color: rgba(124,127,245,0.5);
+            background: rgba(129,140,248,0.12);
+            border-color: rgba(129,140,248,0.6);
             transform: translateY(-2px) scale(1.015);
-            box-shadow: var(--glass-specular), 0 6px 20px rgba(91,80,240,0.25);
+            box-shadow: var(--glass-specular), 0 6px 24px rgba(99,102,241,0.3);
+        }
+        .btn-ghost {
+            background: transparent;
+            border: 1px solid rgba(129,140,248,0.2);
+            color: var(--text-secondary);
+        }
+        .btn-ghost:hover {
+            border-color: var(--ember);
+            color: var(--ember-soft);
+            background: rgba(129,140,248,0.08);
+            transform: translateY(-2px) scale(1.015);
         }
         .btn-resume-hero {
-            box-shadow: 0 8px 22px rgba(79,70,229,0.32);
+            box-shadow: 0 8px 24px rgba(99,102,241,0.4);
         }
         .btn-resume-hero:hover {
-            box-shadow: 0 12px 30px rgba(236,72,153,0.3);
+            box-shadow: 0 12px 32px rgba(99,102,241,0.55);
         }
 
         .hero-side { display: grid; gap: 1rem; }
@@ -976,17 +1051,17 @@
             animation: heroFadeIn 0.9s ease forwards 0.6s;
             transition: box-shadow 0.5s ease;
         }
-        .hero-photo-wrap:hover { box-shadow: 0 28px 70px rgba(91,80,240,0.32), 0 0 0 1px rgba(124,127,245,0.3); }
+        .hero-photo-wrap:hover { box-shadow: 0 28px 70px rgba(99,102,241,0.38), 0 0 0 1px rgba(129,140,248,0.35); }
         .hero-photo-img {
             width: 100%; height: 420px;
             object-fit: cover; object-position: center 20%;
-            display: block; filter: brightness(0.82) saturate(0.88);
+            display: block; filter: brightness(0.95) saturate(0.95);
             opacity: 0;
             transition: opacity 0.6s ease, transform 0.45s ease;
         }
         .hero-photo-initials {
-            font-family: 'Syne', sans-serif; font-size: 5rem; font-weight: 800;
-            background: linear-gradient(135deg, var(--indigo), var(--pink));
+            font-family: 'Plus Jakarta Sans', sans-serif; font-size: 5rem; font-weight: 800;
+            background: linear-gradient(135deg, var(--ember), var(--ember-soft));
             -webkit-background-clip: text; background-clip: text;
             -webkit-text-fill-color: transparent;
             transition: transform 0.45s ease;
@@ -1025,11 +1100,11 @@
             width: 48px; height: 48px; flex-shrink: 0; border-radius: 14px;
             display: flex; align-items: center; justify-content: center;
             font-size: 1.4rem;
-            background: linear-gradient(135deg, rgba(91,80,240,0.2), rgba(240,85,159,0.1));
-            border: 1px solid rgba(124,127,245,0.2);
+            background: linear-gradient(135deg, rgba(99,102,241,0.22), rgba(129,140,248,0.1));
+            border: 1px solid rgba(129,140,248,0.25);
             box-shadow: 0 2px 8px rgba(0,0,0,0.2);
         }
-        .stat-val { font-family: 'Syne', sans-serif; font-size: 1.625rem; font-weight: 700; line-height: 1; }
+        .stat-val { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.625rem; font-weight: 700; line-height: 1; }
         .stat-label { color: var(--text-muted); font-size: 0.8125rem; margin-top: 2px; }
 
         /* ============================================================
@@ -1074,9 +1149,9 @@
         }
         .about-side-card:last-child { margin-bottom: 0; }
         .about-side-card.visible { opacity: 1; transform: none; }
-        .about-side-card.visible:hover { transform: translateX(6px); box-shadow: var(--shadow-hover); border-color: rgba(124,127,245,0.38); }
+        .about-side-card.visible:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); border-color: rgba(129,140,248,0.4); }
         .side-card-date { font-size: 0.8125rem; font-weight: 600; color: var(--amber); letter-spacing: 0.04em; margin-bottom: 0.5rem; }
-        .side-card-title { font-family: 'Syne', sans-serif; font-size: 1.0625rem; font-weight: 700; margin-bottom: 0.25rem; }
+        .side-card-title { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.0625rem; font-weight: 700; margin-bottom: 0.25rem; }
         .side-card-location { font-size: 0.8125rem; color: var(--text-muted); margin-bottom: 0.75rem; }
         .side-card-body { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.65; }
 
@@ -1121,14 +1196,14 @@
         .chip-cloud { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
         .chip {
             padding: 0.35rem 0.875rem;
-            background: rgba(255,107,53,0.08);
-            border: 1px solid rgba(255,107,53,0.2);
+            background: rgba(99,102,241,0.08);
+            border: 1px solid rgba(129,140,248,0.2);
             border-radius: 6px;
             font-family: 'JetBrains Mono', monospace;
             font-size: 0.78rem; color: var(--ember-soft);
             transition: all var(--transition);
         }
-        .chip:hover { background: var(--indigo); border-color: var(--indigo); color: #fff; transform: translateY(-3px); box-shadow: 0 4px 14px rgba(91,80,240,0.4); }
+        .chip:hover { background: var(--ember); border-color: var(--ember); color: #fff; transform: translateY(-3px); box-shadow: 0 4px 14px rgba(99,102,241,0.45); }
 
         /* ============================================================
            EXPERIENCE TIMELINE
@@ -1150,7 +1225,7 @@
         .tl-dot {
             position: absolute; left: -2.9rem; top: 0.375rem;
             width: 11px; height: 11px; background: var(--pink); border-radius: 50%;
-            border: 2.5px solid var(--bg-dark); box-shadow: 0 0 12px rgba(236,72,153,0.6);
+            border: 2.5px solid var(--bg-dark); box-shadow: 0 0 12px rgba(99,102,241,0.7);
         }
         .tl-card {
             position: relative; overflow: hidden;
@@ -1160,7 +1235,7 @@
             box-shadow: 0 12px 30px rgba(0,0,0,0.2);
             transition: border-color var(--transition), box-shadow var(--transition), transform var(--transition);
         }
-        .tl-card:hover { border-color: rgba(240,85,159,0.4); box-shadow: 0 0 32px var(--glow-pink), var(--shadow-hover); transform: translateX(8px); }
+        .tl-card:hover { border-color: rgba(129,140,248,0.4); box-shadow: 0 0 32px var(--glow-indigo), var(--shadow-hover); transform: translateX(8px); }
         .tl-date { font-size: 0.8rem; font-weight: 700; color: var(--amber); letter-spacing: 0.04em; margin-bottom: 0.375rem; }
         .tl-title { font-family: 'Instrument Serif', serif; font-style: italic; font-size: 1.85rem; font-weight: 400; margin-bottom: 0.35rem; line-height: 1.15; letter-spacing: -0.02em; color: var(--text-primary); }
         .tl-org { font-size: 0.8125rem; color: var(--text-muted); margin-bottom: 0.875rem; }
@@ -1169,7 +1244,27 @@
         /* ============================================================
            PROJECTS — 3D tilt
         ============================================================ */
-        .projects-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.75rem; }
+        /* Bento asymmetric grid — featured card tall on left, 2 stacked right, 4th full-width */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: 1.55fr 1fr;
+            grid-template-rows: auto auto auto;
+            gap: 1.5rem;
+        }
+        .proj-card.featured {
+            grid-row: 1 / 3;
+        }
+        .proj-card:nth-child(4) {
+            grid-column: 1 / -1;
+        }
+        @media (max-width: 768px) {
+            .projects-grid {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto;
+            }
+            .proj-card.featured { grid-row: auto; }
+            .proj-card:nth-child(4) { grid-column: auto; }
+        }
         .proj-card {
             background: var(--bg-card-solid);
             border: 1px solid var(--border);
@@ -1193,11 +1288,18 @@
         .proj-card::after {
             content: ''; position: absolute; top: 0; left: -100%;
             width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(236,72,153,0.07), transparent);
+            background: linear-gradient(90deg, transparent, rgba(129,140,248,0.09), transparent);
             transition: left 0.55s ease;
         }
         .proj-card:hover::after { left: 100%; }
-        .proj-card:hover { box-shadow: var(--shadow-hover), 0 0 40px rgba(240,85,159,0.18); border-color: rgba(240,85,159,0.45); }
+        /* transform handled exclusively by initTilt JS — no CSS override */
+        .proj-card:hover { box-shadow: var(--shadow-hover), 0 0 40px rgba(99,102,241,0.2); border-color: rgba(129,140,248,0.45); }
+        /* Featured card — indigo accent elevation */
+        .proj-card.featured {
+            border-color: rgba(129,140,248,0.28);
+            box-shadow: 0 14px 36px rgba(0,0,0,0.3), 0 0 0 1px rgba(129,140,248,0.15);
+        }
+        .proj-card.featured:hover { border-color: rgba(129,140,248,0.6); box-shadow: var(--shadow-hover), 0 0 60px rgba(99,102,241,0.25); }
         .proj-live-badge {
             display: inline-flex; align-items: center; gap: 0.35rem;
             float: right; margin-top: -0.25rem;
@@ -1215,7 +1317,7 @@
             margin-bottom: 1rem;
             border: 1px solid var(--border);
             background:
-                linear-gradient(135deg, rgba(79,70,229,0.3), rgba(236,72,153,0.28) 55%, rgba(6,182,212,0.26));
+                linear-gradient(135deg, rgba(99,102,241,0.3), rgba(129,140,248,0.22) 55%, rgba(165,180,252,0.18));
             position: relative;
         }
         .proj-media-link { display: block; text-decoration: none; cursor: pointer; }
@@ -1246,7 +1348,7 @@
         }
         .proj-media-icon { font-size: 2.5rem; line-height: 1; filter: drop-shadow(0 0 12px rgba(255,255,255,0.3)); }
         .proj-media-label {
-            font-family: 'Syne', sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             font-size: 0.88rem; font-weight: 600;
             line-height: 1.3; text-align: center;
             color: rgba(255,255,255,0.75);
@@ -1254,14 +1356,14 @@
         }
         .proj-icon { font-size: 2.5rem; margin-bottom: 1.25rem; }
         .proj-period { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 500; color: var(--ember); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 0.65rem; }
-        .proj-title { font-family: 'Instrument Serif', 'Syne', serif; font-style: italic; font-size: 1.85rem; font-weight: 400; margin-bottom: 0.875rem; line-height: 1.1; letter-spacing: -0.02em; }
+        .proj-title { font-family: 'Instrument Serif', Georgia, serif; font-style: italic; font-size: 1.85rem; font-weight: 400; margin-bottom: 0.875rem; line-height: 1.1; letter-spacing: -0.02em; }
         .proj-desc { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.65; margin-bottom: 1.25rem; }
         .proj-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
-        .proj-tag { padding: 0.22rem 0.7rem; background: rgba(255,107,53,0.06); border: 1px solid rgba(255,107,53,0.2); color: var(--ember-soft); border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.02em; }
+        .proj-tag { padding: 0.22rem 0.7rem; background: rgba(99,102,241,0.07); border: 1px solid rgba(129,140,248,0.22); color: var(--ember-soft); border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.02em; }
         .proj-actions { display: flex; gap: 0.55rem; margin-top: 1.15rem; flex-wrap: wrap; }
         .proj-btn {
-            border: 1px solid rgba(99,102,241,0.35);
-            background: rgba(99,102,241,0.08);
+            border: 1px solid rgba(129,140,248,0.3);
+            background: rgba(99,102,241,0.07);
             color: var(--text-primary);
             border-radius: 10px;
             padding: 0.46rem 0.78rem;
@@ -1270,13 +1372,13 @@
             cursor: pointer;
             transition: background var(--transition), border-color var(--transition), transform var(--transition);
         }
-        .proj-btn:hover { background: rgba(99,102,241,0.18); border-color: rgba(99,102,241,0.55); transform: translateY(-1px); }
+        .proj-btn:hover { background: rgba(99,102,241,0.16); border-color: rgba(129,140,248,0.55); transform: translateY(-1px); }
         .proj-btn-primary {
-            background: linear-gradient(135deg, var(--indigo), var(--pink));
+            background: linear-gradient(135deg, var(--ember-deep), var(--ember));
             border-color: transparent;
             color: #fff;
         }
-        .proj-btn-primary:hover { filter: brightness(1.05); }
+        .proj-btn-primary:hover { filter: brightness(1.08); transform: translateY(-1px); }
 
         /* Project details modal */
         .project-modal {
@@ -1311,7 +1413,7 @@
             font-size: 0.74rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--amber); font-weight: 700;
         }
         .project-modal-title {
-            font-family: 'Syne', sans-serif; font-size: 1.4rem; line-height: 1.22;
+            font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.4rem; line-height: 1.22;
             margin-top: 0.35rem;
         }
         .modal-close {
@@ -1320,7 +1422,7 @@
             font-size: 1.1rem; cursor: pointer;
             transition: background var(--transition), color var(--transition);
         }
-        .modal-close:hover { background: rgba(236,72,153,0.12); color: var(--text-primary); }
+        .modal-close:hover { background: rgba(99,102,241,0.14); color: var(--text-primary); }
         .project-modal-desc {
             color: var(--text-secondary);
             line-height: 1.75;
@@ -1363,11 +1465,11 @@
         .edu-card::after {
             content: ''; position: absolute; top: 0; left: -100%;
             width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(236,72,153,0.07), transparent);
+            background: linear-gradient(90deg, transparent, rgba(129,140,248,0.09), transparent);
             transition: left 0.55s ease;
         }
         .edu-card:hover::after { left: 100%; }
-        .edu-card:hover { transform: translateY(-10px); box-shadow: var(--shadow-hover), 0 0 36px rgba(240,85,159,0.16); border-color: rgba(240,85,159,0.42); }
+        .edu-card:hover { transform: translateY(-10px); box-shadow: var(--shadow-hover), 0 0 36px rgba(99,102,241,0.2); border-color: rgba(129,140,248,0.42); }
         .edu-card-icon { font-size: 1.75rem; margin-bottom: 1rem; }
         .edu-degree { font-family: 'Instrument Serif', serif; font-style: italic; font-size: 1.4rem; font-weight: 400; margin-bottom: 0.35rem; line-height: 1.2; letter-spacing: -0.015em; }
         .edu-period { font-size: 0.8rem; font-weight: 600; color: var(--amber); margin-bottom: 0.75rem; letter-spacing: 0.04em; }
@@ -1421,7 +1523,7 @@
             box-shadow: 0 14px 34px rgba(0,0,0,0.2);
         }
         .contact-form-title {
-            font-family: 'Syne', sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             font-size: 1.1rem;
             margin-bottom: 0.4rem;
         }
@@ -1482,9 +1584,9 @@
             color: #3730a3;
         }
         body[data-theme="light"] .open-badge {
-            background: rgba(16,185,129,0.12);
-            border-color: rgba(16,185,129,0.35);
-            color: #065f46;
+            background: rgba(79,70,229,0.1);
+            border-color: rgba(79,70,229,0.38);
+            color: #4338ca;
         }
         body[data-theme="light"] .hero-live-indicator {
             background: rgba(6,182,212,0.1);
@@ -1557,7 +1659,7 @@
             width: 120px; height: 120px; border-radius: 50%;
             background: linear-gradient(135deg, var(--indigo), var(--pink));
             display: inline-flex; align-items: center; justify-content: center;
-            font-family: 'Syne', sans-serif; font-size: 2.5rem; font-weight: 800; color: #fff;
+            font-family: 'Plus Jakarta Sans', sans-serif; font-size: 2.5rem; font-weight: 800; color: #fff;
             position: relative; overflow: hidden; cursor: default;
             animation: avatarPulse 3s ease-in-out 2s infinite;
         }
@@ -1612,7 +1714,7 @@
             position: absolute;
             inset: 0;
             background: radial-gradient(ellipse 60% 80% at 50% 50%,
-                rgba(255,107,53,0.06) 0%, transparent 70%);
+                rgba(99,102,241,0.07) 0%, transparent 70%);
             pointer-events: none;
         }
         .signature-line {
@@ -1662,7 +1764,7 @@
         .signature-meta.visible { opacity: 1; transform: none; }
         body[data-theme="light"] .signature-section::before {
             background: radial-gradient(ellipse 60% 80% at 50% 50%,
-                rgba(255,107,53,0.10) 0%, transparent 70%);
+                rgba(99,102,241,0.1) 0%, transparent 70%);
         }
 
         /* ============================================================
@@ -1778,7 +1880,7 @@
         .tl-org { letter-spacing: 0.01em; }
 
         /* Education cards: cleaner hover */
-        .edu-card:hover { border-color: rgba(255,107,53,0.45); box-shadow: var(--shadow-hover), 0 0 36px rgba(255,107,53,0.14); }
+        .edu-card:hover { border-color: rgba(129,140,248,0.45); box-shadow: var(--shadow-hover), 0 0 36px rgba(99,102,241,0.18); }
 
         /* Contact: stronger item label */
         .contact-item-label { font-size: 0.7rem; letter-spacing: 0.06em; }
@@ -1789,18 +1891,17 @@
 
         /* Scrollbar: use ember */
         ::-webkit-scrollbar-thumb {
-            background: linear-gradient(180deg, var(--ember-deep), var(--ember));
+            background: linear-gradient(180deg, var(--ember-deep), var(--ember-soft));
         }
 
         /* Footer: ember accent on hover */
         .footer-links a:hover { color: var(--ember-soft); }
-        .back-to-top { color: var(--ember); border-color: rgba(255,107,53,0.25); }
-        .back-to-top.visible:hover { border-color: rgba(255,107,53,0.6); background: rgba(255,107,53,0.08); transform: translateY(-4px); }
+        .back-to-top { color: var(--ember); border-color: rgba(129,140,248,0.25); }
+        .back-to-top.visible:hover { border-color: rgba(129,140,248,0.6); background: rgba(99,102,241,0.1); transform: translateY(-4px); }
 
         /* Light mode overrides for new elements */
-        body[data-theme="light"] .skill-group-title { border-left-color: #d94f1e; }
-        body[data-theme="light"] .contact-item-value { color: #d94f1e; }
-        body[data-theme="light"] .skill-fill { background: linear-gradient(90deg, #d94f1e, #ff6b35) !important; }
+        body[data-theme="light"] .skill-group-title { border-left-color: #4f46e5; }
+        body[data-theme="light"] .skill-fill { background: linear-gradient(90deg, #4338ca, #6366f1) !important; }
 
         /* ── Skill level tags (replace bars) ── */
         .skill-tag-row {
@@ -1816,10 +1917,10 @@
             letter-spacing: 0.05em; text-transform: uppercase;
             flex-shrink: 0; line-height: 1.4;
         }
-        .skill-level-expert    { background: rgba(52,211,153,0.12); color: #34d399; border: 1px solid rgba(52,211,153,0.3); }
-        .skill-level-advanced  { background: rgba(255,107,53,0.12); color: var(--ember); border: 1px solid rgba(255,107,53,0.3); }
-        .skill-level-proficient{ background: rgba(212,163,115,0.12); color: var(--gold); border: 1px solid rgba(212,163,115,0.3); }
-        .skill-level-familiar  { background: rgba(100,116,139,0.1); color: var(--text-muted); border: 1px solid rgba(100,116,139,0.2); }
+        .skill-level-expert    { background: rgba(129,140,248,0.14); color: #a5b4fc; border: 1px solid rgba(129,140,248,0.35); }
+        .skill-level-advanced  { background: rgba(99,102,241,0.12); color: var(--ember-soft); border: 1px solid rgba(99,102,241,0.3); }
+        .skill-level-proficient{ background: rgba(199,210,254,0.1); color: var(--gold); border: 1px solid rgba(199,210,254,0.25); }
+        .skill-level-familiar  { background: rgba(100,116,139,0.08); color: var(--text-muted); border: 1px solid rgba(100,116,139,0.18); }
 
         /* ── SVG icon sizing in cards ── */
         .contact-item-icon svg,
@@ -1831,9 +1932,9 @@
         .edu-card-icon {
             width: 44px; height: 44px; border-radius: 12px;
             display: flex; align-items: center; justify-content: center;
-            background: linear-gradient(135deg, rgba(255,107,53,0.15), rgba(212,163,115,0.08));
-            border: 1px solid rgba(255,107,53,0.2);
-            margin-bottom: 1rem; color: var(--ember);
+            background: linear-gradient(135deg, rgba(99,102,241,0.18), rgba(129,140,248,0.08));
+            border: 1px solid rgba(129,140,248,0.25);
+            margin-bottom: 1rem; color: var(--ember-soft);
         }
         .skill-group-icon {
             width: 18px; height: 18px; display: flex; align-items: center;
@@ -1855,6 +1956,40 @@
         }
 
         /* ================================================================
+           GHOST SECTION NUMBERS — editorial editorial editorial
+        ================================================================ */
+        .section-header {
+            position: relative;
+            overflow: visible;
+        }
+        .section-header[data-num]::before {
+            content: attr(data-num);
+            position: absolute;
+            top: -0.55em;
+            left: -0.08em;
+            font-family: 'Instrument Serif', Georgia, serif;
+            font-style: italic;
+            font-size: clamp(6rem, 14vw, 12rem);
+            font-weight: 400;
+            line-height: 1;
+            letter-spacing: -0.04em;
+            color: var(--ember);
+            opacity: 0.055;
+            pointer-events: none;
+            z-index: 0;
+            user-select: none;
+            transition: opacity 0.6s ease;
+        }
+        .section-header[data-num].visible::before {
+            opacity: 0.07;
+        }
+        .section-header .section-label,
+        .section-header .section-title {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ================================================================
            NEW ANIMATION LAYER — 2024-2025 reference quality
         ================================================================ */
 
@@ -1862,13 +1997,13 @@
         body[data-theme="dark"] .hero-name {
             background: linear-gradient(
                 90deg,
-                var(--cream) 0%,
-                var(--cream) 28%,
-                var(--ember-soft) 44%,
+                var(--text-primary) 0%,
+                var(--text-primary) 25%,
+                var(--ember-soft) 42%,
                 var(--gold) 50%,
-                var(--ember-soft) 56%,
-                var(--cream) 72%,
-                var(--cream) 100%
+                var(--ember-soft) 58%,
+                var(--text-primary) 75%,
+                var(--text-primary) 100%
             );
             background-size: 280% auto;
             -webkit-background-clip: text;
@@ -1900,25 +2035,9 @@
             50%       { background-position: 100% 50%; }
         }
 
-        /* 3 ── Open badge float */
-        .open-badge {
-            animation: heroUp 0.7s ease forwards 0.1s, badgeFloat 4s ease-in-out 1.8s infinite;
-        }
-        @keyframes badgeFloat {
-            0%, 100% { transform: translateY(0px); }
-            50%       { transform: translateY(-5px); }
-        }
+        /* 3 ── Open badge: entrance + glow pulse (defined in badge block above) */
 
-        /* 4 ── Hero stack chips: staggered float */
-        .hero-stack-row .hero-stack-chip { animation: chipFloat 3.6s ease-in-out infinite; }
-        .hero-stack-row .hero-stack-chip:nth-child(1) { animation-delay: 0.0s; }
-        .hero-stack-row .hero-stack-chip:nth-child(2) { animation-delay: 0.7s; }
-        .hero-stack-row .hero-stack-chip:nth-child(3) { animation-delay: 1.4s; }
-        .hero-stack-row .hero-stack-chip:nth-child(4) { animation-delay: 2.1s; }
-        @keyframes chipFloat {
-            0%, 100% { transform: translateY(0px); }
-            50%       { transform: translateY(-4px); }
-        }
+        /* 4 ── Hero stack chips: entrance only, no float loop */
 
         /* 5 ── Button ripple */
         .btn, .proj-btn { position: relative; overflow: hidden; }
@@ -1947,12 +2066,7 @@
         .nav-links a:hover::after, .nav-links a.active::after { left: 10px; right: 10px; }
         @media (max-width: 768px) { .nav-links a::after { display: none; } }
 
-        /* 7 ── Section label line: draws itself on reveal */
-        .section-label::before {
-            width: 0;
-            transition: width 0.65s var(--ease-out) 0.15s;
-        }
-        .section-label.visible::before { width: 36px; }
+        /* 7 ── Section label line removed — no horizontal rule */
 
         /* 8 ── Hero photo: clip-path wipe reveal */
         .hero-photo-img {
@@ -1986,7 +2100,7 @@
         /* 11 ── Chip hover glow */
         .chip { transition: all var(--transition), box-shadow var(--transition); }
         .chip:hover {
-            box-shadow: 0 0 14px rgba(255,107,53,0.45), 0 0 28px rgba(255,107,53,0.18);
+            box-shadow: 0 0 14px rgba(99,102,241,0.45), 0 0 28px rgba(129,140,248,0.2);
             transform: translateY(-3px) scale(1.04);
         }
 
@@ -2002,12 +2116,12 @@
             100% { transform: scale(1)   translateY(0); }
         }
 
-        /* 13 ── Timeline card: inner warmth on hover */
+        /* 13 ── Timeline card: inner indigo glow on hover */
         .tl-card { isolation: isolate; }
         .tl-card::before {
             content: ''; position: absolute; inset: 0;
             border-radius: inherit;
-            background: linear-gradient(135deg, rgba(255,107,53,0.05) 0%, transparent 55%);
+            background: linear-gradient(135deg, rgba(99,102,241,0.07) 0%, transparent 55%);
             opacity: 0; transition: opacity 0.4s ease;
             pointer-events: none; z-index: 0;
         }
@@ -2025,16 +2139,12 @@
 
         /* 15 ── Scroll progress bar glow */
         #scroll-progress {
-            box-shadow: 0 0 8px var(--ember), 0 0 18px rgba(255,107,53,0.4);
+            box-shadow: 0 0 8px var(--ember), 0 0 18px rgba(99,102,241,0.5);
         }
 
-        /* 16 ── Hero availability text: subtle pulse */
+        /* 16 ── Hero availability text */
         .hero-availability {
-            animation: heroUp 0.7s ease forwards 1s, availPulse 5s ease-in-out 2.5s infinite;
-        }
-        @keyframes availPulse {
-            0%, 100% { opacity: 1; }
-            50%       { opacity: 0.72; }
+            animation: heroUp 0.7s ease forwards 1s;
         }
 
         /* 17 ── Stat icon wrap: spin-on-hover */
@@ -2053,17 +2163,161 @@
             100% { transform: translateY(-4px); }
         }
 
+        /* ================================================================
+           SECTION COLOR DIFFERENTIATION
+           Each section gets a distinct visual personality so the page
+           doesn't feel like one long word doc.
+        ================================================================ */
+
+        /* ── Featured card highlights list ── */
+        .proj-highlights {
+            list-style: none;
+            margin-top: 1.25rem;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.7rem;
+            border-top: 1px solid rgba(129,140,248,0.12);
+            padding-top: 1.1rem;
+        }
+        .proj-highlights li {
+            display: flex;
+            gap: 0.7rem;
+            align-items: flex-start;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            line-height: 1.55;
+        }
+        .proj-highlights li::before {
+            content: '';
+            width: 5px; height: 5px;
+            border-radius: 50%;
+            background: var(--ember);
+            flex-shrink: 0;
+            margin-top: 0.42em;
+        }
+
+        /* ── Per-section label colors — text color only, no background ── */
+        #about      .section-label { color: #22d3ee; }
+        #projects   .section-label { color: #818cf8; }
+        #skills     .section-label { color: #34d399; }
+        #experience .section-label { color: #fbbf24; }
+        #education  .section-label { color: #38bdf8; }
+        #contact    .section-label { color: #a78bfa; }
+
+        /* ── Projects: vivid glow on hover, strong indigo presence ── */
+        #projects { position: relative; }
+        #projects .section-header[data-num]::before { color: #818cf8; }
+        .proj-card {
+            background: linear-gradient(145deg, rgba(13,18,37,0.95) 0%, rgba(10,14,30,0.98) 100%);
+        }
+
+        /* ── Experience: amber/gold themed — warmth against the cool blue ── */
+        #experience { position: relative; }
+        #experience::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: radial-gradient(ellipse 80% 60% at 0% 50%, rgba(245,158,11,0.04) 0%, transparent 55%);
+            pointer-events: none;
+        }
+        #experience .section-header[data-num]::before { color: #f59e0b; opacity: 0.05; }
+        .tl-date { color: #f59e0b !important; }
+        .tl-card {
+            border-left: 2px solid rgba(245,158,11,0.25);
+            background: linear-gradient(145deg, rgba(15,12,5,0.96) 0%, rgba(10,9,5,0.98) 100%);
+        }
+        .tl-card:hover {
+            border-left-color: rgba(245,158,11,0.55);
+            box-shadow: -4px 0 18px rgba(245,158,11,0.12), var(--shadow-hover);
+        }
+
+        /* ── Skills: emerald tinted — technical expertise reads green ── */
+        #skills { position: relative; }
+        #skills::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: radial-gradient(ellipse 70% 60% at 100% 50%, rgba(16,185,129,0.04) 0%, transparent 55%);
+            pointer-events: none;
+        }
+        #skills .section-header[data-num]::before { color: #10b981; opacity: 0.05; }
+        .skill-group-title { color: #6ee7b7 !important; }
+        .skill-group {
+            background: linear-gradient(145deg, rgba(5,15,12,0.96) 0%, rgba(8,15,13,0.98) 100%);
+            border-color: rgba(16,185,129,0.12);
+        }
+        .skill-group:hover {
+            border-color: rgba(52,211,153,0.35) !important;
+            box-shadow: var(--shadow-hover), 0 0 24px rgba(16,185,129,0.1) !important;
+        }
+        .skill-level-expert { background: rgba(52,211,153,0.12); color: #6ee7b7; border-color: rgba(52,211,153,0.3); }
+
+        /* ── Education: sky blue tinted — academic clarity ── */
+        #education { position: relative; }
+        #education::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: radial-gradient(ellipse 70% 60% at 50% 0%, rgba(56,189,248,0.04) 0%, transparent 55%);
+            pointer-events: none;
+        }
+        #education .section-header[data-num]::before { color: #38bdf8; opacity: 0.05; }
+        .edu-card {
+            background: linear-gradient(145deg, rgba(4,12,18,0.96) 0%, rgba(4,10,16,0.98) 100%);
+            border-color: rgba(56,189,248,0.1);
+        }
+        .edu-card:hover {
+            border-color: rgba(56,189,248,0.42) !important;
+            box-shadow: var(--shadow-hover), 0 0 32px rgba(56,189,248,0.12) !important;
+        }
+        .edu-card-icon {
+            background: linear-gradient(135deg, rgba(56,189,248,0.16), rgba(14,165,233,0.07)) !important;
+            border-color: rgba(56,189,248,0.22) !important;
+            color: #7dd3fc !important;
+        }
+
+        /* ── About: cyan/teal tinted — human story ── */
+        #about { position: relative; }
+        #about::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: radial-gradient(ellipse 70% 60% at 100% 100%, rgba(6,182,212,0.04) 0%, transparent 55%);
+            pointer-events: none;
+        }
+        #about .section-header[data-num]::before { color: #06b6d4; opacity: 0.05; }
+        .about-side-card {
+            background: linear-gradient(145deg, rgba(4,12,16,0.96) 0%, rgba(4,10,14,0.98) 100%);
+            border-color: rgba(6,182,212,0.1);
+        }
+        .about-side-card.visible:hover {
+            border-color: rgba(34,211,238,0.42) !important;
+            box-shadow: var(--shadow-hover), 0 0 24px rgba(6,182,212,0.1) !important;
+        }
+        .side-card-date { color: #22d3ee !important; }
+
+        /* ── Contact: purple/violet tinted — call to action ── */
+        #contact { position: relative; }
+        #contact::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: radial-gradient(ellipse 80% 60% at 50% 100%, rgba(139,92,246,0.07) 0%, transparent 55%);
+            pointer-events: none;
+        }
+        #contact .section-header[data-num]::before { color: #8b5cf6; opacity: 0.06; }
+
+        /* ── Section position:relative needed for ::before overlays ── */
+        section { position: relative; z-index: 1; }
+
         /* Reduced motion: suppress new animations too */
         @media (prefers-reduced-motion: reduce) {
             body[data-theme="dark"] .hero-name,
             body[data-theme="dark"] .about-highlight,
-            .open-badge, .hero-stack-chip, .cursor-trail,
+            .open-badge, .open-badge::after, .hero-stack-chip, .cursor-trail,
             .skill-group.visible .skill-fill,
             .hero-availability { animation: none !important; }
             .hero-photo-img { clip-path: none !important; }
             .proj-card:nth-child(odd)  { transform: translateX(-32px) !important; }
             .proj-card:nth-child(even) { transform: translateX(32px) !important; }
             .skill-group { transform: translateY(28px) !important; }
+            .aurora-blob { opacity: 0 !important; }
         }
     </style>
 </head>
@@ -2116,18 +2370,15 @@
                     <div class="open-badge-dot"></div>
                     <span data-i18n="hero_open_badge">Open to Internships &amp; Working Student Roles</span>
                 </div>
-                <div class="hero-eyebrow">
-                    <div class="hero-eyebrow-line"></div>
-                    <span data-i18n="hero_eyebrow">Digital Engineering Portfolio</span>
-                </div>
                 <h1 class="hero-name" id="hero-name">Hashwanth Ghanta</h1>
                 <p class="hero-role" id="hero-role"></p>
                 <p class="hero-bio" id="hero-bio"></p>
                 <p class="hero-availability" id="hero-availability"></p>
                 <div class="hero-stack-row" id="hero-stack-row"></div>
                 <div class="hero-actions">
-                    <a id="resume-btn" href="resume.pdf" target="_blank" rel="noopener" class="btn btn-primary btn-resume-hero" download data-i18n="btn_resume">Resume</a>
+                    <a id="resume-btn" href="resume.pdf" target="_blank" rel="noopener" class="btn btn-primary btn-resume-hero" data-i18n="btn_resume">Resume</a>
                     <a href="#projects" class="btn btn-outline" data-i18n="btn_projects">View Projects</a>
+                    <a href="#contact" class="btn btn-ghost" data-i18n="btn_contact">Get In Touch</a>
                 </div>
             </div>
             <div class="hero-side">
@@ -2143,7 +2394,7 @@
 
 <section id="about">
     <div class="container">
-        <div class="section-header">
+        <div class="section-header" data-num="01">
             <div class="section-label" data-i18n="sec_about_label">Background</div>
             <h2 class="section-title" data-i18n="sec_about_title">About Me</h2>
         </div>
@@ -2156,7 +2407,7 @@
 
 <section id="projects">
     <div class="container">
-        <div class="section-header">
+        <div class="section-header" data-num="02">
             <div class="section-label" data-i18n="sec_proj_label">Work</div>
             <h2 class="section-title" data-i18n="sec_proj_title">Featured Projects</h2>
         </div>
@@ -2166,7 +2417,7 @@
 
 <section id="skills">
     <div class="container">
-        <div class="section-header">
+        <div class="section-header" data-num="03">
             <div class="section-label" data-i18n="sec_skills_label">Expertise</div>
             <h2 class="section-title" data-i18n="sec_skills_title">Technical Skills</h2>
         </div>
@@ -2176,7 +2427,7 @@
 
 <section id="experience">
     <div class="container">
-        <div class="section-header">
+        <div class="section-header" data-num="04">
             <div class="section-label" data-i18n="sec_exp_label">Track Record</div>
             <h2 class="section-title" data-i18n="sec_exp_title">Experience &amp; Leadership</h2>
         </div>
@@ -2186,7 +2437,7 @@
 
 <section id="education">
     <div class="container">
-        <div class="section-header">
+        <div class="section-header" data-num="05">
             <div class="section-label" data-i18n="sec_edu_label">Academic Background</div>
             <h2 class="section-title" data-i18n="sec_edu_title">Education &amp; Certifications</h2>
         </div>
@@ -2196,7 +2447,7 @@
 
 <section id="contact">
     <div class="container">
-        <div class="section-header">
+        <div class="section-header" data-num="06">
             <div class="section-label" data-i18n="sec_contact_label">Connect</div>
             <h2 class="section-title" data-i18n="sec_contact_title">Get In Touch</h2>
         </div>
@@ -2221,14 +2472,6 @@
                 </form>
             </div>
         </div>
-    </div>
-</section>
-
-<section class="signature-section" aria-hidden="true">
-    <div class="container">
-        <p class="signature-line">Made by</p>
-        <p class="signature-mark">Hashwanth.</p>
-        <p class="signature-meta">Magdeburg, Germany · Crafted with care</p>
     </div>
 </section>
 
@@ -2264,13 +2507,12 @@
 const PORTFOLIO_DATA = {
     name:       "Hashwanth Ghanta",
     initials:   "HG",
-    role:       "Unity 3D Developer · 3D Simulation & Visualization · M.Sc. Digital Engineering",
-    bio:        "Unity 3D developer building industrial simulations at OVGU Magdeburg. Available May 2026 for internships across Germany.",
-    availability: "Available from May 2026 · Magdeburg · Remote / Hybrid",
+    role:       "Simulation & Visualization Developer · Interactive Industrial Systems · M.Sc. Digital Engineering",
+    bio:        "I build interactive 3D simulations that make complex industrial processes understandable. Currently pursuing M.Sc. Digital Engineering at OVGU Magdeburg, with a focus on Unity, C#, and real-time visualization.",
+    availability: "Open for Q2 2026 — early conversations welcome · Magdeburg",
     currentlyBuilding: "Currently building: AI-assisted simulation controls and advanced Unity interaction systems",
     location:   "Magdeburg, Germany",
     email:      "hashwanthghanta@gmail.com",
-    phone:      "+49 15510070657",
     linkedin:   "https://linkedin.com/in/hashwanthghanta",
     github:     "https://github.com/hashwanthghanta",
     githubUsername: "hashwanthghanta",
@@ -2284,19 +2526,19 @@ const PORTFOLIO_DATA = {
         { name: "Git",   icon: "https://cdn.simpleicons.org/git" },
     ],
     stats: [
-        { icon: "🏭", svgKey: "factory", value: "7",   label: "Phase CO₂ Simulation" },
-        { icon: "💻", svgKey: "monitor", value: "4",   label: "Projects Built" },
-        { icon: "🌍", svgKey: "globe",   value: "2",   label: "Working Languages (EN/DE)" },
+        { svgKey: "factory", value: "7",    label: "Phase CO₂ simulation · Unity live" },
+        { svgKey: "monitor", value: "4",    label: "Projects shipped" },
+        { svgKey: "globe",   value: "2026", label: "Available Q2 · open for roles" },
     ],
     about: [
-        `I'm a <span class="about-highlight">Unity 3D developer and Digital Engineering M.Sc. student</span> at Otto von Guericke University, Magdeburg. My focus is building interactive simulations that make complex industrial processes understandable and visual.`,
-        `My main project is a <span class="about-highlight">CO₂ Carbon Capture Simulation in Unity</span> — a 7-phase educational simulation with real-time parameter controls, C# architecture, and 3D industrial visualization built entirely from scratch.`,
-        `I also bring a strong analytical side: Power BI dashboards, Python data pipelines, and business analytics. I'm actively looking for internships or working student roles in simulation, visualization, and software development.`
+        `I'm a <span class="about-highlight">Unity 3D developer and Digital Engineering M.Sc. student</span> at OVGU Magdeburg. I'm obsessed with making invisible processes visible — if something is complex, abstract, or hard to grasp, I want to build an interactive 3D simulation of it.`,
+        `My main project is a <span class="about-highlight">7-phase CO₂ Carbon Capture Simulation in Unity</span> — architected in C# from scratch, with real-time parameter controls, modular manager classes, and full 3D industrial visualization. It exists because I find industrial systems genuinely fascinating.`,
+        `Alongside simulations, I build with data: Power BI dashboards, Python pipelines, and analytics. Seeking internships and working student roles in simulation, visualization, or software development — Q2 2026.`
     ],
     languages: [
-        { flag: "🇬🇧", name: "English", level: "C1"     },
-        { flag: "🇩🇪", name: "German",  level: "A1"     },
-        { flag: "🇮🇳", name: "Telugu",  level: "Native" },
+        { name: "English", level: "C1"     },
+        { name: "German",  level: "A1"     },
+        { name: "Telugu",  level: "Native" },
     ],
     aboutTimeline: [
         {
@@ -2384,7 +2626,13 @@ const PORTFOLIO_DATA = {
             icon:   "🏭",
             period: "2025 – Present  ·  Featured",
             title:  "Post-Combustion CO₂ Carbon Capture Simulation",
-            desc:   "Unity 3D educational simulation of a full 7-phase industrial CO₂ capture process using MEA solvent absorption. Architected in C# with dedicated manager classes (SimulationManager, TemperatureController, NotificationManager, UIManager), real-time parameter sliders, phase-by-phase 3D visualization, and a TextMeshPro UI layer. Built entirely from scratch as part of M.Sc. coursework at OVGU.",
+            desc:   "Interactive 7-phase simulation of industrial CO₂ capture via MEA solvent absorption — built from scratch in Unity 3D. Real-time parameter sliders, modular C# architecture, phase-by-phase 3D visualization, and a custom TextMeshPro UI. Developed as M.Sc. coursework at OVGU Magdeburg.",
+            highlights: [
+                "7 distinct industrial phases — absorption, stripping, compression, dehydration, and more, each with live parameter controls",
+                "Real-time sliders adjust temperature, pressure, and flow rates so users see the process respond instantly in 3D",
+                "Modular C# architecture with dedicated manager classes keeps each phase independent and extendable",
+                "Playable live on Unity Play — deployed and accessible from anywhere without installation"
+            ],
             tags:   ["Unity 3D", "C#", "TextMeshPro", "URP", "3D Modeling", "Simulation"],
             thumb:  "Images/co2-simulation.gif",
             thumbPosition: "50% 30%",
@@ -2427,7 +2675,7 @@ const PORTFOLIO_DATA = {
             icon:   "⚡",
             degree: "B.Tech Electronics & Communication",
             period: "2020 – 2024",
-            detail: "<strong>VIT-AP University, India</strong><br>CGPA: 7.72 / 10.0 (≈ 2.3 DE)<br>IoT · embedded systems · wireless communication",
+            detail: "<strong>VIT-AP University, India</strong><br>CGPA: 7.72 / 10.0<br>IoT · embedded systems · wireless communication",
             url:    "https://vitap.ac.in/"
         },
         {
@@ -2459,19 +2707,19 @@ const PORTFOLIO_DATA = {
 const PORTFOLIO_DATA_DE = {
     ...PORTFOLIO_DATA,
     resumeUrl: "lebenslauf.pdf",
-    role: "Unity-3D-Entwickler · 3D-Simulation & Visualisierung · M.Sc. Digital Engineering",
-    bio:  "Unity-3D-Entwickler mit Fokus auf industrielle Simulationen an der OVGU Magdeburg. Verfuegbar ab Mai 2026 fuer Praktika in Deutschland.",
-    availability: "Verfuegbar ab Mai 2026 · Magdeburg · Remote / Hybrid",
+    role: "Simulation & Visualisierung · Interaktive Industriesysteme · M.Sc. Digital Engineering",
+    bio:  "Ich baue interaktive 3D-Simulationen, die komplexe industrielle Prozesse verständlich machen. M.Sc. Digital Engineering an der OVGU Magdeburg mit Fokus auf Unity, C# und Echtzeit-Visualisierung.",
+    availability: "Verfügbar ab Q2 2026 — erste Gespräche jetzt möglich · Magdeburg",
     currentlyBuilding: "Aktuell in Arbeit: KI-gestuetzte Simulationssteuerung und fortgeschrittene Unity-Interaktionen",
     stats: [
-        { icon: "🏭", svgKey: "factory", value: "7",  label: "Phasen CO₂-Simulation" },
-        { icon: "💻", svgKey: "monitor", value: "4",  label: "Entwickelte Projekte" },
-        { icon: "🌍", svgKey: "globe",   value: "2",  label: "Arbeitssprachen (EN/DE)" },
+        { svgKey: "factory", value: "7",    label: "Phasige Unity-Simulation · live" },
+        { svgKey: "monitor", value: "4",    label: "Projekte entwickelt" },
+        { svgKey: "globe",   value: "2026", label: "Verfügbar Q2 · offen für Stellen" },
     ],
     about: [
-        `Ich bin ein <span class="about-highlight">Unity-3D-Entwickler und M.Sc.-Student Digital Engineering</span> an der Otto-von-Guericke-Universität Magdeburg. Mein Schwerpunkt liegt auf der Entwicklung interaktiver Simulationen, die komplexe industrielle Prozesse verständlich und visuell darstellen.`,
-        `Mein Hauptprojekt ist eine <span class="about-highlight">CO₂-Kohlenstoffabscheidungs-Simulation in Unity</span> — eine 7-phasige Lernsimulation mit Echtzeit-Parametersteuerung, C#-Architektur und 3D-Industrievisualisierung, vollständig von Grund auf entwickelt.`,
-        `Ich bringe auch analytische Stärken mit: Power-BI-Dashboards, Python-Datenpipelines und Business Analytics. Ich suche aktiv nach Praktika oder Werkstudentenstellen in Simulation, Visualisierung und Softwareentwicklung.`
+        `Ich bin ein <span class="about-highlight">Unity-3D-Entwickler und M.Sc.-Student Digital Engineering</span> an der OVGU Magdeburg. Ich bin begeistert davon, unsichtbare Prozesse sichtbar zu machen — wenn etwas komplex, abstrakt oder schwer greifbar ist, möchte ich eine interaktive 3D-Simulation davon bauen.`,
+        `Mein Hauptprojekt ist eine <span class="about-highlight">7-phasige CO₂-Abscheidungs-Simulation in Unity</span> — von Grund auf in C# entwickelt, mit Echtzeit-Parametersteuerung, modularer Manager-Architektur und vollständiger 3D-Industrievisualisierung. Sie existiert, weil mich industrielle Systeme wirklich faszinieren.`,
+        `Neben Simulationen arbeite ich mit Daten: Power-BI-Dashboards, Python-Pipelines und Business Analytics. Ich suche Praktika oder Werkstudentenstellen in Simulation, Visualisierung oder Softwareentwicklung — ab Q2 2026.`
     ],
     aboutTimeline: [
         {
@@ -2559,7 +2807,13 @@ const PORTFOLIO_DATA_DE = {
             icon:   "🏭",
             period: "2025 – Heute  ·  Hervorgehoben",
             title:  "Post-Combustion CO₂-Abscheidungs-Simulation",
-            desc:   "Unity-3D-Lernsimulation eines vollständigen 7-phasigen industriellen CO₂-Abscheidungsprozesses mit MEA-Lösungsabsorption. C#-Architektur mit dedizierten Manager-Klassen, Echtzeit-Parameter-Slider, phasenweise 3D-Visualisierung und TextMeshPro-UI. Vollständig von Grund auf im M.Sc.-Studium an der OVGU entwickelt.",
+            desc:   "Interaktive 7-phasige Simulation der industriellen CO₂-Abscheidung via MEA — vollständig in Unity 3D entwickelt. Echtzeit-Parameter-Slider, modulare C#-Architektur, phasenweise 3D-Visualisierung und TextMeshPro-UI. Als M.Sc.-Laborprojekt an der OVGU Magdeburg entstanden.",
+            highlights: [
+                "7 industrielle Phasen — Absorption, Strippping, Kompression, Trocknung u.v.m., jede mit Live-Parametersteuerung",
+                "Echtzeit-Slider für Temperatur, Druck und Durchfluss — Nutzer sehen die Reaktion sofort in 3D",
+                "Modulare C#-Architektur mit eigenen Manager-Klassen hält jede Phase unabhängig und erweiterbar",
+                "Live spielbar auf Unity Play — bereitgestellt und weltweit ohne Installation zugänglich"
+            ],
             tags:   ["Unity 3D", "C#", "TextMeshPro", "URP", "3D-Modellierung", "Simulation"],
             thumb:  "Images/co2-simulation.gif",
             thumbPosition: "50% 50%",
@@ -2599,7 +2853,7 @@ const PORTFOLIO_DATA_DE = {
             icon:   "⚡",
             degree: "B.Tech Elektrotechnik & Kommunikation",
             period: "2020 – 2024",
-            detail: "<strong>VIT-AP Universität, Indien</strong><br>CGPA: 7,72 / 10,0 (≈ 2,3 DE)<br>IoT · Eingebettete Systeme · Drahtlose Kommunikation",
+            detail: "<strong>VIT-AP Universität, Indien</strong><br>CGPA: 7,72 / 10,0<br>IoT · Eingebettete Systeme · Drahtlose Kommunikation",
             url:    "https://vitap.ac.in/"
         },
         {
@@ -2634,16 +2888,15 @@ const UI_STRINGS = {
         nav_proj:"Projects", nav_edu:"Education", nav_contact:"Contact",
         hero_eyebrow:"Digital Engineering Portfolio",
         hero_open_badge:"Open to Working Student Roles & Internships",
-        hero_availability:"Available from May 2026 · Magdeburg · Remote / Hybrid",
+        hero_availability:"Open for Q2 2026 — early conversations welcome · Magdeburg",
         hero_currently_building:"Currently building: AI-assisted simulation controls and advanced Unity interaction systems",
-        btn_projects:"View Projects", btn_contact:"Get In Touch", btn_resume:"📄 Resume",
+        btn_projects:"View Projects", btn_contact:"Get In Touch", btn_resume:"Resume",
         proj_details:"View Details", proj_open_live:"Open Live Demo", modal_stack:"Tech Stack",
         sec_about_label:"01 / About",        sec_about_title:"Who I am",
         sec_proj_label:"02 / Selected Work", sec_proj_title:"Things I've built",
         sec_skills_label:"03 / Skills",      sec_skills_title:"What I work with",
         sec_exp_label:"04 / Experience",     sec_exp_title:"Where I've shown up",
         sec_edu_label:"05 / Education",      sec_edu_title:"How I got here",
-        sec_git_label:"Code Activity",       sec_git_title:"GitHub Contributions",
         sec_contact_label:"06 / Contact",    sec_contact_title:"Let's connect",
         contact_email:"Email", contact_linkedin:"LinkedIn", contact_github:"GitHub",
         contact_phone:"Phone", contact_location:"Location",
@@ -2659,16 +2912,15 @@ const UI_STRINGS = {
         nav_proj:"Projekte", nav_edu:"Bildung", nav_contact:"Kontakt",
         hero_eyebrow:"Digital Engineering Portfolio",
         hero_open_badge:"Offen für Werkstudentenstellen & Praktika",
-        hero_availability:"Verfuegbar ab Mai 2026 · Magdeburg · Remote / Hybrid",
-        hero_currently_building:"Aktuell in Arbeit: KI-gestuetzte Simulationssteuerung und fortgeschrittene Unity-Interaktionen",
-        btn_projects:"Projekte ansehen", btn_contact:"Kontakt aufnehmen", btn_resume:"📄 Lebenslauf",
+        hero_availability:"Verfügbar ab Q2 2026 — erste Gespräche jetzt möglich · Magdeburg",
+        hero_currently_building:"Aktuell in Arbeit: KI-gestützte Simulationssteuerung und fortgeschrittene Unity-Interaktionen",
+        btn_projects:"Projekte ansehen", btn_contact:"Kontakt aufnehmen", btn_resume:"Lebenslauf",
         proj_details:"Details ansehen", proj_open_live:"Live-Demo oeffnen", modal_stack:"Technologie-Stack",
         sec_about_label:"01 / Über mich",     sec_about_title:"Wer ich bin",
         sec_proj_label:"02 / Projekte",       sec_proj_title:"Was ich gebaut habe",
         sec_skills_label:"03 / Fähigkeiten",  sec_skills_title:"Womit ich arbeite",
         sec_exp_label:"04 / Erfahrung",       sec_exp_title:"Wo ich beigetragen habe",
         sec_edu_label:"05 / Bildung",         sec_edu_title:"Mein Weg",
-        sec_git_label:"Code-Aktivitaet",      sec_git_title:"GitHub-Beitraege",
         sec_contact_label:"06 / Kontakt",     sec_contact_title:"Lass uns verbinden",
         contact_email:"E-Mail", contact_linkedin:"LinkedIn", contact_github:"GitHub",
         contact_phone:"Telefon", contact_location:"Standort",
@@ -2717,7 +2969,7 @@ window.addEventListener("load", () => {
             roleEl.textContent = roleData.split(" · ")[0];
         }
 
-    }, 700);
+    }, 0);
 });
 
 /* ================================================================
@@ -2749,9 +3001,10 @@ window.addEventListener("load", () => {
 })();
 
 /* ================================================================
-   CURSOR TRAIL PARTICLES
+   CURSOR TRAIL PARTICLES — disabled (M11 animation cull)
 ================================================================ */
 (function () {
+    return;
     if (!window.matchMedia("(pointer: fine)").matches) return;
     let lastX = 0, lastY = 0, frame = 0;
     document.addEventListener("mousemove", e => {
@@ -2822,9 +3075,10 @@ function scrambleText(el, finalText, duration = 0) {
 }
 
 /* ================================================================
-   HERO SECTION 3D MOUSE PARALLAX — text only, photo stays stable
+   HERO SECTION 3D MOUSE PARALLAX — disabled (M11 animation cull)
 ================================================================ */
 (function () {
+    return;
     const hero = document.getElementById("hero");
     if (!hero) return;
     const textSide = hero.querySelector(".hero-text"); // only text moves
@@ -2842,9 +3096,10 @@ function scrambleText(el, finalText, duration = 0) {
 })();
 
 /* ================================================================
-   SCROLL VELOCITY TILT on section cards
+   SCROLL VELOCITY TILT — disabled (M11 animation cull)
 ================================================================ */
 (function () {
+    return;
     let lastY = 0, tiltTimer = null, active = false;
     const selector = ".proj-card.visible, .skill-group.visible, .edu-card.visible";
     window.addEventListener("scroll", () => {
@@ -2971,14 +3226,9 @@ function observeStaggered(elements, baseDelay = 0, step = 0.1) {
     });
 }
 
-document.querySelectorAll(".section-label, .section-title").forEach(el => observe(el));
+document.querySelectorAll(".section-label, .section-title, .section-header[data-num]").forEach(el => observe(el));
 observe(document.getElementById("about-text"));
 observe(document.getElementById("about-cards"));
-/* Signature section */
-observeStaggered(
-    document.querySelectorAll(".signature-line, .signature-mark, .signature-meta"),
-    0, 0.12
-);
 /* Footer elements */
 observeStaggered([
     document.getElementById("back-to-top"),
@@ -3047,12 +3297,16 @@ function animateCount(el, raw) {
 function initTilt(card) {
     card.addEventListener("mousemove", e => {
         if (window.innerWidth < 768) return;
-        const r  = card.getBoundingClientRect();
-        const x  = (e.clientX - r.left) / r.width  - 0.5;
-        const y  = (e.clientY - r.top)  / r.height - 0.5;
-        card.style.transform = `perspective(700px) rotateY(${x * 9}deg) rotateX(${-y * 9}deg) translateY(-8px)`;
+        const r = card.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width  - 0.5;
+        const y = (e.clientY - r.top)  / r.height - 0.5;
+        card.style.transition = "transform 0.08s ease";
+        card.style.transform  = `perspective(900px) rotateY(${x * 7}deg) rotateX(${-y * 7}deg) translateY(-6px) scale(1.01)`;
     });
-    card.addEventListener("mouseleave", () => { card.style.transform = ""; });
+    card.addEventListener("mouseleave", () => {
+        card.style.transition = "transform 0.55s var(--ease-out)";
+        card.style.transform  = "";
+    });
 }
 
 /* ================================================================
@@ -3082,6 +3336,7 @@ function applyTheme(theme) {
     document.body.setAttribute("data-theme", currentTheme);
     const t = document.getElementById("theme-toggle");
     t.textContent = currentTheme === "light" ? "☀️" : "🌙";
+    try { localStorage.setItem("theme", currentTheme); } catch(e) {}
 }
 
 function applyUIStrings(lang) {
@@ -3233,7 +3488,7 @@ function renderDynamic(data, lang) {
     const langBadges = [];
     data.languages.forEach(l => {
         const b = document.createElement("div"); b.className = "lang-badge";
-        b.innerHTML = `<span>${l.flag}</span><span>${l.name}</span><span style="color:var(--text-muted);font-size:0.78rem">${l.level}</span>`;
+        b.innerHTML = `<span style="font-weight:600">${l.name}</span><span style="color:var(--text-muted);font-size:0.78rem">${l.level}</span>`;
         langGrid.appendChild(b);
         langBadges.push(b);
     });
@@ -3313,7 +3568,10 @@ function renderDynamic(data, lang) {
             ? `<a class="proj-media proj-media-link" href="${proj.url}" target="_blank" rel="noopener noreferrer" aria-label="Open ${proj.title} demo">${mediaInner}</a>`
             : `<div class="proj-media">${mediaInner}</div>`;
 
-        c.innerHTML = `${media}<div class="proj-icon">${proj.icon}${liveBadge}</div><div class="proj-period">${proj.period}</div><div class="proj-title">${proj.title}</div><div class="proj-desc">${proj.desc}</div><div class="proj-tags">${proj.tags.map(t => `<span class="proj-tag">${t}</span>`).join("")}</div><div class="proj-actions">${liveBtn}<button type="button" class="proj-btn js-proj-details" data-proj-index="${index}">${s.proj_details}</button></div>`;
+        const highlightsHtml = (isFeatured && proj.highlights && proj.highlights.length)
+            ? `<ul class="proj-highlights">${proj.highlights.map(h => `<li>${h}</li>`).join("")}</ul>`
+            : "";
+        c.innerHTML = `${media}<div class="proj-icon">${proj.icon}${liveBadge}</div><div class="proj-period">${proj.period}</div><div class="proj-title">${proj.title}</div><div class="proj-desc">${proj.desc}</div>${highlightsHtml}<div class="proj-tags">${proj.tags.map(t => `<span class="proj-tag">${t}</span>`).join("")}</div><div class="proj-actions">${liveBtn}<button type="button" class="proj-btn js-proj-details" data-proj-index="${index}">${s.proj_details}</button></div>`;
         projGrid.appendChild(c); observe(c); initTilt(c); addSpotlight(c);
     });
     projGrid.querySelectorAll(".js-proj-details").forEach(btn => {
@@ -3418,8 +3676,9 @@ avatarImg.onload = () => {
 };
 avatarImg.src = PORTFOLIO_DATA.avatarPhoto;
 
-/* Always start in dark mode — never persist theme across refreshes */
-applyTheme("dark");
+/* Restore saved theme or default dark */
+const savedTheme = (() => { try { return localStorage.getItem("theme"); } catch(e) { return null; } })();
+applyTheme(savedTheme || "dark");
 document.getElementById("theme-toggle").addEventListener("click", () => {
     const nextTheme = currentTheme === "dark" ? "light" : "dark";
     applyTheme(nextTheme);
@@ -3548,9 +3807,10 @@ setTimeout(() => {
 }, 80);
 
 /* ================================================================
-   PARALLAX DEPTH — hero bio + availability move at different rates
+   PARALLAX DEPTH — disabled (M11 animation cull)
 ================================================================ */
 (function () {
+    return;
     const hero = document.getElementById("hero");
     if (!hero) return;
     window.addEventListener("scroll", () => {
@@ -3566,9 +3826,10 @@ setTimeout(() => {
 })();
 
 /* ================================================================
-   LOGO SCRAMBLE — subtle text scramble on nav-logo hover
+   LOGO SCRAMBLE — disabled (M11 animation cull)
 ================================================================ */
 (function () {
+    return;
     const logo = document.getElementById("nav-logo");
     if (!logo) return;
     const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
