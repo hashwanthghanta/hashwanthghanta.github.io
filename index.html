@@ -1802,6 +1802,58 @@
         body[data-theme="light"] .contact-item-value { color: #d94f1e; }
         body[data-theme="light"] .skill-fill { background: linear-gradient(90deg, #d94f1e, #ff6b35) !important; }
 
+        /* ── Skill level tags (replace bars) ── */
+        .skill-tag-row {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0.55rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .skill-tag-row:last-of-type { border-bottom: none; }
+        .skill-level-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.68rem; font-weight: 600;
+            padding: 0.2rem 0.6rem; border-radius: 4px;
+            letter-spacing: 0.05em; text-transform: uppercase;
+            flex-shrink: 0; line-height: 1.4;
+        }
+        .skill-level-expert    { background: rgba(52,211,153,0.12); color: #34d399; border: 1px solid rgba(52,211,153,0.3); }
+        .skill-level-advanced  { background: rgba(255,107,53,0.12); color: var(--ember); border: 1px solid rgba(255,107,53,0.3); }
+        .skill-level-proficient{ background: rgba(212,163,115,0.12); color: var(--gold); border: 1px solid rgba(212,163,115,0.3); }
+        .skill-level-familiar  { background: rgba(100,116,139,0.1); color: var(--text-muted); border: 1px solid rgba(100,116,139,0.2); }
+
+        /* ── SVG icon sizing in cards ── */
+        .contact-item-icon svg,
+        .stat-icon-wrap svg,
+        .edu-card-icon svg,
+        .skill-group-icon svg { display: block; }
+        .contact-item-icon svg { width: 18px; height: 18px; }
+        .stat-icon-wrap svg    { width: 18px; height: 18px; }
+        .edu-card-icon {
+            width: 44px; height: 44px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            background: linear-gradient(135deg, rgba(255,107,53,0.15), rgba(212,163,115,0.08));
+            border: 1px solid rgba(255,107,53,0.2);
+            margin-bottom: 1rem; color: var(--ember);
+        }
+        .skill-group-icon {
+            width: 18px; height: 18px; display: flex; align-items: center;
+            color: var(--ember); flex-shrink: 0;
+        }
+        .contact-item-icon { color: var(--ember); }
+        .stat-icon-wrap    { color: var(--ember); }
+
+        /* ── Project SVG mockup fill ── */
+        .proj-media-svg {
+            width: 100%; height: 100%;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .proj-media-svg svg { width: 100%; height: 100%; display: block; }
+
+        /* ── Hero: remove availability pulse (was conflicting with static display) ── */
+        .hero-availability {
+            animation: heroUp 0.7s ease forwards 1s;
+        }
+
         /* ================================================================
            NEW ANIMATION LAYER — 2024-2025 reference quality
         ================================================================ */
@@ -2072,15 +2124,10 @@
                 <p class="hero-role" id="hero-role"></p>
                 <p class="hero-bio" id="hero-bio"></p>
                 <p class="hero-availability" id="hero-availability"></p>
-                <div class="hero-live-indicator">
-                    <span class="hero-live-dot"></span>
-                    <span id="hero-currently-building"></span>
-                </div>
                 <div class="hero-stack-row" id="hero-stack-row"></div>
                 <div class="hero-actions">
-                    <a id="resume-btn" href="resume.pdf" target="_blank" rel="noopener" class="btn btn-primary btn-resume-hero" download data-i18n="btn_resume">📄 Resume</a>
+                    <a id="resume-btn" href="resume.pdf" target="_blank" rel="noopener" class="btn btn-primary btn-resume-hero" download data-i18n="btn_resume">Resume</a>
                     <a href="#projects" class="btn btn-outline" data-i18n="btn_projects">View Projects</a>
-                    <a href="#contact"  class="btn btn-outline" data-i18n="btn_contact">Get In Touch</a>
                 </div>
             </div>
             <div class="hero-side">
@@ -2237,9 +2284,9 @@ const PORTFOLIO_DATA = {
         { name: "Git",   icon: "https://cdn.simpleicons.org/git" },
     ],
     stats: [
-        { icon: "🏭", value: "7",  label: "Phase CO₂ Simulation" },
-        { icon: "💻", value: "4",  label: "Projects Built" },
-        { icon: "🌍", value: "2",  label: "Working Languages (EN/DE)" },
+        { icon: "🏭", svgKey: "factory", value: "7",   label: "Phase CO₂ Simulation" },
+        { icon: "💻", svgKey: "monitor", value: "4",   label: "Projects Built" },
+        { icon: "🌍", svgKey: "globe",   value: "2",   label: "Working Languages (EN/DE)" },
     ],
     about: [
         `I'm a <span class="about-highlight">Unity 3D developer and Digital Engineering M.Sc. student</span> at Otto von Guericke University, Magdeburg. My focus is building interactive simulations that make complex industrial processes understandable and visual.`,
@@ -2349,15 +2396,15 @@ const PORTFOLIO_DATA = {
             title:  "Data Analytics & Business Intelligence Dashboards",
             desc:   "Developed Power BI dashboards and Excel models for business data analysis as part of certification work with Tata and Microsoft programs. Applied data visualization principles to present KPIs, trends, and operational insights clearly.",
             tags:   ["Power BI", "Excel", "Data Visualization", "Business Analytics", "Python"],
-            mediaGradient: "linear-gradient(135deg,#0f2027 0%,#203a43 50%,#2c5364 100%)"
+            mediaSVGKey: "analytics"
         },
         {
             icon:   "🏍️",
             period: "2024",
             title:  "IoT Smart Helmet & Bike Safety System",
             desc:   "GPS and alcohol sensor-equipped smart helmet that detects unsafe riding conditions and automatically alerts emergency contacts. Designed to reduce motorcycle fatalities through real-time monitoring and automated safety enforcement.",
-            tags:   ["IoT", "GPS", "Arduino", "Sensors", "Safety Systems"],
-            mediaGradient: "linear-gradient(135deg,#1a1a2e 0%,#16213e 45%,#0f3460 100%)"
+            tags:   ["IoT", "GPS", "Arduino", "Sensors"],
+            mediaSVGKey: "iot_helmet"
         },
         {
             icon:   "🚑",
@@ -2365,7 +2412,7 @@ const PORTFOLIO_DATA = {
             title:  "IoT Safety Systems — B.Tech Projects",
             desc:   "Embedded systems projects including a traffic junction controller giving ambulances signal priority and an ultrasonic blind spot detector for vehicles. Built on Arduino and microcontroller platforms.",
             tags:   ["IoT", "Arduino", "Sensors", "Embedded C"],
-            mediaGradient: "linear-gradient(135deg,#0d1117 0%,#161b22 45%,#1f2937 100%)"
+            mediaSVGKey: "iot_safety"
         },
     ],
     education: [
@@ -2417,9 +2464,9 @@ const PORTFOLIO_DATA_DE = {
     availability: "Verfuegbar ab Mai 2026 · Magdeburg · Remote / Hybrid",
     currentlyBuilding: "Aktuell in Arbeit: KI-gestuetzte Simulationssteuerung und fortgeschrittene Unity-Interaktionen",
     stats: [
-        { icon: "🏭", value: "7",  label: "Phasen CO₂-Simulation" },
-        { icon: "💻", value: "4",  label: "Entwickelte Projekte" },
-        { icon: "🌍", value: "2",  label: "Arbeitssprachen (EN/DE)" },
+        { icon: "🏭", svgKey: "factory", value: "7",  label: "Phasen CO₂-Simulation" },
+        { icon: "💻", svgKey: "monitor", value: "4",  label: "Entwickelte Projekte" },
+        { icon: "🌍", svgKey: "globe",   value: "2",  label: "Arbeitssprachen (EN/DE)" },
     ],
     about: [
         `Ich bin ein <span class="about-highlight">Unity-3D-Entwickler und M.Sc.-Student Digital Engineering</span> an der Otto-von-Guericke-Universität Magdeburg. Mein Schwerpunkt liegt auf der Entwicklung interaktiver Simulationen, die komplexe industrielle Prozesse verständlich und visuell darstellen.`,
@@ -2663,7 +2710,12 @@ window.addEventListener("load", () => {
         document.getElementById("loading-screen").classList.add("fade-out");
         document.body.classList.remove("preload");
         document.body.classList.add("morph-done");
-        startTypewriter(pendingRole || (currentLang === "de" ? PORTFOLIO_DATA_DE.role : PORTFOLIO_DATA.role));
+        /* Static role — just ensure it's shown after preload removed */
+        const roleEl = document.getElementById("hero-role");
+        if (!roleEl.textContent) {
+            const roleData = currentLang === "de" ? PORTFOLIO_DATA_DE.role : PORTFOLIO_DATA.role;
+            roleEl.textContent = roleData.split(" · ")[0];
+        }
 
     }, 700);
 });
@@ -3101,6 +3153,37 @@ modalEl.addEventListener("click", e => { if (e.target === modalEl) closeProjectM
 document.addEventListener("keydown", e => { if (e.key === "Escape") closeProjectModal(); });
 
 /* ================================================================
+   SVG ICON LIBRARY — replaces all emoji icons
+================================================================ */
+const SVG_ICONS = {
+    cube:       `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>`,
+    code:       `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>`,
+    wrench:     `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>`,
+    bulb:       `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg>`,
+    palette:    `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.476-1.125-.29-.289-.744-.551-.756-1.187-.014-.641.528-1.22 1.252-1.22H16c3.314 0 6-2.686 6-6 0-4.97-4.03-9-10-9z"/></svg>`,
+    chart:      `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/></svg>`,
+    graduation: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>`,
+    zap:        `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`,
+    award:      `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>`,
+    mail:       `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>`,
+    linkedin:   `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>`,
+    github:     `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>`,
+    mappin:     `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>`,
+    monitor:    `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>`,
+    globe:      `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>`,
+    factory:    `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8l-7 5V8l-7 5V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M17 18h1"/><path d="M12 18h1"/><path d="M7 18h1"/></svg>`,
+};
+
+/* ================================================================
+   PROJECT SVG MOCKUPS — replaces generic gradient placeholders
+================================================================ */
+const PROJ_SVG = {
+    analytics: `<svg viewBox="0 0 340 190" xmlns="http://www.w3.org/2000/svg"><rect width="340" height="190" fill="#0d1b2a"/><line x1="0" y1="145" x2="340" y2="145" stroke="rgba(255,255,255,0.07)" stroke-dasharray="4 4"/><line x1="0" y1="105" x2="340" y2="105" stroke="rgba(255,255,255,0.07)" stroke-dasharray="4 4"/><line x1="0" y1="65" x2="340" y2="65" stroke="rgba(255,255,255,0.07)" stroke-dasharray="4 4"/><rect x="28" y="85" width="32" height="60" fill="rgba(99,102,241,0.55)" rx="3"/><rect x="80" y="52" width="32" height="93" fill="rgba(99,102,241,0.75)" rx="3"/><rect x="132" y="68" width="32" height="77" fill="rgba(99,102,241,0.65)" rx="3"/><rect x="184" y="38" width="32" height="107" fill="rgba(129,140,248,0.85)" rx="3"/><rect x="236" y="55" width="32" height="90" fill="rgba(99,102,241,0.7)" rx="3"/><rect x="288" y="42" width="32" height="103" fill="rgba(99,102,241,0.8)" rx="3"/><polyline points="44,95 96,62 148,78 200,48 252,65 304,52" stroke="#22d3ee" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="44" cy="95" r="3.5" fill="#22d3ee"/><circle cx="96" cy="62" r="3.5" fill="#22d3ee"/><circle cx="148" cy="78" r="3.5" fill="#22d3ee"/><circle cx="200" cy="48" r="3.5" fill="#22d3ee"/><circle cx="252" cy="65" r="3.5" fill="#22d3ee"/><circle cx="304" cy="52" r="3.5" fill="#22d3ee"/><text x="16" y="178" fill="rgba(255,255,255,0.3)" font-size="9" font-family="monospace">Q1</text><text x="68" y="178" fill="rgba(255,255,255,0.3)" font-size="9" font-family="monospace">Q2</text><text x="120" y="178" fill="rgba(255,255,255,0.3)" font-size="9" font-family="monospace">Q3</text><text x="172" y="178" fill="rgba(255,255,255,0.3)" font-size="9" font-family="monospace">Q4</text><text x="224" y="178" fill="rgba(255,255,255,0.3)" font-size="9" font-family="monospace">Q5</text><text x="278" y="178" fill="rgba(255,255,255,0.3)" font-size="9" font-family="monospace">Q6</text><rect x="16" y="10" width="90" height="22" rx="4" fill="rgba(255,255,255,0.05)"/><text x="24" y="25" fill="rgba(255,255,255,0.5)" font-size="9" font-family="monospace">POWER BI</text></svg>`,
+    iot_helmet: `<svg viewBox="0 0 340 190" xmlns="http://www.w3.org/2000/svg"><rect width="340" height="190" fill="#0a1628"/><line x1="40" y1="95" x2="105" y2="95" stroke="rgba(34,211,238,0.35)" stroke-width="1.5"/><line x1="105" y1="95" x2="105" y2="50" stroke="rgba(34,211,238,0.35)" stroke-width="1.5"/><line x1="105" y1="50" x2="170" y2="50" stroke="rgba(34,211,238,0.6)" stroke-width="1.5"/><line x1="170" y1="50" x2="235" y2="95" stroke="rgba(34,211,238,0.35)" stroke-width="1.5"/><line x1="235" y1="95" x2="300" y2="95" stroke="rgba(34,211,238,0.35)" stroke-width="1.5"/><line x1="170" y1="50" x2="170" y2="140" stroke="rgba(34,211,238,0.25)" stroke-width="1.5"/><line x1="105" y1="95" x2="105" y2="140" stroke="rgba(34,211,238,0.25)" stroke-width="1.5"/><line x1="235" y1="95" x2="235" y2="140" stroke="rgba(34,211,238,0.25)" stroke-width="1.5"/><circle cx="40" cy="95" r="5" fill="rgba(34,211,238,0.85)"/><circle cx="105" cy="95" r="9" fill="rgba(34,211,238,0.15)" stroke="rgba(34,211,238,0.8)" stroke-width="1.5"/><circle cx="170" cy="50" r="13" fill="rgba(34,211,238,0.12)" stroke="rgba(34,211,238,0.95)" stroke-width="2"/><circle cx="235" cy="95" r="9" fill="rgba(34,211,238,0.15)" stroke="rgba(34,211,238,0.8)" stroke-width="1.5"/><circle cx="300" cy="95" r="5" fill="rgba(34,211,238,0.7)"/><circle cx="105" cy="140" r="4.5" fill="rgba(34,211,238,0.5)"/><circle cx="170" cy="140" r="4.5" fill="rgba(34,211,238,0.5)"/><circle cx="235" cy="140" r="4.5" fill="rgba(34,211,238,0.5)"/><text x="158" y="48" fill="rgba(34,211,238,0.9)" font-size="7.5" font-family="monospace">GPS</text><path d="M286 78 Q295 67 304 78" stroke="rgba(34,211,238,0.6)" fill="none" stroke-width="1.5" stroke-linecap="round"/><path d="M280 71 Q295 56 310 71" stroke="rgba(34,211,238,0.35)" fill="none" stroke-width="1.5" stroke-linecap="round"/><rect x="12" y="10" width="100" height="20" rx="3" fill="rgba(34,211,238,0.08)" stroke="rgba(34,211,238,0.2)" stroke-width="1"/><text x="20" y="24" fill="rgba(34,211,238,0.6)" font-size="8.5" font-family="monospace">ALCOHOL + GPS</text></svg>`,
+    iot_safety: `<svg viewBox="0 0 340 190" xmlns="http://www.w3.org/2000/svg"><rect width="340" height="190" fill="#0d1117"/><rect x="155" y="10" width="14" height="170" fill="rgba(255,255,255,0.05)" rx="3"/><rect x="136" y="20" width="52" height="100" rx="8" fill="rgba(17,24,39,0.95)" stroke="rgba(255,255,255,0.12)" stroke-width="1"/><circle cx="162" cy="48" r="15" fill="rgba(239,68,68,0.92)"/><circle cx="162" cy="48" r="20" fill="rgba(239,68,68,0.18)"/><circle cx="162" cy="83" r="15" fill="rgba(255,255,255,0.06)"/><circle cx="162" cy="118" r="15" fill="rgba(34,197,94,0.12)"/><rect x="40" y="128" width="58" height="34" rx="4" fill="rgba(248,250,252,0.9)"/><rect x="40" y="128" width="14" height="34" rx="4 0 0 4" fill="rgba(239,68,68,0.85)"/><circle cx="55" cy="165" r="7" fill="rgba(30,30,30,0.9)"/><circle cx="82" cy="165" r="7" fill="rgba(30,30,30,0.9)"/><text x="62" y="150" fill="rgba(239,68,68,0.95)" font-size="10" font-family="monospace" font-weight="bold">+</text><rect x="228" y="88" width="75" height="40" rx="4" fill="rgba(17,24,39,0.75)" stroke="rgba(99,102,241,0.45)" stroke-width="1"/><text x="238" y="108" fill="rgba(129,140,248,0.85)" font-size="8" font-family="monospace">ULTRASONIC</text><text x="238" y="120" fill="rgba(129,140,248,0.65)" font-size="7" font-family="monospace">BLIND SPOT</text><line x1="188" y1="108" x2="228" y2="108" stroke="rgba(99,102,241,0.4)" stroke-dasharray="5 3"/><rect x="14" y="10" width="110" height="20" rx="3" fill="rgba(99,102,241,0.08)" stroke="rgba(99,102,241,0.2)" stroke-width="1"/><text x="22" y="24" fill="rgba(129,140,248,0.6)" font-size="8.5" font-family="monospace">SAFETY SYSTEMS</text></svg>`,
+};
+
+/* ================================================================
    RENDER
 ================================================================ */
 function renderDynamic(data, lang) {
@@ -3118,15 +3201,11 @@ function renderDynamic(data, lang) {
     /* Hero */
     setHeroName(data.name);
     setLoadingInitials(data.initials);
-    if (document.body.classList.contains("preload")) {
-        pendingRole = data.role;
-        document.getElementById("hero-role").textContent = "";
-    } else {
-        startTypewriter(data.role);
-    }
+    /* Static role — show first segment only, no typewriter */
+    const roleEl = document.getElementById("hero-role");
+    roleEl.textContent = data.role.split(" · ")[0];
     document.getElementById("hero-bio").textContent = data.bio;
     document.getElementById("hero-availability").textContent = data.availability || s.hero_availability;
-    document.getElementById("hero-currently-building").textContent = data.currentlyBuilding || s.hero_currently_building;
     const stackRow = document.getElementById("hero-stack-row");
     stackRow.innerHTML = "";
     (data.stack || []).forEach(item => {
@@ -3141,20 +3220,10 @@ function renderDynamic(data, lang) {
     statsCard.innerHTML = "";
     data.stats.forEach(st => {
         const row = document.createElement("div"); row.className = "stat-row";
-        row.innerHTML = `<div class="stat-icon-wrap">${st.icon}</div><div><div class="stat-val">${st.value}</div><div class="stat-label">${st.label}</div></div>`;
+        const svgIcon = SVG_ICONS[st.svgKey] || `<span style="font-size:1.2rem">${st.icon}</span>`;
+        row.innerHTML = `<div class="stat-icon-wrap">${svgIcon}</div><div><div class="stat-val">${st.value}</div><div class="stat-label">${st.label}</div></div>`;
         statsCard.appendChild(row);
     });
-    /* Counter on visibility */
-    const cntObs = new IntersectionObserver(entries => {
-        entries.forEach(e => {
-            if (!e.isIntersecting) return;
-            statsCard.querySelectorAll(".stat-val").forEach((el, i) => {
-                setTimeout(() => animateCount(el, data.stats[i].value), i * 220);
-            });
-            cntObs.disconnect();
-        });
-    }, { threshold: 0.6 });
-    cntObs.observe(statsCard);
 
     /* About */
     const aboutText = document.getElementById("about-text");
@@ -3184,28 +3253,28 @@ function renderDynamic(data, lang) {
     setTimeout(() => observeStaggered(sideCards, 0.1, 0.18), 50);
 
     /* Skills */
-    const SKILL_ICONS = {
-        "3D & Simulation": "🎮",
-        "Programming": "💻",
-        "Tools & Platforms": "🔧",
-        "2025 Research Focus": "🧠",
-        "Editing & Visualization": "🎨",
-        "Data & Analytics": "📊",
-        "3D & Simulation": "🎮",
-        "Programmierung": "💻",
-        "Werkzeuge & Plattformen": "🔧",
-        "Forschungsfokus 2025": "🧠",
-        "Bearbeitung & Visualisierung": "🎨",
-        "Daten & Analytik": "📊",
+    const SKILL_CAT_ICONS = {
+        "3D & Simulation":        SVG_ICONS.cube,
+        "Programming":            SVG_ICONS.code,
+        "Tools & Platforms":      SVG_ICONS.wrench,
+        "2025 Research Focus":    SVG_ICONS.bulb,
+        "Editing & Visualization":SVG_ICONS.palette,
+        "Data & Analytics":       SVG_ICONS.chart,
+        "Programmierung":         SVG_ICONS.code,
+        "Werkzeuge & Plattformen":SVG_ICONS.wrench,
+        "Forschungsfokus 2025":   SVG_ICONS.bulb,
+        "Bearbeitung & Visualisierung": SVG_ICONS.palette,
+        "Daten & Analytik":       SVG_ICONS.chart,
     };
     const skillsLayout = document.getElementById("skills-layout");
     skillsLayout.innerHTML = "";
     data.skills.forEach(grp => {
         const g = document.createElement("div"); g.className = "skill-group";
-        const icon = SKILL_ICONS[grp.category] || "⚡";
-        let html = `<div class="skill-group-title"><span class="skill-group-icon">${icon}</span>${grp.category}</div>`;
+        const catIcon = SKILL_CAT_ICONS[grp.category] || SVG_ICONS.code;
+        let html = `<div class="skill-group-title"><span class="skill-group-icon">${catIcon}</span>${grp.category}</div>`;
         grp.bars.forEach(b => {
-            html += `<div class="skill-bar-row"><div class="skill-bar-meta"><span class="skill-name">${b.name}</span><span class="skill-pct">${b.label}</span></div><div class="skill-track"><div class="skill-fill" style="--w:${b.pct}%"></div></div></div>`;
+            const lvl = b.pct >= 80 ? "expert" : b.pct >= 65 ? "advanced" : b.pct >= 50 ? "proficient" : "familiar";
+            html += `<div class="skill-tag-row"><span class="skill-name">${b.name}</span><span class="skill-level-tag skill-level-${lvl}">${b.label}</span></div>`;
         });
         if (grp.chips.length) html += `<div class="chip-cloud">${grp.chips.map(c => `<span class="chip">${c}</span>`).join("")}</div>`;
         g.innerHTML = html; skillsLayout.appendChild(g); observe(g); addSpotlight(g);
@@ -3237,10 +3306,12 @@ function renderDynamic(data, lang) {
         const gradStyle = proj.mediaGradient ? ` style="background:${proj.mediaGradient};"` : "";
         const mediaInner = proj.thumb
             ? `<img src="${proj.thumb}" alt="${proj.title} preview" loading="lazy" decoding="async" style="object-position:${proj.thumbPosition || "50% 50%"}; width:100%; height:100%; object-fit:cover;">`
-            : `<div class="proj-media-fallback"><div class="proj-media-icon">${proj.icon}</div><div class="proj-media-label">${proj.title}</div></div>`;
+            : proj.mediaSVGKey && PROJ_SVG[proj.mediaSVGKey]
+                ? `<div class="proj-media-svg">${PROJ_SVG[proj.mediaSVGKey]}</div>`
+                : `<div class="proj-media-fallback"><div class="proj-media-icon">${proj.icon}</div><div class="proj-media-label">${proj.title}</div></div>`;
         const media = proj.url
-            ? `<a class="proj-media proj-media-link"${gradStyle} href="${proj.url}" target="_blank" rel="noopener noreferrer" aria-label="Open ${proj.title} demo">${mediaInner}</a>`
-            : `<div class="proj-media"${gradStyle}>${mediaInner}</div>`;
+            ? `<a class="proj-media proj-media-link" href="${proj.url}" target="_blank" rel="noopener noreferrer" aria-label="Open ${proj.title} demo">${mediaInner}</a>`
+            : `<div class="proj-media">${mediaInner}</div>`;
 
         c.innerHTML = `${media}<div class="proj-icon">${proj.icon}${liveBadge}</div><div class="proj-period">${proj.period}</div><div class="proj-title">${proj.title}</div><div class="proj-desc">${proj.desc}</div><div class="proj-tags">${proj.tags.map(t => `<span class="proj-tag">${t}</span>`).join("")}</div><div class="proj-actions">${liveBtn}<button type="button" class="proj-btn js-proj-details" data-proj-index="${index}">${s.proj_details}</button></div>`;
         projGrid.appendChild(c); observe(c); initTilt(c); addSpotlight(c);
@@ -3251,12 +3322,14 @@ function renderDynamic(data, lang) {
 
 
     /* Education */
+    const EDU_SVG = { "🎓": SVG_ICONS.graduation, "⚡": SVG_ICONS.zap, "📜": SVG_ICONS.award };
     const eduGrid = document.getElementById("edu-grid");
     eduGrid.innerHTML = "";
     data.education.forEach(item => {
         const c = document.createElement(item.url ? "a" : "div"); c.className = "edu-card";
         if (item.url) { c.href = item.url; c.target = "_blank"; c.rel = "noopener noreferrer"; }
-        let inner = `<div class="edu-card-icon">${item.icon}</div><div class="edu-degree">${item.degree}</div>`;
+        const eduIcon = EDU_SVG[item.icon] || `<span style="font-size:1.5rem">${item.icon}</span>`;
+        let inner = `<div class="edu-card-icon">${eduIcon}</div><div class="edu-degree">${item.degree}</div>`;
         if (item.period) inner += `<div class="edu-period">${item.period}</div>`;
         if (item.detail) inner += `<div class="edu-detail">${item.detail}</div>`;
         if (item.badges) inner += `<div class="cert-cloud">${item.badges.map(b => `<span class="cert-badge">${b}</span>`).join("")}</div>`;
@@ -3279,11 +3352,10 @@ function renderDynamic(data, lang) {
     const contactCards = document.getElementById("contact-cards");
     contactCards.innerHTML = "";
     [
-        { icon: "📧", labelKey: "contact_email",    value: data.email,                          href: `mailto:${data.email}` },
-        { icon: "💼", labelKey: "contact_linkedin",  value: "linkedin.com/in/hashwanthghanta",  href: data.linkedin, target: "_blank" },
-        { icon: "💻", labelKey: "contact_github",    value: "github.com/hashwanthghanta",       href: data.github,   target: "_blank" },
-        { icon: "📱", labelKey: "contact_phone",     value: data.phone,                         href: `tel:${data.phone}` },
-        { icon: "📍", labelKey: "contact_location",  value: data.location,                      href: null },
+        { icon: SVG_ICONS.mail,    labelKey: "contact_email",    value: data.email,                         href: `mailto:${data.email}` },
+        { icon: SVG_ICONS.linkedin,labelKey: "contact_linkedin", value: "linkedin.com/in/hashwanthghanta",  href: data.linkedin, target: "_blank" },
+        { icon: SVG_ICONS.github,  labelKey: "contact_github",   value: "github.com/hashwanthghanta",       href: data.github,   target: "_blank" },
+        { icon: SVG_ICONS.mappin,  labelKey: "contact_location", value: data.location,                      href: null },
     ].forEach(item => {
         const el = document.createElement(item.href ? "a" : "div"); el.className = "contact-item";
         if (item.href) { el.href = item.href; if (item.target) el.target = item.target; }
