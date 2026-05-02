@@ -7,7 +7,8 @@
       "Bash(npm --version)",
       "Bash(npm install *)",
       "PowerShell(git clone https://github.com/pbakaus/impeccable.git \"$env:TEMP\\\\impeccable2\")",
-      "Bash(claude --version)"
+      "Bash(claude --version)",
+      "PowerShell(\\(Get-Content \"c:\\\\Users\\\\HASWANTH\\\\Documents\\\\hashwanthghanta.github.io\\\\index.html\"\\).Count)"
     ]
   },
   "enableAllProjectMcpServers": true,
