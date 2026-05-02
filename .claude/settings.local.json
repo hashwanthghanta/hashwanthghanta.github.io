@@ -3,7 +3,11 @@
     "allow": [
       "WebFetch(domain:github.com)",
       "Bash(claude mcp *)",
-      "mcp__magic__21st_magic_component_inspiration"
+      "mcp__magic__21st_magic_component_inspiration",
+      "Bash(npm --version)",
+      "Bash(npm install *)",
+      "PowerShell(git clone https://github.com/pbakaus/impeccable.git \"$env:TEMP\\\\impeccable2\")",
+      "Bash(claude --version)"
     ]
   },
   "enableAllProjectMcpServers": true,
