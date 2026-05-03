@@ -1030,15 +1030,18 @@
             }
             .hero-side { justify-items: center; }
             .hero-photo-img {
-                height: clamp(240px, 60vw, 360px);
-                aspect-ratio: auto;
-                object-position: center 50%;
+                width: 100%;
+                height: auto;
+                max-height: 360px;
+                aspect-ratio: 4 / 3;
+                object-position: center 45%;
             }
         }
         @media (max-width: 480px) {
             .hero-photo-img {
-                height: clamp(220px, 70vw, 320px);
-                object-position: center 55%;
+                max-height: 320px;
+                aspect-ratio: 3 / 2;
+                object-position: center 50%;
             }
         }
         .hero-photo-initials {
@@ -3821,23 +3824,6 @@ setTimeout(() => {
     }
 
     function buildScenes() {
-        const heroSec   = document.getElementById("hero");
-        const heroPhoto = document.getElementById("hero-photo-wrap");
-
-        /* Hero photo — scale + translateY as you scroll past hero.
-           Creates the "diving into the page" cinematic feel. */
-        if (heroSec && heroPhoto) {
-            scenes.push({
-                el: heroPhoto,
-                section: heroSec,
-                apply(p) {
-                    const t = Math.min(p * 1.5, 1);
-                    const scale = 1 - t * 0.16;
-                    const ty    = t * 70;
-                    return `scale(${scale.toFixed(3)}) translateY(${ty.toFixed(1)}px)`;
-                }
-            });
-        }
 
         /* Aurora blobs — opposite-direction parallax tied to absolute scroll.
            Creates background depth, like clouds drifting past a window. */
