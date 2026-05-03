@@ -1017,11 +1017,21 @@
             opacity: 0;
             transition: opacity 0.6s ease, transform 0.45s ease;
         }
+        /* Mobile: switch to aspect-ratio so the crop is always proportional,
+           and shift object-position down so the face is visible (not the forehead) */
         @media (max-width: 900px) {
-            .hero-photo-img { height: 320px; }
+            .hero-photo-img {
+                height: auto;
+                aspect-ratio: 4 / 3;
+                object-position: center 35%;
+            }
+            .hero-photo-wrap { min-height: unset; }
         }
         @media (max-width: 480px) {
-            .hero-photo-img { height: 260px; }
+            .hero-photo-img {
+                aspect-ratio: 3 / 2;
+                object-position: center 38%;
+            }
         }
         .hero-photo-initials {
             font-family: 'Geist', sans-serif; font-size: 5rem; font-weight: 800;
@@ -1804,7 +1814,6 @@
             .edu-card { padding: 1.25rem; }
             .tl-card { padding: 1.25rem; }
             .section-header { margin-bottom: 2rem; }
-            .hero-photo-wrap { min-height: 180px; }
         }
         @media (max-width: 400px) {
             .container { padding: 0 0.875rem; }
@@ -2956,25 +2965,26 @@ function setLoadingInitials(initialsText) {
 }
 setLoadingInitials(PORTFOLIO_DATA.initials);
 
-window.addEventListener("load", () => {
+let _loadingDismissed = false;
+function dismissLoading() {
+    if (_loadingDismissed) return;
+    _loadingDismissed = true;
     window.scrollTo(0, 0);
-
-    /* Add spotlight to static cards (stats card, contact items added later via renderDynamic) */
     addSpotlight(document.getElementById("stats-card"));
+    document.getElementById("loading-screen").classList.add("fade-out");
+    document.body.classList.remove("preload");
+    document.body.classList.add("morph-done");
+    const roleEl = document.getElementById("hero-role");
+    if (roleEl && !roleEl.textContent) {
+        const roleData = currentLang === "de" ? PORTFOLIO_DATA_DE.role : PORTFOLIO_DATA.role;
+        roleEl.textContent = roleData.split(" · ")[0];
+    }
+}
 
-    setTimeout(() => {
-        document.getElementById("loading-screen").classList.add("fade-out");
-        document.body.classList.remove("preload");
-        document.body.classList.add("morph-done");
-        /* Static role — just ensure it's shown after preload removed */
-        const roleEl = document.getElementById("hero-role");
-        if (!roleEl.textContent) {
-            const roleData = currentLang === "de" ? PORTFOLIO_DATA_DE.role : PORTFOLIO_DATA.role;
-            roleEl.textContent = roleData.split(" · ")[0];
-        }
-
-    }, 0);
-});
+/* Dismiss when all resources load (fast connection) */
+window.addEventListener("load", () => setTimeout(dismissLoading, 0));
+/* Hard failsafe — always dismiss after 1500ms on slow/mobile connections */
+setTimeout(dismissLoading, 1500);
 
 /* ================================================================
    SECTION NAV DOTS
@@ -3397,7 +3407,7 @@ function renderDynamic(data, lang) {
     const stackRow = document.getElementById("hero-stack-row");
     stackRow.innerHTML = "";
     const chipsHtml = (data.stack || []).map(item =>
-        `<div class="hero-stack-chip"><img src="${item.icon}" alt="${item.name}"><span>${item.name}</span></div>`
+        `<div class="hero-stack-chip"><img src="${item.icon}" alt="${item.name}" loading="lazy" decoding="async" onerror="this.style.display='none'"><span>${item.name}</span></div>`
     ).join("");
     /* Double for seamless infinite loop */
     const track = document.createElement("div");
