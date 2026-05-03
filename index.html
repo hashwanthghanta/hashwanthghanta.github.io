@@ -1023,17 +1023,22 @@
         /* Mobile: switch to aspect-ratio so the crop is always proportional,
            and shift object-position down so the face is visible (not the forehead) */
         @media (max-width: 900px) {
-            .hero-photo-img {
-                height: auto;
-                aspect-ratio: 4 / 3;
-                object-position: center 60%;
+            .hero-photo-wrap {
+                min-height: unset;
+                max-width: 520px;
+                margin: 0 auto;
             }
-            .hero-photo-wrap { min-height: unset; }
+            .hero-side { justify-items: center; }
+            .hero-photo-img {
+                height: clamp(240px, 60vw, 360px);
+                aspect-ratio: auto;
+                object-position: center 50%;
+            }
         }
         @media (max-width: 480px) {
             .hero-photo-img {
-                aspect-ratio: 3 / 2;
-                object-position: center 62%;
+                height: clamp(220px, 70vw, 320px);
+                object-position: center 55%;
             }
         }
         .hero-photo-initials {
