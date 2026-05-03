@@ -859,9 +859,12 @@
 
         .hero-bio {
             color: var(--text-secondary); font-size: 1.05rem; line-height: 1.7;
-            max-width: 65ch; margin-bottom: 1.6rem;
+            max-width: 65ch; margin-bottom: 1.6rem; width: 100%;
             font-weight: 400;
             opacity: 0; animation: heroUp 0.7s ease forwards 0.9s;
+        }
+        @media (max-width: 768px) {
+            .hero-bio { max-width: 100%; font-size: 0.975rem; }
         }
         .hero-availability {
             display: inline-flex; align-items: center; gap: 0.55rem;
@@ -1023,14 +1026,14 @@
             .hero-photo-img {
                 height: auto;
                 aspect-ratio: 4 / 3;
-                object-position: center 35%;
+                object-position: center 60%;
             }
             .hero-photo-wrap { min-height: unset; }
         }
         @media (max-width: 480px) {
             .hero-photo-img {
                 aspect-ratio: 3 / 2;
-                object-position: center 38%;
+                object-position: center 62%;
             }
         }
         .hero-photo-initials {
@@ -1799,9 +1802,9 @@
         @media (max-width: 640px) {
             .skills-layout { grid-template-columns: 1fr; }
             .edu-grid { grid-template-columns: 1fr; }
-            .hero-actions { flex-direction: column; }
+            /* Stack buttons but keep them width of their own content — not full-width bars */
+            .hero-actions { flex-direction: column; align-items: flex-start; }
             .hero-stack-row { margin-bottom: 1.1rem; }
-            .btn { justify-content: center; }
             .back-to-top { margin-bottom: 1rem; }
             .project-modal { padding: 0.8rem; }
             .project-modal-card { padding: 1.2rem; }
