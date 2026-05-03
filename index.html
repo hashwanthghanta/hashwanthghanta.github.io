@@ -203,7 +203,7 @@
            RESET & BASE
         ============================================================ */
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; font-size: 16px; }
+        html { scroll-behavior: smooth; font-size: 16px; overflow-x: hidden; }
 
         /* Geist — clean geometric sans */
         body {
@@ -356,6 +356,10 @@
             background: radial-gradient(circle, rgba(5,150,105,0.20), rgba(16,185,129,0.10) 45%, transparent 70%);
             bottom: 6%; right: -120px;
             animation: blobFadeIn 2s ease 0.8s forwards, blobDrift2 28s ease-in-out 2.8s infinite alternate;
+        }
+        @media (max-width: 768px) {
+            .blob-1 { width: 340px; height: 340px; top: -80px; left: -80px; }
+            .blob-2 { width: 280px; height: 280px; bottom: 4%; right: -60px; }
         }
         /* Light mode body: cool lavender-tinted atmospheric gradient */
         body[data-theme="light"] {
@@ -798,7 +802,7 @@
         ============================================================ */
         #hero { min-height: 100dvh; display: flex; align-items: center; padding-top: 80px; }
         .hero-inner {
-            display: grid; grid-template-columns: minmax(0,1.25fr) minmax(300px,0.75fr);
+            display: grid; grid-template-columns: minmax(0,1.25fr) minmax(0,0.75fr);
             gap: 4rem; align-items: start;
         }
 
@@ -1012,6 +1016,12 @@
             display: block; filter: brightness(0.95) saturate(0.95);
             opacity: 0;
             transition: opacity 0.6s ease, transform 0.45s ease;
+        }
+        @media (max-width: 900px) {
+            .hero-photo-img { height: 320px; }
+        }
+        @media (max-width: 480px) {
+            .hero-photo-img { height: 260px; }
         }
         .hero-photo-initials {
             font-family: 'Geist', sans-serif; font-size: 5rem; font-weight: 800;
@@ -1755,6 +1765,7 @@
             .projects-grid { grid-template-columns: 1fr; }
             .edu-grid { grid-template-columns: 1fr; }
             .contact-layout { grid-template-columns: 1fr; gap: 2rem; }
+            section { padding: 6rem 0; }
         }
         @media (max-width: 768px) {
             .hamburger { display: flex; }
@@ -1771,6 +1782,9 @@
             .nav-pill { display: none; }
             .lang-switcher { margin-left: auto; }
             .theme-toggle { width: 32px; height: 32px; }
+            section { padding: 5rem 0; }
+            .container { padding: 0 1.25rem; }
+            .section-header { margin-bottom: 2.5rem; }
         }
         @media (max-width: 640px) {
             .skills-layout { grid-template-columns: 1fr; }
@@ -1781,6 +1795,21 @@
             .back-to-top { margin-bottom: 1rem; }
             .project-modal { padding: 0.8rem; }
             .project-modal-card { padding: 1.2rem; }
+            section { padding: 4rem 0; }
+            .container { padding: 0 1rem; }
+            .hero-inner { gap: 1.75rem; }
+            .about-grid { gap: 1.5rem; }
+            .proj-card { padding: 1.25rem; }
+            .skill-group { padding: 1.25rem; }
+            .edu-card { padding: 1.25rem; }
+            .tl-card { padding: 1.25rem; }
+            .section-header { margin-bottom: 2rem; }
+            .hero-photo-wrap { min-height: 180px; }
+        }
+        @media (max-width: 400px) {
+            .container { padding: 0 0.875rem; }
+            .hero-actions { gap: 0.6rem; }
+            .btn { padding: 0.65rem 1.25rem; font-size: 0.875rem; }
         }
         @media (prefers-reduced-motion: reduce) {
             * {
@@ -1916,7 +1945,7 @@
             left: -0.08em;
             font-family: 'Instrument Serif', Georgia, serif;
             font-style: italic;
-            font-size: clamp(6rem, 14vw, 12rem);
+            font-size: clamp(4rem, 14vw, 12rem);
             font-weight: 400;
             line-height: 1;
             letter-spacing: -0.04em;
@@ -1925,7 +1954,9 @@
             pointer-events: none;
             z-index: 0;
             user-select: none;
+            transform: translateY(var(--ghost-y, 0px));
             transition: opacity 0.6s var(--ease-out);
+            will-change: transform;
         }
         .section-header[data-num].visible::before { opacity: 0.07; }
         .section-header[data-num].active-section::before { opacity: 0.11; }
@@ -3743,6 +3774,117 @@ setTimeout(() => {
     splitSectionTitles();
     document.querySelectorAll(".section-header").forEach(h => titleWordIO.observe(h));
 }, 80);
+
+
+/* ================================================================
+   CINEMATIC SCROLL ENGINE
+   One rAF loop drives every scroll-linked transform on the page.
+   Hero photo zooms out as you dive past it, aurora blobs and ghost
+   section numbers parallax at different depths. The whole site
+   feels continuous — like a video — rather than discrete sections.
+   Hardware-accelerated (transform/opacity only). Respects
+   prefers-reduced-motion. Disabled below 768px.
+================================================================ */
+(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const scenes = [];
+    let queued = false;
+
+    /* Linear-clamped progress 0→1 of a section's travel through the viewport.
+       0 = section's top edge has just touched the viewport bottom.
+       1 = section's bottom edge has just left the viewport top. */
+    function progress(section) {
+        const r  = section.getBoundingClientRect();
+        const wh = window.innerHeight;
+        const total = wh + r.height;
+        const scrolled = wh - r.top;
+        return Math.max(0, Math.min(1, scrolled / total));
+    }
+
+    function buildScenes() {
+        const heroSec   = document.getElementById("hero");
+        const heroPhoto = document.getElementById("hero-photo-wrap");
+
+        /* Hero photo — scale + translateY as you scroll past hero.
+           Creates the "diving into the page" cinematic feel. */
+        if (heroSec && heroPhoto) {
+            scenes.push({
+                el: heroPhoto,
+                section: heroSec,
+                apply(p) {
+                    const t = Math.min(p * 1.5, 1);
+                    const scale = 1 - t * 0.16;
+                    const ty    = t * 70;
+                    return `scale(${scale.toFixed(3)}) translateY(${ty.toFixed(1)}px)`;
+                }
+            });
+        }
+
+        /* Aurora blobs — opposite-direction parallax tied to absolute scroll.
+           Creates background depth, like clouds drifting past a window. */
+        document.querySelectorAll(".aurora-blob").forEach((el, i) => {
+            scenes.push({
+                el,
+                useAbsolute: true,
+                apply(_, scrollY) {
+                    const dir = i === 0 ? -1 : 1;
+                    return `translate3d(0, ${(scrollY * 0.16 * dir).toFixed(1)}px, 0)`;
+                }
+            });
+        });
+
+        /* Section ghost numbers — slow opposite-direction parallax via CSS var.
+           They drift up while the page scrolls down, adding layered depth. */
+        document.querySelectorAll(".section-header[data-num]").forEach(el => {
+            const sec = el.closest("section");
+            if (!sec) return;
+            scenes.push({
+                el,
+                section: sec,
+                cssVar: true,
+                apply(p) {
+                    const ty = (p - 0.5) * 90;
+                    el.style.setProperty("--ghost-y", `${ty.toFixed(1)}px`);
+                }
+            });
+        });
+    }
+
+    function tick() {
+        const scrollY = window.scrollY;
+        for (const s of scenes) {
+            const p = s.section ? progress(s.section) : 0;
+            const tr = s.useAbsolute ? s.apply(p, scrollY) : s.apply(p);
+            if (!s.cssVar && tr) s.el.style.transform = tr;
+        }
+        queued = false;
+    }
+
+    function onScroll() {
+        if (queued) return;
+        queued = true;
+        requestAnimationFrame(tick);
+    }
+
+    function init() {
+        if (window.innerWidth < 768) return;
+        buildScenes();
+        scenes.forEach(s => { if (!s.cssVar) s.el.style.willChange = "transform"; });
+        tick();
+        window.addEventListener("scroll", onScroll, { passive: true });
+        let resizeT;
+        window.addEventListener("resize", () => {
+            clearTimeout(resizeT);
+            resizeT = setTimeout(tick, 120);
+        }, { passive: true });
+    }
+
+    /* Wait for renderDynamic + hero entrance animations (~2.2s) to complete
+       before taking over transforms — avoids interrupting the load reveal. */
+    if (document.readyState === "complete") setTimeout(init, 2200);
+    else window.addEventListener("load", () => setTimeout(init, 2200));
+})();
 
 
 </script>
