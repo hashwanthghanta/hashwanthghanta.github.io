@@ -2257,7 +2257,7 @@
                 <p class="hero-availability" id="hero-availability"></p>
                 <div class="hero-stack-row" id="hero-stack-row"></div>
                 <div class="hero-actions">
-                    <a id="resume-btn" href="resume.pdf" target="_blank" rel="noopener" class="btn btn-primary btn-resume-hero" data-i18n="btn_resume">Resume</a>
+                    <a id="resume-btn" href="resume.pdf" class="btn btn-primary btn-resume-hero" data-i18n="btn_resume">Resume</a>
                     <a href="#projects" class="btn btn-outline" data-i18n="btn_projects">View Projects</a>
                     <a href="#contact" class="btn btn-ghost" data-i18n="btn_contact">Get In Touch</a>
                 </div>
@@ -3360,7 +3360,10 @@ function renderDynamic(data, lang) {
     /* Resume button */
     if (data.resumeUrl) {
         resumeBtn.href = data.resumeUrl;
-        resumeBtn.download = data.resumeUrl;
+        resumeBtn.download = lang === "de"
+            ? "Hashwanth_Ghanta_Digital_Engineering_Lebenslauf.pdf"
+            : "Hashwanth_Ghanta_Digital_Engineering_CV.pdf";
+        resumeBtn.removeAttribute("target");
         resumeBtn.style.display = "";
     } else {
         resumeBtn.style.display = "none";
