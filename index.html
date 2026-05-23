@@ -2445,7 +2445,7 @@
             <div class="hero-skills-track-wrap" id="hero-skills-track-wrap" aria-label="Core skills"></div>
             <div class="hero-cta-row">
                 <a href="resume.pdf" class="resume-btn" id="resume-btn"
-                   download="Hashwanth_Ghanta_Digital_Engineering_CV.pdf"
+                   download="Hashwanth_Ghanta_CV_English.pdf"
                    aria-label="Download resume (PDF)">
                     <span data-i18n="btn_resume">Resume</span>
                 </a>
@@ -3255,6 +3255,19 @@ function setLanguage(lang) {
     renderSkills(lang);
     renderTrack(lang);
     renderEducation(lang);
+    /* Swap resume download to the correct language PDF */
+    const resumeBtn = $("#resume-btn");
+    if (resumeBtn) {
+        if (lang === "de") {
+            resumeBtn.href = "lebenslauf.pdf";
+            resumeBtn.download = "Hashwanth_Ghanta_Lebenslauf.pdf";
+            resumeBtn.setAttribute("aria-label", "Lebenslauf herunterladen (PDF)");
+        } else {
+            resumeBtn.href = "resume.pdf";
+            resumeBtn.download = "Hashwanth_Ghanta_CV_English.pdf";
+            resumeBtn.setAttribute("aria-label", "Download resume (PDF)");
+        }
+    }
     /* Re-attach sticky-stack scroll listener (cards rebuilt) */
     setupStickyStack();
 }
