@@ -1,0 +1,14 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Claude Code internals
+.claude/
+CLAUDE.md
+.mcp.json
+
+# Generated / debug files
+chrome_stderr.log
+output.html
+*.log
