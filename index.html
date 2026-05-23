@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -1840,25 +1840,50 @@
         /* 1. Loading Curtain */
         .loading-curtain {
             position: fixed; inset: 0;
-            background: #0a0807;
+            background: #020817;
             z-index: 99998;
             display: flex; align-items: center; justify-content: center;
-            transition: opacity 0.6s cubic-bezier(0.22,1,0.36,1), visibility 0.6s;
+            transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), visibility 0.7s;
         }
         .loading-curtain.hide {
             opacity: 0; visibility: hidden; pointer-events: none;
         }
+        .curtain-inner {
+            display: flex; flex-direction: column;
+            align-items: center; gap: 1.75rem;
+        }
         .curtain-logo {
             font-family: 'Kanit', sans-serif;
-            font-weight: 900; font-size: 2.5rem;
-            background: linear-gradient(135deg, #FFB07A 0%, #FF6B35 50%, #0891B2 100%);
+            font-weight: 900; font-size: 3rem;
+            letter-spacing: 0.04em;
+            background: linear-gradient(135deg, #a5b4fc 0%, #818cf8 50%, #6366f1 100%);
             -webkit-background-clip: text; background-clip: text;
             -webkit-text-fill-color: transparent;
-            opacity: 0; transform: scale(0.8);
-            animation: curtainPulse 0.8s 0.1s cubic-bezier(0.22,1,0.36,1) forwards;
+            opacity: 0; transform: translateY(10px);
+            animation: curtainFadeUp 0.6s 0.1s cubic-bezier(0.22,1,0.36,1) forwards;
         }
-        @keyframes curtainPulse {
-            to { opacity: 1; transform: scale(1); }
+        @keyframes curtainFadeUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .curtain-track {
+            width: 140px; height: 2px;
+            background: rgba(129,140,248,0.15);
+            border-radius: 9999px;
+            overflow: hidden;
+            opacity: 0;
+            animation: curtainFadeUp 0.5s 0.5s ease forwards;
+        }
+        .curtain-bar {
+            height: 100%; width: 0%;
+            background: linear-gradient(90deg, #6366f1, #818cf8, #a5b4fc);
+            border-radius: 9999px;
+            animation: curtainLoad 2.4s 0.6s cubic-bezier(0.4,0,0.2,1) forwards;
+        }
+        @keyframes curtainLoad {
+            0%   { width: 0%; }
+            60%  { width: 72%; }
+            85%  { width: 88%; }
+            100% { width: 100%; }
         }
 
         /* 2. Scroll Progress Bar */
@@ -2334,7 +2359,12 @@
 
 <!-- Loading Curtain -->
 <div class="loading-curtain" id="loading-curtain" aria-hidden="true">
-    <span class="curtain-logo">HG</span>
+    <div class="curtain-inner">
+        <span class="curtain-logo">HG</span>
+        <div class="curtain-track">
+            <div class="curtain-bar" id="curtain-bar"></div>
+        </div>
+    </div>
 </div>
 
 <!-- Scroll Progress Bar -->
@@ -2447,7 +2477,7 @@
 
 <!-- ================== SERVICES ================== -->
 <section id="services" aria-labelledby="services-h2">
-    <h2 class="services-title reveal" id="services-h2" data-i18n="services_h2">Services</h2>
+    <h2 class="services-title reveal" id="services-h2" data-i18n="services_h2">What I Do</h2>
     <ol class="services-list" id="services-list"></ol>
 </section>
 
@@ -2590,7 +2620,7 @@ const PROJ_SVG = {
 const DATA = {
     en: {
         nav_about: "About",
-        nav_services: "Services",
+        nav_services: "What I Do",
         nav_projects: "Projects",
         nav_contact: "Contact",
         marquee_h2: "Selected Work",
@@ -2617,7 +2647,7 @@ const DATA = {
         stat_phases:"Core programming languages",
         stat_projects:"Projects shipped",
         stat_available:"Available Q2 · Magdeburg / Remote",
-        services_h2:"Services",
+        services_h2:"What I Do",
         projects_h2:"Projects",
         contact_h2:"Let's Connect",
         contact_lede:"Actively searching for working-student roles — hybrid or remote — in 3D visualization, simulation, or software development across Germany. Immediately available.",
@@ -2768,7 +2798,7 @@ const DATA = {
     },
     de: {
         nav_about: "Über mich",
-        nav_services: "Leistungen",
+        nav_services: "Was ich mache",
         nav_projects: "Projekte",
         nav_contact: "Kontakt",
         marquee_h2: "Ausgewählte Arbeiten",
@@ -2795,7 +2825,7 @@ const DATA = {
         stat_phases:"Kernprogrammiersprachen",
         stat_projects:"Projekte umgesetzt",
         stat_available:"Verfügbar Q2 · Magdeburg / Remote",
-        services_h2:"Leistungen",
+        services_h2:"Was ich mache",
         projects_h2:"Projekte",
         contact_h2:"Lass uns vernetzen",
         contact_lede:"Aktiv auf der Suche nach Werkstudentenstellen — hybrid oder remote — in 3D-Visualisierung, Simulation oder Softwareentwicklung in Deutschland. Sofort verfügbar.",
@@ -3671,16 +3701,28 @@ function triggerHeroEntrance() {
 function setupLoadingCurtain() {
     const curtain = document.getElementById("loading-curtain");
     if (!curtain) return;
-    const hideCurtain = () => {
+
+    let loadFired = false;
+    let minTimeFired = false;
+
+    const tryHide = () => {
+        if (!loadFired || !minTimeFired) return;
         curtain.classList.add("hide");
-        setTimeout(triggerHeroEntrance, 400);
+        setTimeout(triggerHeroEntrance, 450);
     };
-    window.addEventListener("load", hideCurtain);
+
+    window.addEventListener("load", () => { loadFired = true; tryHide(); });
+
+    // Minimum display: 3100ms (0.6s bar-start delay + 2.4s animation + 100ms buffer)
+    setTimeout(() => { minTimeFired = true; tryHide(); }, 3100);
+
+    // Hard failsafe: never block past 6s on very slow connections
     setTimeout(() => {
         if (!curtain.classList.contains("hide")) {
-            hideCurtain();
+            curtain.classList.add("hide");
+            setTimeout(triggerHeroEntrance, 450);
         }
-    }, 1000);
+    }, 6000);
 }
 
 /* ============================================================
