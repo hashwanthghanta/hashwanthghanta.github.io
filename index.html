@@ -436,6 +436,22 @@
             .portrait-cursor {
                 display: none !important;
             }
+            /* Prevent hero-right from overflowing the grid cell on narrow viewports.
+               iOS Safari: -webkit-mask-image on hero-skills-track-wrap can cause the
+               element to compute width from its max-content inner track, pushing the
+               parent column wider than the viewport even with grid-template-columns:1fr. */
+            .hero-right {
+                max-width: 100%;
+                overflow-x: clip;
+            }
+            /* Fix the scrolling chips wrap: force it to the cell width, drop the
+               fade-mask (iOS Safari compositing issue with mask + will-change on child) */
+            .hero-skills-track-wrap {
+                width: 100%;
+                max-width: 100%;
+                -webkit-mask-image: none;
+                        mask-image: none;
+            }
         }
         .hero-intro {
             font-weight: 400;
