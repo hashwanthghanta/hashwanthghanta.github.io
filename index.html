@@ -400,28 +400,32 @@
                 margin-left: 0;
                 margin-top: 0;
             }
-            /* Cap photo and reset desktop positional transform */
+            /* Mobile photo — modelled after the old code that worked:
+               explicit px height on BOTH wrap and img, no pseudo-element ring,
+               no stacking context. Eliminates every known iOS Safari rendering
+               issue that can make the img invisible. */
             .hero-portrait-wrap {
                 transform: none;
                 max-width: 260px;
-                /* Explicit pixel height — eliminates aspect-ratio dependency on iOS Safari,
-                   which can silently fail to resolve height:100% on the child img */
-                height: 325px;
-                overflow: hidden;
-                /* isolation:isolate keeps ::before z-index:-1 contained safely;
-                   portrait-cursor (mix-blend-mode:screen) is display:none so no compositing bug */
-                isolation: isolate;
-                /* Stop animated ::before (rotating conic-gradient) — an animated transform
-                   on a z-index:-1 pseudo-element triggers iOS Safari compositing promotion
-                   that can make the entire parent invisible */
+                height: 325px;       /* fixed height — more reliable than aspect-ratio on iOS */
+                overflow: hidden;    /* clips img to rounded border */
+                isolation: auto;     /* no stacking context — ::before is gone on mobile */
                 animation: none !important;
             }
+            /* Remove ring pseudo-element entirely on mobile.
+               z-index:-1 animated pseudo-elements cause iOS Safari compositing
+               layer promotion that makes the parent element invisible. */
             .hero-portrait-wrap::before {
-                animation: none !important;
+                display: none !important;
             }
-            /* Resolve img height explicitly against the fixed parent height */
+            /* Give img an explicit pixel height — NOT height:100%.
+               On iOS Safari, height:100% can fail to resolve when the parent height
+               comes from aspect-ratio or overflow:hidden combinations.
+               Direct px value (same as old code's height:340px approach) always works. */
             .hero-portrait-wrap img {
-                height: 100%;
+                height: 325px;
+                width: 100%;
+                position: static;
             }
             /* Hero-left visible on mobile regardless of JS stagger timing */
             .hero-left {
