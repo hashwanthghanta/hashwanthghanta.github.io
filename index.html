@@ -400,22 +400,30 @@
                 margin-left: 0;
                 margin-top: 0;
             }
-            /* Cap photo size on mobile and reset desktop positional transform */
+            /* Cap photo and reset desktop positional transform */
             .hero-portrait-wrap {
                 transform: none;
                 max-width: 260px;
-                /* Keep isolation:isolate so ::before z-index:-1 is contained within this stacking context.
-                   Safe because .portrait-cursor (the mix-blend-mode:screen child) is display:none on mobile. */
+                /* Explicit pixel height — eliminates aspect-ratio dependency on iOS Safari,
+                   which can silently fail to resolve height:100% on the child img */
+                height: 325px;
+                overflow: hidden;
+                /* isolation:isolate keeps ::before z-index:-1 contained safely;
+                   portrait-cursor (mix-blend-mode:screen) is display:none so no compositing bug */
                 isolation: isolate;
-                /* Stop the conic-gradient ring rotation — prevents iOS Safari from promoting the
-                   animated ::before (z-index:-1) to its own compositing layer, which can make
-                   the entire portrait-wrap invisible on iPhone/iPad. */
+                /* Stop animated ::before (rotating conic-gradient) — an animated transform
+                   on a z-index:-1 pseudo-element triggers iOS Safari compositing promotion
+                   that can make the entire parent invisible */
                 animation: none !important;
             }
             .hero-portrait-wrap::before {
                 animation: none !important;
             }
-            /* Hero-left must always be visible on mobile regardless of JS stagger state */
+            /* Resolve img height explicitly against the fixed parent height */
+            .hero-portrait-wrap img {
+                height: 100%;
+            }
+            /* Hero-left visible on mobile regardless of JS stagger timing */
             .hero-left {
                 opacity: 1 !important;
                 transform: none !important;
@@ -2242,20 +2250,24 @@
         @media (max-width: 480px) {
             .hero-cta-row {
                 flex-direction: column;
-                align-items: stretch;
+                align-items: flex-start;
                 gap: 0.65rem;
             }
             .resume-btn, .projects-btn, .contact-btn {
-                width: 100%;
-                display: flex;  /* inline-flex + width:100% causes text to vanish on iOS Safari */
-                justify-content: center;
-                /* overflow:hidden + ::before shimmer causes iOS Safari to hide button text */
+                /* Do NOT set width:100% — avoids inline-flex + full-width iOS text-vanish bug
+                   and keeps buttons naturally sized rather than edge-to-edge */
                 overflow: visible;
             }
-            /* Shimmer is hover-only — pointless on touch and triggers iOS rendering bug */
-            .resume-btn::before, .projects-btn::before, .contact-btn::before {
+            /* Hover-only shimmer/glow effects: pointless on touch and can trigger
+               iOS Safari compositing bugs (animated z-index:-1 pseudo-elements) */
+            .resume-btn::before, .resume-btn::after,
+            .projects-btn::before, .projects-btn::after,
+            .contact-btn::before, .contact-btn::after {
                 display: none !important;
+                animation: none !important;
             }
+            /* Stop projects-btn pulse box-shadow animation on touch */
+            .projects-btn { animation: none !important; }
         }
 
         /* Older/minor project cards (3, 4, 5) minimized in size */
