@@ -1265,6 +1265,21 @@
             border-radius: 10px;
         }
         .proj-live-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--green); animation: openPulse 2s ease-in-out infinite; }
+        .proj-code-badge {
+            display: inline-flex; align-items: center; gap: 0.35rem;
+            float: right; margin-top: -0.25rem;
+            font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em;
+            color: var(--ember-soft); padding: 0.2rem 0.6rem;
+            background: rgba(99,102,241,0.12); border: 1px solid rgba(129,140,248,0.32);
+            border-radius: 10px;
+        }
+        .proj-code-glyph {
+            width: 12px; height: 12px; display: inline-flex; align-items: center; justify-content: center;
+            color: var(--ember-soft); opacity: 0.9;
+        }
+        .proj-code-glyph svg { width: 100%; height: 100%; }
+        body[data-theme="light"] .proj-code-badge { color: #4338ca; background: rgba(99,102,241,0.10); border-color: rgba(99,102,241,0.32); }
+        body[data-theme="light"] .proj-code-glyph { color: #4338ca; }
         .proj-media {
             aspect-ratio: 16 / 9;
             height: auto;
@@ -2512,7 +2527,7 @@ const PORTFOLIO_DATA = {
     projects: [
         {
             icon:   "🏭",
-            period: "2025 – Present  ·  Featured",
+            period: "2025 – 2026  ·  Featured",
             title:  "Post-Combustion CO₂ Carbon Capture Simulation",
             desc:   "Interactive 7-phase simulation of industrial CO₂ capture via MEA solvent absorption — built from scratch in Unity 3D. Real-time parameter sliders, modular C# architecture, phase-by-phase 3D visualization, and a custom TextMeshPro UI. Developed as M.Sc. coursework at OVGU Magdeburg.",
             highlights: [
@@ -2525,6 +2540,31 @@ const PORTFOLIO_DATA = {
             thumb:  "Images/co2-simulation.gif",
             thumbPosition: "50% 30%",
             url:    "https://play.unity.com/en/games/30f22392-532c-41e1-b925-6191a9ea99c2/post-combustion-co-carbon-capture"
+        },
+        {
+            icon:   "📈",
+            period: "2026  ·  iOS · Open Source",
+            title:  "StockWatch — SwiftUI Watchlist for iOS",
+            desc:   "A native iOS watchlist app inspired by Scalable Capital. Live Yahoo Finance quotes, editable watchlist of 55+ tickers across US, German Xetra, UK, Swiss and Danish exchanges, list and grid layouts, an interactive Swift Charts chart with seven time ranges, symbol-relevant in-app news, full English + German runtime language switch, and complete Dark / Light / System theming.",
+            highlights: [
+                "Interactive Swift Charts detail view — scrub the line to inspect closing price and date, eight time-range chips from 1D through 5Y",
+                "MVVM with @MainActor @Observable, protocol-based dependency injection, async/await + URLSession against Yahoo Finance",
+                "Runtime English / German language switch via Bundle swizzling — no app restart needed",
+                "Two reorder modes (long-press drag-and-drop and explicit Edit mode), grid layout with sparklines, in-app SFSafariViewController news reader",
+                "XCTest suite covering persistence, refresh transitions, fallback behaviour, and percent-change math",
+                "Accessibility: VoiceOver labels on every row, SF Symbol arrows pair with red/green colour, decorative bars hidden from AT"
+            ],
+            tags:   ["Swift", "SwiftUI", "Swift Charts", "async/await", "MVVM", "XCTest", "iOS 17+"],
+            thumb:  "Images/stockwatch-thumb.png",
+            thumbAlt: "StockWatch iOS watchlist screen in dark mode, listing stock tickers with prices and percentage changes",
+            thumbFit: "contain",
+            thumbPosition: "50% 50%",
+            mediaBackground: "radial-gradient(circle at 50% 35%, #0b1a2e 0%, #020817 70%)",
+            url:    "https://github.com/hashwanthghanta/stockwatch-ios",
+            urlLabel: "View on GitHub",
+            urlBadgeType: "code",
+            urlBadgeLabel: "Code",
+            mediaAriaLabel: "Open StockWatch source code on GitHub (opens in new tab)"
         },
         {
             icon:   "🏍️",
@@ -2700,7 +2740,7 @@ const PORTFOLIO_DATA_DE = {
     projects: [
         {
             icon:   "🏭",
-            period: "2025 – Heute  ·  Hervorgehoben",
+            period: "2025 – 2026  ·  Hervorgehoben",
             title:  "Post-Combustion CO₂-Abscheidungs-Simulation",
             desc:   "Interaktive 7-phasige Simulation der industriellen CO₂-Abscheidung via MEA — vollständig in Unity 3D entwickelt. Echtzeit-Parameter-Slider, modulare C#-Architektur, phasenweise 3D-Visualisierung und TextMeshPro-UI. Als M.Sc.-Laborprojekt an der OVGU Magdeburg entstanden.",
             highlights: [
@@ -2713,6 +2753,31 @@ const PORTFOLIO_DATA_DE = {
             thumb:  "Images/co2-simulation.gif",
             thumbPosition: "50% 50%",
             url:    "https://play.unity.com/en/games/30f22392-532c-41e1-b925-6191a9ea99c2/post-combustion-co-carbon-capture"
+        },
+        {
+            icon:   "📈",
+            period: "2026  ·  iOS · Open Source",
+            title:  "StockWatch — SwiftUI-Watchlist für iOS",
+            desc:   "Eine native iOS-Watchlist-App, inspiriert von Scalable Capital. Live-Kurse von Yahoo Finance, editierbare Watchlist mit 55+ Tickern aus US-, deutschen (Xetra), britischen, Schweizer und dänischen Börsen, Listen- und Grid-Layout, interaktive Swift-Charts-Detailansicht mit sieben Zeiträumen, symbolbezogene In-App-News, Laufzeit-Sprachumschalter Englisch / Deutsch und vollständiges Hell-/Dunkel-/System-Theming.",
+            highlights: [
+                "Interaktive Swift-Charts-Detailansicht — Linie scrubben, um Schlusskurs und Datum abzulesen, acht Zeitraum-Chips von 1T bis 5J",
+                "MVVM mit @MainActor @Observable, Protokoll-basierte Dependency Injection, async/await + URLSession gegen Yahoo Finance",
+                "Sprachumschalter Englisch / Deutsch zur Laufzeit über Bundle-Swizzling — kein App-Neustart nötig",
+                "Zwei Reorder-Modi (Long-Press Drag-and-Drop und expliziter Bearbeitungsmodus), Grid-Layout mit Sparklines, In-App-News via SFSafariViewController",
+                "XCTest-Suite deckt Persistenz, Refresh-Übergänge, Fallback-Verhalten und Prozent-Mathematik ab",
+                "Barrierefreiheit: VoiceOver-Labels in jeder Zeile, SF-Symbol-Pfeile begleiten rote/grüne Farbe, dekorative Balken vor AT versteckt"
+            ],
+            tags:   ["Swift", "SwiftUI", "Swift Charts", "async/await", "MVVM", "XCTest", "iOS 17+"],
+            thumb:  "Images/stockwatch-thumb.png",
+            thumbAlt: "StockWatch-iOS-Watchlist im Dunkelmodus mit Aktienkürzeln, Kursen und prozentualen Änderungen",
+            thumbFit: "contain",
+            thumbPosition: "50% 50%",
+            mediaBackground: "radial-gradient(circle at 50% 35%, #0b1a2e 0%, #020817 70%)",
+            url:    "https://github.com/hashwanthghanta/stockwatch-ios",
+            urlLabel: "Auf GitHub ansehen",
+            urlBadgeType: "code",
+            urlBadgeLabel: "Code",
+            mediaAriaLabel: "StockWatch-Quellcode auf GitHub öffnen (öffnet in neuem Tab)"
         },
         {
             icon:   "📊",
@@ -3308,7 +3373,7 @@ function openProjectModal(index) {
         live.target = "_blank";
         live.rel = "noopener noreferrer";
         live.className = "proj-btn proj-btn-primary";
-        live.textContent = s.proj_open_live;
+        live.textContent = proj.urlLabel || s.proj_open_live;
         modalActionsEl.appendChild(live);
     }
     modalEl.classList.add("open");
@@ -3473,23 +3538,29 @@ function renderDynamic(data, lang) {
         const c = document.createElement("div");
         const isFeatured = index === 0;
         c.className = "proj-card" + (isFeatured ? " featured" : "");
-        const liveBadge = proj.url
-            ? `<span class="proj-live-badge"><span class="proj-live-dot"></span> Live</span>`
+        const codeGlyph = `<span class="proj-code-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></span>`;
+        const badge = proj.url
+            ? (proj.urlBadgeType === "code"
+                ? `<span class="proj-code-badge">${codeGlyph} ${proj.urlBadgeLabel || "Code"}</span>`
+                : `<span class="proj-live-badge"><span class="proj-live-dot"></span> ${proj.urlBadgeLabel || "Live"}</span>`)
             : "";
         const liveBtn = proj.url
-            ? `<a href="${proj.url}" target="_blank" rel="noopener noreferrer" class="proj-btn proj-btn-primary">${s.proj_open_live}</a>`
+            ? `<a href="${proj.url}" target="_blank" rel="noopener noreferrer" class="proj-btn proj-btn-primary">${proj.urlLabel || s.proj_open_live}</a>`
             : "";
-        const gradStyle = proj.mediaGradient ? ` style="background:${proj.mediaGradient};"` : "";
+        const mediaStyleAttr = proj.mediaBackground ? ` style="background:${proj.mediaBackground};"` : "";
+        const thumbFit = proj.thumbFit || "cover";
+        const thumbAlt = proj.thumbAlt || (proj.title + " preview");
         const mediaInner = proj.thumb
-            ? `<img src="${proj.thumb}" alt="${proj.title} preview" loading="lazy" decoding="async" style="object-position:${proj.thumbPosition || "50% 50%"}; width:100%; height:100%; object-fit:cover;">`
+            ? `<img src="${proj.thumb}" alt="${thumbAlt}" loading="lazy" decoding="async" style="object-position:${proj.thumbPosition || "50% 50%"}; width:100%; height:100%; object-fit:${thumbFit};">`
             : proj.mediaSVGKey && PROJ_SVG[proj.mediaSVGKey]
                 ? `<div class="proj-media-svg">${PROJ_SVG[proj.mediaSVGKey]}</div>`
                 : `<div class="proj-media-fallback"><div class="proj-media-icon">${proj.icon}</div><div class="proj-media-label">${proj.title}</div></div>`;
+        const mediaAria = proj.mediaAriaLabel || `Open ${proj.title} demo (opens in new tab)`;
         const media = proj.url
-            ? `<a class="proj-media proj-media-link" href="${proj.url}" target="_blank" rel="noopener noreferrer" aria-label="Open ${proj.title} demo">${mediaInner}</a>`
-            : `<div class="proj-media">${mediaInner}</div>`;
+            ? `<a class="proj-media proj-media-link" href="${proj.url}" target="_blank" rel="noopener noreferrer" aria-label="${mediaAria}"${mediaStyleAttr}>${mediaInner}</a>`
+            : `<div class="proj-media"${mediaStyleAttr}>${mediaInner}</div>`;
 
-        c.innerHTML = `${media}<div class="proj-icon">${proj.icon}${liveBadge}</div><div class="proj-period">${proj.period}</div><div class="proj-title">${proj.title}</div><div class="proj-desc">${proj.desc}</div><div class="proj-tags">${proj.tags.map(t => `<span class="proj-tag">${t}</span>`).join("")}</div><div class="proj-actions">${liveBtn}<button type="button" class="proj-btn js-proj-details" data-proj-index="${index}">${s.proj_details}</button></div>`;
+        c.innerHTML = `${media}<div class="proj-icon">${proj.icon}${badge}</div><div class="proj-period">${proj.period}</div><div class="proj-title">${proj.title}</div><div class="proj-desc">${proj.desc}</div><div class="proj-tags">${proj.tags.map(t => `<span class="proj-tag">${t}</span>`).join("")}</div><div class="proj-actions">${liveBtn}<button type="button" class="proj-btn js-proj-details" data-proj-index="${index}">${s.proj_details}</button></div>`;
         projGrid.appendChild(c); observe(c); initTilt(c); addSpotlight(c);
     });
     projGrid.querySelectorAll(".js-proj-details").forEach(btn => {
