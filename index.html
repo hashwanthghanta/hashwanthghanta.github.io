@@ -116,7 +116,7 @@
         }
 
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; font-size: 16px; -webkit-text-size-adjust: 100%; }
+        html { scroll-behavior: smooth; font-size: 16px; -webkit-text-size-adjust: 100%; overflow-x: clip; }
         html, body, #root { background: var(--bg); min-height: 100%; }
         body {
             font-family: 'Kanit', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
@@ -394,7 +394,15 @@
             margin-top: var(--hero-text-top);
         }
         @media (max-width: 860px) {
-            .hero-right { justify-content: flex-start; padding-top: 0.25rem; }
+            .hero-right {
+                justify-content: flex-start;
+                padding-top: 0.25rem;
+                margin-left: 0;
+                margin-top: 0;
+            }
+            .hero-portrait-wrap {
+                transform: none;
+            }
         }
         .hero-intro {
             font-weight: 400;
@@ -1619,14 +1627,15 @@
             color: var(--text);
             box-shadow: -20px 0 60px rgba(0,0,0,0.6);
             transform: translateX(100%);
+            visibility: hidden;
             z-index: 1050;
             display: flex; flex-direction: column;
             padding: 5.5rem 2rem 2rem;
             overflow-y: auto;
-            transition: transform 0.5s cubic-bezier(0.22,1,0.36,1);
+            transition: transform 0.5s cubic-bezier(0.22,1,0.36,1), visibility 0.5s cubic-bezier(0.22,1,0.36,1);
         }
         body[data-theme="light"] .mobile-drawer { background: rgba(245,242,236,0.98); color: var(--text); box-shadow: -20px 0 60px rgba(12,12,12,0.18); }
-        .mobile-drawer.open { transform: translateX(0); }
+        .mobile-drawer.open { transform: translateX(0); visibility: visible; }
         .drawer-nav { display: flex; flex-direction: column; gap: 0.4rem; }
         .drawer-nav a {
             display: block; padding: 0.95rem 0;
@@ -1652,6 +1661,21 @@
             .drawer-cta { transition: opacity 0.5s ease, transform 0.5s var(--ease-out); transition-delay: 0.46s; }
         }
         .mobile-drawer.open .drawer-cta { opacity: 1; transform: translateX(0); }
+        .drawer-lang {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-soft);
+            opacity: 0; transform: translateX(2rem);
+        }
+        @media (prefers-reduced-motion: no-preference) {
+            .drawer-lang { transition: opacity 0.5s ease, transform 0.5s var(--ease-out); transition-delay: 0.53s; }
+        }
+        .mobile-drawer.open .drawer-lang { opacity: 1; transform: translateX(0); }
+        @media (prefers-reduced-motion: reduce) {
+            .drawer-lang { opacity: 1 !important; transform: none !important; transition: none !important; }
+        }
 
         /* ============================================================
            PROJECT-DETAILS MODAL (carried over with a11y)
@@ -2292,6 +2316,10 @@
     </nav>
     <div class="drawer-cta">
         <a href="#contact" class="contact-btn" data-i18n="btn_contact_me">Contact Me</a>
+    </div>
+    <div class="drawer-lang">
+        <button class="lang-btn active" data-lang="en" type="button" onclick="setLanguage('en')" aria-label="Switch to English"><span class="lang-flag" aria-hidden="true">🇬🇧</span> EN</button>
+        <button class="lang-btn"        data-lang="de" type="button" onclick="setLanguage('de')" aria-label="Auf Deutsch umschalten"><span class="lang-flag" aria-hidden="true">🇩🇪</span> DE</button>
     </div>
 </aside>
 
