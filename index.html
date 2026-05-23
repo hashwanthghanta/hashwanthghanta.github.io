@@ -324,7 +324,7 @@
             flex: 1;
         }
         @media (max-width: 860px) {
-            .hero-body { grid-template-columns: 1fr; gap: 1.75rem; }
+            .hero-body { grid-template-columns: 1fr; gap: 1.75rem; align-content: start; }
         }
         .hero-left {
             display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
@@ -405,9 +405,10 @@
                no stacking context. Eliminates every known iOS Safari rendering
                issue that can make the img invisible. */
             .hero-portrait-wrap {
-                transform: none;
+                transform: translateZ(0); /* force GPU compositing layer — prevents iOS Safari image vanish */
                 max-width: 260px;
                 height: 325px;       /* fixed height — more reliable than aspect-ratio on iOS */
+                aspect-ratio: auto;  /* clear desktop 4/5 ratio — explicit height takes full control */
                 overflow: hidden;    /* clips img to rounded border */
                 isolation: auto;     /* no stacking context — ::before is gone on mobile */
                 animation: none !important;
@@ -442,7 +443,7 @@
                parent column wider than the viewport even with grid-template-columns:1fr. */
             .hero-right {
                 max-width: 100%;
-                overflow-x: clip;
+                overflow-x: hidden; /* clip not supported on older iOS Safari */
             }
             /* Fix the scrolling chips wrap: force it to the cell width, drop the
                fade-mask (iOS Safari compositing issue with mask + will-change on child) */
@@ -451,6 +452,13 @@
                 max-width: 100%;
                 -webkit-mask-image: none;
                         mask-image: none;
+            }
+        }
+        /* iOS Safari: background-attachment:fixed breaks image rendering in overflow:hidden
+           containers by forcing a shared compositing layer. Scroll mode avoids this. */
+        @media (max-width: 860px) {
+            body, body[data-theme="light"] {
+                background-attachment: scroll;
             }
         }
         .hero-intro {
