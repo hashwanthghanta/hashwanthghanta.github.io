@@ -400,18 +400,27 @@
                 margin-left: 0;
                 margin-top: 0;
             }
-            /* Cap photo size on mobile — aspect-ratio 4/5 at full width is ~390px tall */
+            /* Cap photo size on mobile and reset desktop positional transform */
             .hero-portrait-wrap {
                 transform: none;
                 max-width: 260px;
-                isolation: auto; /* Fix iOS Safari compositing bug with mix-blend-mode children */
+                /* Keep isolation:isolate so ::before z-index:-1 is contained within this stacking context.
+                   Safe because .portrait-cursor (the mix-blend-mode:screen child) is display:none on mobile. */
+                isolation: isolate;
+                /* Stop the conic-gradient ring rotation — prevents iOS Safari from promoting the
+                   animated ::before (z-index:-1) to its own compositing layer, which can make
+                   the entire portrait-wrap invisible on iPhone/iPad. */
+                animation: none !important;
+            }
+            .hero-portrait-wrap::before {
+                animation: none !important;
             }
             /* Hero-left must always be visible on mobile regardless of JS stagger state */
             .hero-left {
                 opacity: 1 !important;
                 transform: none !important;
             }
-            /* Portrait cursor is desktop-only — never shown on touch anyway */
+            /* Portrait cursor is desktop-only */
             .portrait-cursor {
                 display: none !important;
             }
