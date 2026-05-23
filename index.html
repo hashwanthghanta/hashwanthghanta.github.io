@@ -400,8 +400,20 @@
                 margin-left: 0;
                 margin-top: 0;
             }
+            /* Cap photo size on mobile — aspect-ratio 4/5 at full width is ~390px tall */
             .hero-portrait-wrap {
                 transform: none;
+                max-width: 260px;
+                isolation: auto; /* Fix iOS Safari compositing bug with mix-blend-mode children */
+            }
+            /* Hero-left must always be visible on mobile regardless of JS stagger state */
+            .hero-left {
+                opacity: 1 !important;
+                transform: none !important;
+            }
+            /* Portrait cursor is desktop-only — never shown on touch anyway */
+            .portrait-cursor {
+                display: none !important;
             }
         }
         .hero-intro {
@@ -2226,7 +2238,14 @@
             }
             .resume-btn, .projects-btn, .contact-btn {
                 width: 100%;
+                display: flex;  /* inline-flex + width:100% causes text to vanish on iOS Safari */
                 justify-content: center;
+                /* overflow:hidden + ::before shimmer causes iOS Safari to hide button text */
+                overflow: visible;
+            }
+            /* Shimmer is hover-only — pointless on touch and triggers iOS rendering bug */
+            .resume-btn::before, .projects-btn::before, .contact-btn::before {
+                display: none !important;
             }
         }
 
