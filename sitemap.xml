@@ -1,27 +1,114 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+    <!-- Main Landing Page (Dual Language Internal Toggle) -->
     <url>
         <loc>https://hashwanthghanta.github.io/</loc>
         <lastmod>2026-05-24</lastmod>
         <changefreq>weekly</changefreq>
         <priority>1.0</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://hashwanthghanta.github.io/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://hashwanthghanta.github.io/"/>
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://hashwanthghanta.github.io/"/>
     </url>
+
+    <!-- Now Page (English) -->
     <url>
         <loc>https://hashwanthghanta.github.io/now.html</loc>
         <lastmod>2026-05-24</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://hashwanthghanta.github.io/now.html"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://hashwanthghanta.github.io/now-de.html"/>
     </url>
+
+    <!-- Now Page (German) -->
+    <url>
+        <loc>https://hashwanthghanta.github.io/now-de.html</loc>
+        <lastmod>2026-05-24</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://hashwanthghanta.github.io/now.html"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://hashwanthghanta.github.io/now-de.html"/>
+    </url>
+
+    <!-- Uses Page (English) -->
     <url>
         <loc>https://hashwanthghanta.github.io/uses.html</loc>
         <lastmod>2026-05-24</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.5</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://hashwanthghanta.github.io/uses.html"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://hashwanthghanta.github.io/uses-de.html"/>
     </url>
+
+    <!-- Uses Page (German) -->
+    <url>
+        <loc>https://hashwanthghanta.github.io/uses-de.html</loc>
+        <lastmod>2026-05-24</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://hashwanthghanta.github.io/uses.html"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://hashwanthghanta.github.io/uses-de.html"/>
+    </url>
+
+    <!-- CO₂ Simulation Case Study (English) -->
     <url>
         <loc>https://hashwanthghanta.github.io/projects/co2-simulation.html</loc>
         <lastmod>2026-05-24</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://hashwanthghanta.github.io/projects/co2-simulation.html"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://hashwanthghanta.github.io/projects/co2-simulation-de.html"/>
+    </url>
+
+    <!-- CO₂ Simulation Case Study (German) -->
+    <url>
+        <loc>https://hashwanthghanta.github.io/projects/co2-simulation-de.html</loc>
+        <lastmod>2026-05-24</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://hashwanthghanta.github.io/projects/co2-simulation.html"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://hashwanthghanta.github.io/projects/co2-simulation-de.html"/>
+    </url>
+
+    <!-- StockWatch Case Study (English) -->
+    <url>
+        <loc>https://hashwanthghanta.github.io/projects/stockwatch.html</loc>
+        <lastmod>2026-05-24</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://hashwanthghanta.github.io/projects/stockwatch.html"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://hashwanthghanta.github.io/projects/stockwatch-de.html"/>
+    </url>
+
+    <!-- StockWatch Case Study (German) -->
+    <url>
+        <loc>https://hashwanthghanta.github.io/projects/stockwatch-de.html</loc>
+        <lastmod>2026-05-24</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://hashwanthghanta.github.io/projects/stockwatch.html"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://hashwanthghanta.github.io/projects/stockwatch-de.html"/>
+    </url>
+
+    <!-- IoT Helmet Case Study (English) -->
+    <url>
+        <loc>https://hashwanthghanta.github.io/projects/iot-helmet.html</loc>
+        <lastmod>2026-05-24</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://hashwanthghanta.github.io/projects/iot-helmet.html"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://hashwanthghanta.github.io/projects/iot-helmet-de.html"/>
+    </url>
+
+    <!-- IoT Helmet Case Study (German) -->
+    <url>
+        <loc>https://hashwanthghanta.github.io/projects/iot-helmet-de.html</loc>
+        <lastmod>2026-05-24</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://hashwanthghanta.github.io/projects/iot-helmet.html"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://hashwanthghanta.github.io/projects/iot-helmet-de.html"/>
     </url>
 </urlset>
