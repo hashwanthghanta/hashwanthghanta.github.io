@@ -1,0 +1,580 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#0C0C0C">
+    <title>Case Study: Post-Combustion CO₂ Capture Simulation — Hashwanth Ghanta</title>
+    <meta name="description" content="How a five-person OVGU Magdeburg team built an interactive Unity + Blender simulation of post-combustion CO₂ capture. My role: Unity, Blender &amp; UI Developer — modelling, scripting, full demo screen, interfaces, and the walkthrough video. Real numbers, real architecture, real tradeoffs.">
+    <link rel="canonical" href="https://hashwanthghanta.github.io/projects/co2-simulation.html">
+    <link rel="alternate" hreflang="en" href="https://hashwanthghanta.github.io/projects/co2-simulation.html">
+    <link rel="alternate" hreflang="de" href="https://hashwanthghanta.github.io/projects/co2-simulation-de.html">
+    <script>
+        (function(){
+            try { if (localStorage.getItem('lang') === 'de') location.replace('co2-simulation-de.html' + location.hash); } catch(e){}
+        })();
+    </script>
+    <meta property="og:title" content="Case Study: Unity CO₂ Capture Simulation — OVGU Magdeburg">
+    <meta property="og:description" content="Five-person OVGU team. Unity 2022 LTS + Blender 4.x. 1000 MW reference plant, 30 wt% MEA, 90% capture target.">
+    <meta property="og:image" content="https://hashwanthghanta.github.io/Images/co2-simulation.gif">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230C0C0C'/%3E%3Ctext x='50' y='66' font-family='Kanit,sans-serif' font-size='52' font-weight='900' fill='%23ff6b35' text-anchor='middle'%3EHG%3C/text%3E%3C/svg%3E">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;800;900&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;1,9..144,700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0807; --text: #D7E2EA; --text-dim: rgba(215,226,234,0.72);
+            --accent-cool: #67e8f9; --accent-cool-deep: #0e7490;
+            --accent-warm: #ff6b35; --accent-warm-soft: #ffb07a;
+            --border-soft: rgba(215,226,234,0.18);
+            --code-bg: rgba(0,0,0,0.4);
+        }
+        *,*::before,*::after { margin:0; padding:0; box-sizing:border-box; }
+        body {
+            font-family: 'Kanit', system-ui, sans-serif;
+            color: var(--text); line-height: 1.65;
+            background:
+                radial-gradient(ellipse 70% 50% at 12% -5%, rgba(255,107,53,0.16), transparent 60%),
+                radial-gradient(ellipse 80% 55% at 50% 110%, rgba(180,80,30,0.12), transparent 65%),
+                var(--bg);
+            background-attachment: fixed;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+        :focus-visible { outline: 2.5px solid #FFD400; outline-offset: 3px; }
+        a { color: var(--accent-cool); text-underline-offset: 3px; }
+        a:hover, a:focus-visible { color: #fff; }
+        .wrap { max-width: 780px; margin: 0 auto; padding: clamp(2rem, 5vw, 4rem) 1.5rem 6rem; }
+        .back {
+            display: inline-flex; align-items: center; gap: 0.4rem;
+            font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase;
+            color: var(--text-dim); text-decoration: none;
+            margin-bottom: 2rem;
+        }
+        .back:hover { color: var(--text); }
+        .top-row {
+            display: flex; justify-content: space-between; align-items: center;
+            gap: 1rem; flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+        .lang-swap {
+            font-family: 'JetBrains Mono', ui-monospace, monospace;
+            font-size: 0.75rem;
+            color: var(--text-dim); text-decoration: none;
+            padding: 0.35rem 0.7rem;
+            border: 1px solid var(--border-soft);
+            border-radius: 999px;
+        }
+        .lang-swap:hover { color: var(--text); border-color: var(--accent-cool); }
+        .eyebrow {
+            font-family: 'JetBrains Mono', ui-monospace, monospace;
+            font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase;
+            color: var(--accent-cool);
+            margin-bottom: 0.6rem;
+        }
+        h1 {
+            font-family: 'Fraunces', Georgia, serif;
+            font-style: italic; font-weight: 700;
+            font-size: clamp(2.3rem, 6vw, 3.6rem);
+            letter-spacing: -0.02em;
+            line-height: 1.05;
+            margin-bottom: 1rem;
+        }
+        .lede {
+            font-size: 1.15rem;
+            color: var(--text);
+            max-width: 64ch;
+            margin-bottom: 2rem;
+        }
+        .meta-strip {
+            display: flex; flex-wrap: wrap; gap: 0.5rem;
+            margin-bottom: 2.5rem;
+        }
+        .meta-tag {
+            padding: 0.3rem 0.7rem;
+            border: 1px solid var(--border-soft);
+            border-radius: 9999px;
+            font-size: 0.75rem; letter-spacing: 0.06em;
+            color: var(--text-dim);
+        }
+        figure {
+            margin: 0 0 2.5rem;
+            border: 1px solid var(--border-soft);
+            border-radius: 16px;
+            overflow: hidden;
+            background: rgba(20,20,20,0.4);
+        }
+        figure img { display:block; width: 100%; height: auto; }
+        figcaption {
+            padding: 0.65rem 1rem;
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            border-top: 1px solid var(--border-soft);
+        }
+
+        /* Unity Play live embed */
+        .unity-embed {
+            position: relative;
+            margin: 0 0 2.5rem;
+            border: 1px solid var(--border-soft);
+            border-radius: 16px;
+            overflow: hidden;
+            background: #0a1628;
+        }
+        .unity-embed-frame {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+        }
+        .unity-embed iframe {
+            position: absolute; inset: 0;
+            width: 100%; height: 100%;
+            border: 0;
+            display: block;
+        }
+        .unity-embed-bar {
+            display: flex; justify-content: space-between; align-items: center;
+            gap: 0.75rem;
+            padding: 0.7rem 1rem;
+            font-size: 0.78rem;
+            color: var(--text-dim);
+            border-top: 1px solid var(--border-soft);
+        }
+        .unity-embed-bar strong { color: var(--text); font-weight: 600; }
+        .unity-embed-pop {
+            display: inline-flex; align-items: center; gap: 0.35rem;
+            color: var(--accent-cool);
+            text-decoration: none;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        .unity-embed-pop:hover, .unity-embed-pop:focus-visible { color: #fff; }
+        .unity-embed-noscript {
+            padding: 2rem 1.2rem;
+            text-align: center;
+            color: var(--text);
+            font-size: 0.9rem;
+        }
+        h2 {
+            font-family: 'Fraunces', Georgia, serif;
+            font-style: italic; font-weight: 700;
+            font-size: 1.8rem;
+            margin: 3rem 0 1rem;
+            color: var(--accent-warm);
+        }
+        h3 {
+            font-family: 'Fraunces', Georgia, serif;
+            font-style: italic;
+            font-size: 1.2rem;
+            margin: 1.5rem 0 0.5rem;
+            color: var(--text);
+        }
+        p { margin-bottom: 1rem; }
+        ul, ol { padding-left: 1.4rem; margin-bottom: 1rem; }
+        li { margin-bottom: 0.4rem; }
+        strong { color: #fff; font-weight: 600; }
+        em { color: var(--accent-warm-soft); font-style: italic; }
+        code, pre {
+            font-family: 'JetBrains Mono', ui-monospace, Menlo, monospace;
+            font-size: 0.85rem;
+        }
+        :not(pre) > code {
+            padding: 0.1rem 0.35rem;
+            background: var(--code-bg);
+            border-radius: 4px;
+            color: var(--accent-cool);
+            border: 1px solid var(--border-soft);
+        }
+        pre {
+            background: var(--code-bg);
+            border: 1px solid var(--border-soft);
+            border-radius: 10px;
+            padding: 1rem 1.2rem;
+            overflow-x: auto;
+            margin: 1rem 0 1.5rem;
+            line-height: 1.55;
+            color: #cbd5e1;
+        }
+        pre .kw { color: var(--accent-warm-soft); }
+        pre .ty { color: var(--accent-cool); }
+        pre .cm { color: rgba(215,226,234,0.45); font-style: italic; }
+        pre .st { color: #a5f3a8; }
+
+        .callout {
+            margin: 1.5rem 0;
+            padding: 1rem 1.2rem;
+            border-left: 3px solid var(--accent-cool);
+            background: rgba(8,145,178,0.1);
+            border-radius: 0 10px 10px 0;
+        }
+        .callout-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem; letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--accent-cool);
+            margin-bottom: 0.4rem;
+        }
+
+        /* Spec table — numbers from the engineering report. */
+        .spec-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0 1.5rem;
+            font-size: 0.9rem;
+        }
+        .spec-table th, .spec-table td {
+            text-align: left;
+            padding: 0.55rem 0.85rem;
+            border-bottom: 1px solid var(--border-soft);
+        }
+        .spec-table th {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem; letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--accent-cool);
+            font-weight: 600;
+        }
+        .spec-table td { color: var(--text); }
+        .spec-table tr:last-child th, .spec-table tr:last-child td { border-bottom: 0; }
+
+        /* Team grid — credits the real five-person team. */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 0.75rem;
+            margin: 1rem 0 1.5rem;
+        }
+        .team-card {
+            padding: 0.85rem 1rem;
+            border: 1px solid var(--border-soft);
+            border-radius: 12px;
+            background: rgba(20,20,20,0.45);
+        }
+        .team-card.me {
+            border-color: var(--accent-cool);
+            background: rgba(8,145,178,0.1);
+        }
+        .team-name {
+            font-weight: 600; color: #fff;
+            font-size: 0.95rem;
+            margin-bottom: 0.2rem;
+        }
+        .team-role {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem;
+            color: var(--text-dim);
+            letter-spacing: 0.04em;
+        }
+
+        .diagram {
+            margin: 1.5rem 0;
+            padding: 1.5rem;
+            border: 1px solid var(--border-soft);
+            border-radius: 14px;
+            background: rgba(20,20,20,0.45);
+        }
+        .diagram svg { width: 100%; max-width: 100%; height: auto; }
+        .cta-row {
+            display: flex; flex-wrap: wrap; gap: 0.75rem;
+            margin: 3rem 0 1rem;
+        }
+        .cta-btn {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            padding: 0.75rem 1.4rem;
+            border-radius: 9999px;
+            font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase;
+            font-weight: 600;
+            text-decoration: none;
+            transition: transform 0.2s ease, background 0.2s ease;
+        }
+        .cta-primary { background: var(--accent-cool-deep); color: #fff; }
+        .cta-primary:hover { transform: translateY(-2px); background: #0891b2; color: #fff; }
+        .cta-ghost { border: 1.5px solid var(--text); color: var(--text); }
+        .cta-ghost:hover { background: rgba(255,255,255,0.06); color: #fff; }
+        .foot {
+            margin-top: 4rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-soft);
+            font-size: 0.85rem; color: var(--text-dim);
+        }
+    </style>
+</head>
+<body>
+    <main class="wrap">
+        <div class="top-row">
+            <a href="/#projects" class="back">← Back to portfolio · Projects</a>
+            <a href="co2-simulation-de.html" class="lang-swap" hreflang="de" lang="de" onclick="try{localStorage.setItem('lang','de')}catch(e){}">Auf Deutsch lesen →</a>
+        </div>
+
+        <div class="eyebrow">Case study · Unity 3D + Blender · OVGU Magdeburg · 2025</div>
+        <h1>Visualising Post-Combustion CO₂ Capture, End-to-End</h1>
+        <p class="lede">
+            A five-person team built an interactive Unity simulation of a 1000 MW coal-fired power plant's post-combustion CO₂ capture unit — modelled in Blender, scripted in C#, validated against real chemical-engineering calculations. <strong>My role: Unity, Blender &amp; UI Developer.</strong> I built the 3D plant models, the Unity simulation behaviour, every screen and interface, the entire demo screen, and the walkthrough video. Coursework for the M.Sc. Digital Engineering programme at OVGU Magdeburg.
+        </p>
+        <div class="meta-strip">
+            <span class="meta-tag">Role: Unity, Blender &amp; UI Developer</span>
+            <span class="meta-tag">Team: 5 (Digital + Chemical Engineering)</span>
+            <span class="meta-tag">Stack: Unity 2022 LTS · C# · Blender 4.x</span>
+            <span class="meta-tag">Status: Live on Unity Play</span>
+        </div>
+
+        <figure>
+            <img src="../Images/co2-simulation.gif" width="800" height="450" alt="Animated GIF of the CO₂ capture simulation: flue gas entering the absorber on the left, rich MEA flowing across to the stripper on the right, CO₂ molecules filling the storage tank." loading="lazy" decoding="async">
+            <figcaption>The simulation running its seven-phase coroutine — flue gas intake, MEA absorption, solvent transfer, stripping, compression, storage, and lean MEA return.</figcaption>
+        </figure>
+
+        <!-- Live, playable Unity Play embed. -->
+        <section class="unity-embed" aria-labelledby="unity-embed-heading">
+            <h2 id="unity-embed-heading" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;">Play the simulation</h2>
+            <div class="unity-embed-frame">
+                <iframe
+                    src="https://play.unity.com/en/games/30f22392-532c-41e1-b925-6191a9ea99c2/post-combustion-co-carbon-capture"
+                    title="Post-Combustion CO₂ Carbon Capture Simulation — playable Unity WebGL build"
+                    loading="lazy"
+                    allow="fullscreen; gamepad; autoplay"
+                    allowfullscreen
+                    referrerpolicy="strict-origin-when-cross-origin">
+                </iframe>
+                <noscript>
+                    <p class="unity-embed-noscript">JavaScript is required to load the Unity build. <a href="https://play.unity.com/en/games/30f22392-532c-41e1-b925-6191a9ea99c2/post-combustion-co-carbon-capture">Open the simulation in a new tab →</a></p>
+                </noscript>
+            </div>
+            <div class="unity-embed-bar">
+                <span><strong>Play it here.</strong> Unity Play WebGL build — no install. Click into the canvas to capture keyboard.</span>
+                <a class="unity-embed-pop" href="https://play.unity.com/en/games/30f22392-532c-41e1-b925-6191a9ea99c2/post-combustion-co-carbon-capture" target="_blank" rel="noopener noreferrer">
+                    Open full-screen
+                    <svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path d="M14 4h6v6M20 4 10 14M11 5H4v15h15v-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </a>
+            </div>
+        </section>
+
+        <h2>The brief</h2>
+        <p>
+            OVGU's Digital Engineering Project module asks teams to take a complex industrial process and make it <em>interactively understandable</em> — not a static diagram, not a pre-rendered animation, but something a student or engineer can poke at and immediately see the consequences.
+        </p>
+        <p>
+            Our brief was post-combustion CO₂ capture for a coal-fired power plant — chemical absorption with monoethanolamine (MEA), modelled against a 1000 MW reference plant. The output had to be installable on Windows, recorded as a guided demo video with English captions and German subtitles, and supported by an engineering-calculation report. Supervised by <strong>Dr.-Ing. David Broneske</strong> (Computer Science) and <strong>Dr.-Ing. Nicole Vorhauer</strong> (Process Engineering).
+        </p>
+
+        <h2>The team</h2>
+        <p>A five-person collaboration across two departments. The chemical engineers owned the process design and the equations behind every threshold in the simulation; the digital engineers owned the 3D models, the Unity scenes, the C# behaviour, and the user-facing interfaces.</p>
+        <div class="team-grid">
+            <div class="team-card me">
+                <div class="team-name">Hashwanth Ghanta — me</div>
+                <div class="team-role">Unity, Blender &amp; UI Developer · pages, interfaces, demo screen, walkthrough video, simulation behaviour</div>
+            </div>
+            <div class="team-card">
+                <div class="team-name">Aishwarya Thonda</div>
+                <div class="team-role">Digital Engineering · Unity &amp; Blender Developer</div>
+            </div>
+            <div class="team-card">
+                <div class="team-name">Tejaswini Sri Raja</div>
+                <div class="team-role">Digital Engineering · UI/UX &amp; Development</div>
+            </div>
+            <div class="team-card">
+                <div class="team-name">Salman Al Asif Khan</div>
+                <div class="team-role">Chemical Engineering · process design &amp; flow</div>
+            </div>
+            <div class="team-card">
+                <div class="team-name">Rony Ahmed Rimon MD</div>
+                <div class="team-role">Chemical Engineering · process design &amp; flow</div>
+            </div>
+        </div>
+        <div class="callout">
+            <div class="callout-label">Credit where it's due</div>
+            <p>The <strong>chemical process flow</strong> — the order of operations, the unit-by-unit mass-balance assumptions, the temperature thresholds — came from <strong>Salman</strong> and <strong>Rony</strong>. Without that work the simulation would be animation, not a model.</p>
+        </div>
+
+        <h2>The process, in one paragraph</h2>
+        <p>
+            Flue gas from a coal-fired power plant enters the <strong>absorber column</strong> from the bottom and flows up. A 30 wt% MEA solvent showers down from the top in counter-current contact, chemically absorbing the CO₂ to form <em>rich MEA</em>. The rich MEA is pumped through a <strong>heat exchanger</strong> into the <strong>stripper column</strong>, where a <strong>reboiler</strong> heats it enough to release the captured CO₂ as a concentrated gas stream. The regenerated <em>lean MEA</em> loops back to the absorber, and the released CO₂ is sent to the <strong>storage tank</strong> for compression and downstream use. The whole system depends on temperature — too hot in the absorber and the solvent stops absorbing, too cold in the stripper and it won't release what it captured.
+        </p>
+
+        <h2>Engineering basis — the real numbers</h2>
+        <p>Every dimension in the 3D scene and every threshold in the C# scripts traces back to the chemical engineers' calculation report. The basis:</p>
+        <table class="spec-table" aria-label="Engineering basis — process parameters">
+            <tbody>
+                <tr><th>Reference plant</th><td>1000 MW net coal-fired power plant</td></tr>
+                <tr><th>Solvent</th><td>30 wt% Monoethanolamine (MEA) in water</td></tr>
+                <tr><th>Capture target</th><td>90% of inlet CO₂</td></tr>
+                <tr><th>Flue gas flow</th><td>3,500,000 Nm³/h (43.41 kmol/s)</td></tr>
+                <tr><th>Captured CO₂</th><td>232 kg/s → ≈ 6.68 Mt / year (8000 op. hours)</td></tr>
+                <tr><th>Absorber height</th><td>30 m (NTU = 15, HTU = 2 m)</td></tr>
+                <tr><th>Stripper height</th><td>40 m (NTU = 20, HTU = 2 m)</td></tr>
+                <tr><th>Regeneration duty</th><td>≈ 3.8 GJ / t CO₂ (in line with industrial benchmarks)</td></tr>
+            </tbody>
+        </table>
+        <div class="callout">
+            <div class="callout-label">How the numbers were picked</div>
+            <p>The 30 m absorber height isn't an aesthetic choice — it's NTU × HTU. The 125 °C overheat threshold isn't arbitrary either — it's the temperature at which MEA starts to degrade and the stripper efficiency curve breaks down in literature.</p>
+        </div>
+
+        <h2>Architecture</h2>
+        <p>
+            The application ships as four Unity scenes — splash, main menu, simulation, and demo — driven by 11 C# scripts. The simulation scene is the engine of the project: one central <code>SimulationManager</code> runs the full process as a coroutine called <code>RunSimulationSequence()</code>, and a handful of supporting managers each own one concern (audio, notifications, hover tooltips, the efficiency graph, particle systems, the overheat watchdog).
+        </p>
+
+        <div class="diagram">
+            <svg viewBox="0 0 700 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Architecture: SimulationManager coroutine drives seven phases, broadcasting to NotificationManager, AudioManager, particle spawners, the graph, and an overheat watchdog. UI sliders feed values back into the manager.">
+                <defs>
+                    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                        <path d="M0,0 L10,5 L0,10 z" fill="#67e8f9"/>
+                    </marker>
+                </defs>
+
+                <!-- Hub -->
+                <rect x="240" y="20" width="220" height="56" rx="10" fill="rgba(8,145,178,0.18)" stroke="#67e8f9" stroke-width="1.5"/>
+                <text x="350" y="44" fill="#ffffff" font-family="Kanit, sans-serif" font-weight="600" font-size="14" text-anchor="middle">SimulationManager.cs</text>
+                <text x="350" y="62" fill="rgba(215,226,234,0.7)" font-family="JetBrains Mono, monospace" font-size="11" text-anchor="middle">RunSimulationSequence() · 7 phases</text>
+
+                <!-- Sliders feed back in -->
+                <rect x="20" y="28" width="160" height="40" rx="8" fill="rgba(255,107,53,0.15)" stroke="#ffb07a" stroke-width="1.2"/>
+                <text x="100" y="44" fill="#ffffff" font-family="Kanit, sans-serif" font-weight="600" font-size="12" text-anchor="middle">Absorber slider</text>
+                <text x="100" y="60" fill="rgba(215,226,234,0.65)" font-family="JetBrains Mono, monospace" font-size="10" text-anchor="middle">0–65 °C · default 25</text>
+                <line x1="180" y1="48" x2="238" y2="48" stroke="#67e8f9" stroke-width="1.2" marker-end="url(#ar)"/>
+
+                <rect x="520" y="28" width="160" height="40" rx="8" fill="rgba(255,107,53,0.15)" stroke="#ffb07a" stroke-width="1.2"/>
+                <text x="600" y="44" fill="#ffffff" font-family="Kanit, sans-serif" font-weight="600" font-size="12" text-anchor="middle">Stripper slider</text>
+                <text x="600" y="60" fill="rgba(215,226,234,0.65)" font-family="JetBrains Mono, monospace" font-size="10" text-anchor="middle">75–125 °C · default 110</text>
+                <line x1="520" y1="48" x2="462" y2="48" stroke="#67e8f9" stroke-width="1.2" marker-end="url(#ar)"/>
+
+                <!-- Children: visuals -->
+                <rect x="20"  y="130" width="160" height="44" rx="8" fill="rgba(20,20,20,0.7)" stroke="#cbd5e1" stroke-width="1"/>
+                <text x="100" y="148" fill="#ffffff" font-family="Kanit, sans-serif" font-weight="600" font-size="12" text-anchor="middle">CO2Spawner</text>
+                <text x="100" y="164" fill="rgba(215,226,234,0.6)" font-family="JetBrains Mono, monospace" font-size="10" text-anchor="middle">tank molecules</text>
+
+                <rect x="200" y="130" width="160" height="44" rx="8" fill="rgba(20,20,20,0.7)" stroke="#cbd5e1" stroke-width="1"/>
+                <text x="280" y="148" fill="#ffffff" font-family="Kanit, sans-serif" font-weight="600" font-size="12" text-anchor="middle">ArrowFollower</text>
+                <text x="280" y="164" fill="rgba(215,226,234,0.6)" font-family="JetBrains Mono, monospace" font-size="10" text-anchor="middle">MEA flow direction</text>
+
+                <rect x="380" y="130" width="160" height="44" rx="8" fill="rgba(20,20,20,0.7)" stroke="#cbd5e1" stroke-width="1"/>
+                <text x="460" y="148" fill="#ffffff" font-family="Kanit, sans-serif" font-weight="600" font-size="12" text-anchor="middle">GraphManager</text>
+                <text x="460" y="164" fill="rgba(215,226,234,0.6)" font-family="JetBrains Mono, monospace" font-size="10" text-anchor="middle">efficiency vs T</text>
+
+                <rect x="560" y="130" width="120" height="44" rx="8" fill="rgba(20,20,20,0.7)" stroke="#cbd5e1" stroke-width="1"/>
+                <text x="620" y="148" fill="#ffffff" font-family="Kanit, sans-serif" font-weight="600" font-size="12" text-anchor="middle">UIBlinker</text>
+                <text x="620" y="164" fill="rgba(215,226,234,0.6)" font-family="JetBrains Mono, monospace" font-size="10" text-anchor="middle">phase attention</text>
+
+                <line x1="220" y1="76" x2="100" y2="128" stroke="#67e8f9" stroke-width="1" stroke-dasharray="4 3"/>
+                <line x1="280" y1="76" x2="280" y2="128" stroke="#67e8f9" stroke-width="1" stroke-dasharray="4 3"/>
+                <line x1="400" y1="76" x2="460" y2="128" stroke="#67e8f9" stroke-width="1" stroke-dasharray="4 3"/>
+                <line x1="470" y1="76" x2="620" y2="128" stroke="#67e8f9" stroke-width="1" stroke-dasharray="4 3"/>
+
+                <!-- Children: comms + safety -->
+                <rect x="20"  y="220" width="200" height="44" rx="8" fill="rgba(20,20,20,0.7)" stroke="#cbd5e1" stroke-width="1"/>
+                <text x="120" y="238" fill="#ffffff" font-family="Kanit, sans-serif" font-weight="600" font-size="12" text-anchor="middle">NotificationManager</text>
+                <text x="120" y="254" fill="rgba(215,226,234,0.6)" font-family="JetBrains Mono, monospace" font-size="10" text-anchor="middle">phase cards · scroll panel</text>
+
+                <rect x="245" y="220" width="200" height="44" rx="8" fill="rgba(20,20,20,0.7)" stroke="#cbd5e1" stroke-width="1"/>
+                <text x="345" y="238" fill="#ffffff" font-family="Kanit, sans-serif" font-weight="600" font-size="12" text-anchor="middle">AudioManager</text>
+                <text x="345" y="254" fill="rgba(215,226,234,0.6)" font-family="JetBrains Mono, monospace" font-size="10" text-anchor="middle">phase-keyed 3D audio</text>
+
+                <rect x="470" y="220" width="210" height="44" rx="8" fill="rgba(239,68,68,0.15)" stroke="#fca5a5" stroke-width="1.2"/>
+                <text x="575" y="238" fill="#ffffff" font-family="Kanit, sans-serif" font-weight="600" font-size="12" text-anchor="middle">OverheatAlertManager</text>
+                <text x="575" y="254" fill="rgba(252,165,165,0.85)" font-family="JetBrains Mono, monospace" font-size="10" text-anchor="middle">stops everything at 125 °C</text>
+
+                <line x1="300" y1="76" x2="160" y2="218" stroke="#67e8f9" stroke-width="1" stroke-dasharray="4 3"/>
+                <line x1="350" y1="76" x2="345" y2="218" stroke="#67e8f9" stroke-width="1" stroke-dasharray="4 3"/>
+                <line x1="420" y1="76" x2="555" y2="218" stroke="#fca5a5" stroke-width="1" stroke-dasharray="4 3"/>
+
+                <!-- Caption -->
+                <text x="350" y="300" fill="rgba(215,226,234,0.55)" font-family="JetBrains Mono, monospace" font-size="10" text-anchor="middle">11 C# scripts · MonoBehaviour · Singleton managers · partial ECS grouping</text>
+            </svg>
+        </div>
+
+        <h3>The seven phases of <code>RunSimulationSequence()</code></h3>
+        <p>
+            One coroutine drives the entire process. Each phase yields with a custom <code>WaitWithChecks()</code> so timing pauses cleanly whenever the user hits Pause — or whenever the overheat watchdog fires.
+        </p>
+        <ol>
+            <li><strong>MEA Shower:</strong> lean solvent begins flowing into the top of the absorber.</li>
+            <li><strong>Flue Gas Intake:</strong> CO₂-rich flue gas enters the absorber from the bottom.</li>
+            <li><strong>Absorption:</strong> MEA reacts with CO₂; particle colours and emission rates update with the absorber slider.</li>
+            <li><strong>Solvent Transfer:</strong> rich MEA pumped across the heat exchanger to the stripper.</li>
+            <li><strong>Stripping:</strong> reboiler heats the rich MEA; white steam rises, CO₂ is released.</li>
+            <li><strong>Compression &amp; Storage:</strong> released CO₂ is spawned as 3D molecules filling the storage tank.</li>
+            <li><strong>Lean MEA Return:</strong> regenerated solvent loops back to the absorber for the next cycle.</li>
+        </ol>
+
+        <h2>Decisions and tradeoffs</h2>
+
+        <h3>Reference-table efficiency vs. continuous model</h3>
+        <p>
+            The chemical engineers gave us a nine-point reference table for capture efficiency vs. temperature (absorber: 97% at 25 °C → 61.8% at 65 °C; stripper: 78% at 85 °C → 94.5% at 110 °C). The original idea was to fit a polynomial and compute live. We shipped the lookup table instead — fast on WebGL, exact at the supervisor's reference points, and the on-graph disclaimer told users it's a teaching aid, not an engineering model.
+        </p>
+        <div class="callout">
+            <div class="callout-label">Takeaway</div>
+            <p>For an educational tool, deterministic reference data beats a polynomial fit that quietly hides off-spec behaviour. The on-graph disclaimer made the scope of the model explicit instead of pretending the lookup table was a continuous physics engine.</p>
+        </div>
+
+        <h3>Blender first, Unity second</h3>
+        <p>
+            All six equipment components — absorber, stripper, reboiler, heat exchanger, compressor, CO₂ storage tank — were modelled in Blender 4.x before any of them touched Unity. Internal lattice packing inside the columns was built as a repeating mesh pattern; pipes were created via Blender's curve-to-mesh workflow so the bends were smooth without manual polygon editing. Each model exported as FBX with <strong>Apply Transform enabled</strong> — without that flag, Blender's Z-up coordinate system arrives in Unity's Y-up world rotated 90 ° and scaled 1/100.
+        </p>
+
+        <h3>UI Toolkit (UXML/USS) for menus, UGUI for the simulation</h3>
+        <p>
+            Main menu and demo screen are built with Unity's newer UI Toolkit because the layouts are mostly declarative and benefit from USS styling. The simulation scene stays on the older UGUI Canvas system because it needs world-space depth sorting and TextMeshPro labels welded to 3D objects — both of which UI Toolkit doesn't handle as cleanly yet. Mixing them in the same project felt wrong on paper, was the right call in practice.
+        </p>
+
+        <h3>One simulation scene, not seven</h3>
+        <p>
+            Early experiment: one Unity scene per phase. It looked clean until the moment we needed continuous animation between phases (rich MEA flowing from absorber to stripper isn't a scene change — it's the <em>point</em>). A single simulation scene with phase-keyed visibility groups solved both the transition problem and the asset duplication problem in one move.
+        </p>
+
+        <h2>Things that broke (and how)</h2>
+        <p>Worth documenting because every Unity-on-WebGL project hits these eventually:</p>
+        <ul>
+            <li><strong>Unicode glyphs vanished in the standalone build.</strong> The close-button ✕ rendered fine in the Editor and disappeared in the .exe. Unity's default font atlas strips uncommon Unicode at build time. Fix: replace with ASCII X.</li>
+            <li><strong>FBX imported at 1/100 scale.</strong> Blender's FBX exporter applies a 0.01 unit factor by default. <em>Apply Transform</em> in the export settings bakes the correct scale in.</li>
+            <li><strong>UI Image overlays drew on top of 3D, never inside it.</strong> Canvas elements always paint over the scene. For the equipment-highlight effect we used a material with <code>renderQueue = 4000</code> so it participates in depth sorting instead.</li>
+            <li><strong>Efficiency graph stayed tiny after the window was maximised.</strong> Anchors had drifted. Reset <code>GraphArea</code> RectTransform to full stretch (0,0 → 1,1), then call <code>ShowGraph()</code> after a 2-frame <code>WaitForEndOfFrame</code> so Unity's layout system finishes its recalculation first.</li>
+            <li><strong>Notification cards stacked on top of each other under fast phase transitions.</strong> Calling <code>RepositionCards()</code> on every add/remove fixed the vertical layout.</li>
+            <li><strong>UI Toolkit tooltips refused to render.</strong> The standard tooltip API didn't fire in our scene. Re-implemented with <code>MouseEnterEvent</code> / <code>MouseLeaveEvent</code> callbacks — same visible result, different code path.</li>
+            <li><strong>PlasticSCM workspace hang.</strong> Deleting four root files — <code>plastic.selector</code>, <code>plastic.wktree</code>, <code>plastic.changes</code>, <code>plastic.workspace</code> — reopened the workspace cleanly.</li>
+        </ul>
+
+        <h2>The demo video</h2>
+        <p>
+            A 2 minute 57.5 second video ships with the build. Unity Recorder captured the simulation at 1080p H.264 with seven scripted segments matched to the on-screen highlights (38 s intro, 23.5 s absorber, 16 s heat exchanger, 19.5 s stripper, 14 s reboiler, 32 s compressor + storage, 34.5 s conclusion). An animated green-screen presenter from Animaker was composited in over the Unity footage in Adobe Premiere Pro via Ultra Key. English captions were auto-generated with Premiere's Speech-to-Text and reviewed by hand; German subtitles came from a separately authored SRT file imported as its own track.
+        </p>
+
+        <h2>Tools, top to bottom</h2>
+        <ul>
+            <li><strong>Unity 2022 LTS</strong> — engine for all four scenes and the WebGL build.</li>
+            <li><strong>C# / .NET</strong> — 11 scripts, MonoBehaviour-derived, Singleton + partial ECS organisation.</li>
+            <li><strong>UI Toolkit (UXML/USS)</strong> — main menu and demo screen.</li>
+            <li><strong>Unity Canvas (UGUI) + TextMeshPro</strong> — simulation HUD, sliders, graph, overheat overlay.</li>
+            <li><strong>Blender 4.x</strong> — six engineering-accurate 3D models, exported as FBX.</li>
+            <li><strong>PlasticSCM + GitHub</strong> — version control during development, GitHub for final distribution.</li>
+            <li><strong>Unity Recorder · Animaker · Adobe Premiere Pro</strong> — demo video pipeline.</li>
+            <li><strong>Figma · Draw.io · Mermaid</strong> — UI design, class hierarchy, activity / sequence diagrams.</li>
+        </ul>
+
+        <h2>What I'd do differently</h2>
+        <ul>
+            <li><strong>Replace the 9-point lookup with a polynomial regression</strong> across the full operating range of both sliders. The discrete table works but the on-graph disclaimer would be unnecessary with a smooth fit.</li>
+            <li><strong>Port the simulation to VR.</strong> Walking around a 30 m absorber column at scale would land harder than seeing it on a 24" monitor.</li>
+            <li><strong>Hook a live plant data stream into the existing manager pattern</strong> so the same UI could double as a monitoring dashboard. The data flow is already one-way through <code>SimulationManager</code> — the seam exists.</li>
+            <li><strong>Expand <code>EnhancedHoverTooltip</code> to all six equipment components.</strong> Right now it covers a subset.</li>
+        </ul>
+
+        <h2>Outcomes</h2>
+        <ul>
+            <li>Shipped all five project objectives: 3D visualisation, real-time slider feedback, solvent circulation animation, seven-phase notification panel, and a captioned demo video.</li>
+            <li>Standalone Windows build runs cleanly at 1920 × 1080. WebGL build playable on Unity Play without installation.</li>
+            <li>Engineering numbers validated against literature (regeneration duty ≈ 3.8 GJ/t CO₂, optimal stripper window 105–115 °C) and against the supervisor's reference tables.</li>
+            <li>Submitted as final coursework for the OVGU Digital Engineering Project module, jointly supervised by the Computer Science and Process Engineering institutes.</li>
+        </ul>
+
+        <div class="cta-row">
+            <a class="cta-btn cta-primary" href="https://play.unity.com/en/games/30f22392-532c-41e1-b925-6191a9ea99c2/post-combustion-co-carbon-capture" target="_blank" rel="noopener noreferrer">
+                Play the live demo →
+            </a>
+            <a class="cta-btn cta-ghost" href="/#projects">Back to projects</a>
+        </div>
+
+        <p class="foot">Questions about the Unity build, the Blender pipeline, or the chemical-engineering basis? <a href="mailto:hashwanthghanta@gmail.com">hashwanthghanta@gmail.com</a> · <a href="https://github.com/hashwanthghanta" target="_blank" rel="noopener noreferrer">GitHub</a></p>
+    </main>
+</body>
+</html>

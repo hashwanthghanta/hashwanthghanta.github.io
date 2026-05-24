@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="de">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#0C0C0C">
+    <title>Case Study: StockWatch — SwiftUI-Watchlist für iOS | Hashwanth Ghanta</title>
+    <meta name="description" content="Eine native SwiftUI-Watchlist-App für iOS — über 55 Ticker an sechs Börsen, Live-Kurse von Yahoo Finance, interaktive Swift Charts, MVVM mit @MainActor @Observable, EN/DE-Sprachwechsel zur Laufzeit.">
+    <link rel="canonical" href="https://hashwanthghanta.github.io/projects/stockwatch-de.html">
+    <link rel="alternate" hreflang="en" href="https://hashwanthghanta.github.io/projects/stockwatch.html">
+    <link rel="alternate" hreflang="de" href="https://hashwanthghanta.github.io/projects/stockwatch-de.html">
+    <script>
+        (function(){
+            try { if (localStorage.getItem('lang') === 'en') location.replace('stockwatch.html' + location.hash); } catch(e){}
+        })();
+    </script>
+    <meta property="og:title" content="Case Study: StockWatch — SwiftUI-Watchlist für iOS">
+    <meta property="og:description" content="Native iOS-Watchlist-App — Swift Charts, MVVM, EN/DE-Sprachwechsel zur Laufzeit per Bundle-Swizzling, XCTest-Suite.">
+    <meta property="og:image" content="https://hashwanthghanta.github.io/Images/stockwatch-thumb.png">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230C0C0C'/%3E%3Ctext x='50' y='66' font-family='Inter,system-ui,sans-serif' font-size='52' font-weight='900' fill='%23ff6b35' text-anchor='middle'%3EHG%3C/text%3E%3C/svg%3E">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0807; --text: #D7E2EA; --text-dim: rgba(215,226,234,0.72);
+            --accent-cool: #67e8f9; --accent-cool-deep: #0e7490;
+            --accent-warm: #ff6b35; --accent-warm-soft: #ffb07a;
+            --border-soft: rgba(215,226,234,0.18);
+            --code-bg: rgba(0,0,0,0.4);
+        }
+        *,*::before,*::after { margin:0; padding:0; box-sizing:border-box; }
+        body {
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--text); line-height: 1.65;
+            background:
+                radial-gradient(ellipse 70% 50% at 12% -5%, rgba(255,107,53,0.16), transparent 60%),
+                radial-gradient(ellipse 80% 55% at 50% 110%, rgba(180,80,30,0.12), transparent 65%),
+                var(--bg);
+            background-attachment: fixed;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+        :focus-visible { outline: 2.5px solid #FFD400; outline-offset: 3px; }
+        a { color: var(--accent-cool); text-underline-offset: 3px; }
+        a:hover, a:focus-visible { color: #fff; }
+        .wrap { max-width: 780px; margin: 0 auto; padding: clamp(2rem, 5vw, 4rem) 1.5rem 6rem; }
+        .top-row {
+            display: flex; justify-content: space-between; align-items: center;
+            gap: 1rem; flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+        .back {
+            display: inline-flex; align-items: center; gap: 0.4rem;
+            font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase;
+            color: var(--text-dim); text-decoration: none;
+        }
+        .back:hover { color: var(--text); }
+        .lang-swap {
+            font-family: 'JetBrains Mono', ui-monospace, monospace;
+            font-size: 0.75rem;
+            color: var(--text-dim); text-decoration: none;
+            padding: 0.35rem 0.7rem;
+            border: 1px solid var(--border-soft);
+            border-radius: 999px;
+        }
+        .lang-swap:hover { color: var(--text); border-color: var(--accent-cool); }
+        .eyebrow {
+            font-family: 'JetBrains Mono', ui-monospace, monospace;
+            font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase;
+            color: var(--accent-cool);
+            margin-bottom: 0.6rem;
+        }
+        h1 {
+            font-family: 'Fraunces', Georgia, serif;
+            font-style: italic; font-weight: 700;
+            font-size: clamp(2.3rem, 6vw, 3.6rem);
+            letter-spacing: -0.02em;
+            line-height: 1.05;
+            margin-bottom: 1rem;
+        }
+        .lede {
+            font-size: 1.15rem;
+            color: var(--text);
+            max-width: 64ch;
+            margin-bottom: 2rem;
+        }
+        .meta-strip {
+            display: flex; flex-wrap: wrap; gap: 0.5rem;
+            margin-bottom: 2.5rem;
+        }
+        .meta-tag {
+            padding: 0.3rem 0.7rem;
+            border: 1px solid var(--border-soft);
+            border-radius: 9999px;
+            font-size: 0.75rem; letter-spacing: 0.06em;
+            color: var(--text-dim);
+        }
+        figure {
+            margin: 0 0 2.5rem;
+            border: 1px solid var(--border-soft);
+            border-radius: 16px;
+            overflow: hidden;
+            background: rgba(20,20,20,0.4);
+        }
+        figure img { display:block; width: 100%; height: auto; }
+        figcaption {
+            padding: 0.65rem 1rem;
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            border-top: 1px solid var(--border-soft);
+        }
+        .screen-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 0.85rem;
+            margin: 1rem 0 2.5rem;
+        }
+        .screen-grid figure { margin: 0; }
+        h2 {
+            font-family: 'Fraunces', Georgia, serif;
+            font-style: normal; font-weight: 700;
+            font-size: 1.8rem;
+            margin: 3rem 0 1rem;
+            color: var(--accent-warm);
+        }
+        h3 {
+            font-family: 'Fraunces', Georgia, serif;
+            font-style: normal;
+            font-size: 1.2rem;
+            margin: 1.5rem 0 0.5rem;
+            color: var(--text);
+        }
+        p { margin-bottom: 1rem; }
+        ul, ol { padding-left: 1.4rem; margin-bottom: 1rem; }
+        li { margin-bottom: 0.4rem; }
+        strong { color: #fff; font-weight: 600; }
+        em { color: var(--accent-warm-soft); font-style: italic; }
+        code, pre {
+            font-family: 'JetBrains Mono', ui-monospace, Menlo, monospace;
+            font-size: 0.85rem;
+        }
+        :not(pre) > code {
+            padding: 0.1rem 0.35rem;
+            background: var(--code-bg);
+            border-radius: 4px;
+            color: var(--accent-cool);
+            border: 1px solid var(--border-soft);
+        }
+        pre {
+            background: var(--code-bg);
+            border: 1px solid var(--border-soft);
+            border-radius: 10px;
+            padding: 1rem 1.2rem;
+            overflow-x: auto;
+            margin: 1rem 0 1.5rem;
+            line-height: 1.55;
+            color: #cbd5e1;
+        }
+        pre .kw { color: var(--accent-warm-soft); }
+        pre .ty { color: var(--accent-cool); }
+        pre .cm { color: rgba(215,226,234,0.45); font-style: italic; }
+        pre .st { color: #a5f3a8; }
+        .callout {
+            margin: 1.5rem 0;
+            padding: 1rem 1.2rem;
+            border-left: 3px solid var(--accent-cool);
+            background: rgba(8,145,178,0.1);
+            border-radius: 0 10px 10px 0;
+        }
+        .callout-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem; letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--accent-cool);
+            margin-bottom: 0.4rem;
+        }
+        .spec-table {
+            width: 100%; border-collapse: collapse;
+            margin: 1rem 0 1.5rem; font-size: 0.9rem;
+        }
+        .spec-table th, .spec-table td {
+            text-align: left; padding: 0.55rem 0.85rem;
+            border-bottom: 1px solid var(--border-soft);
+        }
+        .spec-table th {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem; letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--accent-cool);
+            font-weight: 600;
+        }
+        .spec-table tr:last-child th, .spec-table tr:last-child td { border-bottom: 0; }
+        .cta-row { display: flex; flex-wrap: wrap; gap: 0.75rem; margin: 3rem 0 1rem; }
+        .cta-btn {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            padding: 0.75rem 1.4rem; border-radius: 9999px;
+            font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase;
+            font-weight: 600; text-decoration: none;
+            transition: transform 0.2s ease, background 0.2s ease;
+        }
+        .cta-primary { background: var(--accent-cool-deep); color: #fff; }
+        .cta-primary:hover { transform: translateY(-2px); background: #0891b2; color: #fff; }
+        .cta-ghost { border: 1.5px solid var(--text); color: var(--text); }
+        .cta-ghost:hover { background: rgba(255,255,255,0.06); color: #fff; }
+        .foot {
+            margin-top: 4rem; padding-top: 1.5rem;
+            border-top: 1px solid var(--border-soft);
+            font-size: 0.85rem; color: var(--text-dim);
+        }
+    </style>
+</head>
+<body>
+    <main class="wrap">
+        <div class="top-row">
+            <a href="/#projects" class="back">← Zurück zum Portfolio · Projekte</a>
+            <a href="stockwatch.html" class="lang-swap" hreflang="en" lang="en" onclick="try{localStorage.setItem('lang','en')}catch(e){}">Read in English →</a>
+        </div>
+
+        <div class="eyebrow">Case Study · iOS · SwiftUI · 2026</div>
+        <h1>StockWatch — eine SwiftUI-Watchlist für iOS</h1>
+        <p class="lede">
+            Eine native iOS-Watchlist-App, inspiriert von <em>Scalable Capital</em>. Live-Kurse von Yahoo Finance für <strong>über 55 Ticker</strong> an <strong>sechs Börsen</strong> (USA, deutsche Xetra, UK, Schweiz, Dänemark), interaktive Swift Charts mit sieben Zeiträumen, symbol-relevante News, EN/DE-Sprachwechsel zur Laufzeit und Dark-/Light-/System-Theming. <strong>Solo entwickelt.</strong>
+        </p>
+        <div class="meta-strip">
+            <span class="meta-tag">Rolle: Alleinentwickler</span>
+            <span class="meta-tag">Stack: Swift · SwiftUI · Swift Charts · async/await</span>
+            <span class="meta-tag">Zielplattform: iOS 17+</span>
+            <span class="meta-tag">Quellcode: Öffentlich auf GitHub</span>
+        </div>
+
+        <figure>
+            <img src="../Images/stockwatch-thumb-sm.jpg" width="600" height="1305" alt="StockWatch-App-Screenshot — Liste verfolgter Aktien mit Live-Prozent-Änderungs-Badges." loading="eager" decoding="async">
+            <figcaption>Die Standard-Watchlist-Ansicht — Live-Kurse von Yahoo Finance, farbcodierte Bewegung, sortierbar.</figcaption>
+        </figure>
+
+        <h2>Die Aufgabe, die ich mir selbst gestellt habe</h2>
+        <p>
+            Ich öffne Scalable Capital zehnmal am Tag, um auf dieselben fünfzehn Ticker zu schauen. Die App ist gut — nur dass sie mich auf eine Börse beschränkt, für den Chart-Zeitraum extra kassiert und News des Brokers zeigt, nicht des Symbols. Ich wollte mein eigenes Ding.
+        </p>
+        <p>
+            Die Einschränkungen, die ich mir gesetzt habe: <strong>nativ für iOS</strong> (kein React Native, kein Hybrid), <strong>SwiftUI-first</strong> ohne UIKit-Shims, <strong>echte Architektur</strong> (keine Tutorial-App) und auslieferbar als <strong>parallele EN/DE</strong>-Erfahrung, weil ein Portfolio-Projekt für den deutschen Markt, das kein Deutsch spricht, ein verpasstes Signal ist.
+        </p>
+
+        <h2>Was die App kann</h2>
+        <table class="spec-table" aria-label="StockWatch — Funktionsübersicht">
+            <tbody>
+                <tr><th>Abdeckung</th><td>Über 55 Ticker an NYSE, NASDAQ, Xetra, LSE, SIX, OMX Kopenhagen</td></tr>
+                <tr><th>Live-Kurse</th><td>Yahoo-Finance-Public-Endpoints über <code>URLSession</code> + <code>async/await</code></td></tr>
+                <tr><th>Charts</th><td>Swift Charts — Linienansicht mit Scrubber, sieben Zeiträume (1T / 5T / 1M / 3M / 6M / 1J / 5J)</td></tr>
+                <tr><th>News</th><td>Symbol-relevante Schlagzeilen, abgerufen beim Öffnen des Detail-Bildschirms</td></tr>
+                <tr><th>Layouts</th><td>Listenansicht (Standard) + Rasteransicht, beide responsiv</td></tr>
+                <tr><th>Themes</th><td>Dark / Light / System</td></tr>
+                <tr><th>Sprachen</th><td>Englisch + Deutsch, zur Laufzeit umschaltbar — kein Neustart</td></tr>
+            </tbody>
+        </table>
+
+        <div class="screen-grid">
+            <figure>
+                <img src="../Images/v6_watchlist_dark-sm.jpg" width="400" height="867" alt="Watchlist-Bildschirm im Dark-Theme mit Aktienzeilen und Prozent-Badges." loading="lazy" decoding="async">
+                <figcaption>Watchlist (dark)</figcaption>
+            </figure>
+            <figure>
+                <img src="../Images/v6_grid_dark-sm.jpg" width="400" height="867" alt="Raster-Layout der Aktienkarten im Dark-Theme." loading="lazy" decoding="async">
+                <figcaption>Rasteransicht (dark)</figcaption>
+            </figure>
+            <figure>
+                <img src="../Images/v6_news_dark-sm.jpg" width="400" height="867" alt="News-Liste innerhalb eines Aktien-Detail-Bildschirms, Dark-Theme." loading="lazy" decoding="async">
+                <figcaption>Symbol-News</figcaption>
+            </figure>
+            <figure>
+                <img src="../Images/v6_settings_light-sm.jpg" width="400" height="867" alt="Einstellungs-Bildschirm im Light-Theme — Theme-Auswahl und Sprach-Umschalter." loading="lazy" decoding="async">
+                <figcaption>Einstellungen (light)</figcaption>
+            </figure>
+            <figure>
+                <img src="../Images/v6_add_light-sm.jpg" width="400" height="867" alt="Such-zum-Hinzufügen-Bildschirm im Light-Theme — Suche nach einem neuen Ticker-Symbol." loading="lazy" decoding="async">
+                <figcaption>Ticker hinzufügen</figcaption>
+            </figure>
+        </div>
+
+        <h2>Architektur</h2>
+        <p>
+            MVVM mit einer Besonderheit: jedes ViewModel ist eine per Swift-Macro generierte <code>@Observable</code>-Klasse, an den <code>@MainActor</code> gepinnt. Das eliminiert die manuelle <code>@Published</code>-Verkabelung, die ältere SwiftUI-Projekte ansammeln, und hält jede UI-Mutation auf dem Main-Actor, ohne <code>DispatchQueue.main.async</code> über die Codebase zu streuen.
+        </p>
+        <p>
+            Dependency Injection ist <strong>protokoll-basiert, nicht container-basiert</strong>. Jede Netzwerk-Schnittstelle (Yahoo-Quote-Client, News-Client, Persistenz-Store) ist ein injizierbares Protokoll, sodass die XCTest-Suite Fakes einsetzen kann, ohne den Produktivcode anzufassen.
+        </p>
+
+        <pre><code><span class="cm">// QuoteServicing.swift — the abstraction the ViewModel depends on.</span>
+<span class="kw">protocol</span> <span class="ty">QuoteServicing</span> {
+    <span class="kw">func</span> latest(<span class="kw">for</span> symbols: [<span class="ty">String</span>]) <span class="kw">async throws</span> -> [<span class="ty">Quote</span>]
+}
+
+<span class="cm">// WatchlistViewModel.swift — main-actor pinned, observable, injected.</span>
+@MainActor @Observable
+<span class="kw">final class</span> <span class="ty">WatchlistViewModel</span> {
+    <span class="kw">private let</span> quotes: <span class="ty">QuoteServicing</span>
+    <span class="kw">var</span> rows: [<span class="ty">Quote</span>] = []
+    <span class="kw">var</span> error: <span class="ty">Error</span>?
+
+    <span class="kw">init</span>(quotes: <span class="ty">QuoteServicing</span>) { <span class="kw">self</span>.quotes = quotes }
+
+    <span class="kw">func</span> refresh(_ symbols: [<span class="ty">String</span>]) <span class="kw">async</span> {
+        <span class="kw">do</span> { rows = <span class="kw">try await</span> quotes.latest(for: symbols) }
+        <span class="kw">catch</span> { error = error }
+    }
+}</code></pre>
+
+        <pre><code><span class="cm">// QuoteClientTests.swift — fake injected, no network in test.</span>
+<span class="kw">final class</span> <span class="ty">WatchlistViewModelTests</span>: <span class="ty">XCTestCase</span> {
+    @MainActor
+    <span class="kw">func</span> test_refresh_populatesRows() <span class="kw">async</span> {
+        <span class="kw">let</span> fake = <span class="ty">FakeQuoteService</span>(stub: [.fixture(symbol: <span class="st">"AAPL"</span>)])
+        <span class="kw">let</span> vm   = <span class="ty">WatchlistViewModel</span>(quotes: fake)
+        <span class="kw">await</span> vm.refresh([<span class="st">"AAPL"</span>])
+        <span class="ty">XCTAssertEqual</span>(vm.rows.first?.symbol, <span class="st">"AAPL"</span>)
+    }
+}</code></pre>
+
+        <h2>Der Sprachwechsel zur Laufzeit</h2>
+        <p>
+            iOS-Apps benötigen normalerweise einen Neustart, um die Sprache zu ändern, weil <code>Bundle.main</code> lokalisierte Strings beim Start gegen die System-Locale auflöst. StockWatch tauscht die Lokalisierung zur Laufzeit aus, indem es <code>Bundle.localizedString(forKey:value:table:)</code> swizzelt, um aus einem nutzer-ausgewählten Bundle (<code>en.lproj</code> oder <code>de.lproj</code>) zu lesen, und dann eine Notification postet, die die Views beobachten.
+        </p>
+        <div class="callout">
+            <div class="callout-label">Warum beide Sprachen</div>
+            <p>Eine Personal-Finance-App muss sich in jedem Markt, in den sie geht, nativ anfühlen — Tausenderpunkte, Dezimaltrennzeichen, Währungs-Formulierungen und die Labels über Zinszahlen sind alle relevant. EN + DE von Tag eins an mitzudenken war billiger als später nachzurüsten.</p>
+        </div>
+
+        <h2>Entscheidungen und Trade-offs</h2>
+
+        <h3>Yahoo Finance statt einer kostenpflichtigen API</h3>
+        <p>
+            IEX Cloud, Alpha Vantage und Polygon kamen in Frage. Yahoo's Public-Endpoints sind inoffiziell, aber stabil, kostenlos und brauchen keinen API-Key in einem öffentlichen Repo. Der Trade-off: undokumentierte Rate-Limits — die App debounct Refreshes und cacht aggressiv. Für ein Side-Project ein klarer Gewinn; für Produktion bräuchte es einen Vertrags-Feed.
+        </p>
+
+        <h3>Swift Charts, nicht SwiftUI Canvas</h3>
+        <p>
+            Swift Charts (iOS 16+) liefert mir die Scrubber-Geste, Achsen-Ticks und Zeitachsen-Formatierung gratis. Selbstgebaut mit <code>Canvas</code> hätte all das nachimplementiert werden müssen. Der Preis: ich bin auf iOS-16+-Minimum festgelegt — das habe ich für <code>@Observable</code> ohnehin auf iOS 17 hochgezogen.
+        </p>
+
+        <h3>Öffentliches Repo von Tag eins</h3>
+        <p>
+            Keine API-Keys, keine proprietären Daten, keine peinlichen TODOs, die ein Jahr lang drinbleiben. Zwingt mich, README, Lizenz und Basis-Test-Suite zu schreiben, bevor ich vergesse, wie irgendwas funktioniert hat.
+        </p>
+
+        <h2>Was ich heute anders machen würde</h2>
+        <ul>
+            <li><strong>Background-Refresh.</strong> Heute polled die App nur im Vordergrund. Ein <code>BGAppRefreshTask</code> für stille Background-Updates würde sich nativer anfühlen.</li>
+            <li><strong>Währungs-Normalisierung.</strong> Die App zeigt native Währung pro Börse. Ein Nutzer mit Aktien in sechs Märkten braucht eine vergleichbare Zahl, nicht sechs.</li>
+            <li><strong>Apple-Watch-Companion.</strong> Die Datenschicht ist genug entkoppelt; die UI wäre ein Wochenende.</li>
+        </ul>
+
+        <h2>Ergebnisse</h2>
+        <ul>
+            <li>Saubere SwiftUI-App vom leeren Xcode-Projekt bis zum öffentlichen GitHub-Repo, in Feierabend-Stunden über ein Semester verteilt.</li>
+            <li>XCTest-Suite deckt Persistenz-Round-Trips, Refresh-Übergänge und Prozent-Änderungs-Mathematik ab — läuft in unter einer Sekunde im Simulator.</li>
+            <li>Der EN/DE-Sprachwechsel zur Laufzeit ist das meistdiskutierte Detail in Gesprächen über dieses Projekt.</li>
+        </ul>
+
+        <div class="cta-row">
+            <a class="cta-btn cta-primary" href="https://github.com/hashwanthghanta/stockwatch-ios" target="_blank" rel="noopener noreferrer">
+                Quellcode auf GitHub →
+            </a>
+            <a class="cta-btn cta-ghost" href="/#projects">Zurück zu den Projekten</a>
+        </div>
+
+        <p class="foot">Lust, über SwiftUI, Swift Charts oder das Ausliefern einer iOS-Side-Project-App zu reden? <a href="mailto:hashwanthghanta@gmail.com">hashwanthghanta@gmail.com</a> · <a href="https://github.com/hashwanthghanta" target="_blank" rel="noopener noreferrer">GitHub</a></p>
+    </main>
+</body>
+</html>

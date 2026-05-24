@@ -1,0 +1,38 @@
+{
+    "name": "Hashwanth Ghanta — Portfolio",
+    "short_name": "HG Portfolio",
+    "description": "Backend / iOS / Unity simulation developer. M.Sc. Digital Engineering @ OVGU Magdeburg. Available Q2 2026 Germany.",
+    "start_url": "/",
+    "scope": "/",
+    "display": "standalone",
+    "orientation": "portrait",
+    "background_color": "#0C0C0C",
+    "theme_color": "#0C0C0C",
+    "lang": "en",
+    "icons": [
+        {
+            "src": "Images/favicon/icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "Images/favicon/icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "Images/favicon/icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        }
+    ],
+    "categories": ["portfolio", "developer", "personal"],
+    "shortcuts": [
+        { "name": "Projects",  "url": "/#projects",  "description": "Jump to projects" },
+        { "name": "CO₂ case study", "url": "/projects/co2-simulation.html", "description": "Read the full case study" },
+        { "name": "Contact",   "url": "/#contact",   "description": "Email, LinkedIn, GitHub" }
+    ]
+}

@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="de">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#0C0C0C">
+    <title>Case Study: IoT-Smart-Helm — B.Tech-Abschlussprojekt | Hashwanth Ghanta</title>
+    <meta name="description" content="Ein Arduino-basierter Smart-Helm, der die Zündung des Motorrads nur freigibt, wenn der Helm aufgesetzt ist und der Fahrer nüchtern ist, und nach einem Aufprall automatisch die GPS-Position per GSM versendet. Solo-B.Tech-Abschlussarbeit, VIT-AP Universität, 2024.">
+    <link rel="canonical" href="https://hashwanthghanta.github.io/projects/iot-helmet-de.html">
+    <link rel="alternate" hreflang="en" href="https://hashwanthghanta.github.io/projects/iot-helmet.html">
+    <link rel="alternate" hreflang="de" href="https://hashwanthghanta.github.io/projects/iot-helmet-de.html">
+    <script>
+        (function(){
+            try { if (localStorage.getItem('lang') === 'en') location.replace('iot-helmet.html' + location.hash); } catch(e){}
+        })();
+    </script>
+    <meta property="og:title" content="Case Study: IoT-Smart-Helm — Sensoren, Zündungs-Gating, Unfall-Alarm">
+    <meta property="og:description" content="FSR-Helmerkennung + MQ-3-Alkoholsensor + Vibrations-Trigger + GSM/GPS-Auto-SOS. Solo-B.Tech-Abschlussarbeit an der VIT-AP Universität.">
+    <meta property="og:image" content="https://hashwanthghanta.github.io/Images/hash.jpeg">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230C0C0C'/%3E%3Ctext x='50' y='66' font-family='Inter,system-ui,sans-serif' font-size='52' font-weight='900' fill='%23ff6b35' text-anchor='middle'%3EHG%3C/text%3E%3C/svg%3E">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" as="style" crossorigin href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" onload="this.onload=null;this.rel='stylesheet';">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,700&family=JetBrains+Mono:wght@400;500;600;700&display=swap"></noscript>
+    <style>
+        :root {
+            --bg: #0a0807; --text: #D7E2EA; --text-dim: rgba(215,226,234,0.72);
+            --accent-cool: #67e8f9; --accent-cool-deep: #0e7490;
+            --accent-warm: #ff6b35; --accent-warm-soft: #ffb07a;
+            --border-soft: rgba(215,226,234,0.18);
+            --code-bg: rgba(0,0,0,0.4);
+        }
+        *,*::before,*::after { margin:0; padding:0; box-sizing:border-box; }
+        body {
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--text); line-height: 1.65;
+            background:
+                radial-gradient(ellipse 70% 50% at 12% -5%, rgba(255,107,53,0.16), transparent 60%),
+                radial-gradient(ellipse 80% 55% at 50% 110%, rgba(180,80,30,0.12), transparent 65%),
+                var(--bg);
+            background-attachment: fixed;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+        :focus-visible { outline: 2.5px solid #FFD400; outline-offset: 3px; }
+        a { color: var(--accent-cool); text-underline-offset: 3px; }
+        a:hover, a:focus-visible { color: #fff; }
+        .wrap { max-width: 780px; margin: 0 auto; padding: clamp(2rem, 5vw, 4rem) 1.5rem 6rem; }
+        .top-row {
+            display: flex; justify-content: space-between; align-items: center;
+            gap: 1rem; flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+        .back {
+            display: inline-flex; align-items: center; gap: 0.4rem;
+            font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase;
+            color: var(--text-dim); text-decoration: none;
+        }
+        .back:hover { color: var(--text); }
+        .lang-swap {
+            font-family: 'JetBrains Mono', ui-monospace, monospace;
+            font-size: 0.75rem;
+            color: var(--text-dim); text-decoration: none;
+            padding: 0.35rem 0.7rem;
+            border: 1px solid var(--border-soft);
+            border-radius: 999px;
+        }
+        .lang-swap:hover { color: var(--text); border-color: var(--accent-cool); }
+        .eyebrow {
+            font-family: 'JetBrains Mono', ui-monospace, monospace;
+            font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase;
+            color: var(--accent-cool);
+            margin-bottom: 0.6rem;
+        }
+        h1 {
+            font-family: 'Fraunces', Georgia, serif;
+            font-style: italic; font-weight: 700;
+            font-size: clamp(2.1rem, 5.5vw, 3.2rem);
+            letter-spacing: -0.02em;
+            line-height: 1.05;
+            margin-bottom: 1rem;
+        }
+        .lede {
+            font-size: 1.1rem;
+            color: var(--text);
+            max-width: 64ch;
+            margin-bottom: 2rem;
+        }
+        .meta-strip {
+            display: flex; flex-wrap: wrap; gap: 0.5rem;
+            margin-bottom: 2.5rem;
+        }
+        .meta-tag {
+            padding: 0.3rem 0.7rem;
+            border: 1px solid var(--border-soft);
+            border-radius: 9999px;
+            font-size: 0.75rem; letter-spacing: 0.06em;
+            color: var(--text-dim);
+        }
+        h2 {
+            font-family: 'Fraunces', Georgia, serif;
+            font-style: normal; font-weight: 700;
+            font-size: 1.7rem;
+            margin: 2.6rem 0 1rem;
+            color: var(--accent-warm);
+        }
+        h3 {
+            font-family: 'Fraunces', Georgia, serif;
+            font-style: normal;
+            font-size: 1.15rem;
+            margin: 1.4rem 0 0.5rem;
+            color: var(--text);
+        }
+        p { margin-bottom: 1rem; }
+        ul, ol { padding-left: 1.4rem; margin-bottom: 1rem; }
+        li { margin-bottom: 0.4rem; }
+        strong { color: #fff; font-weight: 600; }
+        em { color: var(--accent-warm-soft); font-style: italic; }
+        code {
+            font-family: 'JetBrains Mono', ui-monospace, Menlo, monospace;
+            font-size: 0.85rem;
+            padding: 0.1rem 0.35rem;
+            background: var(--code-bg);
+            border-radius: 4px;
+            color: var(--accent-cool);
+            border: 1px solid var(--border-soft);
+        }
+        .callout {
+            margin: 1.5rem 0;
+            padding: 1rem 1.2rem;
+            border-left: 3px solid var(--accent-cool);
+            background: rgba(8,145,178,0.1);
+            border-radius: 0 10px 10px 0;
+        }
+        .callout-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem; letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--accent-cool);
+            margin-bottom: 0.4rem;
+        }
+        .callout.honest {
+            border-left-color: var(--accent-warm-soft);
+            background: rgba(255,176,122,0.07);
+        }
+        .callout.honest .callout-label { color: var(--accent-warm-soft); }
+        .spec-table {
+            width: 100%; border-collapse: collapse;
+            margin: 1rem 0 1.5rem; font-size: 0.9rem;
+        }
+        .spec-table th, .spec-table td {
+            text-align: left; padding: 0.55rem 0.85rem;
+            border-bottom: 1px solid var(--border-soft);
+            vertical-align: top;
+        }
+        .spec-table th {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem; letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--accent-cool);
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        .spec-table tr:last-child th, .spec-table tr:last-child td { border-bottom: 0; }
+
+        .diagram {
+            margin: 1.5rem 0;
+            padding: 1.5rem;
+            border: 1px solid var(--border-soft);
+            border-radius: 14px;
+            background: rgba(20,20,20,0.45);
+        }
+        .diagram svg { width: 100%; max-width: 100%; height: auto; }
+
+        .cta-row { display: flex; flex-wrap: wrap; gap: 0.75rem; margin: 2.5rem 0 1rem; }
+        .cta-btn {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            padding: 0.75rem 1.4rem; border-radius: 9999px;
+            font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase;
+            font-weight: 600; text-decoration: none;
+            transition: transform 0.2s ease, background 0.2s ease;
+        }
+        .cta-ghost { border: 1.5px solid var(--text); color: var(--text); }
+        .cta-ghost:hover { background: rgba(255,255,255,0.06); color: #fff; transform: translateY(-2px); }
+        .foot {
+            margin-top: 3rem; padding-top: 1.5rem;
+            border-top: 1px solid var(--border-soft);
+            font-size: 0.85rem; color: var(--text-dim);
+        }
+    </style>
+</head>
+<body>
+    <main class="wrap">
+        <div class="top-row">
+            <a href="/#projects" class="back">← Zurück zum Portfolio · Projekte</a>
+            <a href="iot-helmet.html" class="lang-swap" hreflang="en" lang="en" onclick="try{localStorage.setItem('lang','en')}catch(e){}">Read in English →</a>
+        </div>
+
+        <div class="eyebrow">Case Study · IoT · Arduino · 2024 · B.Tech-Abschlussarbeit</div>
+        <h1>Smart-Helm — gesperrte Zündung + Auto-SOS</h1>
+        <p class="lede">
+            Zwei Arduino-artige Einheiten, die per RF kommunizieren. Der Helm gibt das Motorrad nur frei, wenn er tatsächlich von einem nüchternen Fahrer getragen wird. Vibriert das Motorrad stark genug, um als Unfall zu zählen, sendet die Fahrzeug-Einheit die GPS-Koordinaten des Fahrers per GSM an einen vordefinierten Notfallkontakt. <strong>Solo-Bachelor-Abschlussprojekt</strong> für die VIT-AP Universität, Studiengang Elektrotechnik &amp; Kommunikation, eingereicht im Mai 2024.
+        </p>
+        <div class="meta-strip">
+            <span class="meta-tag">Rolle: Solo · Sensoren, Firmware, Integration</span>
+            <span class="meta-tag">Stack: Arduino + NodeMCU · ATmega328P · Embedded C</span>
+            <span class="meta-tag">Betreuer: Dr. Chandan Nayak</span>
+            <span class="meta-tag">Status: Funktionierender Prototyp · Abschlussarbeit eingereicht</span>
+        </div>
+
+        <div class="callout honest">
+            <div class="callout-label">Ehrliche Einordnung</div>
+            <p>Das ist ein Bachelor-Projekt aus 2024 — nicht die Art von Arbeit, mit der ich mich 2026 auf Werkstudent-Stellen bewerbe. Ich nehme es auf, weil das Sensor-Gating- und Alarm-Pipeline-Denken sich sauber auf <em>jedes</em> System überträgt, in dem eine physische Bedingung erfüllt sein muss, bevor Software eine Aktion erlaubt. Lies es als „Was ich über Hardware-Software-Grenzen gelernt habe", nicht als „Schau, was ich letzte Woche gebaut habe".</p>
+        </div>
+
+        <h2>Die Motivation</h2>
+        <p>
+            Indien verzeichnet jedes Jahr rund <strong>1,5 Lakh (150.000) Tote bei Zweirad-Unfällen</strong> — die WHO stuft das konstant als schlechteste Pro-Kopf-Rate weltweit ein. Paragraph 129 des indischen Motor Vehicle Act 1988 schreibt den Helm gesetzlich vor; in der Praxis ist die Durchsetzung lückenhaft, und ein großer Anteil der tödlichen Unfälle betrifft Fahrer, die entweder keinen Helm trugen oder getrunken hatten. Ein klassischer Helm ist passiv — er schützt im Unfall, ändert aber nicht, ob das Motorrad überhaupt anspringt. Die Abschlussarbeit fragt: <em>Was, wenn der Helm selbst der Zündschlüssel wäre?</em>
+        </p>
+
+        <h2>Was das System macht</h2>
+        <table class="spec-table" aria-label="Smart-Helm — Funktionsmatrix">
+            <tbody>
+                <tr><th>Vor der Zündung</th><td>Das Motorrad springt nur an, wenn (a) der Helm auf dem Kopf des Fahrers sitzt UND (b) der Atemalkohol unter dem Schwellenwert liegt.</td></tr>
+                <tr><th>Während der Fahrt</th><td>Kontinuierliche Überwachung von Helm-Sitz, Alkoholsensor und Vibrationskanal auf der Fahrzeug-Seite.</td></tr>
+                <tr><th>Bei Aufprall</th><td>Vibrations-Spitze über Schwellwert → Motor stoppt, GPS-Koordinaten werden erfasst, GSM-SMS an die vordefinierte Notfallnummer abgesetzt.</td></tr>
+                <tr><th>Sichtbarkeit</th><td>LED-Streifen auf der Helm-Rückseite für Nachtfahrten.</td></tr>
+            </tbody>
+        </table>
+
+        <h2>Die Zwei-Einheiten-Architektur</h2>
+        <p>
+            Das System teilt sich in eine <strong>Helm-Einheit</strong> (Sensoren + Sender, batteriebetrieben, tragbare Bauform) und eine <strong>Fahrzeug-Einheit</strong> (Empfänger + GSM + GPS + Relais im Zündkreis) auf. Sie kommunizieren über eine 433-MHz-RF-Verbindung statt Bluetooth, weil die Fahrzeug-Einheit weiterhin lauschen muss, auch wenn der Helm einen Meter entfernt am Lenker hängt — in einer 2,4-GHz-überfluteten Stadtumgebung.
+        </p>
+
+        <div class="diagram">
+            <svg viewBox="0 0 740 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Zwei-Einheiten-Architektur: Helm-Einheit überträgt FSR-, MQ-3- und Vibrationssensor-Daten per RF an eine Fahrzeug-Einheit, die das Zündungsrelais steuert und bei Aufprall GSM/GPS-SMS auslöst.">
+                <defs>
+                    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                        <path d="M0,0 L10,5 L0,10 z" fill="#67e8f9"/>
+                    </marker>
+                </defs>
+
+                <rect x="20" y="40" width="280" height="240" rx="14" fill="rgba(8,145,178,0.10)" stroke="#67e8f9" stroke-width="1.5"/>
+                <text x="160" y="68" fill="#67e8f9" font-family="JetBrains Mono, monospace" font-size="12" letter-spacing="2" text-anchor="middle">HELM-EINHEIT</text>
+
+                <rect x="40" y="84" width="240" height="34" rx="6" fill="rgba(20,20,20,0.7)" stroke="#cbd5e1" stroke-width="1"/>
+                <text x="160" y="106" fill="#ffffff" font-family="Inter, sans-serif" font-size="12" text-anchor="middle">FSR — Helm auf dem Kopf?</text>
+
+                <rect x="40" y="126" width="240" height="34" rx="6" fill="rgba(20,20,20,0.7)" stroke="#cbd5e1" stroke-width="1"/>
+                <text x="160" y="148" fill="#ffffff" font-family="Inter, sans-serif" font-size="12" text-anchor="middle">MQ-3 — Atemalkohol</text>
+
+                <rect x="40" y="168" width="240" height="34" rx="6" fill="rgba(20,20,20,0.7)" stroke="#cbd5e1" stroke-width="1"/>
+                <text x="160" y="190" fill="#ffffff" font-family="Inter, sans-serif" font-size="12" text-anchor="middle">Vibrationssensor (Piezo)</text>
+
+                <rect x="40" y="218" width="240" height="42" rx="6" fill="rgba(255,107,53,0.15)" stroke="#ffb07a" stroke-width="1.2"/>
+                <text x="160" y="238" fill="#ffffff" font-family="Inter, sans-serif" font-weight="600" font-size="12" text-anchor="middle">NodeMCU + RF-Sender</text>
+                <text x="160" y="253" fill="rgba(215,226,234,0.7)" font-family="JetBrains Mono, monospace" font-size="10" text-anchor="middle">433 MHz · batteriebetrieben</text>
+
+                <line x1="300" y1="160" x2="440" y2="160" stroke="#67e8f9" stroke-width="2" marker-end="url(#ar)" stroke-dasharray="6 4"/>
+                <text x="370" y="150" fill="rgba(215,226,234,0.75)" font-family="JetBrains Mono, monospace" font-size="10" text-anchor="middle">RF · Status-Frame</text>
+
+                <rect x="440" y="40" width="280" height="240" rx="14" fill="rgba(255,107,53,0.08)" stroke="#ffb07a" stroke-width="1.5"/>
+                <text x="580" y="68" fill="#ffb07a" font-family="JetBrains Mono, monospace" font-size="12" letter-spacing="2" text-anchor="middle">FAHRZEUG-EINHEIT</text>
+
+                <rect x="460" y="84" width="240" height="42" rx="6" fill="rgba(255,107,53,0.15)" stroke="#ffb07a" stroke-width="1.2"/>
+                <text x="580" y="104" fill="#ffffff" font-family="Inter, sans-serif" font-weight="600" font-size="12" text-anchor="middle">ATmega328P + RF-Empfänger</text>
+                <text x="580" y="119" fill="rgba(215,226,234,0.7)" font-family="JetBrains Mono, monospace" font-size="10" text-anchor="middle">entscheidet, ob Zündung freigegeben wird</text>
+
+                <rect x="460" y="134" width="240" height="34" rx="6" fill="rgba(20,20,20,0.7)" stroke="#cbd5e1" stroke-width="1"/>
+                <text x="580" y="156" fill="#ffffff" font-family="Inter, sans-serif" font-size="12" text-anchor="middle">Relais → Zündkreis</text>
+
+                <rect x="460" y="176" width="240" height="34" rx="6" fill="rgba(20,20,20,0.7)" stroke="#cbd5e1" stroke-width="1"/>
+                <text x="580" y="198" fill="#ffffff" font-family="Inter, sans-serif" font-size="12" text-anchor="middle">16×2-LCD — Status + Koordinaten</text>
+
+                <rect x="460" y="218" width="240" height="42" rx="6" fill="rgba(239,68,68,0.12)" stroke="#fca5a5" stroke-width="1.2"/>
+                <text x="580" y="238" fill="#ffffff" font-family="Inter, sans-serif" font-weight="600" font-size="12" text-anchor="middle">GSM-Modem + GPS-Empfänger</text>
+                <text x="580" y="253" fill="rgba(252,165,165,0.85)" font-family="JetBrains Mono, monospace" font-size="10" text-anchor="middle">SOS-SMS bei Aufprall</text>
+
+                <text x="370" y="300" fill="rgba(215,226,234,0.55)" font-family="JetBrains Mono, monospace" font-size="10" text-anchor="middle">L293D-Motortreiber · Embedded C · Arduino IDE</text>
+            </svg>
+        </div>
+
+        <h2>Die Entscheidungslogik</h2>
+        <p>In jedem Loop stellt die Fahrzeug-Einheit drei Fragen, bevor sie die Zündung freigibt:</p>
+        <ol>
+            <li><strong>Sitzt der Helm auf einem Kopf?</strong> Der FSR (kraftempfindlicher Widerstand) im Polster der Helmkrone registriert nur dann Druck, wenn der Helm tatsächlich getragen wird — nicht, wenn er am Lenker baumelt. Messwert unter Schwellwert → Zündung bleibt gesperrt.</li>
+            <li><strong>Ist der Fahrer nüchtern?</strong> Der MQ-3-Alkoholsensor sitzt knapp unter dem Visier. Die Abschlussarbeit setzt die Alarmschwelle auf <strong>0,04 mg/L</strong> — die Hälfte der indischen gesetzlichen Grenze von 0,08 mg/L — damit die Demo deutlich vor der gesetzlichen Schwelle auslöst. Messwert über Schwellwert → Zündung bleibt gesperrt.</li>
+            <li><strong>Ist der Unfall-Kanal ruhig?</strong> Die laufende Frequenz des Vibrationssensors bleibt im Normalbetrieb unter einem kalibrierten Rauschpegel. Eine Spitze über dem Schwellwert kippt die Einheit in den Unfall-Modus.</li>
+        </ol>
+        <p>Wenn (1) UND (2) erfüllt sind und (3) ruhig ist → das Relais schließt und das Motorrad startet. Wenn eines davon während der Fahrt kippt, wird die Freigabe neu bewertet.</p>
+
+        <h2>Die Unfall-Pipeline</h2>
+        <p>
+            Bei einer Vibrations-Spitze über dem kalibrierten Schwellwert wertet die Fahrzeug-Einheit dies als Aufprall. Sie öffnet das Relais (Motor aus), liest die zuletzt im Empfänger gepufferten GPS-Koordinaten, formatiert sie als kurze SMS und schickt die Nachricht über das GSM-Modem an eine zur Flash-Zeit in der Firmware hinterlegte Rufnummer. Das LCD zeigt dieselben Koordinaten, damit ein Passant sie laut vorlesen kann. Die Übertragung wiederholt sich periodisch, bis das Fahrzeug manuell stromlos geschaltet wird — falls die erste SMS den Funkmast nicht erreicht.
+        </p>
+        <div class="callout">
+            <div class="callout-label">Warum GSM + GPS, nicht nur ein Phone-Tether</div>
+            <p>Das Smartphone in der Tasche des Fahrers kann bewusstlos, zertrümmert oder gesperrt sein. Die Fahrzeug-Einheit muss alarmieren, ohne dass jemand etwas anfassen muss. GSM + GPS an die Bord-Batterie geschraubt überlebt alles, was das Fahrzeug selbst nicht auslöscht.</p>
+        </div>
+
+        <h2>Stückliste</h2>
+        <table class="spec-table" aria-label="Smart-Helm — Hardwarekomponenten">
+            <tbody>
+                <tr><th>Mikrocontroller</th><td>NodeMCU (Helm-Seite), ATmega328P (Fahrzeug-Seite, auf Arduino-Uno/Nano-Breakout)</td></tr>
+                <tr><th>Sensoren</th><td>FSR (Helm-Druck), MQ-3 (Alkohol), Piezo-Vibrationssensor, IR-Sensor (Helm-Anwesenheit als Backup)</td></tr>
+                <tr><th>Kommunikation</th><td>RF-Sender + Empfänger (433 MHz), GSM-Modem (SIM800-Klasse), GPS-Empfänger (NEO-6M-Klasse)</td></tr>
+                <tr><th>Aktorik</th><td>L293D-Motortreiber, 5V-Relais im Zündkreis des Motorrads</td></tr>
+                <tr><th>UI</th><td>16×2-Zeichen-LCD an der Fahrzeug-Einheit, LED-Streifen am Helm</td></tr>
+                <tr><th>Software</th><td>Embedded C in der Arduino IDE</td></tr>
+            </tbody>
+        </table>
+
+        <h2>Was ich heute anders machen würde</h2>
+        <ul>
+            <li><strong>Das GSM-Modem durch ein ESP32 + LTE-M/NB-IoT-Modul ersetzen.</strong> 2G-GSM wird in den meisten Märkten abgeschaltet. Ein modernes Cellular-IoT-Modul ist kleiner, günstiger und zukunftsfähig.</li>
+            <li><strong>Den hartkodierten 0,04-mg/L-Schwellwert durch eine Kalibrier-Routine ersetzen.</strong> Der MQ-3 driftet mit Temperatur, Luftfeuchte und Alter — eine einmalige Feldkalibrierung im Firmware-Setup würde das produktionsrealistisch machen.</li>
+            <li><strong>GPS-Koordinaten lokal puffern, bevor der Unfall passiert.</strong> Heute liest die Pipeline „aktuelle" GPS-Daten zum SOS-Zeitpunkt, was veraltet oder ohne Fix sein kann. Die letzten 30 Sekunden zu loggen würde es erlauben, die SMS mit Trajektorie statt nur einem Punkt zu versenden.</li>
+            <li><strong>Eine BLE-Fallback-Verbindung zu einer gekoppelten Phone-App hinzufügen.</strong> Wenn das Smartphone des Fahrers intakt ist, kann es das SOS über Wi-Fi oder 4G spiegeln und eine Bestätigung an die Einheit zurücksenden („Nachricht empfangen, Übertragung kann stoppen").</li>
+            <li><strong>Das Zündungs-Umgehungs-Risiko ernst nehmen.</strong> Jeder mit einem Schraubendreher kann das Relais kurzschließen. Echte Produktion bräuchte einen Tamper-Schalter und entweder ein CAN-Bus-Interlock (moderne Motorräder) oder einen fest verdrahteten Wegfahrsperre-Kreis.</li>
+        </ul>
+
+        <h2>Was mir dieses Projekt beigebracht hat</h2>
+        <ul>
+            <li><strong>Hardware-Grenzen lügen nicht.</strong> Ein If-Statement in der Firmware kann die Zündung <em>nur dann</em> deaktivieren, wenn das Relais physisch in Reihe mit dem Anlasser hängt. Reine Software-Sperren sind Theater.</li>
+            <li><strong>Kalibrieren, dann committen.</strong> Der MQ-3 brauchte 24 Stunden Aufwärmzeit, bis seine Werte stabil waren — die Firmware nicht. Die erste Demo scheiterte daran. Kalibrierung ist Teil des Designs, kein Nachgedanke.</li>
+            <li><strong>Für den Fehlerfall optimieren, nicht für den Happy Path.</strong> Eine funktionierende Zündungs-Freigabe bringt eine bestandene Demo. Eine funktionierende SOS-Pipeline ist das, was das ganze Projekt rechtfertigt. Wenn ich es noch einmal machen würde, würde ich die SOS-Strecke zuerst bauen.</li>
+        </ul>
+
+        <div class="cta-row">
+            <a class="cta-btn cta-ghost" href="/#projects">Zurück zu den Projekten</a>
+        </div>
+
+        <p class="foot">Fragen zu Hardware, Embedded oder Sensor-Pipelines sind willkommen. <a href="mailto:hashwanthghanta@gmail.com">hashwanthghanta@gmail.com</a> · <a href="https://github.com/hashwanthghanta" target="_blank" rel="noopener noreferrer">GitHub</a></p>
+    </main>
+</body>
+</html>

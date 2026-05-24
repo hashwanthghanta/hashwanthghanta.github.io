@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /.claude/
+Disallow: /CLAUDE.md
+Disallow: /chrome_stderr.log
+Disallow: /output.html
+
+Sitemap: https://hashwanthghanta.github.io/sitemap.xml

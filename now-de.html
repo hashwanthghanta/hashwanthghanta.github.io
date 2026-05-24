@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="de">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#0C0C0C">
+    <title>Now — Hashwanth Ghanta</title>
+    <meta name="description" content="Woran ich diesen Monat arbeite. Inspiriert von nownownow.com.">
+    <link rel="canonical" href="https://hashwanthghanta.github.io/now-de.html">
+    <link rel="alternate" hreflang="en" href="https://hashwanthghanta.github.io/now.html">
+    <link rel="alternate" hreflang="de" href="https://hashwanthghanta.github.io/now-de.html">
+    <script>
+        (function(){
+            try { if (localStorage.getItem('lang') === 'en') location.replace('now.html' + location.hash); } catch(e){}
+        })();
+    </script>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230C0C0C'/%3E%3Ctext x='50' y='66' font-family='Inter,system-ui,sans-serif' font-size='52' font-weight='900' fill='%23ff6b35' text-anchor='middle'%3EHG%3C/text%3E%3C/svg%3E">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;1,9..144,700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0807; --text: #D7E2EA; --text-dim: rgba(215,226,234,0.7);
+            --accent-cool: #67e8f9; --accent-warm: #ff6b35;
+            --border-soft: rgba(215,226,234,0.18);
+        }
+        *,*::before,*::after { margin:0; padding:0; box-sizing:border-box; }
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            color: var(--text); line-height: 1.6;
+            background:
+                radial-gradient(ellipse 70% 50% at 12% -5%, rgba(255,107,53,0.16), transparent 60%),
+                radial-gradient(ellipse 80% 55% at 50% 110%, rgba(180,80,30,0.12), transparent 65%),
+                var(--bg);
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+        :focus-visible { outline: 2.5px solid #FFD400; outline-offset: 3px; }
+        a { color: var(--accent-cool); text-underline-offset: 3px; }
+        a:hover, a:focus-visible { color: #fff; }
+        .wrap { max-width: 720px; margin: 0 auto; padding: clamp(2rem, 6vw, 5rem) 1.5rem 6rem; }
+        .top-row {
+            display: flex; justify-content: space-between; align-items: center;
+            gap: 1rem; flex-wrap: wrap;
+            margin-bottom: 2.5rem;
+        }
+        .back {
+            display: inline-flex; align-items: center; gap: 0.4rem;
+            font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase;
+            color: var(--text-dim); text-decoration: none;
+        }
+        .back:hover { color: var(--text); }
+        .lang-swap {
+            font-family: ui-monospace, "JetBrains Mono", Menlo, monospace;
+            font-size: 0.75rem;
+            color: var(--text-dim); text-decoration: none;
+            padding: 0.35rem 0.7rem;
+            border: 1px solid var(--border-soft);
+            border-radius: 999px;
+        }
+        .lang-swap:hover { color: var(--text); border-color: var(--accent-cool); }
+        h1 {
+            font-family: 'Fraunces', Georgia, serif;
+            font-style: italic; font-weight: 700;
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            letter-spacing: -0.02em;
+            line-height: 0.95;
+            margin-bottom: 0.5rem;
+        }
+        .updated {
+            font-family: ui-monospace, "JetBrains Mono", Menlo, monospace;
+            font-size: 0.75rem; letter-spacing: 0.08em;
+            color: var(--text-dim);
+            margin-bottom: 2.5rem;
+        }
+        h2 {
+            font-family: 'Fraunces', Georgia, serif;
+            font-style: italic; font-weight: 700;
+            font-size: 1.6rem;
+            margin: 2.5rem 0 0.8rem;
+            color: var(--accent-warm);
+        }
+        p { margin-bottom: 1rem; }
+        ul { list-style: none; padding: 0; }
+        li {
+            position: relative;
+            padding-left: 1.4rem;
+            margin-bottom: 0.6rem;
+        }
+        li::before {
+            content: "→";
+            position: absolute; left: 0;
+            color: var(--accent-cool);
+        }
+        .foot {
+            margin-top: 4rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-soft);
+            font-size: 0.85rem; color: var(--text-dim);
+        }
+    </style>
+</head>
+<body>
+    <main class="wrap">
+        <div class="top-row">
+            <a href="/" class="back">← Zurück zum Portfolio</a>
+            <a href="now.html" class="lang-swap" hreflang="en" lang="en" onclick="try{localStorage.setItem('lang','en')}catch(e){}">Read in English →</a>
+        </div>
+        <h1>Was ich gerade mache</h1>
+        <p class="updated">Aktualisiert 2026-05-24</p>
+
+        <p>Diese Seite ist eine Momentaufnahme, worauf ich diesen Monat fokussiert bin. Inspiriert von <a href="https://nownownow.com/" target="_blank" rel="noopener noreferrer">nownownow.com</a>.</p>
+
+        <h2>Kürzlich abgeschlossen</h2>
+        <ul>
+            <li><strong>Post-Combustion-CO₂-Abscheidungs-Simulation in Unity — finaler 7-Phasen-Build im April 2026 abgegeben.</strong> Als Studienleistung für das OVGU-Modul „Digital Engineering Project" eingereicht. <a href="projects/co2-simulation-de.html">Case Study lesen →</a></li>
+        </ul>
+
+        <h2>Aktuell in Arbeit</h2>
+        <ul>
+            <li>Ein <strong>Adaptive Learning Pathway System</strong> für den OVGU-Kurs Human-Centred AI (SS 2026) — ein vierköpfiges Teamprojekt, das einen LLM-gestützten Tutor baut, der das Inhaltsniveau pro Nutzer per Chain-of-Thought-Prompting anpasst, mit einer LLM-as-Judge-Bias-Evaluations-Schicht nebenher. Stack: Gemini + lokales Llama 3 über Ollama, LangChain-Orchestrierung, Guardrails AI auf Input und Output. Paper-Abgabe 10. Juli 2026.</li>
+            <li>Polieren der StockWatch-SwiftUI-iOS-App — Sparkline-Vorschauen für das Watchlist-Raster hinzufügen und die neuen News-Strings ins Deutsche übersetzen.</li>
+            <li>Dieses Portfolio aktualisieren (die Seite, die du gerade liest) — knappere Texte, Belege für Skills, Befehlspalette, Case-Study-Seiten, vollständiger EN/DE-Sprachwechsel.</li>
+        </ul>
+
+        <h2>Lerne gerade</h2>
+        <ul>
+            <li>LLM-Evaluations-Tooling — ROUGE, Perplexity-Scoring, LLM-as-Judge-Bias-Pipelines und GGUF-4-bit-/8-bit-Quantisierung für lokale Inferenz. Aufgeschnappt durch das HCAI-Projekt oben.</li>
+            <li>Praxis mit der View Transitions API + scroll-driven CSS-Animationen.</li>
+            <li>Deutsch A2 — eingeschrieben an der OVGU, baue Alltagsvokabular auf, während ich Tech-Vorträge auf Deutsch schaue.</li>
+        </ul>
+
+        <h2>Suche</h2>
+        <ul>
+            <li>Werkstudent-Stelle ab Q2 2026, hybrid oder remote, überall in Deutschland.</li>
+            <li>Backend, iOS (SwiftUI), Simulation oder Data Engineering. Auch offen für Product-Engineering-Rollen.</li>
+            <li>Firmen, die Dinge ausliefern, nicht Firmen, die darüber reden, etwas auszuliefern.</li>
+        </ul>
+
+        <h2>Abseits vom Bildschirm</h2>
+        <ul>
+            <li>Spaziergänge durch Magdeburg — erster richtiger Frühling hier.</li>
+            <li>Lese <em>Working in Public</em> von Nadia Eghbal.</li>
+        </ul>
+
+        <p class="foot">Erreich mich: <a href="mailto:hashwanthghanta@gmail.com">hashwanthghanta@gmail.com</a> · <a href="https://github.com/hashwanthghanta" target="_blank" rel="noopener noreferrer">GitHub</a> · <a href="https://linkedin.com/in/hashwanthghanta" target="_blank" rel="noopener noreferrer">LinkedIn</a></p>
+    </main>
+</body>
+</html>

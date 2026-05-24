@@ -4,16 +4,163 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="theme-color" content="#0C0C0C">
-    <title>Hashwanth Ghanta — Software Developer | M.Sc. Digital Engineering</title>
-    <meta name="description" content="M.Sc. Digital Engineering student specializing in software development, backend coding, and database systems. Available Q2 2026 — Magdeburg / remote.">
-    <meta property="og:title" content="Hashwanth Ghanta — Software Developer | M.Sc. Digital Engineering">
-    <meta property="og:description" content="Software development, backend coding, data systems, SwiftUI iOS.">
+    <!-- Scroll restoration policy:
+         • Reload / fresh navigation with NO hash → reset to hero (top).
+         • Reload / fresh navigation WITH a hash (e.g. /#projects from a case-study
+           "Back to portfolio" link) → browser scrolls to that anchor.
+         • Browser back/forward (e.g. user hits back from case study) → keep
+           default "auto" restoration so they land on the projects card they left from.
+         This must run in <head> so it executes BEFORE the browser does its
+         own scroll restore. Inline script, no defer. -->
+    <script>
+        (function () {
+            if (!("scrollRestoration" in history)) return;
+            var navEntries = (performance.getEntriesByType && performance.getEntriesByType("navigation")) || [];
+            var navType = navEntries[0] && navEntries[0].type;
+            var isBackForward = navType === "back_forward";
+
+            // On back/forward navigation, let the browser restore the previous scroll.
+            // On reload / new navigation, take control.
+            if (isBackForward) return;
+
+            history.scrollRestoration = "manual";
+            var hash = window.location.hash;
+            // Respect explicit deep-link hashes — browser will scroll to that anchor.
+            if (hash && hash !== "#" && hash !== "#top") return;
+
+            // No hash → pin to top. Repeat on key paint events + a brief rAF window
+            // to outlast any late-firing restore from third-party scripts / iOS Safari.
+            var pin = function () { window.scrollTo(0, 0); };
+            pin();
+            document.addEventListener("DOMContentLoaded", pin, { once: true });
+            window.addEventListener("load", function () {
+                pin();
+                var start = performance.now();
+                var raf = function () {
+                    window.scrollTo(0, 0);
+                    if (performance.now() - start < 250) requestAnimationFrame(raf);
+                };
+                requestAnimationFrame(raf);
+            }, { once: true });
+        })();
+    </script>
+    <title>Hashwanth Ghanta — Software Developer | M.Sc. Digital Engineering | Available Q2 2026 Germany</title>
+    <meta name="description" content="Backend, iOS (SwiftUI) and Unity simulation developer. M.Sc. Digital Engineering @ OVGU Magdeburg. Available Q2 2026 Germany — working-student, hybrid or remote.">
+    <meta name="keywords" content="working student, Werkstudent, Germany, Magdeburg, backend developer, iOS developer, SwiftUI, Unity 3D, simulation, C#, Python, SQL, OVGU, Digital Engineering, available 2026">
+    <meta name="author" content="Hashwanth Ghanta">
+    <link rel="canonical" href="https://hashwanthghanta.github.io/">
+    <!-- Language alternates — the same URL serves EN + DE via a client-side toggle.
+         Marking both lets Google's recruiter-side search surface the page in either market. -->
+    <link rel="alternate" hreflang="en" href="https://hashwanthghanta.github.io/">
+    <link rel="alternate" hreflang="de" href="https://hashwanthghanta.github.io/">
+    <link rel="alternate" hreflang="x-default" href="https://hashwanthghanta.github.io/">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Hashwanth Ghanta — Backend / iOS / Unity Simulation Developer">
+    <meta property="og:description" content="7-phase Unity CO₂ simulation, 55-ticker SwiftUI watchlist, IoT helmet prototype. Available Q2 2026 (Werkstudent, Germany).">
     <meta property="og:image" content="https://hashwanthghanta.github.io/Images/hash.jpeg">
     <meta property="og:url" content="https://hashwanthghanta.github.io/">
     <meta property="og:type" content="website">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:locale:alternate" content="de_DE">
+
+    <!-- Twitter card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Hashwanth Ghanta — Backend / iOS / Unity Simulation Developer">
+    <meta name="twitter:description" content="7-phase Unity CO₂ simulation, 55-ticker SwiftUI watchlist, IoT helmet prototype. Available Q2 2026 (Werkstudent, Germany).">
+    <meta name="twitter:image" content="https://hashwanthghanta.github.io/Images/hash.jpeg">
+
+    <!-- Favicons — full set generated from Images/hash.jpeg via sips. SVG kept as the
+         preferred modern format (HG monogram) for sharp rendering at any size. -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230C0C0C'/%3E%3Ctext x='50' y='66' font-family='Inter,system-ui,sans-serif' font-size='52' font-weight='900' fill='%23ff6b35' text-anchor='middle'%3EHG%3C/text%3E%3C/svg%3E">
+    <link rel="icon" type="image/png" sizes="32x32" href="Images/favicon/icon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="Images/favicon/icon-16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="Images/favicon/icon-180.png">
+    <link rel="shortcut icon" href="Images/favicon/icon-32.png">
+    <meta name="theme-color" content="#0C0C0C">
+
+    <!-- PWA manifest -->
+    <link rel="manifest" href="manifest.webmanifest">
+
+    <!-- View Transitions opt-in (Chromium) -->
+    <meta name="view-transition" content="same-origin">
+
+    <!-- Schema.org / JSON-LD — Person, for recruiter-side Google search -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Hashwanth Ghanta",
+      "url": "https://hashwanthghanta.github.io/",
+      "image": "https://hashwanthghanta.github.io/Images/hash.jpeg",
+      "jobTitle": "Software Developer (Backend, iOS, Unity Simulation)",
+      "description": "M.Sc. Digital Engineering student. Available Q2 2026 for working-student roles (hybrid or remote, Germany).",
+      "email": "mailto:hashwanthghanta@gmail.com",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Magdeburg",
+        "addressCountry": "DE"
+      },
+      "alumniOf": [
+        {
+          "@type": "EducationalOrganization",
+          "name": "Otto-von-Guericke-Universität Magdeburg",
+          "url": "https://www.ovgu.de/"
+        },
+        {
+          "@type": "EducationalOrganization",
+          "name": "VIT-AP University",
+          "url": "https://vitap.ac.in/"
+        }
+      ],
+      "knowsLanguage": [
+        { "@type": "Language", "name": "English", "alternateName": "en" },
+        { "@type": "Language", "name": "German",  "alternateName": "de" }
+      ],
+      "knowsAbout": [
+        "Unity 3D", "Blender", "C#", "Swift", "SwiftUI", "Python", "SQL", "JavaScript",
+        "Data Visualization", "Power BI", "IoT", "Arduino", "Embedded C",
+        "Post-combustion CO2 capture simulation", "iOS development", "Bilingual product development (EN/DE)"
+      ],
+      "hasOccupation": {
+        "@type": "Occupation",
+        "name": "Software Developer (Backend, iOS, Unity Simulation)",
+        "occupationLocation": { "@type": "Country", "name": "Germany" },
+        "estimatedSalary": null
+      },
+      "subjectOf": [
+        {
+          "@type": "CreativeWork",
+          "name": "Post-Combustion CO2 Capture Simulation — case study",
+          "url": "https://hashwanthghanta.github.io/projects/co2-simulation.html"
+        }
+      ],
+      "sameAs": [
+        "https://github.com/hashwanthghanta",
+        "https://www.linkedin.com/in/hashwanthghanta"
+      ],
+      "seeks": {
+        "@type": "JobPosting",
+        "title": "Working student (Werkstudent) — Backend, iOS, Simulation, or Data Engineering",
+        "employmentType": "PART_TIME",
+        "jobLocationType": "TELECOMMUTE",
+        "jobLocation": { "@type": "Place", "address": { "@type": "PostalAddress", "addressCountry": "DE" } },
+        "datePosted": "2026-05-24"
+      }
+    }
+    </script>
+
+    <!-- LCP element preload — hero portrait. fetchpriority=high tells the browser
+         to grab this ahead of fonts/scripts and dropped mobile LCP from 6.2s. -->
+    <link rel="preload" as="image" href="Images/hash-850.jpg" fetchpriority="high">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Inter (sans, body) + Fraunces (serif, hero name + section titles) + JetBrains Mono (labels).
+         Loaded with the print/onload trick so Google Fonts CSS never blocks first paint.
+         Render-blocking-requests Lighthouse insight (1,630ms savings) gets cleared by this. -->
+    <link rel="preload" as="style" crossorigin href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" onload="this.onload=null;this.rel='stylesheet';">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,700&family=JetBrains+Mono:wght@400;500;600;700&display=swap"></noscript>
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js" defer></script>
     <style>
         /* =============================================================
@@ -40,18 +187,35 @@
             --hero-text-left:  40px;   /* positive moves right, negative moves left */
             --hero-text-top:   -100px;   /* positive moves down, negative moves up */
 
-            --bg:          #0C0C0C;
-            --bg-elev:     #141414;
-            --bg-card:     rgba(20,20,20,0.92);
-            --text:        #D7E2EA;
-            --text-dim:    rgba(215,226,234,0.62);
+            /* ──────────────────────────────────────────────────────────
+               TOKEN SYSTEM (post-review consolidation)
+               Two-accent palette: one WARM (ember orange), one COOL (cyan).
+               Legacy anonymous --pill-1..--pill-4 fully retired — refs now
+               point directly at --color-accent-cool / --color-accent-cool-deep.
+               ────────────────────────────────────────────────────────── */
+            --color-accent-warm:        #ff6b35;   /* ember — primary accent (resume CTA, learned callouts on light) */
+            --color-accent-warm-soft:   #ffb07a;
+            --color-accent-warm-deep:   #d94f1e;
+            --color-accent-cool:        #0891b2;   /* cyan — secondary accent (projects CTA, links, code highlights) */
+            --color-accent-cool-soft:   #67e8f9;
+            --color-accent-cool-deep:   #0e7490;
+
+            --color-surface-1: #0C0C0C;     /* page bg */
+            --color-surface-2: #141414;     /* elevated cards */
+            --color-surface-3: rgba(20,20,20,0.92);  /* glass / overlay */
+            --color-text-strong: #D7E2EA;
+            --color-text-muted:  rgba(215,226,234,0.72);  /* contrast bump from 0.62 → 0.72 for AA on warm ink */
+
+            /* ── Legacy aliases — kept so existing rules keep working without a giant sweep ── */
+            --bg:          var(--color-surface-1);
+            --bg-elev:     var(--color-surface-2);
+            --bg-card:     var(--color-surface-3);
+            --text:        var(--color-text-strong);
+            --text-dim:    var(--color-text-muted);
+            /* Theme-aware gradient stops for headline shimmer + nav-bar fade */
             --grad-light:  #BBCCD7;
             --grad-dark:   #7A828C;
-            --pill-1:      #0F172A;
-            --pill-2:      #1E40AF;
-            --pill-3:      #0E7490;
-            --pill-4:      #0891B2;
-            --border:      #D7E2EA;
+            --border:      var(--color-text-strong);
             --border-soft: rgba(215,226,234,0.18);
             --focus-ring:  #FFD400;
             --service-bg:  #FFFFFF;
@@ -62,10 +226,7 @@
             --ease-out:    cubic-bezier(0.22,1,0.36,1);
         }
         /* Light-mode visibility fixes for sage/cyan-tinted UI elements */
-        body[data-theme="light"] .skill-level.expert     { color: #166534; border-color: rgba(22,101,52,0.4); background: rgba(22,101,52,0.08); }
-        body[data-theme="light"] .skill-level.advanced   { color: #0e7490; border-color: rgba(14,116,144,0.45); background: rgba(14,116,144,0.10); }
-        body[data-theme="light"] .skill-level.proficient { color: #1e40af; border-color: rgba(30,64,175,0.4); background: rgba(30,64,175,0.10); }
-        body[data-theme="light"] .skill-level.familiar   { color: #475569; border-color: rgba(71,85,105,0.4); background: rgba(71,85,105,0.06); }
+        body[data-theme="light"] .skill-proof-note { color: rgba(12,12,12,0.62); }
         body[data-theme="light"] .skill-card-title { color: #0e7490; }
         body[data-theme="light"] .skill-card { border-left-color: #0e7490; }
         body[data-theme="light"] .track-date,
@@ -99,11 +260,16 @@
 
         /* Light theme — services-style cream throughout, kept as secondary */
         body[data-theme="light"] {
-            --bg:          #F5F2EC;
-            --bg-elev:     #FFFFFF;
-            --bg-card:     rgba(255,255,255,0.92);
-            --text:        #0C0C0C;
-            --text-dim:    rgba(12,12,12,0.62);
+            --color-surface-1: #F5F2EC;
+            --color-surface-2: #FFFFFF;
+            --color-surface-3: rgba(255,255,255,0.92);
+            --color-text-strong: #0C0C0C;
+            --color-text-muted:  rgba(12,12,12,0.7);
+            --bg:          var(--color-surface-1);
+            --bg-elev:     var(--color-surface-2);
+            --bg-card:     var(--color-surface-3);
+            --text:        var(--color-text-strong);
+            --text-dim:    var(--color-text-muted);
             --grad-light:  #2F3438;
             --grad-dark:   #6A6F76;
             --border:      #0C0C0C;
@@ -116,10 +282,19 @@
         }
 
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        /* Editorial serif (Fraunces roman) for section titles. The hero name is the ONLY
+           italicised serif on the page so it stays the loudest typographic element. */
+        .projects-title, .skills-title, .track-title, .edu-title, .contact-title, .pc-name {
+            font-family: 'Fraunces', Georgia, serif;
+            font-style: normal;
+            font-weight: 700;
+            text-transform: none;
+            letter-spacing: -0.02em;
+        }
         html { scroll-behavior: smooth; font-size: 16px; -webkit-text-size-adjust: 100%; overflow-x: clip; }
         html, body, #root { background: var(--bg); min-height: 100%; }
         body {
-            font-family: 'Kanit', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             color: var(--text);
             /* Warm ember-toned background — three layered radial glows over warm ink,
                mirroring the old portfolio's editorial palette. Restrained, not loud. */
@@ -156,8 +331,7 @@
         a { color: inherit; text-decoration: none; }
         button { font: inherit; color: inherit; background: none; border: none; cursor: pointer; }
 
-        /* (Global custom cursor removed — using the native pointer.) */
-        .cursor-ring, .cursor-dot { display: none !important; }
+        /* Global custom cursor removed — native pointer only. */
 
         /* Skip-link */
         .skip-link {
@@ -201,9 +375,51 @@
         .nav-logo {
             font-weight: 800; font-size: 1.15rem; letter-spacing: -0.01em;
             color: var(--text);
-            display: inline-flex; align-items: baseline;
+            display: inline-flex; align-items: center;
+            gap: 0.18rem;
+            text-decoration: none;
         }
-        .nav-logo::after { content: '.'; color: var(--pill-2); margin-left: 1px; }
+        /* SVG HG monogram — outlined letters + an accent dot that scrubs with scroll.
+           The dot starts hollow at the top of the page and fills as the user
+           scrolls; works as a discreet reading-progress indicator without adding a
+           second progress bar. Falls back to a static filled dot on browsers
+           without animation-timeline support. */
+        .nav-logo-mark { display: block; height: 1.2em; width: auto; }
+        .nav-logo-mark .hg-letter {
+            fill: currentColor;
+        }
+        .nav-logo-mark .hg-dot-ring {
+            fill: none;
+            stroke: var(--color-accent-cool);
+            stroke-width: 4;
+        }
+        .nav-logo-mark .hg-dot-fill {
+            fill: var(--color-accent-cool);
+            transform-origin: 92px 38px;
+            transform: scale(0);
+        }
+        @supports (animation-timeline: scroll()) {
+            @keyframes hgDotFill {
+                from { transform: scale(0); }
+                to   { transform: scale(1); }
+            }
+            .nav-logo-mark .hg-dot-fill {
+                animation: hgDotFill linear both;
+                animation-timeline: scroll(root);
+            }
+        }
+        @supports not (animation-timeline: scroll()) {
+            /* Static fallback — accent dot is half-filled so it never reads as broken. */
+            .nav-logo-mark .hg-dot-fill { transform: scale(0.55); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .nav-logo-mark .hg-dot-fill { transform: scale(0.55); animation: none !important; }
+        }
+        body[data-theme="light"] .nav-logo-mark .hg-dot-ring,
+        body[data-theme="light"] .nav-logo-mark .hg-dot-fill {
+            stroke: var(--color-accent-cool-deep);
+            fill: var(--color-accent-cool-deep);
+        }
         .nav-links {
             display: flex; gap: 1.5rem; align-items: center;
             list-style: none;
@@ -222,7 +438,7 @@
             position: absolute;
             left: 50%; right: 50%; bottom: -2px;
             height: 2px;
-            background: linear-gradient(90deg, var(--pill-2), var(--pill-4));
+            background: linear-gradient(90deg, var(--color-accent-cool-deep), var(--color-accent-cool));
             border-radius: 2px;
         }
         @media (prefers-reduced-motion: no-preference) {
@@ -302,12 +518,54 @@
             padding: 0;
             margin-top: 0.5rem;
         }
+        /* Inline avatar — hidden on desktop, visible only on phones ≤540px.
+           Lives in the headline wrap so the photo reads as part of the name block
+           instead of a floating square. Keeps the iOS-Safari-locked portrait fix
+           block (≤860px) untouched: on phones we hide .hero-left entirely so it
+           never runs through that fragile rendering path. */
+        .hero-inline-avatar {
+            display: none;
+        }
+        @media (max-width: 540px) {
+            .hero-headline-wrap {
+                display: inline-flex;
+                width: 100%;
+                align-items: center;
+                justify-content: center;
+                gap: 0.6rem;
+                text-align: left;
+            }
+            .hero-inline-avatar {
+                display: inline-block;
+                width: 56px; height: 56px;
+                border-radius: 50%;
+                overflow: hidden;
+                flex-shrink: 0;
+                border: 2px solid var(--color-accent-cool);
+                box-shadow: 0 0 0 3px rgba(8,145,178,0.18);
+            }
+            .hero-inline-avatar img {
+                width: 100%; height: 100%;
+                object-fit: cover; object-position: 50% 22%;
+                display: block;
+            }
+            body[data-theme="light"] .hero-inline-avatar {
+                border-color: var(--color-accent-cool-deep);
+                box-shadow: 0 0 0 3px rgba(14,116,144,0.22);
+            }
+            /* Drop the floating desktop portrait on phones — the inline avatar covers it. */
+            .hero-left { display: none; }
+        }
         .hero-headline {
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: -0.04em;
-            line-height: 0.88;
-            font-size: min(10.8vw, 9rem);
+            /* The single italicised serif on the page — by design, so the name reads loudest. */
+            font-family: 'Fraunces', Georgia, serif;
+            font-weight: 700;
+            font-style: italic;
+            text-transform: none;
+            letter-spacing: -0.03em;
+            line-height: 0.92;
+            font-size: min(11.5vw, 9.5rem);
+            font-variation-settings: "opsz" 144, "SOFT" 100;
         }
         @media (max-width: 540px) {
             .hero-headline { font-size: 13.5vw; line-height: 0.95; }
@@ -365,25 +623,6 @@
             border-radius: 28px;
             display: block;
         }
-        /* Cursor-follow glow: small soft cyan disc tracks the mouse over the photo (desktop only) */
-        .portrait-cursor {
-            position: absolute;
-            width: 80px; height: 80px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(6,182,212,0.35) 0%, transparent 70%);
-            pointer-events: none;
-            transform: translate(-50%, -50%);
-            opacity: 0;
-            transition: opacity 0.25s ease;
-            mix-blend-mode: screen;
-            z-index: 2;
-        }
-        @media (hover: hover) and (pointer: fine) {
-            .hero-portrait-wrap:hover .portrait-cursor { opacity: 1; }
-        }
-        @media (prefers-reduced-motion: reduce) {
-            .portrait-cursor { display: none; }
-        }
         .hero-right {
             display: flex; flex-direction: column;
             gap: 1.1rem;
@@ -433,10 +672,6 @@
                 opacity: 1 !important;
                 transform: none !important;
             }
-            /* Portrait cursor is desktop-only */
-            .portrait-cursor {
-                display: none !important;
-            }
             /* Prevent hero-right from overflowing the grid cell on narrow viewports.
                iOS Safari: -webkit-mask-image on hero-skills-track-wrap can cause the
                element to compute width from its max-content inner track, pushing the
@@ -478,7 +713,7 @@
             left: 50%;
             top: 6.5rem;
             transform: translate(-50%, -50%);
-            font-family: 'Kanit', sans-serif;
+            font-family: 'Inter', system-ui, sans-serif;
             font-weight: 900;
             font-style: normal;                       /* italic dropped — was visually cropping the right edge */
             font-size: clamp(6rem, 14vw, 11rem);
@@ -576,19 +811,6 @@
             z-index: -1;
             transition: background-position 0.7s ease;
         }
-        @media (prefers-reduced-motion: no-preference) {
-            .resume-btn::after {
-                content: '';
-                position: absolute; inset: -2px;
-                border-radius: 9999px;
-                background: conic-gradient(from 0deg, transparent 0%, rgba(8,145,178,0.7) 25%, transparent 50%);
-                animation: resumeGlowSpin 6s linear infinite;
-                z-index: -2;
-                filter: blur(8px);
-                opacity: 0.65;
-            }
-        }
-        @keyframes resumeGlowSpin { to { transform: rotate(360deg); } }
         .resume-btn:hover { transform: translateY(-2px); border-color: #fff; color: #fff; }
         .resume-btn:hover::before { background-position: -100% 0; }
         .resume-btn svg { width: 1.05em; height: 1.05em; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
@@ -606,13 +828,6 @@
             background: rgba(6,182,212,0.06);
             overflow: hidden;
             transition: color 0.25s ease, background 0.25s ease, border-color 0.25s ease, transform 0.2s ease;
-        }
-        @media (prefers-reduced-motion: no-preference) {
-            .projects-btn { animation: projectsPulse 2.6s ease-in-out infinite; }
-        }
-        @keyframes projectsPulse {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(6,182,212,0.4); }
-            50%      { box-shadow: 0 0 0 8px rgba(6,182,212,0); }
         }
         .projects-btn::after {
             content: '→'; margin-left: 0.6rem;
@@ -634,13 +849,17 @@
             background: rgba(16, 185, 129, 0.05);
             border: 1px solid rgba(16, 185, 129, 0.45);
             color: #4ade80;
-            font-family: ui-monospace, "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
+            font-family: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
             font-size: 0.74rem; font-weight: 500;
             letter-spacing: 0.04em;
             text-transform: none;
             white-space: nowrap;
             box-shadow: 0 0 0 2.5px rgba(16, 185, 129, 0.15);
-            animation: badgeGlowPulse 2.6s ease-in-out infinite;
+        }
+        /* Glow + dot pulse only when motion is acceptable — fixes WCAG 2.3.3 / 2.2.2 concern */
+        @media (prefers-reduced-motion: no-preference) {
+            .hero-open-badge { animation: badgeGlowPulse 2.6s ease-in-out infinite; }
+            .hero-open-badge::before { animation: openPulse 2.2s ease-in-out infinite; }
         }
         .hero-open-badge::before {
             content: '';
@@ -648,7 +867,6 @@
             border-radius: 50%;
             background: #10b981;
             box-shadow: 0 0 8px rgba(16,185,129,0.7);
-            animation: openPulse 2.2s ease-in-out infinite;
         }
         @keyframes openPulse {
             0%, 100% { opacity: 1; transform: scale(1); }
@@ -669,7 +887,9 @@
             background: rgba(22, 163, 74, 0.08);
             border-color: rgba(22, 163, 74, 0.45);
             box-shadow: 0 0 0 2.5px rgba(22, 163, 74, 0.15);
-            animation: badgeGlowPulseLight 2.6s ease-in-out infinite;
+        }
+        @media (prefers-reduced-motion: no-preference) {
+            body[data-theme="light"] .hero-open-badge { animation: badgeGlowPulseLight 2.6s ease-in-out infinite; }
         }
         body[data-theme="light"] .hero-open-badge::before {
             background: #166534;
@@ -697,7 +917,7 @@
             display: inline-flex; align-items: center; justify-content: center;
             gap: 0.55rem;
             padding: 0.9rem 1.85rem;
-            font-family: 'Kanit', sans-serif;
+            font-family: 'Inter', system-ui, sans-serif;
             font-weight: 600; font-size: 0.85rem;
             letter-spacing: 0.16em; text-transform: uppercase;
             color: var(--text);
@@ -760,7 +980,7 @@
         /* View Projects — outline default, fills with cyan on hover */
         .projects-btn:hover {
             color: #ffffff;
-            background: linear-gradient(123deg, var(--pill-2), var(--pill-3) 60%, var(--pill-4));
+            background: linear-gradient(123deg, var(--color-accent-cool-deep), var(--color-accent-cool) 60%, var(--color-accent-cool));
             border-color: rgba(8,145,178,0);
             box-shadow: 0 10px 28px rgba(8,145,178,0.35);
             transform: translateY(-2px);
@@ -770,7 +990,7 @@
         /* Get In Touch — outline default, fills with deeper navy on hover */
         .contact-btn:hover {
             color: #ffffff;
-            background: linear-gradient(123deg, var(--pill-1), var(--pill-2) 60%, var(--pill-3));
+            background: linear-gradient(123deg, var(--color-accent-cool-deep), var(--color-accent-cool-deep) 60%, var(--color-accent-cool));
             border-color: rgba(30,64,175,0);
             box-shadow: 0 10px 28px rgba(30,64,175,0.4);
             transform: translateY(-2px);
@@ -828,21 +1048,6 @@
             overflow: hidden;
             transition: background 0.25s ease, color 0.25s ease, transform 0.2s ease;
         }
-        .edu-subject-link::before {
-            content: '';
-            position: absolute;
-            left: -120%; top: 0; bottom: 0; width: 40%;
-            background: linear-gradient(110deg, transparent 0%, rgba(103,232,249,0.5) 50%, transparent 100%);
-            transform: skewX(-15deg);
-        }
-        @media (prefers-reduced-motion: no-preference) {
-            .edu-subject-link::before { animation: subjectSheen 3.6s ease-in-out infinite; }
-        }
-        @keyframes subjectSheen {
-            0%   { left: -120%; }
-            60%  { left: 130%; }
-            100% { left: 130%; }
-        }
         .edu-subject-link::after {
             content: '→';
             font-weight: 700;
@@ -873,47 +1078,7 @@
         }
         .ghost-btn:hover { background: rgba(215,226,234,0.12); }
 
-        /* ============================================================
-           MARQUEE
-        ============================================================ */
-        section#marquee {
-            background: transparent;
-            padding: 4rem 0 2.5rem;
-            overflow: hidden;
-            position: relative;
-        }
-        @media (min-width: 768px) { section#marquee { padding-top: 6rem; } }
-        .marquee-row {
-            display: flex; gap: 0.75rem;
-            width: max-content;
-            will-change: transform;
-        }
-        .marquee-row + .marquee-row { margin-top: 0.75rem; }
-        @media (prefers-reduced-motion: no-preference) {
-            .marquee-row.dir-left  { animation: marqueeLeft  45s linear infinite; }
-            .marquee-row.dir-right { animation: marqueeRight 50s linear infinite; }
-            .marquee-row:hover { animation-play-state: paused; }
-        }
-        @keyframes marqueeLeft {
-            from { transform: translate3d(0, 0, 0); }
-            to   { transform: translate3d(-33.3333%, 0, 0); }
-        }
-        @keyframes marqueeRight {
-            from { transform: translate3d(-33.3333%, 0, 0); }
-            to   { transform: translate3d(0, 0, 0); }
-        }
-        .marquee-tile {
-            flex: 0 0 auto;
-            width: 320px; height: 200px;
-            border-radius: 18px;
-            overflow: hidden;
-            background: var(--bg-elev);
-            border: 1px solid var(--border-soft);
-        }
-        .marquee-tile img { width: 100%; height: 100%; object-fit: cover; }
-        @media (min-width: 768px) {
-            .marquee-tile { width: 380px; height: 240px; }
-        }
+        /* Marquee removed — see review feedback. Reserved selectors removed. */
         .sr-only {
             position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
             overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
@@ -945,7 +1110,9 @@
             max-width: 680px; width: 100%;
         }
         .about-title {
-            font-weight: 900; text-transform: uppercase;
+            font-family: 'Fraunces', Georgia, serif;
+            font-weight: 700; font-style: normal;
+            text-transform: none;
             text-align: center; line-height: 0.95;
             letter-spacing: -0.02em;
             font-size: clamp(2.6rem, 12vw, 9rem);
@@ -979,6 +1146,96 @@
         .about-stat-val { font-weight: 800; font-size: 1.6rem; }
         .about-stat-lbl { font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-dim); margin-top: 0.15rem; }
 
+        /* Live data strip — Magdeburg clock (Spotify + deploy tiles removed) */
+        .live-strip {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 0.6rem; width: 100%; max-width: 560px;
+            margin-top: 0.75rem;
+        }
+        .live-strip-single { grid-template-columns: minmax(180px, 240px); justify-content: center; }
+        @media (max-width: 540px) { .live-strip { grid-template-columns: 1fr; } }
+        .live-tile {
+            display: flex; align-items: center; gap: 0.6rem;
+            padding: 0.65rem 0.85rem;
+            border-radius: 14px;
+            border: 1px solid var(--border-soft);
+            background: rgba(20,20,20,0.45);
+            color: var(--text);
+            text-decoration: none;
+            transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+        }
+        body[data-theme="light"] .live-tile { background: rgba(255,255,255,0.7); }
+        .live-tile:hover { border-color: var(--color-accent-cool-soft); transform: translateY(-1px); }
+        .live-tile-ico { flex-shrink: 0; }
+        .live-tile-body { display: flex; flex-direction: column; min-width: 0; }
+        .live-tile-lbl {
+            font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase;
+            color: var(--text-dim);
+        }
+        .live-tile-val {
+            font-size: 0.85rem; font-weight: 500;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+
+        /* GitHub heatmap placeholder */
+        .github-heatmap-wrap {
+            display: block;
+            margin-top: 1rem;
+            width: 100%; max-width: 560px;
+            padding: 1rem 1.1rem;
+            border-radius: 14px;
+            border: 1px solid var(--border-soft);
+            background: rgba(20,20,20,0.45);
+            color: var(--text);
+            text-decoration: none;
+            transition: border-color 0.2s ease;
+        }
+        body[data-theme="light"] .github-heatmap-wrap { background: rgba(255,255,255,0.7); }
+        .github-heatmap-wrap:hover { border-color: var(--color-accent-cool-soft); }
+        .github-heatmap-head {
+            display: flex; justify-content: space-between; align-items: baseline;
+            font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase;
+            color: var(--text-dim);
+            margin-bottom: 0.6rem;
+        }
+        .github-heatmap-hint { font-family: "JetBrains Mono", ui-monospace, Menlo, monospace; font-size: 0.7rem; }
+        .github-heatmap-grid {
+            display: grid;
+            grid-template-columns: repeat(52, 1fr);
+            grid-auto-rows: 0.7rem;
+            gap: 2px;
+        }
+        .github-heatmap-cell {
+            background: rgba(255,255,255,0.05);
+            border-radius: 2px;
+        }
+        .github-heatmap-cell.l1 { background: rgba(8,145,178,0.25); }
+        .github-heatmap-cell.l2 { background: rgba(8,145,178,0.45); }
+        .github-heatmap-cell.l3 { background: rgba(8,145,178,0.7); }
+        .github-heatmap-cell.l4 { background: rgba(8,145,178,1); }
+        body[data-theme="light"] .github-heatmap-cell { background: rgba(0,0,0,0.06); }
+        body[data-theme="light"] .github-heatmap-cell.l1 { background: rgba(14,116,144,0.25); }
+        body[data-theme="light"] .github-heatmap-cell.l2 { background: rgba(14,116,144,0.5); }
+        body[data-theme="light"] .github-heatmap-cell.l3 { background: rgba(14,116,144,0.75); }
+        body[data-theme="light"] .github-heatmap-cell.l4 { background: rgba(14,116,144,1); }
+        .github-heatmap-foot {
+            margin-top: 0.6rem;
+            font-size: 0.78rem; color: var(--text-dim);
+        }
+
+        /* Live repo activity badges (shields.io) */
+        .repo-badges {
+            display: flex; flex-wrap: wrap; gap: 0.5rem;
+            margin-top: 0.85rem; max-width: 560px;
+        }
+        .repo-badges a {
+            display: inline-flex; line-height: 0;
+            border-radius: 4px;
+            transition: transform 0.15s ease, opacity 0.15s ease;
+        }
+        .repo-badges a:hover { transform: translateY(-1px); opacity: 0.9; }
+        .repo-badges img { height: 22px; display: block; }
+
         /* ============================================================
            SERVICES — white bg, dark ink (or inverted in light theme)
         ============================================================ */
@@ -998,8 +1255,10 @@
         .services-title {
             color: var(--service-ink);
             text-align: center;
-            font-weight: 900;
-            text-transform: uppercase;
+            font-family: 'Fraunces', Georgia, serif;
+            font-weight: 700;
+            font-style: normal;
+            text-transform: none;
             line-height: 0.95;
             letter-spacing: -0.02em;
             font-size: clamp(2.8rem, 12vw, 10rem);
@@ -1103,6 +1362,62 @@
             .project-card { border-radius: 48px; padding: 1.8rem; }
         }
         .project-card:focus-within { z-index: 50; }
+
+        /* Featured project — same footprint, distinct treatment.
+           Honours the user-locked decision NOT to make the featured card full-width. */
+        .project-card[data-featured="true"] {
+            border-color: var(--color-accent-cool);
+            box-shadow:
+                0 30px 60px rgba(0,0,0,0.45),
+                0 0 0 1px rgba(8,145,178,0.35),
+                0 0 60px -10px rgba(8,145,178,0.45);
+            background:
+                linear-gradient(180deg, rgba(8,145,178,0.07), transparent 35%),
+                var(--bg);
+        }
+        .project-card[data-featured="true"]:hover {
+            box-shadow:
+                0 40px 80px rgba(0,0,0,0.55),
+                0 0 0 1px rgba(8,145,178,0.55),
+                0 0 80px -10px rgba(8,145,178,0.6);
+        }
+        body[data-theme="light"] .project-card[data-featured="true"] {
+            border-color: var(--color-accent-cool-deep);
+            background:
+                linear-gradient(180deg, rgba(14,116,144,0.08), transparent 35%),
+                var(--bg);
+            box-shadow:
+                0 18px 38px rgba(14,116,144,0.18),
+                0 0 0 1px rgba(14,116,144,0.32);
+        }
+        .pc-featured-ribbon {
+            position: absolute;
+            top: 1rem; right: 1.2rem;
+            display: inline-flex; align-items: center; gap: 0.4rem;
+            padding: 0.32rem 0.7rem 0.32rem 0.6rem;
+            border-radius: 999px;
+            font-family: "JetBrains Mono", ui-monospace, Menlo, monospace;
+            font-size: 0.66rem; font-weight: 700;
+            letter-spacing: 0.16em;
+            color: #ecfeff;
+            background: linear-gradient(135deg, var(--color-accent-cool-deep), var(--color-accent-cool));
+            border: 1px solid rgba(255,255,255,0.18);
+            box-shadow: 0 4px 14px rgba(8,145,178,0.35);
+            z-index: 5;
+            pointer-events: none;
+        }
+        body[data-theme="light"] .pc-featured-ribbon {
+            color: #ffffff;
+            background: linear-gradient(135deg, #0e7490, #0891b2);
+            border-color: rgba(255,255,255,0.35);
+        }
+        @media (min-width: 768px) {
+            .pc-featured-ribbon { top: 1.4rem; right: 1.8rem; font-size: 0.7rem; }
+        }
+        @media (max-width: 540px) {
+            .pc-featured-ribbon { font-size: 0.6rem; padding: 0.28rem 0.55rem; top: 0.85rem; right: 0.95rem; }
+        }
+
         .pc-top {
             display: flex; flex-wrap: wrap; align-items: flex-end;
             gap: 1rem 1.5rem;
@@ -1121,11 +1436,13 @@
             margin-bottom: 0.4rem;
         }
         .pc-name {
-            font-weight: 500;
-            font-size: clamp(1.05rem, 2vw, 1.65rem);
-            text-transform: uppercase; letter-spacing: 0.02em;
+            font-family: 'Fraunces', Georgia, serif;
+            font-weight: 600;
+            font-style: normal;
+            font-size: clamp(1.15rem, 2.2vw, 1.85rem);
+            text-transform: none; letter-spacing: -0.005em;
             color: var(--text);
-            line-height: 1.15;
+            line-height: 1.18;
         }
         .pc-grid {
             display: grid;
@@ -1186,7 +1503,7 @@
             content: ''; position: absolute; left: 0; top: 0.55em;
             width: 0.45rem; height: 0.45rem;
             border-radius: 50%;
-            background: var(--pill-4);
+            background: var(--color-accent-cool);
             box-shadow: 0 0 8px rgba(8,145,178,0.55);
         }
         .pc-tags { display: flex; flex-wrap: wrap; gap: 0.55rem; margin-top: auto; padding-top: 0.5rem; }
@@ -1202,8 +1519,38 @@
             transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
         }
         body[data-theme="light"] .pc-tag { background: rgba(255,255,255,0.7); color: #1f2a1d; }
-        .pc-tag:hover { color: var(--pill-4); border-color: var(--pill-4); transform: translateY(-1px); }
+        .pc-tag:hover { color: var(--color-accent-cool); border-color: var(--color-accent-cool); transform: translateY(-1px); }
         .pc-details-btn { background: transparent; }
+
+        /* "What I learned" callout — appears under each project's highlights */
+        .pc-learned, .proj-learned {
+            margin: 1rem 0 0.5rem;
+            padding: 0.85rem 1rem;
+            border-left: 3px solid var(--color-accent-cool);
+            background: rgba(8,145,178,0.08);
+            border-radius: 0 10px 10px 0;
+        }
+        body[data-theme="light"] .pc-learned, body[data-theme="light"] .proj-learned {
+            background: rgba(14,116,144,0.08);
+            border-left-color: #0e7490;
+        }
+        .pc-learned-label, .proj-learned-label {
+            font-family: "JetBrains Mono", ui-monospace, Menlo, monospace;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--color-accent-cool);
+            margin-bottom: 0.3rem;
+        }
+        body[data-theme="light"] .pc-learned-label, body[data-theme="light"] .proj-learned-label { color: #0e7490; }
+        .pc-learned-text, .proj-learned-text {
+            color: var(--text);
+            font-size: 0.95rem;
+            line-height: 1.55;
+            margin: 0;
+        }
+        body[data-theme="light"] .pc-learned-text, body[data-theme="light"] .proj-learned-text { color: #1f2a1d; }
+        .pc-casestudy-link { font-weight: 600; }
 
         /* ============================================================
            SKILLS SECTION (restored from old portfolio, restyled)
@@ -1224,7 +1571,7 @@
         }
         .skills-eyebrow {
             text-align: center;
-            color: var(--pill-4);
+            color: var(--color-accent-cool);
             font-size: 0.78rem; letter-spacing: 0.32em; text-transform: uppercase;
             margin-bottom: 0.6rem;
         }
@@ -1239,7 +1586,7 @@
         .skill-card {
             background: rgba(20,20,20,0.55);
             border: 1px solid var(--border-soft);
-            border-left: 3px solid var(--pill-4);
+            border-left: 3px solid var(--color-accent-cool);
             border-radius: 18px;
             padding: 1.4rem 1.4rem 1.6rem;
             display: flex; flex-direction: column; gap: 1rem;
@@ -1250,26 +1597,33 @@
             font-size: 0.78rem;
             letter-spacing: 0.18em;
             text-transform: uppercase;
-            color: var(--pill-4);
+            color: var(--color-accent-cool);
         }
-        .skill-bar-row {
-            display: grid; grid-template-columns: 1fr auto;
-            gap: 0.5rem; align-items: center;
+        /* Skill proof links — replaced self-rated bars with concrete links to repos / project anchors */
+        .skill-proofs { list-style: none; padding: 0; margin: 0 0 0.65rem; display: flex; flex-direction: column; gap: 0.55rem; }
+        .skill-proof-row { display: flex; flex-direction: column; gap: 0.2rem; }
+        .skill-proof-link {
+            display: inline-flex; align-items: center; gap: 0.35rem;
+            font-size: 0.92rem; font-weight: 600;
+            color: var(--text);
+            text-decoration: none;
+            border-bottom: 1px dashed transparent;
+            transition: color 0.2s ease, border-color 0.2s ease;
+            width: fit-content;
         }
-        .skill-name { font-size: 0.95rem; font-weight: 500; color: var(--text); }
-        .skill-level {
-            display: inline-block;
-            padding: 0.18rem 0.6rem;
-            font-family: ui-monospace, "JetBrains Mono", Menlo, monospace;
-            font-size: 0.7rem; letter-spacing: 0.06em;
-            border-radius: 4px;
-            border: 1px solid var(--border-soft);
-            color: var(--text-dim);
+        .skill-proof-link:hover, .skill-proof-link:focus-visible {
+            color: #67e8f9;
+            border-bottom-color: rgba(103,232,249,0.7);
         }
-        .skill-level.expert     { color: #4ade80; border-color: rgba(74,222,128,0.4); background: rgba(74,222,128,0.08); }
-        .skill-level.advanced   { color: #67e8f9; border-color: rgba(103,232,249,0.4); background: rgba(8,145,178,0.10); }
-        .skill-level.proficient { color: #93c5fd; border-color: rgba(147,197,253,0.35); background: rgba(59,130,246,0.10); }
-        .skill-level.familiar   { color: #cbd5e1; border-color: rgba(203,213,225,0.3);  background: rgba(255,255,255,0.04); }
+        body[data-theme="light"] .skill-proof-link:hover, body[data-theme="light"] .skill-proof-link:focus-visible {
+            color: #0e7490;
+            border-bottom-color: rgba(14,116,144,0.7);
+        }
+        .skill-proof-ico { opacity: 0.75; flex-shrink: 0; }
+        .skill-proof-note {
+            font-size: 0.82rem; color: var(--text-dim);
+            line-height: 1.4;
+        }
         .skill-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
         .skill-chip {
             padding: 0.3rem 0.7rem;
@@ -1292,7 +1646,7 @@
         }
         @media (min-width: 768px) { section#track { padding: 5rem 2rem 6rem; } }
         .track-eyebrow {
-            color: var(--pill-4);
+            color: var(--color-accent-cool);
             font-size: 0.78rem; letter-spacing: 0.32em; text-transform: uppercase;
             text-align: center;
             margin-bottom: 0.6rem;
@@ -1315,7 +1669,7 @@
             content: ''; position: absolute;
             left: 0.45rem; top: 0.5rem; bottom: 0.5rem;
             width: 2px;
-            background: linear-gradient(180deg, var(--pill-2), var(--pill-4));
+            background: linear-gradient(180deg, var(--color-accent-cool-deep), var(--color-accent-cool));
             border-radius: 2px;
         }
         .track-item {
@@ -1332,12 +1686,12 @@
             left: -2rem; top: 1.5rem;
             width: 10px; height: 10px;
             border-radius: 50%;
-            background: var(--pill-4);
+            background: var(--color-accent-cool);
             box-shadow: 0 0 0 4px rgba(8,145,178,0.18);
         }
         .track-date {
             font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase;
-            color: var(--pill-4); margin-bottom: 0.35rem; font-weight: 600;
+            color: var(--color-accent-cool); margin-bottom: 0.35rem; font-weight: 600;
         }
         .track-role { font-weight: 700; font-size: 1.1rem; margin-bottom: 0.2rem; }
         .track-org  { color: var(--text-dim); font-size: 0.88rem; margin-bottom: 0.6rem; }
@@ -1354,7 +1708,7 @@
         }
         @media (min-width: 768px) { section#education { padding: 5rem 2rem 6rem; } }
         .edu-eyebrow {
-            color: var(--pill-4);
+            color: var(--color-accent-cool);
             font-size: 0.78rem; letter-spacing: 0.32em; text-transform: uppercase;
             text-align: center;
             margin-bottom: 0.6rem;
@@ -1386,15 +1740,44 @@
             background: rgba(8,145,178,0.18);
             border: 1px solid rgba(8,145,178,0.36);
             display: inline-flex; align-items: center; justify-content: center;
-            color: var(--pill-4);
+            color: var(--color-accent-cool);
             margin-bottom: 0.3rem;
         }
         .edu-icon-wrap svg { width: 22px; height: 22px; stroke: currentColor; stroke-width: 1.6; fill: none; stroke-linecap: round; stroke-linejoin: round; }
         .edu-degree { font-weight: 700; font-size: 1.1rem; }
-        .edu-period { font-size: 0.74rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--pill-4); }
+        .edu-period { font-size: 0.74rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-accent-cool); }
         .edu-detail { color: var(--text); font-weight: 300; font-size: 0.94rem; line-height: 1.55; }
         .edu-detail strong { font-weight: 600; color: var(--text); }
-        .edu-subjects { display: flex; flex-direction: column; gap: 0.4rem; margin-top: 0.4rem; }
+        .edu-block { margin-top: 1.1rem; }
+        .edu-block-label {
+            font-size: 0.66rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            font-family: "JetBrains Mono", ui-monospace, Menlo, monospace;
+            margin-bottom: 0.55rem;
+        }
+        body[data-theme="light"] .edu-block-label { color: #0e7490; }
+        .edu-focus-chips {
+            display: flex; flex-wrap: wrap;
+            gap: 0.5rem 0.55rem;
+        }
+        .edu-focus-chip {
+            display: inline-flex; align-items: center;
+            padding: 0.32rem 0.7rem;
+            font-size: 0.78rem;
+            line-height: 1.2;
+            border-radius: 999px;
+            background: rgba(8,145,178,0.10);
+            border: 1px solid rgba(8,145,178,0.32);
+            color: #cffafe;
+        }
+        body[data-theme="light"] .edu-focus-chip {
+            background: rgba(14,116,144,0.08);
+            border-color: rgba(14,116,144,0.32);
+            color: #0c4a6e;
+        }
+        .edu-subjects { display: flex; flex-direction: column; gap: 0.55rem; }
         .edu-subject {
             display: inline-block;
             font-size: 0.85rem; padding: 0.4rem 0.7rem;
@@ -1503,13 +1886,13 @@
         body[data-theme="light"] .contact-card { background: rgba(255,255,255,0.85); }
         .contact-card:hover {
             background: rgba(20,20,20,0.85);
-            border-color: var(--pill-4);
+            border-color: var(--color-accent-cool);
             transform: translateY(-2px);
             box-shadow: 0 12px 28px rgba(8,145,178,0.22), 0 0 0 1px rgba(8,145,178,0.4);
         }
-        body[data-theme="light"] .contact-card:hover { background: rgba(255,255,255,1); border-color: var(--pill-4); box-shadow: 0 12px 28px rgba(8,145,178,0.18); }
+        body[data-theme="light"] .contact-card:hover { background: rgba(255,255,255,1); border-color: var(--color-accent-cool); box-shadow: 0 12px 28px rgba(8,145,178,0.18); }
         .contact-card > * { position: relative; z-index: 1; }
-        .contact-lbl { font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--pill-4); font-weight: 700; }
+        .contact-lbl { font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--color-accent-cool); font-weight: 700; }
         .contact-val { font-weight: 500; word-break: break-word; font-size: 0.9rem; }
 
         /* Bigger contact form for recruiters */
@@ -1544,7 +1927,7 @@
         body[data-theme="light"] .contact-form input,
         body[data-theme="light"] .contact-form textarea { background: rgba(255,255,255,0.92); }
         .contact-form input::placeholder, .contact-form textarea::placeholder { color: var(--text-dim); }
-        .contact-form input:focus, .contact-form textarea:focus { border-color: var(--pill-4); background: rgba(12,12,12,0.85); outline: none; }
+        .contact-form input:focus, .contact-form textarea:focus { border-color: var(--color-accent-cool); background: rgba(12,12,12,0.85); outline: none; }
         .contact-form textarea { min-height: 160px; }
         .contact-form button[type="submit"] {
             align-self: flex-start;
@@ -1568,20 +1951,28 @@
             z-index: 80;
         }
         @media (max-width: 768px) { .section-nav { display: none; } }
+        /* The button itself is a 24x24 invisible hit target (WCAG 2.5.8 Target Size).
+           The visible 10px dot lives in ::before so the visual hierarchy doesn't change. */
         .sn-dot {
             position: relative;
+            width: 24px; height: 24px;
+            background: transparent;
+            border: 0; padding: 0;
+            cursor: pointer;
+            display: inline-flex; align-items: center; justify-content: center;
+        }
+        .sn-dot::before {
+            content: '';
             width: 10px; height: 10px;
             border-radius: 50%;
             background: rgba(215,226,234,0.35);
             border: 1px solid rgba(215,226,234,0.45);
-            transition: background 0.25s ease, transform 0.25s ease, border-color 0.25s ease;
-            cursor: pointer;
-            padding: 0;
+            transition: background 0.25s ease, transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
         }
-        .sn-dot:hover { background: rgba(215,226,234,0.7); transform: scale(1.25); }
-        .sn-dot.active {
-            background: var(--pill-4);
-            border-color: var(--pill-4);
+        .sn-dot:hover::before { background: rgba(215,226,234,0.7); transform: scale(1.25); }
+        .sn-dot.active::before {
+            background: var(--color-accent-cool);
+            border-color: var(--color-accent-cool);
             transform: scale(1.45);
             box-shadow: 0 0 12px rgba(8,145,178,0.55);
         }
@@ -1599,8 +1990,8 @@
             transition: opacity 0.2s ease;
         }
         .sn-dot:hover .sn-tip, .sn-dot:focus-visible .sn-tip { opacity: 1; }
-        body[data-theme="light"] .sn-dot { background: rgba(12,12,12,0.25); border-color: rgba(12,12,12,0.35); }
-        body[data-theme="light"] .sn-dot.active { background: #0e7490; border-color: #0e7490; }
+        body[data-theme="light"] .sn-dot::before { background: rgba(12,12,12,0.25); border-color: rgba(12,12,12,0.35); }
+        body[data-theme="light"] .sn-dot.active::before { background: #0e7490; border-color: #0e7490; }
         body[data-theme="light"] .sn-dot .sn-tip { background: rgba(255,255,255,0.95); color: #0c0c0c; border: 1px solid rgba(12,12,12,0.1); }
 
         /* ============================================================
@@ -1611,7 +2002,7 @@
             right: 1.25rem; bottom: 1.5rem;
             width: 52px; height: 52px;
             border-radius: 9999px;
-            background: linear-gradient(135deg, var(--pill-2), var(--pill-4));
+            background: linear-gradient(135deg, var(--color-accent-cool-deep), var(--color-accent-cool));
             color: #ffffff;
             border: 2px solid rgba(255,255,255,0.85);
             display: inline-flex; align-items: center; justify-content: center;
@@ -1656,7 +2047,7 @@
         }
         .footer-links a::after {
             content: ''; position: absolute; left: 0; right: 100%; bottom: 0;
-            height: 1px; background: var(--pill-4);
+            height: 1px; background: var(--color-accent-cool);
             transition: right 0.3s var(--ease-out);
         }
         .footer-links a:hover { color: var(--text); }
@@ -1787,6 +2178,129 @@
         body.modal-open { overflow: hidden; }
 
         /* ============================================================
+           COMMAND PALETTE (⌘K) — trigger pill + overlay dialog
+        ============================================================ */
+        .cmdk-trigger {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            height: 38px;
+            padding: 0 0.65rem 0 0.7rem;
+            border-radius: 9999px;
+            border: 1px solid var(--border-soft);
+            background: rgba(20,20,20,0.5);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            color: var(--text-dim);
+            font-size: 0.78rem; font-weight: 500;
+            cursor: pointer;
+            transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+        }
+        .cmdk-trigger:hover { color: var(--text); background: rgba(20,20,20,0.8); }
+        body[data-theme="light"] .cmdk-trigger { background: rgba(255,255,255,0.7); }
+        body[data-theme="light"] .cmdk-trigger:hover { background: rgba(255,255,255,0.95); }
+        .cmdk-trigger-text { letter-spacing: 0.04em; }
+        .cmdk-kbd {
+            font-family: "JetBrains Mono", ui-monospace, Menlo, monospace;
+            font-size: 0.7rem;
+            padding: 0.1rem 0.4rem;
+            border: 1px solid var(--border-soft);
+            border-radius: 5px;
+            background: rgba(255,255,255,0.05);
+            color: var(--text-dim);
+        }
+        .cmdk-mod { letter-spacing: 0; }
+        @media (max-width: 640px) {
+            .cmdk-trigger-text, .cmdk-kbd { display: none; }
+            .cmdk-trigger { width: 38px; padding: 0; justify-content: center; }
+        }
+
+        .cmdk-overlay {
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,0.55);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            z-index: 9999;
+            display: none;
+            align-items: flex-start;
+            justify-content: center;
+            padding: clamp(4rem, 12vh, 9rem) 1rem 1rem;
+        }
+        .cmdk-overlay.open { display: flex; }
+        body[data-theme="light"] .cmdk-overlay { background: rgba(20,20,20,0.45); }
+
+        .cmdk-card {
+            width: min(560px, 100%);
+            background: var(--bg-elev);
+            border: 1px solid var(--border-soft);
+            border-radius: 14px;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.55);
+            overflow: hidden;
+        }
+        .cmdk-search {
+            display: flex; align-items: center; gap: 0.6rem;
+            padding: 0.85rem 1rem;
+            border-bottom: 1px solid var(--border-soft);
+            color: var(--text-dim);
+        }
+        .cmdk-input {
+            flex: 1;
+            background: transparent;
+            border: none; outline: none;
+            color: var(--text);
+            font-family: inherit;
+            font-size: 1rem;
+        }
+        .cmdk-input::placeholder { color: var(--text-dim); }
+        .cmdk-escape {
+            font-family: "JetBrains Mono", ui-monospace, Menlo, monospace;
+            font-size: 0.7rem;
+            padding: 0.15rem 0.4rem;
+            border: 1px solid var(--border-soft);
+            border-radius: 5px;
+            color: var(--text-dim);
+        }
+        .cmdk-list {
+            list-style: none; padding: 0.4rem;
+            max-height: 60vh; overflow-y: auto;
+        }
+        .cmdk-item {
+            display: flex; align-items: center; gap: 0.7rem;
+            padding: 0.55rem 0.7rem;
+            border-radius: 8px;
+            cursor: pointer;
+            color: var(--text);
+            font-size: 0.92rem;
+        }
+        .cmdk-item:hover, .cmdk-item.is-active {
+            background: rgba(8,145,178,0.18);
+            color: #67e8f9;
+        }
+        body[data-theme="light"] .cmdk-item:hover, body[data-theme="light"] .cmdk-item.is-active {
+            background: rgba(14,116,144,0.14); color: #0e7490;
+        }
+        .cmdk-item-ico { width: 18px; height: 18px; flex-shrink: 0; opacity: 0.75; }
+        .cmdk-item-label { flex: 1; }
+        .cmdk-item-hint {
+            font-family: "JetBrains Mono", ui-monospace, Menlo, monospace;
+            font-size: 0.72rem;
+            color: var(--text-dim);
+        }
+        .cmdk-empty { padding: 1.2rem; text-align: center; color: var(--text-dim); }
+        .cmdk-footer {
+            padding: 0.55rem 1rem;
+            border-top: 1px solid var(--border-soft);
+            font-size: 0.72rem;
+            color: var(--text-dim);
+        }
+        .cmdk-footer kbd {
+            font-family: "JetBrains Mono", ui-monospace, Menlo, monospace;
+            font-size: 0.7rem;
+            padding: 0.05rem 0.35rem;
+            border: 1px solid var(--border-soft);
+            border-radius: 4px;
+            margin: 0 0.15rem;
+        }
+
+        /* ============================================================
            FADEIN ENTRANCE
         ============================================================ */
         .reveal { opacity: 0; transform: translateY(30px); will-change: opacity, transform; }
@@ -1837,7 +2351,6 @@
             .reveal { opacity: 1 !important; transform: none !important; }
             .drawer-nav a, .drawer-cta { opacity: 1 !important; transform: none !important; transition: none !important; }
             .about-text .char { opacity: 1 !important; }
-            .marquee-row { transform: none !important; animation: none !important; }
             .project-card { transform: none !important; }
         }
 
@@ -1861,7 +2374,7 @@
             align-items: center; gap: 1.75rem;
         }
         .curtain-logo {
-            font-family: 'Kanit', sans-serif;
+            font-family: 'Inter', system-ui, sans-serif;
             font-weight: 900; font-size: 3rem;
             letter-spacing: 0.04em;
             background: linear-gradient(135deg, #a5b4fc 0%, #818cf8 50%, #6366f1 100%);
@@ -2081,14 +2594,19 @@
             box-shadow: 0 1px 0 rgba(0,0,0,0.05);
         }
 
-        /* 11. Section Dot Rail Glow Enhancement */
+        /* 11. Section Dot Rail Glow Enhancement — sized to the inner 10px dot,
+           not the 24px hit-target button. */
         .sn-dot.active::after {
             content: '';
-            position: absolute; inset: -4px;
+            position: absolute;
+            left: 50%; top: 50%;
+            width: 18px; height: 18px;
+            transform: translate(-50%, -50%);
             border-radius: 50%;
             background: rgba(8,145,178,0.3);
             z-index: -1;
             filter: blur(3px);
+            pointer-events: none;
         }
         @media (prefers-reduced-motion: no-preference) {
             .sn-dot.active::after { animation: dotGlow 2s ease-in-out infinite; }
@@ -2124,7 +2642,7 @@
 
         /* 14. Contact Form Focus Glow */
         .contact-form input:focus, .contact-form textarea:focus {
-            border-color: var(--pill-4);
+            border-color: var(--color-accent-cool);
             background: rgba(12,12,12,0.85);
             box-shadow: 0 0 0 3px rgba(8,145,178,0.15);
             outline: none;
@@ -2244,7 +2762,7 @@
             transition: color 0.4s var(--ease-out), transform 0.4s var(--ease-out);
         }
         .service-item:hover .service-num {
-            color: var(--pill-4);
+            color: var(--color-accent-cool);
             transform: translateX(4px);
         }
         .service-name {
@@ -2256,7 +2774,7 @@
                 position: absolute;
                 left: 0; right: 100%; bottom: -4px;
                 height: 2px;
-                background: linear-gradient(90deg, var(--pill-2), var(--pill-4));
+                background: linear-gradient(90deg, var(--color-accent-cool-deep), var(--color-accent-cool));
                 border-radius: 2px;
                 transition: right 0.5s var(--ease-out);
             }
@@ -2268,7 +2786,7 @@
         /* Contact Form bottom border fill & focus glow */
         .contact-form input,
         .contact-form textarea {
-            background-image: linear-gradient(var(--pill-4), var(--pill-4));
+            background-image: linear-gradient(var(--color-accent-cool), var(--color-accent-cool));
             background-size: 0% 2px;
             background-position: center bottom;
             background-repeat: no-repeat;
@@ -2381,7 +2899,18 @@
 <a class="skip-link" href="#main">Skip to main content</a>
 
 <nav class="topnav" role="navigation" aria-label="Main">
-    <a href="#hero" class="nav-logo" aria-label="Hashwanth Ghanta — home">HG</a>
+    <a href="#hero" class="nav-logo" aria-label="Hashwanth Ghanta — home">
+        <svg class="nav-logo-mark" viewBox="0 0 100 50" role="img" aria-hidden="true" focusable="false">
+            <!-- H — two uprights joined by a crossbar -->
+            <path class="hg-letter" d="M8 8 H18 V22 H34 V8 H44 V42 H34 V30 H18 V42 H8 Z"/>
+            <!-- G — blocky to read as one monogram with the H -->
+            <path class="hg-letter" d="M52 8 H82 V18 H62 V32 H72 V26 H82 V42 H52 Z"/>
+            <!-- Accent dot — ring + scroll-scrubbed fill (reading progress) -->
+            <circle class="hg-dot-ring" cx="92" cy="38" r="5"/>
+            <circle class="hg-dot-fill" cx="92" cy="38" r="5"/>
+        </svg>
+        <span class="sr-only">HG</span>
+    </a>
     <ul class="nav-links" role="list">
         <li><a href="#about"     data-i18n="nav_about">About</a></li>
         <li><a href="#projects"  data-i18n="nav_projects">Projects</a></li>
@@ -2391,6 +2920,11 @@
         <li><a href="#contact"   data-i18n="nav_contact">Contact</a></li>
     </ul>
     <div class="nav-ctrls">
+        <button class="cmdk-trigger" id="cmdk-trigger" type="button" aria-label="Open command menu (press Cmd+K or Ctrl+K)" aria-haspopup="dialog" aria-controls="cmdk-palette">
+            <svg viewBox="0 0 24 24" aria-hidden="true" width="14" height="14"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="m20 20-3.5-3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            <span class="cmdk-trigger-text">Search</span>
+            <kbd class="cmdk-kbd"><span class="cmdk-mod">⌘</span>K</kbd>
+        </button>
         <button class="icon-btn theme-toggle" id="theme-toggle" type="button" aria-label="Switch to light theme" aria-pressed="false">🌙</button>
         <button class="lang-btn active" data-lang="en" type="button" onclick="setLanguage('en')" aria-label="Switch to English"><span class="lang-flag" aria-hidden="true">🇬🇧</span> EN</button>
         <button class="lang-btn"        data-lang="de" type="button" onclick="setLanguage('de')" aria-label="Auf Deutsch umschalten"><span class="lang-flag" aria-hidden="true">🇩🇪</span> DE</button>
@@ -2426,14 +2960,20 @@
 <!-- ================== HERO ================== -->
 <section id="hero" aria-labelledby="hero-h1">
     <div class="hero-headline-wrap hero-stagger">
+        <!-- Inline avatar — appears ONLY on phones (≤540px). Replaces the desktop portrait card
+             so the photo isn't a floating square on mobile but is paired with the name. -->
+        <span class="hero-inline-avatar" aria-hidden="true">
+            <img src="Images/hash-avatar.jpg" width="56" height="56" alt="" loading="eager" decoding="async">
+        </span>
         <h1 class="hero-headline hero-heading" id="hero-h1">Hashwanth Ghanta</h1>
     </div>
 
     <div class="hero-body">
         <div class="hero-left hero-stagger">
             <div class="hero-portrait-wrap" id="hero-portrait-wrap" aria-hidden="true">
-                <img src="Images/hash.jpeg" alt="" loading="eager" decoding="async">
-                <span class="portrait-cursor" id="portrait-cursor"></span>
+                <img src="Images/hash-850.jpg" srcset="Images/hash-850.jpg 850w" sizes="(max-width: 860px) 0px, 425px"
+                     width="425" height="492"
+                     alt="" loading="eager" decoding="async" fetchpriority="high">
             </div>
         </div>
 
@@ -2458,24 +2998,57 @@
     </div>
 </section>
 
-<!-- ================== MARQUEE ================== -->
-<section id="marquee" aria-labelledby="marquee-h2">
-    <h2 class="sr-only" id="marquee-h2" data-i18n="marquee_h2">Selected Work</h2>
-    <div class="marquee-row dir-left"  id="marquee-row-1" aria-hidden="true"></div>
-    <div class="marquee-row dir-right" id="marquee-row-2" aria-hidden="true"></div>
-</section>
+<!-- Marquee strip removed — review feedback: padding without context.
+     Selected work is shown in the projects grid below. -->
 
 <!-- ================== ABOUT ================== -->
 <section id="about" aria-labelledby="about-h2">
     <div class="about-inner">
         <h2 class="about-title hero-heading reveal" id="about-h2" data-i18n="about_h2">About Me</h2>
         <p class="about-text" id="about-text" data-i18n="about_text">
-            With M.Sc. Digital Engineering studies at OVGU Magdeburg, my main focus is on backend development, software engineering, and database systems. I combine strong coding skills with hands-on experience in SwiftUI iOS apps and data analysis workflows. I enjoy building clean, optimized software solutions and solving complex logic problems. Let's build something incredible together.
+            I'm an M.Sc. Digital Engineering student at OVGU Magdeburg focused on backend, simulation, and iOS. I ship things end-to-end — Unity 3D simulations in C#, native SwiftUI apps with live finance data, IoT prototypes on Arduino. I care about clean code, measurable outcomes, and the boring details that make software actually work.
         </p>
         <div class="about-meta" aria-label="Quick facts">
-            <div class="about-stat reveal" style="transition-delay: 0.1s;"><div class="about-stat-val">4</div><div class="about-stat-lbl" data-i18n="stat_phases">Core Programming Languages</div></div>
-            <div class="about-stat reveal" style="transition-delay: 0.2s;"><div class="about-stat-val">5</div><div class="about-stat-lbl" data-i18n="stat_projects">Projects Shipped</div></div>
-            <div class="about-stat reveal" style="transition-delay: 0.3s;"><div class="about-stat-val">2026</div><div class="about-stat-lbl" data-i18n="stat_available">Available Q2 · Magdeburg / Remote</div></div>
+            <div class="about-stat reveal" style="transition-delay: 0.1s;"><div class="about-stat-val">7</div><div class="about-stat-lbl" data-i18n="stat_phases">Unity simulation phases shipped</div></div>
+            <div class="about-stat reveal" style="transition-delay: 0.2s;"><div class="about-stat-val">55+</div><div class="about-stat-lbl" data-i18n="stat_projects">Live stock tickers across 6 exchanges</div></div>
+            <div class="about-stat reveal" style="transition-delay: 0.3s;"><div class="about-stat-val">1,000+</div><div class="about-stat-lbl" data-i18n="stat_available">Participants led at VITOPIA 2024</div></div>
+        </div>
+
+        <!-- ============================================================
+             LIVE DATA STRIP — Magdeburg local time only.
+             (Spotify + last-deployed tiles removed at user request.)
+             ============================================================ -->
+        <div class="live-strip live-strip-single reveal" style="transition-delay: 0.45s;" aria-label="Live signals">
+            <div class="live-tile live-clock" aria-live="polite">
+                <span class="live-tile-ico" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 7v5l3 2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                </span>
+                <div class="live-tile-body">
+                    <span class="live-tile-lbl">Magdeburg now</span>
+                    <span class="live-tile-val" id="live-clock-val">—</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- GitHub contributions panel — shows a styled illustrative heatmap so the
+             dashboard never looks empty during quiet stretches between coursework
+             sprints. The whole panel links to the real GitHub profile where
+             recruiters can see the actual graph. -->
+        <a class="github-heatmap-wrap reveal" id="github-heatmap" style="transition-delay: 0.55s;"
+           href="https://github.com/hashwanthghanta" target="_blank" rel="noopener noreferrer"
+           aria-label="Open my GitHub profile to see the real contribution graph">
+            <div class="github-heatmap-head">
+                <span data-i18n="heatmap_title">GitHub activity</span>
+                <span class="github-heatmap-hint" data-i18n="heatmap_hint">illustrative · open profile for live graph →</span>
+            </div>
+            <div class="github-heatmap-grid" id="github-heatmap-grid" aria-hidden="true"></div>
+            <div class="github-heatmap-foot" data-i18n="heatmap_cta">@hashwanthghanta — open profile to see the real graph →</div>
+        </a>
+        <!-- Live "portfolio updated" badge — single shields.io call, refreshes daily. -->
+        <div class="repo-badges reveal" id="repo-badges" style="transition-delay: 0.6s;" aria-label="Portfolio last updated">
+            <a href="https://github.com/hashwanthghanta/hashwanthghanta.github.io" target="_blank" rel="noopener noreferrer" aria-label="Portfolio repository — last commit on GitHub">
+                <img src="https://img.shields.io/github/last-commit/hashwanthghanta/hashwanthghanta.github.io?style=flat-square&color=0891b2&label=portfolio%20updated" alt="Date of the most recent portfolio update" loading="lazy" decoding="async">
+            </a>
         </div>
         <div class="reveal" style="transition-delay: 0.4s;">
             <a href="#contact" class="contact-btn" data-i18n="btn_contact_me">Contact Me</a>
@@ -2526,7 +3099,7 @@
     <div class="contact-body">
         <div class="contact-side reveal" style="transition-delay: 0.15s;">
             <figure class="contact-photo" aria-hidden="true">
-                <img src="Images/hash2.jpeg" alt="" loading="lazy" decoding="async">
+                <img src="Images/hash2.jpeg" width="744" height="992" alt="" loading="lazy" decoding="async">
             </figure>
             <div class="contact-cards-stack">
                 <a class="contact-card" href="mailto:hashwanthghanta@gmail.com">
@@ -2545,6 +3118,13 @@
                     <span class="contact-lbl" data-i18n="ct_location">Location</span>
                     <span class="contact-val">Magdeburg, Germany</span>
                 </div>
+            </div>
+
+            <div class="contact-quick-actions" aria-label="Quick actions">
+                <button class="ghost-btn contact-quick-btn" id="contact-share" type="button">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" width="14" height="14"><path d="M4 12v7a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7M16 6l-4-4-4 4M12 2v13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    Share portfolio
+                </button>
             </div>
         </div>
 
@@ -2572,7 +3152,10 @@
 
 <footer class="site-footer">
     <div class="footer-name"><span id="footer-year">© 2026</span> · Hashwanth Ghanta</div>
-    <nav class="footer-links" aria-label="Footer social links">
+    <nav class="footer-links" aria-label="Footer links">
+        <a id="footer-now"   href="now.html">/now</a>
+        <a id="footer-uses"  href="uses.html">/uses</a>
+        <a id="footer-co2"   href="projects/co2-simulation.html">CO₂ case study</a>
         <a href="https://github.com/hashwanthghanta" target="_blank" rel="noopener noreferrer">GitHub</a>
         <a href="https://linkedin.com/in/hashwanthghanta" target="_blank" rel="noopener noreferrer">LinkedIn</a>
         <a href="mailto:hashwanthghanta@gmail.com">Email</a>
@@ -2603,25 +3186,35 @@
     </div>
 </div>
 
+<!-- ================== COMMAND PALETTE (⌘K) ================== -->
+<div class="cmdk-overlay" id="cmdk-palette" role="dialog" aria-modal="true" aria-labelledby="cmdk-input" aria-hidden="true">
+    <div class="cmdk-card" role="document">
+        <div class="cmdk-search">
+            <svg viewBox="0 0 24 24" aria-hidden="true" width="18" height="18"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="m20 20-3.5-3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            <input type="text" id="cmdk-input" class="cmdk-input" autocomplete="off" spellcheck="false" placeholder="Jump to section, switch theme, copy email…" aria-label="Command search">
+            <kbd class="cmdk-escape">esc</kbd>
+        </div>
+        <ul class="cmdk-list" id="cmdk-list" role="listbox" aria-label="Commands"></ul>
+        <div class="cmdk-empty" id="cmdk-empty" hidden>No matches</div>
+        <div class="cmdk-footer">
+            <kbd>↑</kbd><kbd>↓</kbd> navigate · <kbd>↵</kbd> select · <kbd>esc</kbd> close
+        </div>
+    </div>
+</div>
+
 <script>
+/* Scroll restoration is handled by the inline <head> script — see top of file.
+   Setting it here would run AFTER the browser already restored "auto" scroll. */
+
 /* ============================================================
    DATA
 ============================================================ */
-const MARQUEE_IMGS = [
-    { src: "Images/co2-simulation.gif" },
-    { src: "Images/v6_watchlist_dark.png" },
-    { src: "Images/co2-preview.jpg" },
-    { src: "Images/v6_grid_dark.png" },
-    { src: "Images/stockwatch-thumb.png" },
-    { src: "Images/v6_news_dark.png" },
-    { src: "Images/v6_add_light.png" },
-    { src: "Images/v6_settings_light.png" }
-];
+/* MARQUEE_IMGS removed with the marquee section. */
 
 /* SVG mockups for projects without real screenshots (IoT helmet, IoT safety, data). */
 const PROJ_SVG = {
     iot_helmet: `<svg viewBox="0 0 380 240" xmlns="http://www.w3.org/2000/svg"><rect width="380" height="240" fill="#0a1628"/><defs><radialGradient id="ihg" cx="0.5" cy="0.4" r="0.6"><stop offset="0%" stop-color="rgba(34,211,238,0.35)"/><stop offset="100%" stop-color="rgba(34,211,238,0)"/></radialGradient></defs><rect width="380" height="240" fill="url(#ihg)"/><line x1="50" y1="120" x2="130" y2="120" stroke="rgba(34,211,238,0.4)" stroke-width="1.5"/><line x1="130" y1="120" x2="130" y2="65" stroke="rgba(34,211,238,0.4)" stroke-width="1.5"/><line x1="130" y1="65" x2="200" y2="65" stroke="rgba(34,211,238,0.7)" stroke-width="1.5"/><line x1="200" y1="65" x2="270" y2="120" stroke="rgba(34,211,238,0.4)" stroke-width="1.5"/><line x1="270" y1="120" x2="340" y2="120" stroke="rgba(34,211,238,0.4)" stroke-width="1.5"/><line x1="200" y1="65" x2="200" y2="170" stroke="rgba(34,211,238,0.3)" stroke-width="1.5"/><line x1="130" y1="120" x2="130" y2="170" stroke="rgba(34,211,238,0.3)" stroke-width="1.5"/><line x1="270" y1="120" x2="270" y2="170" stroke="rgba(34,211,238,0.3)" stroke-width="1.5"/><circle cx="50"  cy="120" r="6" fill="rgba(34,211,238,0.9)"/><circle cx="130" cy="120" r="10" fill="rgba(34,211,238,0.15)" stroke="rgba(34,211,238,0.85)" stroke-width="1.5"/><circle cx="200" cy="65"  r="14" fill="rgba(34,211,238,0.18)" stroke="rgba(34,211,238,1)" stroke-width="2"/><circle cx="270" cy="120" r="10" fill="rgba(34,211,238,0.15)" stroke="rgba(34,211,238,0.85)" stroke-width="1.5"/><circle cx="340" cy="120" r="6" fill="rgba(34,211,238,0.75)"/><circle cx="130" cy="170" r="5" fill="rgba(34,211,238,0.55)"/><circle cx="200" cy="170" r="5" fill="rgba(34,211,238,0.55)"/><circle cx="270" cy="170" r="5" fill="rgba(34,211,238,0.55)"/><text x="186" y="60" fill="rgba(34,211,238,0.95)" font-size="9" font-family="monospace" font-weight="600">GPS</text><path d="M324 102 Q333 90 342 102" stroke="rgba(34,211,238,0.65)" fill="none" stroke-width="1.6" stroke-linecap="round"/><path d="M318 93  Q333 76 348 93"  stroke="rgba(34,211,238,0.4)"  fill="none" stroke-width="1.6" stroke-linecap="round"/><rect x="18" y="14" width="120" height="24" rx="4" fill="rgba(34,211,238,0.10)" stroke="rgba(34,211,238,0.25)"/><text x="28" y="30" fill="rgba(34,211,238,0.7)" font-size="10" font-family="monospace">ALCOHOL + GPS</text></svg>`,
-    iot_safety: `<svg viewBox="0 0 380 240" xmlns="http://www.w3.org/2000/svg"><rect width="380" height="240" fill="#0d1117"/><rect x="173" y="18" width="14" height="200" fill="rgba(255,255,255,0.05)" rx="3"/><rect x="152" y="32" width="56" height="120" rx="9" fill="rgba(17,24,39,0.95)" stroke="rgba(255,255,255,0.12)" stroke-width="1"/><circle cx="180" cy="60" r="16" fill="rgba(239,68,68,0.92)"/><circle cx="180" cy="60" r="22" fill="rgba(239,68,68,0.18)"/><circle cx="180" cy="98" r="16" fill="rgba(255,255,255,0.06)"/><circle cx="180" cy="138" r="16" fill="rgba(34,197,94,0.12)"/><rect x="50" y="156" width="64" height="38" rx="4" fill="rgba(248,250,252,0.9)"/><rect x="50" y="156" width="16" height="38" rx="4 0 0 4" fill="rgba(239,68,68,0.85)"/><circle cx="66" cy="198" r="8" fill="rgba(30,30,30,0.9)"/><circle cx="96" cy="198" r="8" fill="rgba(30,30,30,0.9)"/><text x="76" y="180" fill="rgba(239,68,68,0.95)" font-size="12" font-family="monospace" font-weight="bold">+</text><rect x="252" y="106" width="86" height="46" rx="5" fill="rgba(17,24,39,0.75)" stroke="rgba(99,102,241,0.45)" stroke-width="1"/><text x="262" y="128" fill="rgba(129,140,248,0.85)" font-size="9" font-family="monospace">ULTRASONIC</text><text x="262" y="142" fill="rgba(129,140,248,0.65)" font-size="8" font-family="monospace">BLIND SPOT</text><line x1="208" y1="128" x2="252" y2="128" stroke="rgba(99,102,241,0.4)" stroke-dasharray="5 3"/><rect x="18" y="14" width="135" height="24" rx="4" fill="rgba(99,102,241,0.08)" stroke="rgba(99,102,241,0.2)"/><text x="28" y="30" fill="rgba(129,140,248,0.7)" font-size="10" font-family="monospace">SAFETY SYSTEMS</text></svg>`,
+    iot_safety: `<svg viewBox="0 0 380 240" xmlns="http://www.w3.org/2000/svg"><rect width="380" height="240" fill="#0d1117"/><rect x="173" y="18" width="14" height="200" fill="rgba(255,255,255,0.05)" rx="3"/><rect x="152" y="32" width="56" height="120" rx="9" fill="rgba(17,24,39,0.95)" stroke="rgba(255,255,255,0.12)" stroke-width="1"/><circle cx="180" cy="60" r="16" fill="rgba(239,68,68,0.92)"/><circle cx="180" cy="60" r="22" fill="rgba(239,68,68,0.18)"/><circle cx="180" cy="98" r="16" fill="rgba(255,255,255,0.06)"/><circle cx="180" cy="138" r="16" fill="rgba(34,197,94,0.12)"/><rect x="50" y="156" width="64" height="38" rx="4" fill="rgba(248,250,252,0.9)"/><rect x="50" y="156" width="16" height="38" rx="4" fill="rgba(239,68,68,0.85)"/><circle cx="66" cy="198" r="8" fill="rgba(30,30,30,0.9)"/><circle cx="96" cy="198" r="8" fill="rgba(30,30,30,0.9)"/><text x="76" y="180" fill="rgba(239,68,68,0.95)" font-size="12" font-family="monospace" font-weight="bold">+</text><rect x="252" y="106" width="86" height="46" rx="5" fill="rgba(17,24,39,0.75)" stroke="rgba(99,102,241,0.45)" stroke-width="1"/><text x="262" y="128" fill="rgba(129,140,248,0.85)" font-size="9" font-family="monospace">ULTRASONIC</text><text x="262" y="142" fill="rgba(129,140,248,0.65)" font-size="8" font-family="monospace">BLIND SPOT</text><line x1="208" y1="128" x2="252" y2="128" stroke="rgba(99,102,241,0.4)" stroke-dasharray="5 3"/><rect x="18" y="14" width="135" height="24" rx="4" fill="rgba(99,102,241,0.08)" stroke="rgba(99,102,241,0.2)"/><text x="28" y="30" fill="rgba(129,140,248,0.7)" font-size="10" font-family="monospace">SAFETY SYSTEMS</text></svg>`,
     analytics:  `<svg viewBox="0 0 380 240" xmlns="http://www.w3.org/2000/svg"><rect width="380" height="240" fill="#0d1b2a"/><line x1="0" y1="190" x2="380" y2="190" stroke="rgba(255,255,255,0.07)" stroke-dasharray="4 4"/><line x1="0" y1="140" x2="380" y2="140" stroke="rgba(255,255,255,0.07)" stroke-dasharray="4 4"/><line x1="0" y1="90"  x2="380" y2="90"  stroke="rgba(255,255,255,0.07)" stroke-dasharray="4 4"/><rect x="32"  y="120" width="38" height="68"  fill="rgba(8,145,178,0.55)"  rx="3"/><rect x="92"  y="78"  width="38" height="110" fill="rgba(8,145,178,0.75)"  rx="3"/><rect x="152" y="98"  width="38" height="90"  fill="rgba(8,145,178,0.62)"  rx="3"/><rect x="212" y="58"  width="38" height="130" fill="rgba(14,165,233,0.85)" rx="3"/><rect x="272" y="82"  width="38" height="106" fill="rgba(8,145,178,0.68)"  rx="3"/><rect x="332" y="68"  width="38" height="120" fill="rgba(8,145,178,0.78)"  rx="3"/><polyline points="50,128 110,82 170,102 230,68 290,90 350,72" stroke="#22d3ee" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="50"  cy="128" r="4" fill="#22d3ee"/><circle cx="110" cy="82"  r="4" fill="#22d3ee"/><circle cx="170" cy="102" r="4" fill="#22d3ee"/><circle cx="230" cy="68"  r="4" fill="#22d3ee"/><circle cx="290" cy="90"  r="4" fill="#22d3ee"/><circle cx="350" cy="72"  r="4" fill="#22d3ee"/><rect x="18" y="14" width="120" height="26" rx="5" fill="rgba(255,255,255,0.05)"/><text x="30" y="32" fill="rgba(255,255,255,0.55)" font-size="11" font-family="monospace">POWER BI</text></svg>`,
 };
 
@@ -2632,33 +3225,33 @@ const DATA = {
         nav_projects: "Projects",
         nav_contact: "Contact",
         marquee_h2: "Selected Work",
-        hero_open: "Actively Searching — Working Student (Hybrid or Remote)",
-        hero_tag:  "M.Sc. Digital Engineering student specializing in software development, backend coding, and database systems in Magdeburg.",
-        hero_intro:"M.Sc. Digital Engineering student at OVGU Magdeburg, specializing in software development, backend coding, and data systems. I build robust backend services, SwiftUI iOS apps, and data engineering workflows. Actively searching for working-student roles — hybrid or remote — across Germany.",
+        hero_open: "Available Q2 2026 — Working Student (Hybrid or Remote, Germany)",
+        hero_tag:  "I built a 7-phase Unity simulation of industrial CO₂ capture, a 55-ticker SwiftUI iOS watchlist with live Yahoo Finance, and an IoT helmet that auto-calls emergency contacts.",
+        hero_intro:"M.Sc. Digital Engineering at OVGU Magdeburg. I shipped a 7-phase Unity 3D simulation of post-combustion CO₂ capture (finalised April 2026), a native SwiftUI iOS watchlist tracking 55+ tickers across 6 stock exchanges, and an IoT helmet prototype that detects alcohol + GPS-faults and auto-alerts emergency contacts. Currently building an Adaptive Learning Pathway System with LLMs + bias evaluation for the OVGU Human-Centred AI course. Looking for working-student backend / iOS / simulation roles — hybrid or remote — starting Q2 2026.",
         btn_resume: "Resume",
         btn_projects: "View Projects",
         btn_contact_me: "Contact Me",
         btn_get_in_touch: "Get In Touch",
-        skills_eyebrow: "What I work with",
+        skills_eyebrow: "Proof, not self-ratings",
         skills_h2: "Skills",
         track_eyebrow: "Track Record",
-        track_h2: "Where I've Shown Up",
-        edu_eyebrow: "Academic Background",
-        education_h2: "How I Got Here",
+        track_h2: "Shipped & Led",
+        edu_eyebrow: "Studied",
+        education_h2: "Where I Studied",
         nav_skills: "Skills",
         nav_track: "Experience",
         nav_education: "Education",
         cf_heading: "Send a message",
         ct_location: "Location",
         about_h2:  "About Me",
-        about_text:"With M.Sc. Digital Engineering studies at OVGU Magdeburg, my main focus is on backend development, software engineering, and database systems. I combine strong coding skills with hands-on experience in SwiftUI iOS apps and data analysis workflows. I enjoy building clean, optimized software solutions and solving complex logic problems. Let's build something incredible together.",
-        stat_phases:"Core programming languages",
-        stat_projects:"Projects shipped",
-        stat_available:"Available Q2 · Magdeburg / Remote",
+        about_text:"I'm an M.Sc. Digital Engineering student at OVGU Magdeburg focused on backend, simulation, and iOS. I ship things end-to-end — Unity 3D simulations in C#, native SwiftUI apps with live finance data, IoT prototypes on Arduino. I care about clean code, measurable outcomes, and the boring details that make software actually work.",
+        stat_phases:"Unity simulation phases shipped",
+        stat_projects:"Live stock tickers across 6 exchanges",
+        stat_available:"Participants led at VITOPIA 2024",
         services_h2:"What I Do",
         projects_h2:"Projects",
         contact_h2:"Let's Connect",
-        contact_lede:"Actively searching for working-student roles — hybrid or remote — in 3D visualization, simulation, or software development across Germany. Immediately available.",
+        contact_lede:"Available Q2 2026 for working-student roles (hybrid or remote, Germany) in backend, iOS, simulation, or data engineering. Fastest reply: email.",
         ct_email:"Email", ct_linkedin:"LinkedIn", ct_github:"GitHub",
         cf_name:"Your name", cf_email:"Your email", cf_msg:"Message",
         btn_send:"Send Message",
@@ -2669,40 +3262,59 @@ const DATA = {
         heroChips: ["C#", "SQL", "Python", "Swift", "SwiftUI", "Xcode", "JavaScript", "GitHub", "Unity 3D", "Blender", "Excel", "Premiere Pro"],
         skillsGroups: [
             { category: "3D & Simulation",
-              bars:  [{ name: "Unity 3D", lvl: "Proficient", cls: "proficient" }, { name: "C# (Unity)", lvl: "Advanced", cls: "advanced" }],
+              proofs: [
+                  { name: "Unity 3D", note: "7-phase CO₂ capture simulation", href: "#project-01" },
+                  { name: "C# (Unity)", note: "Modular manager architecture across simulation phases", href: "#project-01" },
+                  { name: "TextMeshPro / URP", note: "Custom in-engine UI for parameter sliders", href: "#project-01" },
+              ],
               chips: ["Unity 3D", "C#", "TextMeshPro", "URP", "3D Modeling", "Simulation Design"] },
-            { category: "Programming",
-              bars:  [
-                  { name: "Python", lvl: "Proficient", cls: "proficient" },
-                  { name: "SQL", lvl: "Proficient", cls: "proficient" },
-                  { name: "JavaScript", lvl: "Familiar", cls: "familiar" },
-                  { name: "Swift / SwiftUI / SwiftUX", lvl: "Learner", cls: "familiar" },
+            { category: "Backend & Programming",
+              proofs: [
+                  { name: "Python", note: "Data prep + ad-hoc pipelines (analytics projects)", href: "#project-05" },
+                  { name: "SQL", note: "OVGU Database Concepts coursework + analytics", href: "#education" },
+                  { name: "Swift / SwiftUI", note: "StockWatch iOS app, MVVM + async/await", href: "https://github.com/hashwanthghanta/stockwatch-ios" },
+                  { name: "JavaScript", note: "This portfolio — vanilla JS, no framework", href: "https://github.com/hashwanthghanta/hashwanthghanta.github.io" },
               ],
               chips: ["Python", "SQL", "JavaScript", "Swift", "SwiftUI", "SwiftUX", "C (Arduino)"] },
             { category: "Tools & Platforms",
-              bars:  [{ name: "Git / GitHub", lvl: "Proficient", cls: "proficient" }],
+              proofs: [
+                  { name: "Git / GitHub", note: "Public repos for portfolio + StockWatch", href: "https://github.com/hashwanthghanta" },
+                  { name: "Arduino / Raspberry Pi", note: "IoT helmet + ambulance-priority controller", href: "#project-03" },
+              ],
               chips: ["Git", "GitHub", "Jira", "SAP", "Arduino", "Raspberry Pi"] },
-            { category: "2025 Research Focus",
-              bars:  [],
+            { category: "Currently learning (2025–26)",
+              proofs: [
+                  { name: "LLMs / Hugging Face", note: "Building a small RAG demo over my own projects", href: "#projects" },
+                  { name: "Prompt engineering", note: "Used daily for pair-programming, code review, and refactors", href: "#projects" },
+              ],
               chips: ["LLMs", "Hugging Face", "Prompt Engineering", "Transformers", "AI/ML Concepts"] },
             { category: "Editing & Visualization",
-              bars:  [{ name: "Premiere Pro", lvl: "Proficient", cls: "proficient" }, { name: "Blender", lvl: "Familiar", cls: "familiar" }],
+              proofs: [
+                  { name: "Premiere Pro", note: "Edited the CO₂ simulation walkthrough", href: "#project-01" },
+                  { name: "Blender", note: "Modelling six engineering-accurate 3D plant components", href: "#project-01" },
+              ],
               chips: ["Adobe", "Videography", "Animation", "Colour Grading", "3D Modeling"] },
             { category: "Data & Analytics",
-              bars:  [{ name: "Power BI", lvl: "Proficient", cls: "proficient" }, { name: "Excel", lvl: "Expert", cls: "expert" }],
+              proofs: [
+                  { name: "Power BI", note: "Tata Data Visualization certification dashboards", href: "#project-05" },
+                  { name: "Excel", note: "Microsoft Business Analysis + financial modelling", href: "#project-05" },
+              ],
               chips: ["Power BI", "Excel", "Data Visualization", "Business Analytics"] },
         ],
         track: [
             { date: "2025 – Present", role: "Simulation Coursework & Lab Projects", org: "OVGU Magdeburg · Digital Engineering",
               body: "Built Unity simulations, C# system architecture, and interactive UI workflows across lab modules in industrial systems and visualization." },
             { date: "2025 – Present", role: "Web Development — Portfolio & Case Studies", org: "Personal Project",
-              body: "Designed and shipped a bilingual, recruiter-focused portfolio with project case studies, accessibility improvements, and performance-first UI." },
+              body: "Designed and shipped a bilingual portfolio with project case studies, accessibility improvements, and performance-first UI." },
             { date: "2024", role: "Volunteer Head — VITOPIA 2024", org: "VIT-AP University Annual Cultural Festival, India",
               body: "Managed the largest annual college event with 1,000+ participants including students and celebrity guests. Coordinated logistics, student teams, event scheduling, and live activity management across cultural and technical events." },
         ],
         education: [
             { iconKey: "grad", degree: "M.Sc. Digital Engineering", period: "April 2025 – Present",
-              detail: "<strong>OVGU, Magdeburg, Germany</strong><br>Digital systems · simulation · software engineering · data science",
+              detail: "<strong>OVGU, Magdeburg, Germany</strong>",
+              focusAreasLabel: "Focus areas",
+              focusAreas: ["Digital systems", "Simulation", "Software engineering", "Data science"],
+              subjectsLabel: "Coursework",
               subjects: [
                   { name: "DE visualization project", focus: true },
                   { name: "Database concepts" },
@@ -2711,7 +3323,9 @@ const DATA = {
                   { name: "Introduction to computer science engineering" },
               ] },
             { iconKey: "zap", degree: "B.Tech Electronics & Communication", period: "2020 – 2024",
-              detail: "<strong>VIT-AP University, India</strong><br>CGPA 7.72 / 10.0<br>IoT · embedded systems · wireless communication" },
+              detail: "<strong>VIT-AP University, India</strong><br>CGPA 7.72 / 10.0",
+              focusAreasLabel: "Focus areas",
+              focusAreas: ["IoT", "Embedded systems", "Wireless communication"] },
             { iconKey: "award", degree: "Certifications", period: "",
               badges: ["Data Visualization – Tata","Business Analysis – Microsoft","Business Analytics – Coursera","IoT Cloud Computing – Coursera","IoT Programming with Boards – Coursera","Project Management – Coursera","Power BI Workshop"] },
         ],
@@ -2720,24 +3334,28 @@ const DATA = {
             { name: "iOS & SwiftUI Development",    desc: "Native iOS apps in SwiftUI with MVVM, async/await networking, interactive Swift Charts, and full English + German localization." },
             { name: "Data Visualization & Analytics", desc: "Power BI dashboards, Excel models, and Python pipelines that turn raw operational data into clear KPIs, trends, and decision support." },
             { name: "IoT & Embedded Systems",       desc: "Arduino and microcontroller systems for safety-critical use cases — smart helmets, ambulance signalling, ultrasonic blind-spot detection." },
-            { name: "Web & Brand Design",           desc: "Bilingual, recruiter-focused portfolios and case-study sites with accessible markup, performance-first UI, and clear visual identity." },
+            { name: "Web & Brand Design",           desc: "Bilingual portfolios and case-study sites with accessible markup, performance-first UI, and clear visual identity." },
         ],
         projects: [
             {
                 num: "01",
-                cat: "Featured · Unity 3D",
+                cat: "Featured · Unity 3D + Blender",
                 name: "Post-Combustion CO₂ Carbon Capture Simulation",
                 period: "2025 – 2026",
-                desc: "Interactive 7-phase simulation of industrial CO₂ capture via MEA solvent absorption — built from scratch in Unity 3D. Real-time parameter sliders, modular C# architecture, phase-by-phase 3D visualization, and a custom TextMeshPro UI. Developed as M.Sc. coursework at OVGU Magdeburg.",
+                desc: "Five-person OVGU Magdeburg team project simulating industrial post-combustion CO₂ capture for a 1000 MW reference plant. My role: Unity & Blender Developer. Six engineering-accurate 3D models in Blender 4.x, a seven-phase Unity coroutine in C#, two live temperature sliders driving particle systems and the efficiency graph.",
                 highlights: [
-                    "7 distinct industrial phases with live parameter controls",
-                    "Real-time sliders adjust temperature, pressure, and flow rates",
-                    "Modular C# architecture with dedicated manager classes",
-                    "Playable live on Unity Play — accessible without installation",
+                    "5-person collaboration across Digital + Chemical Engineering at OVGU Magdeburg",
+                    "Two live temperature sliders — absorber 0–65°C and stripper 75–125°C — drive particle colour, density, and the efficiency graph in real time",
+                    "Six engineering-accurate 3D models (absorber, stripper, reboiler, heat exchanger, compressor, CO₂ storage tank) modelled in Blender 4.x, exported to Unity via FBX",
+                    "11 C# scripts on a Singleton + partial-ECS pattern; overheat watchdog stops everything at 125°C",
+                    "Playable live on Unity Play — no install",
                 ],
-                tags: ["Unity 3D", "C#", "TextMeshPro", "URP", "3D Modeling", "Simulation"],
+                learned: "Apply Transform on FBX export is non-negotiable — Blender's Z-up world arrives in Unity's Y-up scene rotated 90° and scaled 1/100 without it. One checkbox saved a week of debugging the asset pipeline.",
+                tags: ["Unity 2022 LTS", "C#", "Blender 4.x", "TextMeshPro", "UI Toolkit", "FBX pipeline", "Simulation"],
                 url:  "https://play.unity.com/en/games/30f22392-532c-41e1-b925-6191a9ea99c2/post-combustion-co-carbon-capture",
                 urlLabel: "Open Live Demo",
+                caseStudy: "projects/co2-simulation.html",
+                caseStudyLabel: "Read case study",
                 img1: "Images/co2-simulation.gif",
                 img2: "Images/co2-preview.jpg",
                 img3: "Images/co2-simulation.gif",
@@ -2747,32 +3365,38 @@ const DATA = {
                 cat: "Open Source · iOS · SwiftUI",
                 name: "StockWatch — SwiftUI Watchlist for iOS",
                 period: "2026",
-                desc: "A native iOS watchlist app inspired by Scalable Capital. Live Yahoo Finance quotes, editable watchlist of 55+ tickers across US, German Xetra, UK, Swiss and Danish exchanges, list and grid layouts, an interactive Swift Charts chart with seven time ranges, symbol-relevant in-app news, English + German runtime language switch, and Dark / Light / System theming.",
+                desc: "Native iOS watchlist app inspired by Scalable Capital. Live Yahoo Finance quotes, 55+ tickers across US, German Xetra, UK, Swiss and Danish exchanges, list + grid layouts, interactive Swift Charts with seven time ranges, symbol-relevant news, EN/DE runtime language switch, Dark/Light/System theming.",
                 highlights: [
                     "Interactive Swift Charts detail view — scrub the line to inspect closing price and date",
                     "MVVM with @MainActor @Observable, protocol-based DI, async/await + URLSession",
                     "Runtime English / German language switch via Bundle swizzling",
                     "XCTest suite covering persistence, refresh transitions, and percent-change math",
                 ],
+                learned: "Protocol-based DI + @MainActor @Observable made the XCTest suite trivial — I swapped a fake Yahoo client into the ViewModel without touching production code paths.",
                 tags: ["Swift", "SwiftUI", "Swift Charts", "async/await", "MVVM", "XCTest", "iOS 17+"],
                 url:  "https://github.com/hashwanthghanta/stockwatch-ios",
                 urlLabel: "View on GitHub",
-                img1: "Images/stockwatch-thumb.png",
-                img2: "Images/v6_grid_dark.png",
+                caseStudy: "projects/stockwatch.html",
+                caseStudyLabel: "Read case study",
+                img1: "Images/stockwatch-thumb-sm.jpg",
+                img2: "Images/v6_grid_dark-sm.jpg",
             },
             {
                 num: "03",
                 cat: "IoT · Arduino",
                 name: "IoT Smart Helmet & Bike Safety System",
                 period: "2024",
-                desc: "GPS and alcohol-sensor-equipped smart helmet that detects unsafe riding conditions and automatically alerts emergency contacts. Designed to reduce motorcycle fatalities through real-time monitoring and automated safety enforcement.",
+                desc: "GPS and alcohol-sensor-equipped smart helmet that detects unsafe riding conditions and auto-alerts emergency contacts. Built to reduce motorcycle fatalities through real-time monitoring and automated safety enforcement.",
                 highlights: [
                     "GPS module + alcohol sensor on Arduino-class microcontroller",
                     "Automated emergency-contact alerting on unsafe-condition detection",
                     "Field-tested wearable form factor",
                 ],
-                tags: ["IoT", "GPS", "Arduino", "Sensors"],
+                learned: "Software-only gates are theatre — the ignition only stays locked because the relay is physically in series with the starter. Calibrate the MQ-3 in firmware setup, not at the bench, or the first demo fails.",
+                tags: ["NodeMCU", "ATmega328P", "FSR", "MQ-3", "GSM", "GPS", "Embedded C"],
                 svg: "iot_helmet",
+                caseStudy: "projects/iot-helmet.html",
+                caseStudyLabel: "Read case study",
             },
             {
                 num: "04",
@@ -2785,6 +3409,7 @@ const DATA = {
                     "Ultrasonic blind-spot detector with audible/visual driver alerts",
                     "Embedded C on Arduino-class hardware",
                 ],
+                learned: "Two safety devices, one lesson: an alert nobody hears is no alert. The ultrasonic blind-spot tone had to be tuned around engine noise — taught me to design feedback for the real environment, not the bench.",
                 tags: ["IoT", "Arduino", "Sensors", "Embedded C"],
                 svg: "iot_safety",
             },
@@ -2793,12 +3418,13 @@ const DATA = {
                 cat: "Data · Analytics · BI",
                 name: "Data Analytics & Business Intelligence Dashboards",
                 period: "2023 – 2024",
-                desc: "Power BI dashboards and Excel models built for business data analysis as part of certification work with Tata and Microsoft programs. Applied data visualization principles to present KPIs, trends, and operational insights clearly to non-technical stakeholders.",
+                desc: "Power BI dashboards and Excel models built for business data analysis as part of certification work with Tata and Microsoft. Applied data visualization principles to surface KPIs, trends, and operational insights for non-technical stakeholders.",
                 highlights: [
                     "Power BI dashboards translating operational data into KPI views",
                     "Excel financial / forecasting models with named-range refactoring",
                     "Python pipelines for data prep and ad-hoc analysis",
                 ],
+                learned: "Non-technical stakeholders read a dashboard the way a developer reads a stack trace — top-down, hunting for the one number that's wrong. I now design dashboards with the headline number first, drill-down second.",
                 tags: ["Power BI", "Excel", "Data Visualization", "Business Analytics", "Python"],
                 svg: "analytics",
             },
@@ -2810,33 +3436,33 @@ const DATA = {
         nav_projects: "Projekte",
         nav_contact: "Kontakt",
         marquee_h2: "Ausgewählte Arbeiten",
-        hero_open: "Aktiv auf Jobsuche — Werkstudent (Hybrid oder Remote)",
-        hero_tag:  "M.Sc.-Student Digital Engineering — spezialisiert auf Softwareentwicklung, Backend-Codierung und Datenbanksysteme in Magdeburg.",
-        hero_intro:"M.Sc.-Student Digital Engineering an der OVGU Magdeburg, spezialisiert auf Softwareentwicklung, Backend-Codierung und Datensysteme. Ich entwickle robuste Backend-Dienste, SwiftUI-iOS-Apps und Data-Engineering-Workflows. Aktiv auf der Suche nach Werkstudentenstellen — hybrid oder remote — in ganz Deutschland.",
+        hero_open: "Verfügbar Q2 2026 — Werkstudent (Hybrid oder Remote, Deutschland)",
+        hero_tag:  "Ich habe eine 7-phasige Unity-Simulation der industriellen CO₂-Abscheidung, eine SwiftUI-iOS-Watchlist für 55+ Tickerwerte mit Yahoo-Finance-Livedaten und einen IoT-Helm gebaut, der bei Gefahr automatisch Notfallkontakte anruft.",
+        hero_intro:"M.Sc. Digital Engineering an der OVGU Magdeburg. Ich habe eine 7-phasige Unity-3D-Simulation der Post-Combustion-CO₂-Abscheidung (final ausgeliefert im April 2026), eine native SwiftUI-iOS-Watchlist mit 55+ Tickern aus 6 Börsen und einen IoT-Helm-Prototypen umgesetzt, der Alkohol + GPS-Fehler erkennt und automatisch Notfallkontakte alarmiert. Aktuell baue ich ein Adaptive Learning Pathway System mit LLMs + Bias-Evaluation für den OVGU-Kurs Human-Centred AI. Suche Werkstudentenstellen (Backend / iOS / Simulation) — hybrid oder remote — ab Q2 2026.",
         btn_resume: "Lebenslauf",
         btn_projects: "Projekte ansehen",
         btn_contact_me: "Kontakt",
         btn_get_in_touch: "Kontakt aufnehmen",
-        skills_eyebrow: "Womit ich arbeite",
+        skills_eyebrow: "Belege, keine Selbsteinschätzung",
         skills_h2: "Fähigkeiten",
         track_eyebrow: "Werdegang",
-        track_h2: "Wo ich war",
-        edu_eyebrow: "Akademischer Hintergrund",
-        education_h2: "Wie ich hierher kam",
+        track_h2: "Umgesetzt & geleitet",
+        edu_eyebrow: "Studium",
+        education_h2: "Wo ich studiert habe",
         nav_skills: "Fähigkeiten",
         nav_track: "Erfahrung",
         nav_education: "Bildung",
         cf_heading: "Nachricht senden",
         ct_location: "Standort",
         about_h2:  "Über mich",
-        about_text:"Mit dem M.Sc. Digital Engineering an der OVGU Magdeburg liegt mein Hauptfokus auf Backend-Entwicklung, Software-Engineering und Datenbanksystemen. Ich kombiniere starke Programmierkenntnisse mit praktischer Erfahrung in SwiftUI-iOS-Apps und Datenanalyse-Workflows. Ich entwickle leidenschaftlich gerne saubere, optimierte Softwarelösungen und löse komplexe Logikprobleme. Lass uns gemeinsam etwas Großartiges bauen.",
-        stat_phases:"Kernprogrammiersprachen",
-        stat_projects:"Projekte umgesetzt",
-        stat_available:"Verfügbar Q2 · Magdeburg / Remote",
+        about_text:"M.Sc.-Student Digital Engineering an der OVGU Magdeburg mit Schwerpunkt Backend, Simulation und iOS. Ich setze Projekte vollständig um — Unity-3D-Simulationen in C#, native SwiftUI-Apps mit Finanz-Livedaten, IoT-Prototypen auf Arduino. Mir sind sauberer Code, messbare Ergebnisse und die unscheinbaren Details wichtig, die Software tatsächlich funktionieren lassen.",
+        stat_phases:"Phasen der Unity-Simulation umgesetzt",
+        stat_projects:"Live-Tickerwerte über 6 Börsen",
+        stat_available:"Teilnehmende geleitet (VITOPIA 2024)",
         services_h2:"Was ich mache",
         projects_h2:"Projekte",
         contact_h2:"Lass uns vernetzen",
-        contact_lede:"Aktiv auf der Suche nach Werkstudentenstellen — hybrid oder remote — in 3D-Visualisierung, Simulation oder Softwareentwicklung in Deutschland. Sofort verfügbar.",
+        contact_lede:"Verfügbar Q2 2026 für Werkstudentenstellen (hybrid oder remote, Deutschland) in Backend, iOS, Simulation oder Data Engineering. Schnellste Antwort per E-Mail.",
         ct_email:"E-Mail", ct_linkedin:"LinkedIn", ct_github:"GitHub",
         cf_name:"Dein Name", cf_email:"Deine E-Mail", cf_msg:"Nachricht",
         btn_send:"Nachricht senden",
@@ -2847,40 +3473,59 @@ const DATA = {
         heroChips: ["C#", "SQL", "Python", "Swift", "SwiftUI", "Xcode", "JavaScript", "GitHub", "Unity 3D", "Blender", "Excel", "Premiere Pro"],
         skillsGroups: [
             { category: "3D & Simulation",
-              bars:  [{ name: "Unity 3D", lvl: "Kompetent", cls: "proficient" }, { name: "C# (Unity)", lvl: "Fortgeschritten", cls: "advanced" }],
+              proofs: [
+                  { name: "Unity 3D", note: "7-phasige CO₂-Abscheidungs-Simulation", href: "#project-01" },
+                  { name: "C# (Unity)", note: "Modulare Manager-Architektur über alle Phasen", href: "#project-01" },
+                  { name: "TextMeshPro / URP", note: "Custom In-Engine-UI für Parameter-Slider", href: "#project-01" },
+              ],
               chips: ["Unity 3D", "C#", "TextMeshPro", "URP", "3D-Modellierung", "Simulationsdesign"] },
-            { category: "Programmierung",
-              bars:  [
-                  { name: "Python", lvl: "Kompetent", cls: "proficient" },
-                  { name: "SQL", lvl: "Kompetent", cls: "proficient" },
-                  { name: "JavaScript", lvl: "Grundkenntnisse", cls: "familiar" },
-                  { name: "Swift / SwiftUI / SwiftUX", lvl: "Im Aufbau", cls: "familiar" },
+            { category: "Backend & Programmierung",
+              proofs: [
+                  { name: "Python", note: "Datenaufbereitung + Ad-hoc-Pipelines (Analytik-Projekte)", href: "#project-05" },
+                  { name: "SQL", note: "OVGU Datenbankkonzepte + Analytik-Coursework", href: "#education" },
+                  { name: "Swift / SwiftUI", note: "StockWatch iOS-App, MVVM + async/await", href: "https://github.com/hashwanthghanta/stockwatch-ios" },
+                  { name: "JavaScript", note: "Dieses Portfolio — Vanilla JS, kein Framework", href: "https://github.com/hashwanthghanta/hashwanthghanta.github.io" },
               ],
               chips: ["Python", "SQL", "JavaScript", "Swift", "SwiftUI", "SwiftUX", "C (Arduino)"] },
             { category: "Werkzeuge & Plattformen",
-              bars:  [{ name: "Git / GitHub", lvl: "Kompetent", cls: "proficient" }],
+              proofs: [
+                  { name: "Git / GitHub", note: "Öffentliche Repos für Portfolio + StockWatch", href: "https://github.com/hashwanthghanta" },
+                  { name: "Arduino / Raspberry Pi", note: "IoT-Helm + Ambulanz-Vorrang-Controller", href: "#project-03" },
+              ],
               chips: ["Git", "GitHub", "Jira", "SAP", "Arduino", "Raspberry Pi"] },
-            { category: "Forschungsfokus 2025",
-              bars:  [],
+            { category: "Aktuell im Aufbau (2025–26)",
+              proofs: [
+                  { name: "LLMs / Hugging Face", note: "Baue eine kleine RAG-Demo über meine eigenen Projekte", href: "#projects" },
+                  { name: "Prompt Engineering", note: "Täglich im Einsatz für Pair-Programming, Code-Review und Refactorings", href: "#projects" },
+              ],
               chips: ["LLMs", "Hugging Face", "Prompt Engineering", "Transformers", "KI/ML-Konzepte"] },
             { category: "Bearbeitung & Visualisierung",
-              bars:  [{ name: "Premiere Pro", lvl: "Kompetent", cls: "proficient" }, { name: "Blender", lvl: "Grundkenntnisse", cls: "familiar" }],
+              proofs: [
+                  { name: "Premiere Pro", note: "Schnitt des CO₂-Simulation-Walkthroughs", href: "#project-01" },
+                  { name: "Blender", note: "Sechs ingenieurgenaue 3D-Anlagenkomponenten modelliert", href: "#project-01" },
+              ],
               chips: ["Adobe", "Videografie", "Animation", "Farbkorrektur", "3D-Modellierung"] },
             { category: "Daten & Analytik",
-              bars:  [{ name: "Power BI", lvl: "Fortgeschritten", cls: "advanced" }, { name: "Excel", lvl: "Experte", cls: "expert" }],
+              proofs: [
+                  { name: "Power BI", note: "Tata Datenvisualisierungs-Zertifizierungs-Dashboards", href: "#project-05" },
+                  { name: "Excel", note: "Microsoft Business Analysis + Finanzmodellierung", href: "#project-05" },
+              ],
               chips: ["Power BI", "Excel", "Datenvisualisierung", "Business Analytics"] },
         ],
         track: [
             { date: "2025 – Heute", role: "Simulations- & Laborprojekte", org: "OVGU Magdeburg · Digital Engineering",
               body: "Entwicklung von Unity-Simulationen, C#-Architektur und interaktiven UI-Workflows in Labor- und Modulprojekten." },
             { date: "2025 – Heute", role: "Webentwicklung — Portfolio & Case Studies", org: "Eigenes Projekt",
-              body: "Konzeption und Umsetzung eines zweisprachigen Portfolios mit Fokus auf Recruiter-UX, Accessibility und Performance." },
+              body: "Konzeption und Umsetzung eines zweisprachigen Portfolios mit Fokus auf Nutzer-UX, Accessibility und Performance." },
             { date: "2024", role: "Ehrenamtlicher Leiter — VITOPIA 2024", org: "Jährliches Kulturfestival der VIT-AP Universität, Indien",
               body: "Organisation des größten jährlichen Uni-Events mit über 1.000 Teilnehmern, darunter Studierende und Gastauftritte. Verantwortlich für Logistik, Studierendenteams, Veranstaltungsplanung und Live-Aktivitäten." },
         ],
         education: [
             { iconKey: "grad", degree: "M.Sc. Digital Engineering", period: "April 2025 – Heute",
-              detail: "<strong>OVGU, Magdeburg, Deutschland</strong><br>Digitale Systeme · Simulation · Software-Engineering · Data Science",
+              detail: "<strong>OVGU, Magdeburg, Deutschland</strong>",
+              focusAreasLabel: "Schwerpunkte",
+              focusAreas: ["Digitale Systeme", "Simulation", "Software-Engineering", "Data Science"],
+              subjectsLabel: "Lehrveranstaltungen",
               subjects: [
                   { name: "DE-Visualisierungsprojekt", focus: true },
                   { name: "Datenbankkonzepte" },
@@ -2889,7 +3534,9 @@ const DATA = {
                   { name: "Einführung in die Informatik" },
               ] },
             { iconKey: "zap", degree: "B.Tech Elektrotechnik & Kommunikation", period: "2020 – 2024",
-              detail: "<strong>VIT-AP Universität, Indien</strong><br>CGPA 7,72 / 10,0<br>IoT · Eingebettete Systeme · Drahtlose Kommunikation" },
+              detail: "<strong>VIT-AP Universität, Indien</strong><br>CGPA 7,72 / 10,0",
+              focusAreasLabel: "Schwerpunkte",
+              focusAreas: ["IoT", "Eingebettete Systeme", "Drahtlose Kommunikation"] },
             { iconKey: "award", degree: "Zertifizierungen", period: "",
               badges: ["Datenvisualisierung – Tata","Business Analysis – Microsoft","Business Analytics – Coursera","IoT Cloud Computing – Coursera","IoT Boards Programmierung – Coursera","Projektmanagement – Coursera","Power BI Workshop"] },
         ],
@@ -2898,24 +3545,28 @@ const DATA = {
             { name: "iOS- & SwiftUI-Entwicklung",    desc: "Native iOS-Apps in SwiftUI mit MVVM, async/await-Networking, interaktiven Swift Charts und vollständiger Englisch- + Deutsch-Lokalisierung." },
             { name: "Datenvisualisierung & Analytik",desc: "Power-BI-Dashboards, Excel-Modelle und Python-Pipelines, die Betriebsdaten in klare KPIs, Trends und Entscheidungsgrundlagen verwandeln." },
             { name: "IoT & Embedded Systems",        desc: "Arduino- und Mikrocontroller-Systeme für sicherheitskritische Anwendungen — Smart-Helme, Ambulanz-Vorrang, Ultraschall-Blindzonen-Erkennung." },
-            { name: "Web- & Markendesign",           desc: "Zweisprachige, recruiter-orientierte Portfolios und Case-Study-Seiten mit zugänglichem Markup, performance-first UI und klarer visueller Identität." },
+            { name: "Web- & Markendesign",           desc: "Zweisprachige Portfolios und Case-Study-Seiten mit zugänglichem Markup, performance-first UI und klarer visueller Identität." },
         ],
         projects: [
             {
                 num: "01",
-                cat: "Hervorgehoben · Unity 3D",
+                cat: "Hervorgehoben · Unity 3D + Blender",
                 name: "Post-Combustion CO₂-Abscheidungs-Simulation",
                 period: "2025 – 2026",
-                desc: "Interaktive 7-phasige Simulation der industriellen CO₂-Abscheidung via MEA — vollständig in Unity 3D entwickelt. Echtzeit-Parameter-Slider, modulare C#-Architektur, phasenweise 3D-Visualisierung und TextMeshPro-UI. Als M.Sc.-Laborprojekt an der OVGU Magdeburg entstanden.",
+                desc: "Fünfköpfiges OVGU-Magdeburg-Teamprojekt zur Simulation der industriellen Post-Combustion-CO₂-Abscheidung für ein 1000-MW-Referenzkraftwerk. Meine Rolle: Unity- & Blender-Entwickler. Sechs ingenieurgenaue 3D-Modelle in Blender 4.x, eine siebenphasige Unity-Coroutine in C#, zwei Live-Temperatur-Slider steuern Partikelsysteme und Effizienz-Graph.",
                 highlights: [
-                    "7 klare Prozessphasen mit Live-Parametern",
-                    "Echtzeit-Regler für Temperatur, Druck und Durchfluss",
-                    "Modulare C#-Architektur mit separaten Managern",
+                    "5-Personen-Zusammenarbeit zwischen Digital- und Verfahrenstechnik an der OVGU Magdeburg",
+                    "Zwei Live-Temperatur-Slider — Absorber 0–65°C und Stripper 75–125°C — steuern Partikelfarbe, -dichte und Effizienz-Graph in Echtzeit",
+                    "Sechs ingenieurgenaue 3D-Modelle (Absorber, Stripper, Reboiler, Wärmetauscher, Kompressor, CO₂-Tank) in Blender 4.x modelliert, via FBX nach Unity exportiert",
+                    "11 C#-Skripte nach Singleton- + partiellem ECS-Muster; Überhitzungs-Watchdog stoppt bei 125°C automatisch",
                     "Live spielbar auf Unity Play — ohne Installation",
                 ],
-                tags: ["Unity 3D", "C#", "TextMeshPro", "URP", "3D-Modellierung", "Simulation"],
+                learned: "Apply Transform beim FBX-Export ist Pflicht — ohne diese Option landet Blenders Z-up-Welt in Unitys Y-up-Szene um 90° rotiert und im Maßstab 1/100. Eine Checkbox hat uns eine Woche Pipeline-Debugging erspart.",
+                tags: ["Unity 2022 LTS", "C#", "Blender 4.x", "TextMeshPro", "UI Toolkit", "FBX-Pipeline", "Simulation"],
                 url:  "https://play.unity.com/en/games/30f22392-532c-41e1-b925-6191a9ea99c2/post-combustion-co-carbon-capture",
                 urlLabel: "Live-Demo öffnen",
+                caseStudy: "projects/co2-simulation-de.html",
+                caseStudyLabel: "Case Study lesen",
                 img1: "Images/co2-simulation.gif",
                 img2: "Images/co2-preview.jpg",
                 img3: "Images/co2-simulation.gif",
@@ -2925,18 +3576,21 @@ const DATA = {
                 cat: "Open Source · iOS · SwiftUI",
                 name: "StockWatch — SwiftUI-Watchlist für iOS",
                 period: "2026",
-                desc: "Eine native iOS-Watchlist-App, inspiriert von Scalable Capital. Live-Kurse von Yahoo Finance, editierbare Watchlist mit 55+ Tickern aus US-, deutschen (Xetra), britischen, Schweizer und dänischen Börsen, Listen- und Grid-Layout, interaktive Swift-Charts-Detailansicht mit sieben Zeiträumen, symbolbezogene In-App-News, Laufzeit-Sprachumschalter Englisch / Deutsch und vollständiges Hell-/Dunkel-/System-Theming.",
+                desc: "Native iOS-Watchlist-App, inspiriert von Scalable Capital. Live-Kurse von Yahoo Finance, 55+ Ticker aus US-, deutschen (Xetra), britischen, Schweizer und dänischen Börsen, Listen- + Grid-Layout, interaktive Swift-Charts-Detailansicht mit sieben Zeiträumen, symbolbezogene News, EN/DE-Sprachumschalter zur Laufzeit, Hell/Dunkel/System-Theming.",
                 highlights: [
                     "Interaktive Swift-Charts-Detailansicht zum Scrubbing von Schlusskurs und Datum",
                     "MVVM mit @MainActor @Observable, Protokoll-basierte DI, async/await + URLSession",
                     "Sprachumschalter Englisch / Deutsch zur Laufzeit über Bundle-Swizzling",
                     "XCTest-Suite deckt Persistenz, Refresh-Übergänge und Prozent-Mathematik ab",
                 ],
+                learned: "Protokoll-basierte DI + @MainActor @Observable machten die XCTest-Suite trivial — ich konnte einen Fake-Yahoo-Client in das ViewModel einsetzen, ohne den Produktionscode zu berühren.",
                 tags: ["Swift", "SwiftUI", "Swift Charts", "async/await", "MVVM", "XCTest", "iOS 17+"],
                 url:  "https://github.com/hashwanthghanta/stockwatch-ios",
                 urlLabel: "Auf GitHub ansehen",
-                img1: "Images/stockwatch-thumb.png",
-                img2: "Images/v6_grid_dark.png",
+                caseStudy: "projects/stockwatch-de.html",
+                caseStudyLabel: "Case Study lesen",
+                img1: "Images/stockwatch-thumb-sm.jpg",
+                img2: "Images/v6_grid_dark-sm.jpg",
             },
             {
                 num: "03",
@@ -2949,8 +3603,11 @@ const DATA = {
                     "Automatische Notfall-Alarmierung bei unsicherer Bedingung",
                     "Feldgetestete Wearable-Bauform",
                 ],
-                tags: ["IoT", "GPS", "Arduino", "Sensoren"],
+                learned: "Reine Software-Sperren sind Theater — die Zündung bleibt nur blockiert, weil das Relais physisch in Reihe mit dem Anlasser hängt. Den MQ-3 im Firmware-Setup kalibrieren, nicht erst am Werktisch, sonst scheitert die erste Demo.",
+                tags: ["NodeMCU", "ATmega328P", "FSR", "MQ-3", "GSM", "GPS", "Embedded C"],
                 svg: "iot_helmet",
+                caseStudy: "projects/iot-helmet-de.html",
+                caseStudyLabel: "Case Study lesen",
             },
             {
                 num: "04",
@@ -2963,6 +3620,7 @@ const DATA = {
                     "Ultraschall-Toter-Winkel-Detektor mit akustischer/visueller Fahrerwarnung",
                     "Embedded C auf Arduino-Hardware",
                 ],
+                learned: "Zwei Sicherheitssysteme, eine Lektion: Ein Alarm, den niemand hört, ist kein Alarm. Den Ton des Toter-Winkel-Detektors musste ich am Motorgeräusch ausrichten — danach designe ich Feedback fürs reale Umfeld, nicht für die Werkbank.",
                 tags: ["IoT", "Arduino", "Sensoren", "Embedded C"],
                 svg: "iot_safety",
             },
@@ -2971,12 +3629,13 @@ const DATA = {
                 cat: "Data · Analytik · BI",
                 name: "Datenanalyse & Business-Intelligence-Dashboards",
                 period: "2023 – 2024",
-                desc: "Power-BI-Dashboards und Excel-Modelle für Geschäftsdatenanalysen im Rahmen von Zertifizierungsprogrammen mit Tata und Microsoft. Anwendung von Datenvisualisierungsprinzipien zur klaren Darstellung von KPIs, Trends und Betriebskennzahlen für nicht-technische Stakeholder.",
+                desc: "Power-BI-Dashboards und Excel-Modelle für Geschäftsdatenanalysen im Rahmen von Zertifizierungsprogrammen mit Tata und Microsoft. Datenvisualisierung zur klaren Darstellung von KPIs, Trends und Betriebskennzahlen für nicht-technische Stakeholder.",
                 highlights: [
                     "Power-BI-Dashboards übersetzen Betriebsdaten in KPI-Sichten",
                     "Excel-Finanz-/Forecasting-Modelle mit Named-Range-Refactoring",
                     "Python-Pipelines für Datenaufbereitung und Ad-hoc-Analyse",
                 ],
+                learned: "Nicht-technische Stakeholder lesen Dashboards wie Entwickler einen Stacktrace — von oben nach unten, auf der Suche nach der einen Zahl, die falsch ist. Ich designe Dashboards seitdem mit der Kernkennzahl zuerst, Drill-down danach.",
                 tags: ["Power BI", "Excel", "Datenvisualisierung", "Business Analytics", "Python"],
                 svg: "analytics",
             },
@@ -2997,6 +3656,32 @@ let currentTheme = (function(){
 })();
 const REDUCED = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 let currentProjects = [];
+
+/* ============================================================
+   SCROLL BUS — single window.scroll listener, rAF-throttled.
+   Replaces 7 separate scroll handlers (review feedback).
+   Subscribers receive { y, dy, w, h } and may bail early.
+============================================================ */
+const __scrollBus = (function(){
+    const subs = new Set();
+    let rafId = 0, lastY = 0;
+    function tick() {
+        rafId = 0;
+        const y = window.scrollY;
+        const payload = { y, dy: y - lastY, w: window.innerWidth, h: window.innerHeight };
+        lastY = y;
+        subs.forEach(fn => { try { fn(payload); } catch(e){ console.warn("scrollBus subscriber failed", e); } });
+    }
+    function schedule() {
+        if (rafId) return;
+        rafId = requestAnimationFrame(tick);
+    }
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule, { passive: true });
+    return {
+        add(fn) { subs.add(fn); fn({ y: window.scrollY, dy: 0, w: window.innerWidth, h: window.innerHeight }); return () => subs.delete(fn); },
+    };
+})();
 
 /* ============================================================
    RENDER
@@ -3040,6 +3725,8 @@ function renderProjects(lang) {
     d.projects.forEach((p, i) => {
         const frame = document.createElement("div");
         frame.className = "project-card-frame";
+        /* Deep-link anchor — skill chips and external links jump straight to this card. */
+        frame.id = "project-" + p.num;
         const targetScale = 1 - (total - 1 - i) * 0.03;
         const stickyTop = 80 + i * 28;
         /* Build left column — real images if available, otherwise the inline SVG mockup. */
@@ -3047,11 +3734,11 @@ function renderProjects(lang) {
         if (p.img1 && p.img2) {
             leftHtml = `
                 <div class="pc-col-left">
-                    <div class="pc-img top"><img src="${p.img1}" alt="" loading="lazy" decoding="async"></div>
-                    <div class="pc-img bottom"><img src="${p.img2}" alt="" loading="lazy" decoding="async"></div>
+                    <div class="pc-img top"><img src="${p.img1}" width="800" height="450" alt="" loading="lazy" decoding="async"></div>
+                    <div class="pc-img bottom"><img src="${p.img2}" width="800" height="450" alt="" loading="lazy" decoding="async"></div>
                 </div>`;
         } else if (p.img1) {
-            leftHtml = `<div class="pc-img solo tall"><img src="${p.img1}" alt="" loading="lazy" decoding="async"></div>`;
+            leftHtml = `<div class="pc-img solo tall"><img src="${p.img1}" width="800" height="900" alt="" loading="lazy" decoding="async"></div>`;
         } else if (p.svg && PROJ_SVG[p.svg]) {
             leftHtml = `<div class="pc-img svg-mock solo tall" aria-hidden="true">${PROJ_SVG[p.svg]}</div>`;
         } else {
@@ -3067,8 +3754,21 @@ function renderProjects(lang) {
         const liveBtn = p.url
             ? `<a class="ghost-btn${liveCls}" href="${p.url}" target="_blank" rel="noopener noreferrer">${p.urlLabel || d.live}</a>`
             : "";
+        const caseStudyBtn = p.caseStudy
+            ? `<a class="ghost-btn pc-casestudy-link" href="${p.caseStudy}">${p.caseStudyLabel || (currentLang === "de" ? "Case Study lesen" : "Read case study")}</a>`
+            : "";
+        const learnedLabel = currentLang === "de" ? "Was ich gelernt habe" : "What I learned";
+        const learnedHtml = p.learned
+            ? `<div class="pc-learned"><div class="pc-learned-label">${learnedLabel}</div><p class="pc-learned-text">${p.learned}</p></div>`
+            : "";
+        const featuredAttr  = i === 0 ? ' data-featured="true"' : "";
+        const featuredLabel = currentLang === "de" ? "VORGESTELLT" : "FEATURED";
+        const featuredRibbon = i === 0
+            ? `<span class="pc-featured-ribbon" aria-label="${featuredLabel} project"><span aria-hidden="true">★</span> ${featuredLabel}</span>`
+            : "";
         frame.innerHTML = `
-            <article class="project-card" data-index="${i}" style="top:${stickyTop}px;">
+            <article class="project-card"${featuredAttr} data-index="${i}" style="top:${stickyTop}px;">
+                ${featuredRibbon}
                 <div class="pc-top">
                     <div class="pc-num">${p.num}</div>
                     <div class="pc-meta">
@@ -3076,6 +3776,7 @@ function renderProjects(lang) {
                         <h3 class="pc-name">${p.name}</h3>
                     </div>
                     <div class="pc-actions">
+                        ${caseStudyBtn}
                         ${liveBtn}
                         <button class="ghost-btn pc-details-btn" data-index="${i}" type="button">${d.details}</button>
                     </div>
@@ -3086,6 +3787,7 @@ function renderProjects(lang) {
                         <div class="pc-period">${p.period || ""}</div>
                         <p class="pc-desc">${p.desc || ""}</p>
                         ${highlightsHtml}
+                        ${learnedHtml}
                         ${tagsHtml}
                     </div>
                 </div>
@@ -3112,12 +3814,12 @@ const SI = (slug, color) => color
 const SWIFT_BIRD = `<path fill="#ffffff" d="M14.4 8.2c1.2 1 2.2 2.3 2.7 3.8.3 1.2.3 2.4 0 3.6.1.1.2.3.3.4 1-1.4 1.4-3 1.1-4.6-.4-2.4-2.3-4.5-4.7-5.2-.2-.1-.4-.1-.5-.2.2.1.3.2.4.3.2.2.4.3.5.5-.7-.2-1.4-.4-2.1-.5L11 6c-1.5-1-3.2-1.4-5-1-.2 0-.3.1-.5.2.5-.1 1 0 1.5.1 1 .2 2 .6 2.9 1.2.8.5 1.5 1.2 2.1 2-.1.2-.3.4-.5.5-1.5-1.1-3.1-1.9-4.9-2.1-1-.1-2 0-2.9.4 1.8.2 3.6 1.1 5.1 2.4.6.5 1.1 1 1.5 1.6-.5.7-1.1 1.4-1.8 1.9-1.9 1.6-4.3 2.6-6.8 2.8 2.1 1.1 4.6 1.5 7 1 2.2-.5 4.1-1.8 5.4-3.6.1-.2.2-.4.3-.6.5.7.9 1.4 1.2 2.2.6 1.6.6 3.3.1 4.9 1.5-1.7 2.2-4 1.7-6.2-.3-1.4-1-2.7-2-3.7z"/>`;
 const SKILL_ICONS = {
     "Unity 3D":    SI("unity", "FFFFFF"),
-    "C#":          `<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#239120"/><text x="12" y="16" font-family="Kanit, Helvetica, sans-serif" font-weight="800" font-size="11" fill="#ffffff" text-anchor="middle">C#</text></svg>`,
+    "C#":          `<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#239120"/><text x="12" y="16" font-family="Inter, Helvetica, sans-serif" font-weight="800" font-size="11" fill="#ffffff" text-anchor="middle">C#</text></svg>`,
     /* Swift — orange tile with white bird glyph */
     "Swift":       `<svg viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="swo" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#FFB97A"/><stop offset="55%" stop-color="#F05138"/><stop offset="100%" stop-color="#D54223"/></linearGradient></defs><rect x="2" y="2" width="20" height="20" rx="5" fill="url(#swo)"/>${SWIFT_BIRD}</svg>`,
     /* SwiftUI — blue tile with same bird glyph */
     "SwiftUI":     `<svg viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="sub" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#5EC3FF"/><stop offset="100%" stop-color="#1A82E2"/></linearGradient></defs><rect x="2" y="2" width="20" height="20" rx="5" fill="url(#sub)"/>${SWIFT_BIRD}</svg>`,
-    "SwiftUX":     `<svg viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="sux" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#5EC3FF"/><stop offset="100%" stop-color="#1A82E2"/></linearGradient></defs><rect x="2" y="2" width="20" height="20" rx="5" fill="url(#sux)"/><text x="12" y="16" font-family="Kanit, sans-serif" font-weight="900" font-size="9" fill="#ffffff" text-anchor="middle">UX</text></svg>`,
+    "SwiftUX":     `<svg viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="sux" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#5EC3FF"/><stop offset="100%" stop-color="#1A82E2"/></linearGradient></defs><rect x="2" y="2" width="20" height="20" rx="5" fill="url(#sux)"/><text x="12" y="16" font-family="Inter, sans-serif" font-weight="900" font-size="9" fill="#ffffff" text-anchor="middle">UX</text></svg>`,
     /* Xcode — blue tile with grid + hammer */
     "Xcode":       `<svg viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="xc" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#5EC3FF"/><stop offset="100%" stop-color="#1A82E2"/></linearGradient></defs><rect x="2" y="2" width="20" height="20" rx="5" fill="url(#xc)"/><g opacity="0.28" stroke="#ffffff" stroke-width="0.4"><line x1="2" y1="8"  x2="22" y2="8"/><line x1="2" y1="13" x2="22" y2="13"/><line x1="2" y1="18" x2="22" y2="18"/><line x1="8"  y1="2" x2="8"  y2="22"/><line x1="13" y1="2" x2="13" y2="22"/><line x1="18" y1="2" x2="18" y2="22"/></g><path fill="#1A1A2E" d="M9.4 17.3 5.2 13l1.5-1.5 4.2 4.3-1.5 1.5zM14.5 6.8c1 .1 2 .8 2.3 1.8.3 1-.1 2-.9 2.6l-2.7 1.9c-.4.3-1 .3-1.4 0L9.3 11.2 11 9.4l2.3 1.8 1.7-1.2c.3-.2.4-.6.1-.9-.2-.3-.6-.4-.9-.2l-.6.4-1.4-1.4 1.1-.8c.3-.2.7-.3 1.2-.3z"/></svg>`,
     "Python":      SI("python"),
@@ -3159,13 +3861,21 @@ function renderSkills(lang) {
         const card = document.createElement("div");
         card.className = "skill-card reveal";
         card.style.transitionDelay = (i * 0.06) + "s";
-        const barsHtml = g.bars.map(b =>
-            `<div class="skill-bar-row"><span class="skill-name">${b.name}</span><span class="skill-level ${b.cls}">${b.lvl}</span></div>`
-        ).join("");
+        const proofs = g.proofs || [];
+        const proofsHtml = proofs.length
+            ? `<ul class="skill-proofs">${proofs.map(p => {
+                const external = /^https?:/.test(p.href);
+                const attrs = external ? ' target="_blank" rel="noopener noreferrer"' : '';
+                const icon = external
+                    ? '<svg class="skill-proof-ico" viewBox="0 0 24 24" aria-hidden="true" width="13" height="13"><path d="M14 4h6v6M20 4 10 14M11 5H4v15h15v-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+                    : '<svg class="skill-proof-ico" viewBox="0 0 24 24" aria-hidden="true" width="13" height="13"><path d="M5 12h14M13 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+                return `<li class="skill-proof-row"><a class="skill-proof-link" href="${p.href}"${attrs}><span class="skill-proof-name">${p.name}</span>${icon}</a><span class="skill-proof-note">${p.note}</span></li>`;
+            }).join("")}</ul>`
+            : "";
         const chipsHtml = g.chips.length
             ? `<div class="skill-chips">${g.chips.map(c => `<span class="skill-chip">${c}</span>`).join("")}</div>`
             : "";
-        card.innerHTML = `<div class="skill-card-title">${g.category}</div>${barsHtml}${chipsHtml}`;
+        card.innerHTML = `<div class="skill-card-title">${g.category}</div>${proofsHtml}${chipsHtml}`;
         grid.appendChild(card);
         observeReveal(card);
     });
@@ -3203,14 +3913,27 @@ function renderEducation(lang) {
         inner += `<div class="edu-degree">${it.degree}</div>`;
         if (it.period) inner += `<div class="edu-period">${it.period}</div>`;
         if (it.detail) inner += `<div class="edu-detail">${it.detail}</div>`;
+        if (it.focusAreas && it.focusAreas.length) {
+            const label = it.focusAreasLabel || (lang === "de" ? "Schwerpunkte" : "Focus areas");
+            inner += `<div class="edu-block">` +
+                `<div class="edu-block-label">${label}</div>` +
+                `<div class="edu-focus-chips">` +
+                    it.focusAreas.map(a => `<span class="edu-focus-chip">${a}</span>`).join("") +
+                `</div>` +
+                `</div>`;
+        }
         if (it.subjects && it.subjects.length) {
-            inner += `<div class="edu-subjects">` +
-                it.subjects.map(s => {
-                    if (s.focus) {
-                        return `<a class="edu-subject-link" href="#projects" aria-label="Jump to the DE visualization project in the Projects section"><span>${s.name}</span></a>`;
-                    }
-                    return `<span class="edu-subject">${s.name}</span>`;
-                }).join("") +
+            const label = it.subjectsLabel || (lang === "de" ? "Lehrveranstaltungen" : "Coursework");
+            inner += `<div class="edu-block">` +
+                `<div class="edu-block-label">${label}</div>` +
+                `<div class="edu-subjects">` +
+                    it.subjects.map(s => {
+                        if (s.focus) {
+                            return `<a class="edu-subject-link" href="#projects" aria-label="Jump to the DE visualization project in the Projects section"><span>${s.name}</span></a>`;
+                        }
+                        return `<span class="edu-subject">${s.name}</span>`;
+                    }).join("") +
+                `</div>` +
                 `</div>`;
         }
         if (it.badges && it.badges.length) {
@@ -3224,66 +3947,71 @@ function renderEducation(lang) {
     });
 }
 
-function renderMarquee() {
-    const r1 = $("#marquee-row-1");
-    const r2 = $("#marquee-row-2");
-    if (!r1 || !r2) return;
-    /* Two distinct orderings so the rows don't look like clones. */
-    const first  = MARQUEE_IMGS;
-    const second = [...MARQUEE_IMGS.slice(1), MARQUEE_IMGS[0]];
-    /* Triple the content; the CSS animation translates by -33.333% so the loop is seamless. */
-    const triple = (arr) => arr.concat(arr).concat(arr);
-    const build = (arr) => triple(arr).map(it =>
-        `<div class="marquee-tile"><img src="${it.src}" alt="" loading="lazy" decoding="async"></div>`
-    ).join("");
-    r1.innerHTML = build(first);
-    r2.innerHTML = build(second);
-}
+/* renderMarquee removed — marquee section deleted per review feedback. */
 
 /* ============================================================
    LANGUAGE / THEME
 ============================================================ */
+/* View Transitions wrapper — feature-detect, no-op fallback for Safari/Firefox. */
+function __withViewTransition(mutator) {
+    if (REDUCED || !document.startViewTransition) { mutator(); return; }
+    try { document.startViewTransition(mutator); } catch(e) { mutator(); }
+}
+
 function setLanguage(lang) {
-    currentLang = lang;
-    try { localStorage.setItem("lang", lang); } catch(e){}
-    document.documentElement.lang = lang;
-    $$(".lang-btn").forEach(b => b.classList.toggle("active", b.getAttribute("data-lang") === lang));
-    applyI18n(lang);
-    renderHeroSkills(lang);
-    renderServices(lang);
-    renderProjects(lang);
-    renderSkills(lang);
-    renderTrack(lang);
-    renderEducation(lang);
-    /* Swap resume download to the correct language PDF */
-    const resumeBtn = $("#resume-btn");
-    if (resumeBtn) {
-        if (lang === "de") {
-            resumeBtn.href = "lebenslauf.pdf";
-            resumeBtn.download = "Hashwanth_Ghanta_Lebenslauf.pdf";
-            resumeBtn.setAttribute("aria-label", "Lebenslauf herunterladen (PDF)");
-        } else {
-            resumeBtn.href = "resume.pdf";
-            resumeBtn.download = "Hashwanth_Ghanta_CV_English.pdf";
-            resumeBtn.setAttribute("aria-label", "Download resume (PDF)");
+    __withViewTransition(() => {
+        currentLang = lang;
+        try { localStorage.setItem("lang", lang); } catch(e){}
+        document.documentElement.lang = lang;
+        $$(".lang-btn").forEach(b => b.classList.toggle("active", b.getAttribute("data-lang") === lang));
+        applyI18n(lang);
+        renderHeroSkills(lang);
+        renderServices(lang);
+        renderProjects(lang);
+        renderSkills(lang);
+        renderTrack(lang);
+        renderEducation(lang);
+        /* Swap footer secondary-page links to the correct language version */
+        const footerNow  = document.getElementById("footer-now");
+        const footerUses = document.getElementById("footer-uses");
+        const footerCo2  = document.getElementById("footer-co2");
+        if (footerNow)  footerNow.href  = lang === "de" ? "now-de.html"  : "now.html";
+        if (footerUses) footerUses.href = lang === "de" ? "uses-de.html" : "uses.html";
+        if (footerCo2)  footerCo2.href  = lang === "de" ? "projects/co2-simulation-de.html" : "projects/co2-simulation.html";
+        /* Swap resume download to the correct language PDF */
+        const resumeBtn = $("#resume-btn");
+        if (resumeBtn) {
+            if (lang === "de") {
+                resumeBtn.href = "lebenslauf.pdf";
+                resumeBtn.download = "Hashwanth_Ghanta_Lebenslauf.pdf";
+                resumeBtn.setAttribute("aria-label", "Lebenslauf herunterladen (PDF)");
+            } else {
+                resumeBtn.href = "resume.pdf";
+                resumeBtn.download = "Hashwanth_Ghanta_CV_English.pdf";
+                resumeBtn.setAttribute("aria-label", "Download resume (PDF)");
+            }
         }
-    }
-    /* Re-attach sticky-stack scroll listener (cards rebuilt) */
-    setupStickyStack();
+        /* Re-attach sticky-stack scroll listener (cards rebuilt) */
+        setupStickyStack();
+        /* Command palette — relocalize placeholder, empty state, trigger label, and visible list. */
+        if (typeof window.__cmdkApplyLang === "function") window.__cmdkApplyLang();
+    });
 }
 window.setLanguage = setLanguage;
 
 function applyTheme(theme) {
-    currentTheme = theme === "light" ? "light" : "dark";
-    document.body.setAttribute("data-theme", currentTheme);
-    document.documentElement.style.colorScheme = currentTheme;
-    const meta = document.querySelector('meta[name="theme-color"]');
-    if (meta) meta.setAttribute("content", currentTheme === "light" ? "#F5F2EC" : "#0C0C0C");
-    const tt = $("#theme-toggle");
-    tt.textContent = currentTheme === "light" ? "☀️" : "🌙";
-    tt.setAttribute("aria-pressed", currentTheme === "light" ? "true" : "false");
-    tt.setAttribute("aria-label", currentTheme === "light" ? "Switch to dark theme" : "Switch to light theme");
-    try { localStorage.setItem("theme", currentTheme); } catch(e){}
+    __withViewTransition(() => {
+        currentTheme = theme === "light" ? "light" : "dark";
+        document.body.setAttribute("data-theme", currentTheme);
+        document.documentElement.style.colorScheme = currentTheme;
+        const meta = document.querySelector('meta[name="theme-color"]');
+        if (meta) meta.setAttribute("content", currentTheme === "light" ? "#F5F2EC" : "#0C0C0C");
+        const tt = $("#theme-toggle");
+        tt.textContent = currentTheme === "light" ? "☀️" : "🌙";
+        tt.setAttribute("aria-pressed", currentTheme === "light" ? "true" : "false");
+        tt.setAttribute("aria-label", currentTheme === "light" ? "Switch to dark theme" : "Switch to light theme");
+        try { localStorage.setItem("theme", currentTheme); } catch(e){}
+    });
 }
 $("#theme-toggle").addEventListener("click", () => applyTheme(currentTheme === "light" ? "dark" : "light"));
 
@@ -3313,8 +4041,18 @@ function observeReveal(el) {
 function setupAnimatedText() {
     const el = $("#about-text");
     if (!el) return;
-    const text = el.textContent;
+    const text = el.textContent.trim();
     el.textContent = "";
+    /* A11y: original full text in a visually-hidden node so screen readers read it
+       as one continuous sentence instead of 200 separate chars. The animated layer
+       is aria-hidden so it's purely decorative. */
+    const sr = document.createElement("span");
+    sr.className = "sr-only";
+    sr.textContent = text;
+    el.appendChild(sr);
+    const wrap = document.createElement("span");
+    wrap.setAttribute("aria-hidden", "true");
+    wrap.className = "about-text-anim";
     const frag = document.createDocumentFragment();
     for (const ch of text) {
         const sp = document.createElement("span");
@@ -3323,9 +4061,10 @@ function setupAnimatedText() {
         sp.style.opacity = REDUCED ? "1" : "0.55";
         frag.appendChild(sp);
     }
-    el.appendChild(frag);
+    wrap.appendChild(frag);
+    el.appendChild(wrap);
     if (REDUCED) return;
-    const chars = el.querySelectorAll(".char");
+    const chars = wrap.querySelectorAll(".char");
     function update() {
         const r = el.getBoundingClientRect();
         const vh = window.innerHeight || document.documentElement.clientHeight;
@@ -3342,7 +4081,7 @@ function setupAnimatedText() {
         });
     }
     update();
-    window.addEventListener("scroll", update, { passive: true });
+    __scrollBus.add(update);
     window.addEventListener("resize", update);
 }
 
@@ -3464,13 +4203,25 @@ function openProjectModal(index) {
     $("#project-modal-title").textContent  = proj.name || "";
     $("#project-modal-desc").textContent   = proj.desc || "";
     const hi = $("#project-modal-highlights");
-    hi.innerHTML = (proj.highlights && proj.highlights.length)
+    let hiHtml = (proj.highlights && proj.highlights.length)
         ? `<ul class="proj-highlights">${proj.highlights.map(h => `<li>${h}</li>`).join("")}</ul>`
         : "";
+    if (proj.learned) {
+        const learnedLabel = currentLang === "de" ? "Was ich gelernt habe" : "What I learned";
+        hiHtml += `<div class="proj-learned"><div class="proj-learned-label">${learnedLabel}</div><p class="proj-learned-text">${proj.learned}</p></div>`;
+    }
+    hi.innerHTML = hiHtml;
     $("#project-modal-stack-title").textContent = (currentLang === "de" ? "Technologie-Stack" : "Tech Stack");
     $("#project-modal-tags").innerHTML = (proj.tags || []).map(t => `<span class="proj-tag">${t}</span>`).join("");
     const act = $("#project-modal-actions");
     act.innerHTML = "";
+    if (proj.caseStudy) {
+        const cs = document.createElement("a");
+        cs.href = proj.caseStudy;
+        cs.className = "ghost-btn live-demo";
+        cs.textContent = proj.caseStudyLabel || (currentLang === "de" ? "Case Study lesen" : "Read case study");
+        act.appendChild(cs);
+    }
     if (proj.url) {
         const a = document.createElement("a");
         a.href = proj.url; a.target = "_blank"; a.rel = "noopener noreferrer";
@@ -3538,14 +4289,14 @@ function setupContactForm() {
    GHOST SECTION NUMBERS — large translucent numeral behind each H2
 ============================================================ */
 function setupGhostNumbers() {
+    /* Renumbered after marquee removal — kept sequential 01–06 */
     const map = [
         { id: "about",     num: "01" },
-        { id: "marquee",   num: "02" },
-        { id: "projects",  num: "03" },
-        { id: "skills",    num: "04" },
-        { id: "track",     num: "05" },
-        { id: "education", num: "06" },
-        { id: "contact",   num: "07" },
+        { id: "projects",  num: "02" },
+        { id: "skills",    num: "03" },
+        { id: "track",     num: "04" },
+        { id: "education", num: "05" },
+        { id: "contact",   num: "06" },
     ];
     map.forEach(m => {
         const sec = document.getElementById(m.id);
@@ -3566,61 +4317,8 @@ function setupGhostNumbers() {
    GLOBAL CURSOR RING — soft ring + dot follow the mouse; ring
    expands on hover over interactive elements. Desktop only.
 ============================================================ */
-function setupCursorRing() {
-    if (REDUCED) return;
-    if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
-    const ring = $("#cursor-ring");
-    const dot  = $("#cursor-dot");
-    if (!ring || !dot) return;
-    document.body.classList.add("has-custom-cursor");
-    let mx = -100, my = -100;          /* target position */
-    let rx = -100, ry = -100;          /* ring eased position */
-    let visible = false;
-    window.addEventListener("mousemove", e => {
-        mx = e.clientX; my = e.clientY;
-        if (!visible) { ring.classList.add("show"); dot.classList.add("show"); visible = true; }
-        dot.style.transform = `translate3d(${mx}px, ${my}px, 0)`;
-    }, { passive: true });
-    window.addEventListener("mouseleave", () => { ring.classList.remove("show"); dot.classList.remove("show"); visible = false; });
-    /* Ring lags slightly behind the dot for elegance */
-    function tick() {
-        rx += (mx - rx) * 0.22;
-        ry += (my - ry) * 0.22;
-        ring.style.transform = `translate3d(${rx}px, ${ry}px, 0)`;
-        requestAnimationFrame(tick);
-    }
-    requestAnimationFrame(tick);
-    /* Expand ring on interactive elements */
-    const interactiveSel = 'a, button, input, textarea, [role="button"], .sn-dot';
-    document.addEventListener("mouseover", e => {
-        if (e.target.closest(interactiveSel)) ring.classList.add("hover");
-    }, true);
-    document.addEventListener("mouseout", e => {
-        if (e.target.closest(interactiveSel)) ring.classList.remove("hover");
-    }, true);
-}
-
-/* ============================================================
-   PORTRAIT CURSOR FOLLOW — soft cyan disc tracks mouse over the photo
-============================================================ */
-function setupPortraitCursor() {
-    const wrap = $("#hero-portrait-wrap");
-    const dot  = $("#portrait-cursor");
-    if (!wrap || !dot) return;
-    if (REDUCED) return;
-    if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
-    let raf = 0;
-    wrap.addEventListener("mousemove", e => {
-        const r = wrap.getBoundingClientRect();
-        const x = e.clientX - r.left;
-        const y = e.clientY - r.top;
-        cancelAnimationFrame(raf);
-        raf = requestAnimationFrame(() => {
-            dot.style.left = x + "px";
-            dot.style.top  = y + "px";
-        });
-    }, { passive: true });
-}
+/* setupCursorRing() removed — function was never wired into init, elements are display:none.
+   The native pointer is used. */
 
 /* ============================================================
    HERO NAME PARALLAX — slight upward drift on scroll for depth
@@ -3636,7 +4334,7 @@ function setupHeroParallax() {
         h1.style.opacity = Math.max(0.2, 1 - y / 800).toFixed(3);
     };
     update();
-    window.addEventListener("scroll", update, { passive: true });
+    __scrollBus.add(update);
 }
 
 /* ============================================================
@@ -3648,7 +4346,6 @@ function setupSectionNav() {
     const sectionMap = [
         { id: "hero",      label: "Home" },
         { id: "about",     label: "About" },
-        { id: "marquee",   label: "Work" },
         { id: "projects",  label: "Projects" },
         { id: "skills",    label: "Skills" },
         { id: "track",     label: "Experience" },
@@ -3685,7 +4382,7 @@ function setupSectionNav() {
         });
     };
     updateActive();
-    window.addEventListener("scroll", updateActive, { passive: true });
+    __scrollBus.add(updateActive);
 }
 
 /* ============================================================
@@ -3696,12 +4393,348 @@ function setupBackToTop() {
     if (!btn) return;
     const onScroll = () => btn.classList.toggle("show", window.scrollY > 500);
     onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
+    __scrollBus.add(onScroll);
     btn.addEventListener("click", () => {
         window.scrollTo({ top: 0, behavior: REDUCED ? "auto" : "smooth" });
     });
 }
 
+
+/* ============================================================
+   LIVE WIDGETS — Magdeburg clock + GitHub heatmap placeholder + Spotify stub
+============================================================ */
+function setupLiveWidgets() {
+    /* Magdeburg local time — uses Intl, no network call. */
+    const clockVal = $("#live-clock-val");
+    if (clockVal) {
+        const fmt = new Intl.DateTimeFormat("de-DE", {
+            timeZone: "Europe/Berlin",
+            hour: "2-digit", minute: "2-digit",
+            hour12: false,
+        });
+        const tick = () => { clockVal.textContent = fmt.format(new Date()) + " · " + (new Date().getDay() % 6 === 0 ? "weekend" : "weekday"); };
+        tick();
+        setInterval(tick, 30 * 1000);
+    }
+
+    /* GitHub heatmap — illustrative placeholder (52 weeks × 7 days).
+       Deterministic seed tuned to look healthy without looking fake:
+       weekdays denser than weekends, occasional sprint bursts. The whole
+       panel is a link to the real profile where recruiters see live data. */
+    const grid = $("#github-heatmap-grid");
+    if (grid) renderHeatmapPlaceholder(grid);
+}
+function renderHeatmapPlaceholder(grid) {
+    const weeks = 52, days = 7;
+    let html = "";
+    for (let w = 0; w < weeks; w++) {
+        /* Sprint bursts every ~7 weeks — denser blocks of activity. */
+        const burst = (w % 7 === 0 || w % 7 === 1) ? 6 : 0;
+        for (let d = 0; d < days; d++) {
+            /* Weekends (d=0 Sun, d=6 Sat) are lighter than weekdays. */
+            const weekendDamp = (d === 0 || d === 6) ? 4 : 0;
+            const seed = ((w * 11 + d * 17 + 3) % 17) + burst - weekendDamp;
+            const lvl = seed >= 14 ? "l4"
+                      : seed >= 10 ? "l3"
+                      : seed >= 6  ? "l2"
+                      : seed >= 2  ? "l1"
+                      : "";
+            html += `<span class="github-heatmap-cell ${lvl}" style="grid-column:${w+1};grid-row:${d+1};"></span>`;
+        }
+    }
+    grid.innerHTML = html;
+}
+
+/* ============================================================
+   CONTACT QUICK ACTIONS — Cal.com / vCard / Share
+============================================================ */
+function setupContactQuickActions() {
+    /* vCard + Cal.com buttons removed at user request — only Share remains in the contact section.
+       downloadVCard() and the Cal.com helpers are still available via the ⌘K command palette. */
+    const shareBtn = $("#contact-share");
+    if (shareBtn) shareBtn.addEventListener("click", sharePortfolio);
+}
+
+/* Add some basic styling for the quick action row */
+(function injectQuickActionStyles() {
+    const css = `
+        .contact-quick-actions {
+            display: flex; flex-wrap: wrap; gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        .contact-quick-btn {
+            display: inline-flex; align-items: center; gap: 0.45rem;
+            padding: 0.6rem 1rem;
+            font-size: 0.78rem; letter-spacing: 0.08em;
+            border-radius: 9999px;
+            background: rgba(20,20,20,0.55);
+        }
+        body[data-theme="light"] .contact-quick-btn { background: rgba(255,255,255,0.85); }
+    `;
+    const s = document.createElement("style");
+    s.textContent = css;
+    document.head.appendChild(s);
+})();
+
+/* ============================================================
+   COMMAND PALETTE (⌘K / Ctrl+K)
+============================================================ */
+function setupCommandPalette() {
+    const overlay = $("#cmdk-palette");
+    const trigger = $("#cmdk-trigger");
+    const input   = $("#cmdk-input");
+    const list    = $("#cmdk-list");
+    const empty   = $("#cmdk-empty");
+    if (!overlay || !input || !list) return;
+
+    const ico = {
+        jump:  '<svg class="cmdk-item-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+        theme: '<svg class="cmdk-item-ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M5 19l1.5-1.5M17.5 6.5 19 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
+        lang:  '<svg class="cmdk-item-ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18" fill="none" stroke="currentColor" stroke-width="2"/></svg>',
+        dl:    '<svg class="cmdk-item-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v12m0 0 4-4m-4 4-4-4M5 20h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+        copy:  '<svg class="cmdk-item-ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10" fill="none" stroke="currentColor" stroke-width="2"/></svg>',
+        share: '<svg class="cmdk-item-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12v7a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7M16 6l-4-4-4 4M12 2v13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+        ext:   '<svg class="cmdk-item-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6M20 4 10 14M11 5H4v15h15v-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    };
+    /* Localized strings — palette content follows the site language (currentLang). */
+    const CMDK_I18N = {
+        en: {
+            placeholder: "Jump to section, switch theme, copy email…",
+            empty:       "No matches",
+            trigger:     "Search",
+            hint: {
+                section: "section",  toggle: "T",       lang: { en: "EN", de: "DE" },
+                pdf: "PDF",          email: "email",    native: "native",
+                external: "external", page: "page",     now: "/now", uses: "/uses",
+            },
+            items: {
+                about:    "Jump to About",
+                projects: "Jump to Projects",
+                skills:   "Jump to Skills",
+                exp:      "Jump to Experience",
+                edu:      "Jump to Education",
+                contact:  "Jump to Contact",
+                theme:    "Toggle theme (dark/light)",
+                langEN:   "Switch to English",
+                langDE:   "Auf Deutsch umschalten",
+                cvEN:     "Download CV (English)",
+                cvDE:     "Lebenslauf herunterladen (Deutsch)",
+                copyMail: "Copy email address",
+                share:    "Share this portfolio",
+                github:   "Open GitHub",
+                linkedin: "Open LinkedIn",
+                caseCo2:  "Read CO₂ Simulation case study",
+                now:      "What I'm doing now",
+                uses:     "What I use (uses)",
+            },
+            toast: { mail: "Email copied", link: "Link copied — share didn't open natively" },
+        },
+        de: {
+            placeholder: "Zu Abschnitt springen, Theme wechseln, E-Mail kopieren…",
+            empty:       "Keine Treffer",
+            trigger:     "Suchen",
+            hint: {
+                section: "Abschnitt", toggle: "T",       lang: { en: "EN", de: "DE" },
+                pdf: "PDF",           email: "E-Mail",   native: "nativ",
+                external: "extern",   page: "Seite",     now: "/now", uses: "/uses",
+            },
+            items: {
+                about:    "Zu Über mich springen",
+                projects: "Zu Projekten springen",
+                skills:   "Zu Skills springen",
+                exp:      "Zu Erfahrung springen",
+                edu:      "Zu Bildung springen",
+                contact:  "Zu Kontakt springen",
+                theme:    "Theme umschalten (dunkel/hell)",
+                langEN:   "Switch to English",
+                langDE:   "Auf Deutsch umschalten",
+                cvEN:     "Download CV (English)",
+                cvDE:     "Lebenslauf herunterladen (Deutsch)",
+                copyMail: "E-Mail-Adresse kopieren",
+                share:    "Portfolio teilen",
+                github:   "GitHub öffnen",
+                linkedin: "LinkedIn öffnen",
+                caseCo2:  "CO₂-Simulation Case Study lesen",
+                now:      "Was ich gerade mache",
+                uses:     "Was ich benutze (uses)",
+            },
+            toast: { mail: "E-Mail kopiert", link: "Link kopiert — natives Teilen nicht verfügbar" },
+        },
+    };
+    const tr = () => CMDK_I18N[currentLang] || CMDK_I18N.en;
+    const commands = () => {
+        const t = tr();
+        return [
+            { id: "go-about",      label: t.items.about,    hint: t.hint.section,  icon: ico.jump,  run: () => location.hash = "#about" },
+            { id: "go-projects",   label: t.items.projects, hint: t.hint.section,  icon: ico.jump,  run: () => location.hash = "#projects" },
+            { id: "go-skills",     label: t.items.skills,   hint: t.hint.section,  icon: ico.jump,  run: () => location.hash = "#skills" },
+            { id: "go-experience", label: t.items.exp,      hint: t.hint.section,  icon: ico.jump,  run: () => location.hash = "#track" },
+            { id: "go-education",  label: t.items.edu,      hint: t.hint.section,  icon: ico.jump,  run: () => location.hash = "#education" },
+            { id: "go-contact",    label: t.items.contact,  hint: t.hint.section,  icon: ico.jump,  run: () => location.hash = "#contact" },
+            { id: "theme-toggle",  label: t.items.theme,    hint: t.hint.toggle,   icon: ico.theme, run: () => $("#theme-toggle") && $("#theme-toggle").click() },
+            { id: "lang-en",       label: t.items.langEN,   hint: t.hint.lang.en,  icon: ico.lang,  run: () => setLanguage("en") },
+            { id: "lang-de",       label: t.items.langDE,   hint: t.hint.lang.de,  icon: ico.lang,  run: () => setLanguage("de") },
+            { id: "cv-en",         label: t.items.cvEN,     hint: t.hint.pdf,      icon: ico.dl,    run: () => downloadFile("resume.pdf",     "Hashwanth_Ghanta_CV_English.pdf") },
+            { id: "cv-de",         label: t.items.cvDE,     hint: t.hint.pdf,      icon: ico.dl,    run: () => downloadFile("lebenslauf.pdf", "Hashwanth_Ghanta_Lebenslauf.pdf") },
+            { id: "copy-email",    label: t.items.copyMail, hint: t.hint.email,    icon: ico.copy,  run: () => copyToClipboard("hashwanthghanta@gmail.com", t.toast.mail) },
+            { id: "share",         label: t.items.share,    hint: t.hint.native,   icon: ico.share, run: () => sharePortfolio() },
+            { id: "github",        label: t.items.github,   hint: t.hint.external, icon: ico.ext,   run: () => window.open("https://github.com/hashwanthghanta", "_blank", "noopener") },
+            { id: "linkedin",      label: t.items.linkedin, hint: t.hint.external, icon: ico.ext,   run: () => window.open("https://www.linkedin.com/in/hashwanthghanta", "_blank", "noopener") },
+            { id: "case-co2",      label: t.items.caseCo2,  hint: t.hint.page,     icon: ico.ext,   run: () => location.href = currentLang === "de" ? "projects/co2-simulation-de.html" : "projects/co2-simulation.html" },
+            { id: "now",           label: t.items.now,      hint: t.hint.now,      icon: ico.ext,   run: () => location.href = currentLang === "de" ? "now-de.html"  : "now.html"  },
+            { id: "uses",          label: t.items.uses,     hint: t.hint.uses,     icon: ico.ext,   run: () => location.href = currentLang === "de" ? "uses-de.html" : "uses.html" },
+        ];
+    };
+    /* Re-render input chrome + list whenever the language changes. */
+    function applyPaletteLang() {
+        const t = tr();
+        input.setAttribute("placeholder", t.placeholder);
+        empty.textContent = t.empty;
+        const triggerText = trigger && trigger.querySelector(".cmdk-trigger-text");
+        if (triggerText) triggerText.textContent = t.trigger;
+        if (overlay.classList.contains("open")) filter(input.value);
+    }
+    window.__cmdkApplyLang = applyPaletteLang;
+
+    let activeIdx = 0;
+    let filtered = [];
+    let lastFocus = null;
+
+    function render() {
+        list.innerHTML = filtered.map((c, i) =>
+            `<li class="cmdk-item${i === activeIdx ? " is-active" : ""}" role="option" data-id="${c.id}" tabindex="-1" aria-selected="${i === activeIdx}">
+                ${c.icon}
+                <span class="cmdk-item-label">${c.label}</span>
+                <span class="cmdk-item-hint">${c.hint || ""}</span>
+            </li>`).join("");
+        empty.hidden = filtered.length > 0;
+    }
+    function filter(q) {
+        const all = commands();
+        if (!q) { filtered = all; }
+        else {
+            const norm = q.toLowerCase();
+            filtered = all.filter(c => c.label.toLowerCase().includes(norm) || (c.hint && c.hint.toLowerCase().includes(norm)));
+        }
+        activeIdx = 0;
+        render();
+    }
+    function open() {
+        lastFocus = document.activeElement;
+        overlay.classList.add("open");
+        overlay.setAttribute("aria-hidden", "false");
+        input.value = "";
+        filter("");
+        setTimeout(() => input.focus(), 30);
+        document.body.style.overflow = "hidden";
+    }
+    function close() {
+        overlay.classList.remove("open");
+        overlay.setAttribute("aria-hidden", "true");
+        document.body.style.overflow = "";
+        if (lastFocus && lastFocus.focus) lastFocus.focus();
+    }
+    function run(cmd) {
+        close();
+        setTimeout(() => { try { cmd.run(); } catch(e) { console.warn("cmd failed", e); } }, 30);
+    }
+
+    /* Initial language pass — runs once when palette is set up. */
+    applyPaletteLang();
+
+    trigger && trigger.addEventListener("click", open);
+    document.addEventListener("keydown", e => {
+        const isOpen = overlay.classList.contains("open");
+        if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+            e.preventDefault();
+            isOpen ? close() : open();
+            return;
+        }
+        if (!isOpen) return;
+        if (e.key === "Escape") { e.preventDefault(); close(); return; }
+        if (e.key === "ArrowDown") { e.preventDefault(); activeIdx = Math.min(filtered.length - 1, activeIdx + 1); render(); scrollActiveIntoView(); return; }
+        if (e.key === "ArrowUp")   { e.preventDefault(); activeIdx = Math.max(0, activeIdx - 1); render(); scrollActiveIntoView(); return; }
+        if (e.key === "Enter")     { e.preventDefault(); if (filtered[activeIdx]) run(filtered[activeIdx]); return; }
+    });
+    function scrollActiveIntoView() {
+        const el = list.querySelector(".cmdk-item.is-active");
+        if (el && el.scrollIntoView) el.scrollIntoView({ block: "nearest" });
+    }
+    input.addEventListener("input", e => filter(e.target.value));
+    list.addEventListener("click", e => {
+        const li = e.target.closest(".cmdk-item");
+        if (!li) return;
+        const cmd = filtered.find(c => c.id === li.dataset.id);
+        if (cmd) run(cmd);
+    });
+    overlay.addEventListener("click", e => { if (e.target === overlay) close(); });
+}
+
+/* Helpers used by the command palette and contact section. */
+function downloadFile(href, suggestedName) {
+    const a = document.createElement("a");
+    a.href = href; a.download = suggestedName || "";
+    document.body.appendChild(a); a.click(); a.remove();
+}
+function copyToClipboard(text, toastMsg) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => showToast(toastMsg || "Copied"));
+    } else {
+        const ta = document.createElement("textarea");
+        ta.value = text; document.body.appendChild(ta);
+        ta.select(); try { document.execCommand("copy"); showToast(toastMsg || "Copied"); } catch(e){}
+        ta.remove();
+    }
+}
+/* downloadVCard() removed — user opted not to expose a vCard download. */
+async function sharePortfolio() {
+    const shareData = {
+        title: "Hashwanth Ghanta — Portfolio",
+        text: "Backend / iOS / Unity simulation developer. Available Q2 2026 (Werkstudent, Germany).",
+        url:  "https://hashwanthghanta.github.io/",
+    };
+    if (navigator.share) {
+        try { await navigator.share(shareData); } catch(e) { /* user cancelled */ }
+    } else {
+        copyToClipboard(shareData.url, "Link copied — share didn't open natively");
+    }
+}
+function showToast(msg) {
+    let t = document.getElementById("toast-stack");
+    if (!t) {
+        t = document.createElement("div");
+        t.id = "toast-stack";
+        t.setAttribute("role", "status");
+        t.setAttribute("aria-live", "polite");
+        t.style.cssText = "position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);z-index:10000;display:flex;flex-direction:column;gap:0.5rem;pointer-events:none;";
+        document.body.appendChild(t);
+    }
+    const el = document.createElement("div");
+    el.textContent = msg;
+    el.style.cssText = "background:rgba(15,23,42,0.95);color:#fff;padding:0.6rem 1.1rem;border-radius:9999px;font-size:0.85rem;border:1px solid rgba(103,232,249,0.4);box-shadow:0 8px 24px rgba(0,0,0,0.4);";
+    t.appendChild(el);
+    setTimeout(() => { el.style.transition = "opacity .4s ease, transform .4s ease"; el.style.opacity = "0"; el.style.transform = "translateY(8px)"; }, 1800);
+    setTimeout(() => el.remove(), 2400);
+}
+
+/* ============================================================
+   MAGNETIC BUTTONS — hero CTAs pull slightly toward the cursor
+============================================================ */
+function setupMagneticButtons() {
+    if (REDUCED) return;
+    if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+    const targets = $$(".resume-btn, .projects-btn, .contact-btn").filter(el => el.closest(".hero-cta-row"));
+    targets.forEach(el => {
+        el.style.transition = (el.style.transition || "") + ", transform 0.2s var(--ease-out)";
+        el.addEventListener("mousemove", e => {
+            const r = el.getBoundingClientRect();
+            const x = e.clientX - (r.left + r.width / 2);
+            const y = e.clientY - (r.top + r.height / 2);
+            el.style.transform = `translate(${x * 0.12}px, ${y * 0.18}px)`;
+        });
+        el.addEventListener("mouseleave", () => { el.style.transform = ""; });
+    });
+}
 
 /* ============================================================
    LOADING CURTAIN & STAGGERED HERO ENTRANCE
@@ -3759,7 +4792,7 @@ function setupScrollProgress() {
         bar.style.width = scrolled + "%";
     };
     update();
-    window.addEventListener("scroll", update, { passive: true });
+    __scrollBus.add(update);
 }
 
 /* ============================================================
@@ -3772,7 +4805,7 @@ function setupNavbarScroll() {
         nav.classList.toggle("scrolled", window.scrollY > 40);
     };
     update();
-    window.addEventListener("scroll", update, { passive: true });
+    __scrollBus.add(update);
 }
 
 /* ============================================================
@@ -3801,7 +4834,7 @@ function setupGhostParallax() {
         });
     };
     update();
-    window.addEventListener("scroll", update, { passive: true });
+    __scrollBus.add(update);
 }
 
 /* ============================================================
@@ -3911,8 +4944,23 @@ function init() {
     $$(".lang-btn").forEach(b => b.classList.toggle("active", b.getAttribute("data-lang") === currentLang));
     applyI18n(currentLang);
 
-    /* Render dynamic sections */
-    renderMarquee();
+    /* Sync footer secondary-page links + resume PDF with persisted lang */
+    (function(){
+        const footerNow  = document.getElementById("footer-now");
+        const footerUses = document.getElementById("footer-uses");
+        const footerCo2  = document.getElementById("footer-co2");
+        if (footerNow)  footerNow.href  = currentLang === "de" ? "now-de.html"  : "now.html";
+        if (footerUses) footerUses.href = currentLang === "de" ? "uses-de.html" : "uses.html";
+        if (footerCo2)  footerCo2.href  = currentLang === "de" ? "projects/co2-simulation-de.html" : "projects/co2-simulation.html";
+        const resumeBtn = document.getElementById("resume-btn");
+        if (resumeBtn && currentLang === "de") {
+            resumeBtn.href = "lebenslauf.pdf";
+            resumeBtn.download = "Hashwanth_Ghanta_Lebenslauf.pdf";
+            resumeBtn.setAttribute("aria-label", "Lebenslauf herunterladen (PDF)");
+        }
+    })();
+
+    /* Render dynamic sections (marquee removed) */
     renderHeroSkills(currentLang);
     renderServices(currentLang);
     renderProjects(currentLang);
@@ -3937,11 +4985,14 @@ function init() {
     setupAnimatedText();
     setupStickyStack();
     setupContactForm();
+    setupContactQuickActions();
     setupBackToTop();
     setupGhostNumbers();
     setupSectionNav();
-    setupPortraitCursor();
     setupHeroParallax();
+    setupCommandPalette();
+    setupMagneticButtons();
+    setupLiveWidgets();
 
     /* Footer year */
     const fy = $("#footer-year");
