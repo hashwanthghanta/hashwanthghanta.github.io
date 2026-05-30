@@ -86,14 +86,17 @@ function renderProjects(lang) {
         const stickyTop = 80 + i * 28;
         /* Build left column — real images if available, otherwise the inline SVG mockup. */
         let leftHtml;
+        const previewOverlay = p.previewSrc
+            ? `<div class="pc-preview-overlay" aria-hidden="true"><img src="${p.previewSrc}" alt="" loading="lazy" decoding="async"></div>`
+            : "";
         if (p.img1 && p.img2) {
             leftHtml = `
                 <div class="pc-col-left">
-                    <div class="pc-img top"><img src="${p.img1}" width="800" height="450" alt="" loading="lazy" decoding="async"></div>
+                    <div class="pc-img top">${previewOverlay}<img src="${p.img1}" width="800" height="450" alt="" loading="lazy" decoding="async"></div>
                     <div class="pc-img bottom"><img src="${p.img2}" width="800" height="450" alt="" loading="lazy" decoding="async"></div>
                 </div>`;
         } else if (p.img1) {
-            leftHtml = `<div class="pc-img solo tall"><img src="${p.img1}" width="800" height="900" alt="" loading="lazy" decoding="async"></div>`;
+            leftHtml = `<div class="pc-img solo tall">${previewOverlay}<img src="${p.img1}" width="800" height="900" alt="" loading="lazy" decoding="async"></div>`;
         } else if (p.svg && PROJ_SVG[p.svg]) {
             leftHtml = `<div class="pc-img svg-mock solo tall" aria-hidden="true">${PROJ_SVG[p.svg]}</div>`;
         } else {
@@ -316,7 +319,16 @@ function setLanguage(lang) {
         currentLang = lang;
         try { localStorage.setItem("lang", lang); } catch(e){}
         document.documentElement.lang = lang;
-        $$(".lang-btn").forEach(b => b.classList.toggle("active", b.getAttribute("data-lang") === lang));
+        $$(".lang-btn").forEach(b => {
+            const isActive = b.getAttribute("data-lang") === lang;
+            b.classList.toggle("active", isActive);
+            b.setAttribute("aria-pressed", isActive ? "true" : "false");
+            if (isActive) {
+                b.setAttribute("aria-label", lang === "de" ? "Deutsch (aktuelle Sprache)" : "English (current language)");
+            } else {
+                b.setAttribute("aria-label", lang === "de" ? "Switch to English" : "Auf Deutsch umschalten");
+            }
+        });
         applyI18n(lang);
         renderHeroSkills(lang);
         renderServices(lang);
@@ -348,6 +360,8 @@ function setLanguage(lang) {
         setupStickyStack();
         /* Command palette — relocalize placeholder, empty state, trigger label, and visible list. */
         if (typeof window.__cmdkApplyLang === "function") window.__cmdkApplyLang();
+        /* Announce language change for screen readers */
+        showToast(lang === "de" ? "Sprache: Deutsch" : "Language: English");
     });
 }
 window.setLanguage = setLanguage;
@@ -364,6 +378,7 @@ function applyTheme(theme) {
         tt.setAttribute("aria-pressed", currentTheme === "light" ? "true" : "false");
         tt.setAttribute("aria-label", currentTheme === "light" ? "Switch to dark theme" : "Switch to light theme");
         try { localStorage.setItem("theme", currentTheme); } catch(e){}
+        showToast(currentTheme === "light" ? "Light theme" : "Dark theme");
     });
 }
 $("#theme-toggle").addEventListener("click", () => applyTheme(currentTheme === "light" ? "dark" : "light"));
@@ -411,7 +426,7 @@ function setupAnimatedText() {
         const sp = document.createElement("span");
         sp.className = "char";
         sp.textContent = ch;
-        sp.style.opacity = REDUCED ? "1" : "0.55";
+        sp.style.opacity = REDUCED ? "1" : "0.70";
         frag.appendChild(sp);
     }
     wrap.appendChild(frag);
@@ -427,9 +442,9 @@ function setupAnimatedText() {
         const n = chars.length;
         const cursor = prog * n;
         chars.forEach((c, i) => {
-            /* Floor at 0.55 → composites above AA threshold even mid-scroll */
+            /* Floor at 0.70 → AA contrast at 1.2rem on dark bg */
             const localProg = Math.min(1, Math.max(0, cursor - i));
-            const opacity = 0.55 + 0.45 * localProg;
+            const opacity = 0.70 + 0.30 * localProg;
             c.style.opacity = opacity.toFixed(3);
         });
     }
@@ -492,7 +507,8 @@ function openDrawer() {
     if (drawerEl.classList.contains("open")) return;
     drawerLastFocused = document.activeElement;
     drawerEl.classList.add("open"); drawerOvEl.classList.add("open"); hamburger.classList.add("open");
-    drawerEl.setAttribute("aria-hidden","false"); drawerOvEl.setAttribute("aria-hidden","false");
+    drawerEl.setAttribute("aria-hidden","false"); drawerEl.removeAttribute("inert");
+    drawerOvEl.setAttribute("aria-hidden","false");
     hamburger.setAttribute("aria-expanded","true");
     hamburger.setAttribute("aria-label","Close menu");
     document.body.style.overflow = "hidden";
@@ -502,7 +518,8 @@ function openDrawer() {
 function closeDrawer() {
     if (!drawerEl.classList.contains("open")) return;
     drawerEl.classList.remove("open"); drawerOvEl.classList.remove("open"); hamburger.classList.remove("open");
-    drawerEl.setAttribute("aria-hidden","true"); drawerOvEl.setAttribute("aria-hidden","true");
+    drawerEl.setAttribute("aria-hidden","true"); drawerEl.inert = true;
+    drawerOvEl.setAttribute("aria-hidden","true");
     hamburger.setAttribute("aria-expanded","false");
     hamburger.setAttribute("aria-label","Open menu");
     document.body.style.overflow = "";
@@ -537,6 +554,7 @@ function projModalFocusables() {
 function closeProjectModal() {
     modalEl.classList.remove("open");
     modalEl.setAttribute("aria-hidden","true");
+    modalEl.inert = true;
     document.body.style.overflow = "";
     document.body.classList.remove("modal-open");
     if (projModalLastFocused && projModalLastFocused.focus) projModalLastFocused.focus();
@@ -577,6 +595,7 @@ function openProjectModal(index) {
     }
     modalEl.classList.add("open");
     modalEl.setAttribute("aria-hidden","false");
+    modalEl.removeAttribute("inert");
     document.body.style.overflow = "hidden";
     document.body.classList.add("modal-open");
     setTimeout(() => modalCloseBtn.focus(), 30);
@@ -610,6 +629,10 @@ function setupContactForm() {
     if (!form) return;
     form.addEventListener("submit", async e => {
         e.preventDefault();
+        /* Honeypot check — bots fill the hidden website field */
+        const honeypot = form.querySelector('[name="website"]');
+        if (honeypot && honeypot.value) return;
+        if (!form.checkValidity()) { form.reportValidity(); return; }
         const d = DATA[currentLang];
         status.className = "contact-form-status";
         status.textContent = currentLang === "de" ? "Wird gesendet…" : "Sending…";
@@ -958,15 +981,19 @@ function setupCommandPalette() {
         lastFocus = document.activeElement;
         overlay.classList.add("open");
         overlay.setAttribute("aria-hidden", "false");
+        overlay.removeAttribute("inert");
         input.value = "";
         filter("");
         setTimeout(() => input.focus(), 30);
         document.body.style.overflow = "hidden";
+        document.querySelectorAll("nav.topnav, main > section, footer.site-footer").forEach(el => { el.setAttribute("aria-hidden", "true"); el.inert = true; });
     }
     function close() {
         overlay.classList.remove("open");
         overlay.setAttribute("aria-hidden", "true");
+        overlay.inert = true;
         document.body.style.overflow = "";
+        document.querySelectorAll("nav.topnav, main > section, footer.site-footer").forEach(el => { el.removeAttribute("aria-hidden"); el.inert = false; });
         if (lastFocus && lastFocus.focus) lastFocus.focus();
     }
     function run(cmd) {
@@ -1073,6 +1100,46 @@ function setupMagneticButtons() {
 /* ============================================================
    LOADING CURTAIN & STAGGERED HERO ENTRANCE
    ============================================================ */
+/* ============================================================
+   OPTION D — HERO NAME CHARACTER ENTRANCE
+   Splits #hero-h1 into per-character <span> elements.
+   sr-only full text stays for AT. Characters stagger in via
+   CSS animation triggered by #hero-h1.chars-in class.
+============================================================ */
+function setupHeroCharSplit() {
+    if (REDUCED) return;
+    const h1 = document.getElementById("hero-h1");
+    if (!h1) return;
+    const text = h1.textContent.trim();
+    h1.innerHTML = "";
+
+    /* Accessible fallback: full text read as one string by AT */
+    const sr = document.createElement("span");
+    sr.className = "sr-only";
+    sr.textContent = text;
+    h1.appendChild(sr);
+
+    /* Animated char layer — fully aria-hidden */
+    const wrap = document.createElement("span");
+    wrap.setAttribute("aria-hidden", "true");
+    wrap.className = "hero-char-wrap";
+
+    let charIndex = 0;
+    for (const ch of text) {
+        if (ch === " ") {
+            /* Preserve word spaces as text nodes — no animation needed */
+            wrap.appendChild(document.createTextNode(" "));
+        } else {
+            const sp = document.createElement("span");
+            sp.className = "hero-char";
+            sp.style.setProperty("--i", charIndex++);
+            sp.textContent = ch;
+            wrap.appendChild(sp);
+        }
+    }
+    h1.appendChild(wrap);
+}
+
 function triggerHeroEntrance() {
     if (REDUCED) {
         document.querySelectorAll('.hero-stagger').forEach(el => el.classList.add('in'));
@@ -1084,33 +1151,53 @@ function triggerHeroEntrance() {
             el.classList.add('in');
         }, index * 150);
     });
+    /* Option D: fire char entrance after the headline has faded in (~600ms transition) */
+    setTimeout(() => {
+        const h1 = document.getElementById("hero-h1");
+        if (h1) h1.classList.add("chars-in");
+    }, 650);
 }
 
 function setupLoadingCurtain() {
     const curtain = document.getElementById("loading-curtain");
     if (!curtain) return;
 
+    /* Respect prefers-reduced-motion — skip curtain immediately */
+    if (REDUCED) {
+        curtain.classList.add("hide");
+        triggerHeroEntrance();
+        return;
+    }
+
     let loadFired = false;
     let minTimeFired = false;
+    let dismissed = false;
 
-    const tryHide = () => {
-        if (!loadFired || !minTimeFired) return;
+    const hide = () => {
+        if (dismissed) return;
+        dismissed = true;
         curtain.classList.add("hide");
         setTimeout(triggerHeroEntrance, 450);
     };
 
+    const tryHide = () => {
+        if (!loadFired || !minTimeFired) return;
+        hide();
+    };
+
+    /* Escape key — let impatient users skip the curtain */
+    const escHandler = (e) => {
+        if (e.key === "Escape") { document.removeEventListener("keydown", escHandler); hide(); }
+    };
+    document.addEventListener("keydown", escHandler);
+
     window.addEventListener("load", () => { loadFired = true; tryHide(); });
 
-    // Minimum display: 3100ms (0.6s bar-start delay + 2.4s animation + 100ms buffer)
-    setTimeout(() => { minTimeFired = true; tryHide(); }, 3100);
+    // Minimum display: 1500ms — enough for mobile to render, respects user's time
+    setTimeout(() => { minTimeFired = true; tryHide(); }, 1500);
 
     // Hard failsafe: never block past 6s on very slow connections
-    setTimeout(() => {
-        if (!curtain.classList.contains("hide")) {
-            curtain.classList.add("hide");
-            setTimeout(triggerHeroEntrance, 450);
-        }
-    }, 6000);
+    setTimeout(() => hide(), 6000);
 }
 
 /* ============================================================
@@ -1217,17 +1304,12 @@ function setupStatsCounter() {
                 const statVals = document.querySelectorAll(".about-stat-val");
                 statVals.forEach(val => {
                     const text = val.textContent.trim();
-                    const num = parseInt(text, 10);
-                    if (!isNaN(num) && num < 1000) {
-                        animateCounter(val, num, 1500);
-                    } else {
-                        val.style.opacity = "0";
-                        val.style.transform = "translateY(15px)";
-                        val.style.transition = "opacity 0.8s ease, transform 0.8s ease";
-                        setTimeout(() => {
-                            val.style.opacity = "1";
-                            val.style.transform = "translateY(0)";
-                        }, 200);
+                    /* Strip non-digit prefix/suffix (e.g. "55+" → target=55, suffix="+"; "1,000+" → target=1000, suffix="+") */
+                    const numStr = text.replace(/,/g, "").replace(/[^0-9]/g, "");
+                    const suffix = text.replace(/[0-9,]/g, "");
+                    const num = parseInt(numStr, 10);
+                    if (!isNaN(num) && num > 0) {
+                        animateCounter(val, num, 1500, suffix);
                     }
                 });
                 observer.unobserve(entry.target);
@@ -1238,17 +1320,18 @@ function setupStatsCounter() {
     observer.observe(statsSection);
 }
 
-function animateCounter(el, target, duration = 1200) {
+function animateCounter(el, target, duration = 1200, suffix = "") {
     let start = null;
+    const fmt = target >= 1000 ? n => n.toLocaleString("en-US") : n => String(n);
     const step = (ts) => {
         if (!start) start = ts;
         const progress = Math.min((ts - start) / duration, 1);
         const eased = 1 - Math.pow(1 - progress, 3);
-        el.textContent = Math.round(target * eased);
+        el.textContent = fmt(Math.round(target * eased)) + suffix;
         if (progress < 1) {
             requestAnimationFrame(step);
         } else {
-            el.textContent = target;
+            el.textContent = fmt(target) + suffix;
         }
     };
     requestAnimationFrame(step);
@@ -1303,7 +1386,9 @@ function setupEasterEggs() {
     const sequence = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "b", "a"];
     let kIndex = 0;
     document.addEventListener("keydown", (e) => {
-        if (["INPUT", "TEXTAREA", "SELECT"].includes(document.activeElement.tagName)) return;
+        const tag = document.activeElement.tagName;
+        if (["INPUT", "TEXTAREA", "SELECT"].includes(tag)) return;
+        if (document.activeElement.isContentEditable) return;
         const key = e.key;
         if (key === sequence[kIndex]) {
             kIndex++;
@@ -1317,7 +1402,7 @@ function setupEasterEggs() {
                 );
                 document.body.style.transition = "transform 2s ease-in-out";
                 document.body.style.transform = "translateY(-10px) rotate(0.5deg)";
-                setTimeout(() => { document.body.style.transform = ""; }, 4000);
+                setTimeout(() => { document.body.style.transform = ""; document.body.style.transition = ""; }, 4000);
             }
         } else {
             kIndex = (key === sequence[0]) ? 1 : 0;
@@ -1328,6 +1413,7 @@ function setupEasterEggs() {
     let inputBuffer = "";
     document.addEventListener("keydown", (e) => {
         if (["INPUT", "TEXTAREA", "SELECT"].includes(document.activeElement.tagName)) return;
+        if (document.activeElement.isContentEditable) return;
         if (e.key.length === 1) {
             inputBuffer += e.key.toLowerCase();
             if (inputBuffer.endsWith("/hire")) {
@@ -1374,6 +1460,9 @@ function init() {
         }
     })();
 
+    /* Option D: split hero h1 into per-character spans before first render */
+    setupHeroCharSplit();
+
     /* Render dynamic sections (marquee removed) */
     renderHeroSkills(currentLang);
     renderServices(currentLang);
@@ -1412,7 +1501,17 @@ function init() {
     /* PWA Service Worker Registration */
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-            navigator.serviceWorker.register('/sw.js')
+            navigator.serviceWorker.register('./sw.js')
+                .then(reg => {
+                    reg.addEventListener('updatefound', () => {
+                        const newWorker = reg.installing;
+                        newWorker.addEventListener('statechange', () => {
+                            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                showToast('Portfolio updated — refresh to see the latest version');
+                            }
+                        });
+                    });
+                })
                 .catch(err => console.warn('Service worker registration failed:', err));
         });
     }

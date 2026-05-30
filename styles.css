@@ -59,6 +59,12 @@
     --service-border: rgba(12,12,12,0.15);
     --ease:        cubic-bezier(0.25,0.1,0.25,1);
     --ease-out:    cubic-bezier(0.22,1,0.36,1);
+    /* Motion system — unified durations + easings for transition cohesion */
+    --dur-fast:        0.18s;
+    --dur-base:        0.3s;
+    --dur-slow:        0.6s;
+    --ease-standard:   cubic-bezier(0.4, 0, 0.2, 1);
+    --ease-emphasized: cubic-bezier(0.22, 1, 0.36, 1);
 }
 /* Light-mode visibility fixes for sage/cyan-tinted UI elements */
 body[data-theme="light"] .skill-proof-note { color: rgba(12,12,12,0.62); }
@@ -178,6 +184,19 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
     z-index: 99999; transition: top 0.2s ease;
 }
 .skip-link:focus { top: 0; }
+/* P3: #main is the skip-link target (tabindex=-1). Suppress the large outline box on programmatic focus. */
+#main:focus { outline: none; }
+
+/* Themed custom scrollbar (theme-aware via surface tokens; webkit + firefox) */
+* { scrollbar-width: thin; scrollbar-color: var(--color-surface-2) var(--color-surface-1); }
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--color-surface-1); }
+::-webkit-scrollbar-thumb {
+    background: var(--color-surface-2);
+    border: 2px solid var(--color-surface-1);
+    border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--color-accent-cool); }
 
 /* Focus-visible: high-contrast yellow ring works on dark AND light */
 :focus-visible { outline: 2.5px solid var(--focus-ring); outline-offset: 3px; border-radius: 4px; }
@@ -260,7 +279,7 @@ body[data-theme="light"] .nav-logo-mark .hg-dot-fill {
     text-transform: uppercase;
     letter-spacing: 0.08em;
     padding: 0.3rem 0;
-    transition: color 0.25s ease;
+    transition: color var(--dur-base) var(--ease-standard);
 }
 .nav-links a::after {
     content: '';
@@ -287,7 +306,7 @@ body[data-theme="light"] .nav-links a:hover { color: #0c4a6e; }
     color: var(--text);
     display: inline-flex; align-items: center; justify-content: center;
     font-size: 0.95rem;
-    transition: background 0.2s ease, border-color 0.2s ease;
+    transition: background var(--dur-fast) var(--ease-standard), border-color var(--dur-fast) var(--ease-standard);
 }
 body[data-theme="light"] .icon-btn { background: rgba(255,255,255,0.7); }
 .icon-btn:hover { background: rgba(20,20,20,0.8); }
@@ -299,7 +318,7 @@ body[data-theme="light"] .icon-btn:hover { background: rgba(255,255,255,0.95); }
     font-size: 0.78rem; font-weight: 600;
     border: 1px solid var(--border-soft);
     background: transparent; color: var(--text-dim);
-    transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+    transition: color var(--dur-fast) var(--ease-standard), background var(--dur-fast) var(--ease-standard), border-color var(--dur-fast) var(--ease-standard);
 }
 .lang-btn .lang-flag { font-size: 1rem; line-height: 1; }
 .lang-btn:hover { color: var(--text); }
@@ -327,6 +346,13 @@ body[data-theme="light"] .lang-btn.active { background: rgba(12,12,12,0.08); }
 @media (prefers-reduced-motion: no-preference) {
     .hamburger .icon-menu, .hamburger .icon-x {
         transition: opacity 0.3s ease, transform 0.3s var(--ease-out);
+    }
+}
+/* M5: lighter backdrop blur on nav chrome at small screens to ease mobile GPU cost (hero untouched) */
+@media (max-width: 768px) {
+    .icon-btn, .hamburger {
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
     }
 }
 
@@ -417,7 +443,7 @@ section#hero {
     aspect-ratio: 4 / 5;
     border-radius: 28px;
     background: var(--bg-elev);
-    box-shadow: 0 30px 80px rgba(0,0,0,0.55);
+    box-shadow: 0 30px 80px rgba(0,0,0,0.55), 0 0 48px rgba(8,145,178,0.16);
     isolation: isolate;
     transform: translate(var(--hero-photo-left), var(--hero-photo-top));
 }
@@ -437,11 +463,16 @@ section#hero {
     .hero-portrait-wrap::before { animation: portraitRing 8s linear infinite; }
 }
 @keyframes portraitRing { to { transform: rotate(360deg); } }
+.hero-portrait-clip {
+    position: absolute;
+    inset: 0;
+    border-radius: 28px;
+    overflow: hidden;
+}
 .hero-portrait-wrap img {
     position: relative;
     width: 100%; height: 100%;
     object-fit: cover; object-position: 50% 22%;
-    border-radius: 28px;
     display: block;
 }
 .hero-right {
@@ -548,7 +579,8 @@ section { position: relative; display: block; width: 100%; }
 }
 @media (prefers-reduced-motion: no-preference) {
     .hero-skills-track { animation: heroChipsScroll 38s linear infinite; }
-    .hero-skills-track-wrap:hover .hero-skills-track { animation-play-state: paused; }
+    .hero-skills-track-wrap:hover .hero-skills-track,
+    .hero-skills-track-wrap:focus-within .hero-skills-track { animation-play-state: paused; }
 }
 @keyframes heroChipsScroll {
     from { transform: translate3d(-33.3333%, 0, 0); }
@@ -1195,6 +1227,32 @@ body[data-theme="light"] .pc-featured-ribbon {
 .pc-img img { width: 100%; height: 100%; object-fit: cover; }
 .pc-img.svg-mock { padding: 0; }
 .pc-img.svg-mock svg { width: 100%; height: 100%; display: block; }
+/* Light theme: keep the device-mockup panel dark so it reads as an intentional screen preview.
+   The SVG foreground is low-opacity cyan/white (designed for a dark bg), so we frame the dark
+   panel rather than letting white letterbox bands clash with the cream surface. */
+body[data-theme="light"] .pc-img.svg-mock { background: #0d1117; }
+
+/* Availability / work-status / languages callout (About section) */
+.creds-callout {
+    margin: 1.25rem 0;
+    max-width: 580px;
+    border: 1px solid var(--border-soft);
+    border-radius: 16px;
+    background: var(--bg-elev);
+    padding: 0.25rem 1.1rem;
+}
+.creds-row {
+    display: flex; flex-wrap: wrap; gap: 0.2rem 1.1rem;
+    padding: 0.7rem 0;
+    border-bottom: 1px solid var(--border-soft);
+}
+.creds-row:last-child { border-bottom: none; }
+.creds-lbl {
+    font-family: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--text-dim); min-width: 96px;
+}
+.creds-val { font-size: 0.92rem; font-weight: 500; color: var(--text); }
 .pc-details {
     border-radius: 24px;
     border: 1px solid var(--border-soft);
@@ -1680,7 +1738,7 @@ body[data-theme="light"] .contact-form textarea { background: rgba(255,255,255,0
 @media (max-width: 768px) { .section-nav { display: none; } }
 .sn-dot {
     position: relative;
-    width: 24px; height: 24px;
+    width: 32px; height: 32px;
     background: transparent;
     border: 0; padding: 0;
     cursor: pointer;
@@ -1876,7 +1934,7 @@ body[data-theme="light"] .mobile-drawer { background: rgba(245,242,236,0.98); co
 }
 .project-modal-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; margin-bottom: 1rem; }
 .project-modal-sub { font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 0.4rem; }
-.project-modal-title { font-weight: 700; font-size: 1.5rem; line-height: 1.1; }
+h2.project-modal-title { font-weight: 700; font-size: 1.5rem; line-height: 1.1; }
 .modal-close {
     font-size: 1.1rem; color: var(--text);
     width: 38px; height: 38px;
@@ -2169,16 +2227,8 @@ body[data-theme="light"] .cmdk-item:hover, body[data-theme="light"] .cmdk-item.i
     .hero-stagger { opacity: 1 !important; transform: none !important; }
 }
 
-/* 5. Hero Portrait Breathing Glow */
-@media (prefers-reduced-motion: no-preference) {
-    .hero-portrait-wrap {
-        animation: portraitBreathe 4s ease-in-out infinite;
-    }
-    @keyframes portraitBreathe {
-        0%, 100% { box-shadow: 0 30px 80px rgba(0,0,0,0.55), 0 0 40px rgba(8,145,178,0.12); }
-        50% { box-shadow: 0 30px 80px rgba(0,0,0,0.55), 0 0 60px rgba(8,145,178,0.25); }
-    }
-}
+/* 5. Hero Portrait Glow — breathing loop removed (M1: single signature motion = the rotating ring).
+   Static cyan glow folded into .hero-portrait-wrap box-shadow. */
 
 /* 6. Enhanced Section Reveals */
 @media (prefers-reduced-motion: no-preference) {
@@ -2576,4 +2626,140 @@ body[data-theme='light'] .service-item:hover {
     .project-card-frame:nth-child(5) .pc-name {
         font-size: 1.35rem;
     }
+}
+
+/* ── Scroll-padding: prevents fixed navbar from obscuring anchor targets (WCAG 2.4.11) ── */
+html {
+    scroll-padding-top: 96px;
+}
+section[id] {
+    scroll-margin-top: 96px;
+}
+
+/* ── Section nav + back-to-top: prevent collision on short viewports ── */
+@media (max-height: 720px) {
+    .section-nav { bottom: 4.5rem; }
+    .back-to-top  { bottom: 1rem; }
+}
+
+/* ── Forced Colors (Windows High Contrast) ── */
+@media (forced-colors: active) {
+    /* Gradient-clip text patterns become invisible in HC — restore as flat color */
+    .hero-headline,
+    h2.about-title, h2.projects-title, h2.skills-title, h2.track-title,
+    h2.edu-title, h2.contact-title, h2.services-title {
+        background: none !important;
+        -webkit-text-fill-color: ButtonText !important;
+        color: ButtonText !important;
+    }
+    /* Focus rings must use the HC focus keyword */
+    :focus-visible {
+        outline: 3px solid ButtonText !important;
+        outline-offset: 2px !important;
+    }
+    /* Ensure borders are visible in HC */
+    .project-card, .skill-card, .edu-card, .contact-card, .service-item {
+        border: 1px solid ButtonText;
+    }
+    /* Loading curtain bars */
+    .curtain-bar { background: ButtonText !important; }
+    /* Section dots */
+    .sn-dot::before { border-color: ButtonText !important; }
+    .sn-dot.active::before { background: Highlight !important; }
+}
+
+/* ── Prefers-Contrast: High (macOS / Windows setting) ── */
+@media (prefers-contrast: more) {
+    :root {
+        --color-text-muted: rgba(215,226,234,0.92);
+        --border-soft: rgba(215,226,234,0.45);
+    }
+    body[data-theme="light"] {
+        --color-text-muted: rgba(12,12,12,0.92);
+    }
+    .hero-open-badge {
+        border-width: 2px;
+    }
+    .project-card, .skill-card, .edu-card, .contact-card {
+        border-width: 2px;
+    }
+    .about-stat-val {
+        color: var(--color-accent-cool) !important;
+    }
+}
+
+/* ── Content visibility — lazy render off-screen sections ── */
+#projects, #skills, #track, #education, #contact {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 600px;
+}
+
+/* ══════════════════════════════════════════════════════════
+   OPTION B — Ken Burns slow zoom on hero portrait (desktop)
+   Applied only at ≥861px so iOS nuclear fix (≤860px) is
+   completely untouched. Pure CSS, no JS gate needed.
+   ══════════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion: no-preference) and (min-width: 861px) {
+    .hero-portrait-clip img {
+        animation: kenBurns 22s ease-in-out alternate infinite;
+        transform-origin: 50% 20%;
+    }
+}
+@keyframes kenBurns {
+    from { transform: scale(1); }
+    to   { transform: scale(1.07); }
+}
+
+/* ══════════════════════════════════════════════════════════
+   OPTION C — Project card GIF/video preview overlay
+   Fades in on hover and focus-within (pointer devices only).
+   Opacity transition wrapped in prefers-reduced-motion.
+   ══════════════════════════════════════════════════════════ */
+.pc-img {
+    position: relative;
+}
+.pc-preview-overlay {
+    position: absolute; inset: 0; z-index: 1;
+    opacity: 0;
+    pointer-events: none;
+    border-radius: inherit;
+    overflow: hidden;
+}
+.pc-preview-overlay img,
+.pc-preview-overlay video {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+}
+@media (prefers-reduced-motion: no-preference) {
+    .pc-preview-overlay {
+        transition: opacity 0.45s ease;
+    }
+}
+@media (hover: hover) {
+    .project-card:hover .pc-preview-overlay,
+    .project-card:focus-within .pc-preview-overlay {
+        opacity: 1;
+    }
+}
+
+/* ══════════════════════════════════════════════════════════
+   OPTION D — Hero name character entrance
+   Each .hero-char starts invisible. When #hero-h1.chars-in
+   is added (by triggerHeroEntrance + 650ms delay), chars
+   stagger in using their --i CSS custom property.
+   Space text nodes are not wrapped, so word spacing is natural.
+   ══════════════════════════════════════════════════════════ */
+.hero-char {
+    opacity: 0;
+}
+@media (prefers-reduced-motion: no-preference) {
+    #hero-h1.chars-in .hero-char {
+        animation: charReveal 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+        animation-delay: calc(var(--i) * 0.065s);
+    }
+}
+@keyframes charReveal {
+    from { opacity: 0; }
+    to   { opacity: 1; }
 }

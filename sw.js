@@ -1,7 +1,10 @@
-const CACHE_NAME = 'hg-portfolio-v1';
+const CACHE_NAME = 'hg-portfolio-v3';
 const ASSETS = [
     '/',
     '/index.html',
+    '/styles.css',
+    '/data.js',
+    '/app.js',
     '/now.html',
     '/now-de.html',
     '/uses.html',
@@ -14,6 +17,9 @@ const ASSETS = [
     '/projects/iot-helmet-de.html',
     '/manifest.webmanifest',
     '/Images/hash.jpeg',
+    '/Images/hash-850.jpg',
+    '/Images/hash-avatar.jpg',
+    '/Images/hash2.jpeg',
     '/Images/favicon/icon-16.png',
     '/Images/favicon/icon-32.png',
     '/Images/favicon/icon-180.png',
