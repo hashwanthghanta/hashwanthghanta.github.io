@@ -27,11 +27,13 @@
     if (!mount || !card || !rope) return;
 
     var FINE = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-    function DESKTOP() { return !window.matchMedia("(max-width: 980px)").matches; }
+    /* The lanyard now hangs + drags on MOBILE too (touch). Only reduced-motion
+       falls back to a static card — handled by the early return below. */
+    function ACTIVE() { return true; }
 
-    /* When the card is non-interactive (reduced motion, or mobile where CSS
-       forces it static), remove ALL interaction affordance: a focusable
-       element with a "drag me" hint that does nothing is worse than none. */
+    /* When the card is non-interactive (reduced motion), remove ALL interaction
+       affordance: a focusable element with a "drag me" hint that does nothing
+       is worse than none. */
     function stripAffordance() {
         /* keep data-i18n-attr so the role="img" aria-label still translates;
            only kill the drag hint + keyboard affordance that does nothing here */
@@ -40,7 +42,7 @@
         card.removeAttribute("aria-describedby");
         card.removeAttribute("tabindex");
     }
-    if ((HG && HG.reduced) || !DESKTOP()) { stripAffordance(); return; }
+    if ((HG && HG.reduced) || !ACTIVE()) { stripAffordance(); return; }
     card.setAttribute("tabindex", "0");
 
     /* ---- rope: verlet point chain ---- */
@@ -160,7 +162,7 @@
         raf = requestAnimationFrame(step);
     }
     function wake() {
-        if (!DESKTOP()) return;
+        if (!ACTIVE()) return;
         sleepFrames = 0;
         if (!running) { running = true; raf = requestAnimationFrame(step); }
     }
@@ -172,7 +174,7 @@
     }
     var moved = 0, downAt = null;
     card.addEventListener("pointerdown", function (e) {
-        if (!DESKTOP()) return;
+        if (!ACTIVE()) return;
         var lp = localPt(e);
         var end = pts[SEGS];
         dragging = true; moved = 0; downAt = lp;
@@ -190,7 +192,7 @@
             return;
         }
         /* hover tilt + holographic sheen (decorative) */
-        if (!FINE || !face || !DESKTOP()) return;
+        if (!FINE || !face || !ACTIVE()) return;
         var cr = card.getBoundingClientRect();
         if (e.clientX < cr.left || e.clientX > cr.right || e.clientY < cr.top || e.clientY > cr.bottom) { resetTilt(); return; }
         var px = (e.clientX - cr.left) / cr.width, py = (e.clientY - cr.top) / cr.height;
@@ -253,7 +255,7 @@
             es.forEach(function (en) {
                 if (!en.isIntersecting) return;
                 obs.disconnect();
-                if (!DESKTOP()) return;
+                if (!ACTIVE()) return;
                 /* tiny sideways energy so the drop reads organic (not a hard swing) */
                 pts[SEGS].ox = pts[SEGS].x - 2;
                 wake();
