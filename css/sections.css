@@ -1,0 +1,653 @@
+/* ============================================================
+   SECTIONS — per-section layout. Grows phase by phase.
+   Phase 0: foundation proof block only.
+============================================================ */
+
+/* ============================================================
+   BUTTON SYSTEM
+============================================================ */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    font-family: var(--font-mono);
+    font-size: var(--text-mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.95rem 1.4rem;
+    border-radius: var(--radius);
+    border: 1px solid transparent;
+    line-height: 1;
+    transition: transform var(--dur-fast) var(--ease-out-expo),
+                background var(--dur-fast), color var(--dur-fast),
+                border-color var(--dur-fast), box-shadow var(--dur-normal);
+    will-change: transform;
+}
+.btn .btn-arrow { transition: transform var(--dur-fast) var(--ease-out-expo); }
+.btn--signal {
+    background: var(--signal);
+    color: var(--void);
+    box-shadow: 0 0 0 0 var(--signal-glow);
+    animation: cta-breathe 4s var(--ease-in-out) infinite;
+}
+.btn--signal:hover, .btn--signal:focus-visible { color: var(--void); }
+.btn--signal:focus-visible { outline-color: var(--ink); }   /* signal-on-signal would vanish */
+.btn--signal:hover .btn-arrow { transform: translateY(3px); }
+@keyframes cta-breathe {
+    0%, 100% { box-shadow: 0 0 0 0 var(--signal-glow); }
+    50%      { box-shadow: 0 0 26px 0 var(--signal-glow); }
+}
+.btn--ghost {
+    color: var(--ink);
+    border-color: var(--line-strong);
+    background: transparent;
+}
+.btn--ghost:hover, .btn--ghost:focus-visible {
+    border-color: var(--signal);
+    color: var(--signal);
+}
+.btn--text {
+    color: var(--ink-dim);
+    padding-inline: 0.4rem;
+    border-radius: 0;
+    position: relative;
+}
+.btn--text::after {
+    content: ""; position: absolute; left: 0.4rem; right: 0.4rem; bottom: 0.4rem;
+    height: 1px; background: currentColor; transform: scaleX(0); transform-origin: left;
+    transition: transform var(--dur-fast) var(--ease-out-expo);
+}
+.btn--text:hover, .btn--text:focus-visible { color: var(--ink); }
+.btn--text:hover::after, .btn--text:focus-visible::after { transform: scaleX(1); }
+@media (prefers-reduced-motion: reduce) {
+    .btn--signal { animation: none; }
+}
+
+/* ============================================================
+   01 IDENTITY — hero
+============================================================ */
+.hero {
+    min-height: 100svh;
+    display: flex;
+    align-items: flex-start;          /* top-align: no dead band under the fixed header */
+    position: relative;
+    overflow: clip;
+    padding-block: clamp(5.5rem, 12vh, 7.5rem) var(--space-block);
+    border-top: 0 !important;
+}
+.hero-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.9;
+}
+/* Hero: text flows on the left (bounded width so the about copy stays readable).
+   The ProfileCard is parked in the LOWER-RIGHT of the full-height hero — low
+   enough to sit beside the short second line / below the name, so the giant
+   title's ink overflow never paints into it. Its right edge is pinned to the
+   centred content column (calc), so it never drifts to the raw viewport edge
+   on ultrawide. */
+.hero-grid {
+    position: relative;
+    z-index: 2;
+    display: block;
+    pointer-events: none;                /* empty shell area must not swallow hover meant for the card below */
+}
+.hero-head { margin-bottom: clamp(1.4rem, 3.5vh, 2.4rem); }
+.hero-main { position: relative; z-index: 2; max-width: 620px; display: flex; flex-direction: column; gap: 1.4rem; pointer-events: auto; }
+@media (max-width: 980px) { .hero-main { max-width: none; } }
+
+.hero-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    align-self: flex-start;
+    color: var(--ink-dim);
+    border: 1px solid var(--line);
+    border-radius: 100px;
+    padding: 0.5rem 0.9rem;
+    background: color-mix(in oklab, var(--panel) 70%, transparent);
+}
+.hero-status .ping {
+    position: relative;
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--signal);
+    flex: none;
+}
+.hero-status .ping::after {
+    content: ""; position: absolute; inset: 0; border-radius: 50%;
+    background: var(--signal);
+    animation: ping 3s var(--ease-out-expo) infinite;
+}
+@keyframes ping {
+    0%   { transform: scale(1); opacity: 0.7; }
+    70%, 100% { transform: scale(3); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) { .hero-status .ping::after { animation: none; } }
+
+.hero-title {
+    font-size: var(--text-hero);
+    font-weight: 700;
+    margin-block: 0.2rem 0.4rem;
+}
+@media (max-width: 560px) {
+    .hero-title { font-size: clamp(2.5rem, 13vw, 3.4rem); }
+}
+/* code-comment styling — terminal motif (// magenta, lookbook A hero) */
+.hero-sub { color: var(--magenta); font-size: var(--text-mono); text-transform: none; letter-spacing: 0.02em; }
+.hero-sub::before { content: "// "; color: var(--magenta); }
+.hero-pitch { font-size: var(--text-lead); color: var(--ink); max-width: 46ch; font-weight: 500; }
+.hero-about { font-size: var(--text-base); color: var(--ink-dim); max-width: 58ch; line-height: 1.65; }
+
+.hero-cta { display: flex; flex-wrap: wrap; align-items: center; gap: 0.9rem; margin-top: 0.6rem; }
+
+/* terminal command lines — decorative shell prompts framing the hero (lookbook A) */
+.term-cmd { font-family: var(--font-mono); font-size: var(--text-mono); color: var(--ink-dim); letter-spacing: 0.06em; }
+.term-cmd .pr { color: var(--signal); }
+.hero-caret { font-family: var(--font-mono); font-size: var(--text-mono); color: var(--ink-faint); letter-spacing: 0.06em; margin-top: 0.4rem; }
+.hero-caret .pr { color: var(--signal); }
+.hero-caret b {
+    display: inline-block; width: 0.62ch; height: 1.05em;
+    background: var(--accent2);                /* Theme-C electric-yellow cursor */
+    vertical-align: -0.16em; margin-left: 3px;
+    animation: caret-blink 1s steps(1) infinite;
+}
+@media (prefers-reduced-motion: reduce) { .hero-caret b { animation: none; } }
+
+/* ============================================================
+   LANYARD ID CARD — verlet-rope physics + mouse tilt.
+   JS (js/idcard.js) drives the rope path + the card transform.
+============================================================ */
+/* mount = the lanyard bay inside the About panel (full free-swing area) */
+.idcard-mount {
+    position: relative;
+    z-index: 5;
+    width: 100%;
+    height: clamp(420px, 52vh, 540px);
+    pointer-events: none;                 /* the card itself re-enables */
+    align-self: stretch;
+}
+/* the lanyard band (JS sets the path through the rope points) */
+.lanyard-rope {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    overflow: visible; pointer-events: none; z-index: 1;
+}
+/* real fabric lanyard webbing — flat charcoal strap, not a glowing cord */
+.rope-band {
+    fill: none;
+    stroke: #2f333b; stroke-width: 17; stroke-linecap: butt; stroke-linejoin: round;
+}
+.rope-edge {                       /* subtle woven side highlight */
+    fill: none;
+    stroke: #454b56; stroke-width: 17; stroke-linecap: butt; stroke-linejoin: round;
+    stroke-dasharray: 1 5; opacity: 0.5;
+}
+.rope-stripe {                     /* thin printed center stripe (OVGU green accent) */
+    fill: none;
+    stroke: color-mix(in oklab, var(--signal) 60%, #2f333b); stroke-width: 2.5;
+    stroke-linecap: butt; stroke-linejoin: round;
+}
+body[data-theme="light"] .rope-band { stroke: #6b7280; }
+body[data-theme="light"] .rope-edge { stroke: #9aa3b2; }
+/* the fixture the lanyard hangs from: a mounted screw + hook ring at the anchor
+   (anchor sits at the mount top-centre, ~y6) so the strap clearly hangs from something */
+.lanyard-pin {
+    position: absolute; top: -9px; left: 50%; transform: translateX(-50%);
+    width: 16px; height: 22px;
+    z-index: 4; pointer-events: none;
+}
+.lanyard-pin::before {                 /* screw / mount boss */
+    content: ""; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+    width: 15px; height: 15px; border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #eef1f6 0%, #9aa3b2 55%, #4a515e 100%);
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.55), inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+.lanyard-pin::after {                  /* hook ring the strap loops through */
+    content: ""; position: absolute; top: 10px; left: 50%; transform: translateX(-50%);
+    width: 11px; height: 11px; border-radius: 50%;
+    border: 2.5px solid #8a93a3; background: transparent;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.idcard {
+    position: absolute; top: 0; left: 0;
+    width: clamp(188px, 15vw, 226px);
+    pointer-events: auto;
+    cursor: grab;
+    touch-action: none;                   /* drag must not scroll — card only */
+    transform-origin: 50% 0;              /* hangs + swings from the clip */
+    will-change: transform;
+    z-index: 2;
+    -webkit-user-select: none; user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+.idcard:active { cursor: grabbing; }
+/* metallic lanyard clip — straddles the card's top edge and threads THROUGH the
+   card's punched slot (.idcard-hole), like a real worn student ID */
+.idcard-clip {
+    position: absolute; top: -7px; left: 50%; transform: translateX(-50%);
+    width: 30px; height: 21px; border-radius: 5px 5px 3px 3px;
+    background: linear-gradient(#d6dbe2, #aab2bd 46%, #788091);
+    border: 1px solid #565d68;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    z-index: 4;                        /* in front of the card slot it passes through */
+}
+.idcard-clip::after {                  /* the gap in the clip where the strap loops */
+    content: ""; position: absolute; top: 5px; left: 50%; transform: translateX(-50%);
+    width: 15px; height: 4px; border-radius: 2px; background: rgba(0, 0, 0, 0.55);
+}
+.idcard-face {
+    position: relative;
+    padding: 1.4rem 0.7rem 0.8rem;        /* extra top room for the punched slot */
+    background: linear-gradient(160deg, var(--panel-2), var(--panel));
+    border: 1.5px solid color-mix(in oklab, var(--signal) 26%, var(--line-strong));
+    border-radius: 12px;
+    box-shadow: 0 22px 46px -16px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.06);
+    text-align: center;
+    overflow: hidden;
+    transform: perspective(700px) rotateX(var(--tx, 0deg)) rotateY(var(--ty, 0deg));
+    transition: transform 0.18s ease-out;
+}
+/* holographic sheen — a cursor-following glow over a faint rainbow, blooms on hover */
+.idcard-face::after {
+    content: ""; position: absolute; inset: 0; border-radius: 12px; pointer-events: none;
+    background:
+        radial-gradient(130% 90% at var(--gx, 50%) var(--gy, 0%),
+            rgba(255, 255, 255, 0.22), transparent 45%),
+        conic-gradient(from 120deg at var(--gx, 50%) var(--gy, 50%),
+            rgba(193, 55, 255, 0.55), rgba(7, 198, 255, 0.55), rgba(0, 255, 170, 0.45),
+            rgba(255, 196, 71, 0.45), rgba(193, 55, 255, 0.55));
+    mix-blend-mode: screen;
+    opacity: 0.16;
+    transition: opacity var(--dur-normal) var(--ease-out-expo);
+}
+.idcard:hover .idcard-face::after,
+.idcard:focus-visible .idcard-face::after { opacity: 0.7; }
+/* the punched slot near the card's top edge — wider than the clip, so the clip
+   visibly threads through it (slot shows on both sides of the clip) */
+.idcard-hole {
+    position: absolute; top: 9px; left: 50%; transform: translateX(-50%);
+    width: 56px; height: 7px; border-radius: 4px;
+    background: var(--void);
+    border: 1px solid rgba(0, 0, 0, 0.55);
+    box-shadow: inset 0 1.5px 2px rgba(0, 0, 0, 0.85), 0 1px 0 rgba(255, 255, 255, 0.05);
+    z-index: 2;
+}
+.idcard-head {
+    background: linear-gradient(#ffffff, #e9ece7);
+    border-radius: 7px;
+    padding: 0.5rem 0.55rem;
+    margin-bottom: 0.6rem;
+    display: flex; align-items: center; justify-content: center;
+    position: relative; z-index: 1;
+}
+.idcard-logo { height: 30px; width: auto; max-width: 100%; display: block; }
+.idcard-photo {
+    aspect-ratio: 1 / 1; overflow: hidden; border-radius: 6px;
+    background: var(--void); border: 1px solid var(--line);
+    margin-bottom: 0.6rem; position: relative; z-index: 1;
+}
+.idcard-photo img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(0.15) contrast(1.05); pointer-events: none; }
+.idcard-name { font-family: var(--font-display); font-weight: 600; font-size: 1.04rem; line-height: 1.05; position: relative; z-index: 1; }
+.idcard-role { font-family: var(--font-mono); font-size: var(--text-mono-sm); color: var(--ink-dim); letter-spacing: 0.04em; margin-top: 0.2rem; position: relative; z-index: 1; }
+.idcard-meta { font-size: var(--text-mono-sm); color: var(--ink-faint); display: flex; justify-content: center; gap: 0.4rem; margin-top: 0.55rem; padding-top: 0.55rem; border-top: 1px solid var(--line); position: relative; z-index: 1; }
+.idcard-meta::before { content: "▸"; color: var(--signal); }
+
+@media (max-width: 980px) {
+    .idcard-mount { position: static; width: 100%; height: auto; margin: 0.5rem auto 0; display: flex; justify-content: center; }
+    .lanyard-rope, .lanyard-pin { display: none; }   /* static card on mobile */
+    .idcard { position: static; width: clamp(170px, 46vw, 210px); transform: none !important; }
+    .idcard-clip { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .idcard-face { transition: none; }
+}
+
+/* ============================================================
+   PROFILE CARD — hero, boxed, holographic tilt (reference clone)
+============================================================ */
+.pcard-mount {
+    position: absolute;
+    /* pin to the right edge of the centred content column (max-width 1440) */
+    right: max(var(--gutter), calc((100% - var(--maxw)) / 2 + var(--gutter)));
+    bottom: clamp(2rem, 8vh, 5.5rem);
+    width: clamp(248px, 21vw, 308px);
+    perspective: 1100px;
+    z-index: 1;                          /* behind the text layer: any incidental overlap puts text on top */
+}
+.pcard {
+    width: clamp(272px, 23vw, 336px);
+    animation: pcard-float 7s var(--ease-in-out) infinite;
+}
+.pcard__inner {
+    position: relative;
+    border-radius: 18px;
+    border: 1px solid color-mix(in oklab, var(--signal) 22%, var(--line-strong));
+    background: linear-gradient(165deg, var(--panel-2), var(--panel) 60%);
+    box-shadow: 0 30px 70px -28px rgba(0, 0, 0, 0.75),
+                inset 0 1px 0 rgba(255, 255, 255, 0.07);
+    overflow: hidden;
+    transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+    transition: transform 0.22s var(--ease-out-expo), box-shadow var(--dur-normal);
+    transform-style: preserve-3d;
+}
+.pcard:hover .pcard__inner { box-shadow: 0 38px 84px -26px rgba(0, 0, 0, 0.85), 0 0 34px -8px var(--signal-glow), inset 0 1px 0 rgba(255, 255, 255, 0.08); }
+/* holographic foil — vibrant 6-hue "sunpillar" rainbow (ref: rissss21 ProfileCard).
+   color-dodge over the dark card makes it blaze on hover and follow the cursor. */
+.pcard__holo {
+    position: absolute; inset: 0; z-index: 3; pointer-events: none;
+    border-radius: inherit;
+    --hs: 5%;
+    background:
+        radial-gradient(130% 100% at var(--gx, 50%) var(--gy, 20%), rgba(255, 255, 255, 0.55), transparent 45%),
+        repeating-linear-gradient(0deg,
+            hsl(2 100% 73%)   calc(var(--hs) * 1), hsl(53 100% 69%)  calc(var(--hs) * 2),
+            hsl(93 100% 69%)  calc(var(--hs) * 3), hsl(176 100% 76%) calc(var(--hs) * 4),
+            hsl(228 100% 74%) calc(var(--hs) * 5), hsl(283 100% 73%) calc(var(--hs) * 6),
+            hsl(2 100% 73%)   calc(var(--hs) * 7)),
+        conic-gradient(from 200deg at var(--gx, 50%) var(--gy, 50%),
+            #c137ff, #07c6ff, #00ffaa, #ffc447, #ff4081, #07c6ff, #c137ff);
+    background-size: auto, 100% 220%, 100% 100%;
+    background-position: center, 0 calc(var(--gy, 50%) * 1.6), center;
+    background-blend-mode: color-dodge, hard-light, normal;
+    mix-blend-mode: color-dodge;
+    filter: saturate(1.5) contrast(1.15);
+    opacity: 0;
+    transition: opacity 0.4s var(--ease-out-expo), filter 0.4s;
+}
+.pcard:hover .pcard__holo, .pcard:focus-within .pcard__holo { opacity: 0.9; }
+/* the rainbow also floods the PHOTO so the portrait shifts to a dark-rainbow sheen */
+.pcard__photo::after {
+    content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none; border-radius: inherit;
+    background:
+        conic-gradient(from 150deg at var(--gx, 50%) var(--gy, 50%),
+            #c137ff, #07c6ff, #00ffaa, #ffc447, #ff4081, #07c6ff, #c137ff),
+        radial-gradient(120% 90% at var(--gx, 50%) var(--gy, 30%), rgba(255,255,255,0.4), transparent 55%);
+    background-blend-mode: hard-light, normal;
+    mix-blend-mode: color-dodge;
+    filter: saturate(1.6) contrast(1.1);
+    opacity: 0;
+    transition: opacity 0.45s var(--ease-out-expo);
+}
+.pcard:hover .pcard__photo::after, .pcard:focus-within .pcard__photo::after { opacity: 0.6; }
+/* touch / small screens have no hover — give the card a gentle always-on holo
+   shimmer so the rainbow is alive on mobile too (opacity-only = compositor-cheap,
+   no lag). Keyed on touch OR small width so it works even if a device misreports
+   its pointer type. */
+@media (hover: none), (max-width: 760px) {
+    .pcard__holo { animation: holo-breathe 5s var(--ease-in-out) infinite; }
+}
+@keyframes holo-breathe { 0%, 100% { opacity: 0.2; } 50% { opacity: 0.44; } }
+@media (prefers-reduced-motion: reduce) {
+    .pcard__holo { animation: none; }
+}
+@media (prefers-reduced-motion: reduce) and (max-width: 760px) {
+    .pcard__holo { opacity: 0.26; }
+}
+/* light theme: screen-blend vanishes on paper — multiply reads as holo foil */
+body[data-theme="light"] .pcard__holo { mix-blend-mode: multiply; filter: saturate(1.3); }
+body[data-theme="light"] .pcard:hover .pcard__holo,
+body[data-theme="light"] .pcard:focus-within .pcard__holo { opacity: 0.45; }
+body[data-theme="light"] .pcard__photo::after { mix-blend-mode: multiply; }
+body[data-theme="light"] .pcard:hover .pcard__photo::after,
+body[data-theme="light"] .pcard:focus-within .pcard__photo::after { opacity: 0.4; }
+body[data-theme="light"] .idcard-face::after { mix-blend-mode: multiply; }
+body[data-theme="light"] .idcard:hover .idcard-face::after,
+body[data-theme="light"] .idcard:focus-visible .idcard-face::after { opacity: 0.3; }
+/* fine scanline grain so the card reads as an instrument, not a photo frame */
+.pcard__grain {
+    position: absolute; inset: 0; z-index: 2; pointer-events: none;
+    background: repeating-linear-gradient(0deg, transparent 0 3px, rgba(255, 255, 255, 0.022) 3px 4px);
+    border-radius: inherit;
+}
+.pcard__head {
+    position: relative; z-index: 1;
+    text-align: center;
+    padding: 1.05rem 1rem 0.8rem;
+}
+.pcard__name {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(1.3rem, 1.6vw, 1.55rem);
+    line-height: 1;
+}
+.pcard__role {
+    margin-top: 0.35rem;
+    font-size: var(--text-mono-sm);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--signal);
+}
+.pcard__photo {
+    position: relative; z-index: 1;
+    margin: 0 0.8rem;
+    border-radius: 12px;
+    overflow: hidden;
+    aspect-ratio: 4 / 4.6;
+    background: var(--void);
+    border: 1px solid var(--line);
+}
+.pcard__photo img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: 50% 18%;
+    filter: grayscale(0.25) contrast(1.04);
+    transition: filter var(--dur-slow);
+    pointer-events: none;
+}
+.pcard:hover .pcard__photo img, .pcard:focus-within .pcard__photo img {
+    filter: grayscale(0) contrast(1.12) saturate(1.2) brightness(0.9);   /* darker so the holo rainbow blooms over it */
+}
+.pcard__foot {
+    position: relative; z-index: 4;
+    display: flex; align-items: center; justify-content: space-between; gap: 0.6rem;
+    padding: 0.8rem;
+}
+.pcard__status {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    min-width: 0;
+    border: 1px solid var(--line);
+    border-radius: 100px;
+    padding: 0.45rem 0.7rem;
+    background: color-mix(in oklab, var(--panel) 78%, transparent);
+}
+.pcard__status .ping {
+    position: relative; flex: none;
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--signal);
+}
+.pcard__status .ping::after {
+    content: ""; position: absolute; inset: 0; border-radius: 50%;
+    background: var(--signal);
+    animation: ping 3s var(--ease-out-expo) infinite;
+}
+.pcard__handle { font-size: var(--text-mono-sm); color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pcard__open { font-size: var(--text-mono-sm); color: var(--ink-faint); white-space: nowrap; }
+.pcard__cta {
+    flex: none;
+    font-size: var(--text-mono-sm);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--void);
+    background: var(--signal);
+    border-radius: 100px;
+    padding: 0.55rem 0.9rem;
+    transition: box-shadow var(--dur-normal), transform var(--dur-fast) var(--ease-out-expo);
+}
+.pcard__cta:hover, .pcard__cta:focus-visible { box-shadow: 0 0 20px 0 var(--signal-glow); transform: translateY(-1px); color: var(--void); }
+@keyframes pcard-float {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-9px); }
+}
+@media (max-width: 1180px) { .pcard__open { display: none; } }
+@media (max-width: 980px) {
+    .hero { display: block; }            /* stack text then card */
+    .pcard-mount { position: static; width: auto; display: flex; justify-content: center; margin-top: 1rem; }
+    .pcard { animation: none; width: clamp(280px, 80vw, 360px); }
+    .pcard__inner { transform: none !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .pcard { animation: none; }
+    .pcard__inner { transform: none !important; transition: none; }
+    .pcard__holo { transition: none; }
+    .pcard__status .ping::after { animation: none; }
+}
+
+/* ============================================================
+   02 ABOUT — dossier panel: text + creds + stats + lanyard bay
+============================================================ */
+.about { position: relative; }
+.ab-panel {
+    --ab-pad: clamp(1.4rem, 3.5vw, 2.8rem);
+    position: relative;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-lg);
+    /* true-black terminal pane + faint phosphor scanline (CRT texture) */
+    background:
+        repeating-linear-gradient(0deg, transparent 0 3px, rgba(74, 222, 128, 0.02) 3px 4px),
+        var(--void);
+    padding: var(--ab-pad);
+    /* NO overflow:hidden — the lanyard ID card must be able to be dragged OUT
+       of the panel in any direction. The contours below are self-clipped. */
+}
+body[data-theme="light"] .ab-panel {
+    background:
+        repeating-linear-gradient(0deg, transparent 0 3px, rgba(16, 17, 19, 0.03) 3px 4px),
+        var(--panel);
+}
+/* terminal-window chrome — full-bleed titlebar at the panel top (lookbook A) */
+.ab-bar {
+    position: relative; z-index: 2;
+    display: flex; align-items: center; gap: 0.7rem;
+    margin: calc(-1 * var(--ab-pad)) calc(-1 * var(--ab-pad)) var(--ab-pad);
+    padding: 0.6rem 0.9rem;
+    background: var(--panel-2);
+    border-bottom: 1px solid var(--line-strong);
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    font-family: var(--font-mono);
+    font-size: var(--text-mono-sm);
+    color: var(--ink-faint);
+    letter-spacing: 0.04em;
+}
+.ab-bar__title { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* macOS traffic-light dots — decorative window chrome (aria-hidden on the bar) */
+.tl-dots { display: inline-flex; gap: 0.42rem; flex: none; }
+.tl-dots i { width: 11px; height: 11px; border-radius: 50%; }
+.tl-dots i:nth-child(1) { background: #FF5F56; }
+.tl-dots i:nth-child(2) { background: #FEBC2E; }
+.tl-dots i:nth-child(3) { background: #28C840; }
+/* topographic contour rings — blueprint atmosphere, theme-aware via --line.
+   inset:0 + radius:inherit keeps them inside the panel without clipping the card. */
+.ab-contours {
+    position: absolute; inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    /* faint terminal dot-grid (graph-paper feel) instead of concentric rings */
+    background-image: radial-gradient(var(--line) 1px, transparent 1.6px);
+    background-size: 22px 22px;
+    opacity: 0.6;
+    -webkit-mask-image: radial-gradient(150% 130% at 88% 6%, #000 18%, transparent 80%);
+            mask-image: radial-gradient(150% 130% at 88% 6%, #000 18%, transparent 80%);
+}
+.ab-grid {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(280px, 5fr);
+    gap: clamp(1.5rem, 4vw, 3.5rem);
+    align-items: start;
+}
+@media (max-width: 980px) { .ab-grid { grid-template-columns: 1fr; } }
+.ab-main { display: flex; flex-direction: column; gap: clamp(1.1rem, 2.2vh, 1.6rem); min-width: 0; }
+.ab-text { color: var(--ink-dim); font-size: var(--text-lead); line-height: 1.6; max-width: 58ch; }
+
+.ab-creds { margin: 0; border-top: 1px solid var(--line); }
+.ab-cred {
+    display: grid;
+    grid-template-columns: minmax(120px, 160px) 1fr;
+    gap: 0.4rem 1.2rem;
+    padding-block: 0.7rem;
+    border-bottom: 1px solid var(--line);
+}
+.ab-cred dt {
+    font-size: var(--text-mono-sm);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--cyan);                 /* terminal keyword colour */
+    padding-top: 0.15rem;
+}
+.ab-cred dt::before { content: "▸ "; color: var(--amber); }   /* yellow texture */
+.ab-cred dd { margin: 0; color: var(--ink); font-size: var(--text-sm); }
+@media (max-width: 560px) { .ab-cred { grid-template-columns: 1fr; } }
+
+.ab-stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: clamp(0.8rem, 2vw, 1.4rem);
+}
+@media (max-width: 760px) { .ab-stats { grid-template-columns: repeat(2, 1fr); } }
+.ab-stat { border-left: 2px solid var(--signal); padding-left: 0.8rem; }
+.ab-stat .num {
+    display: block;
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: clamp(1.9rem, 3.4vw, 2.9rem);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+    color: var(--ink);
+}
+.ab-stat .num .suf { color: var(--accent2); }   /* Theme-C electric-yellow accent */
+.ab-stat .lbl {
+    display: block;
+    margin-top: 0.35rem;
+    font-size: var(--text-mono-sm);
+    font-family: var(--font-mono);
+    letter-spacing: 0.04em;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+}
+.ab-sign { color: var(--ink-faint); font-size: var(--text-mono-sm); letter-spacing: 0.08em; }
+.ab-sign::before { content: "// "; color: var(--signal); }
+
+/* GitHub heatmap strip — decorative grid, the LINK is the content */
+.ab-heatmap {
+    position: relative;
+    display: block;
+    margin-top: clamp(1.4rem, 3vh, 2.2rem);
+    padding-top: clamp(1.1rem, 2.5vh, 1.6rem);
+    border-top: 1px solid var(--line);
+    border-radius: var(--radius);
+}
+.ab-heatmap__head {
+    display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; flex-wrap: wrap;
+    font-size: var(--text-mono-sm);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink);
+    margin-bottom: 0.8rem;
+}
+.ab-heatmap__head .hint { color: var(--ink-faint); text-transform: none; letter-spacing: 0.04em; }
+.ab-heatmap:hover .ab-heatmap__head .hint, .ab-heatmap:focus-visible .ab-heatmap__head .hint { color: var(--signal); }
+.ab-heatmap__grid {
+    display: grid;
+    grid-template-columns: repeat(26, 13px);   /* compact fixed cells — reads as a real GitHub graph, not a giant block */
+    gap: 3px;
+    justify-content: start;
+}
+.ab-heatmap__grid .hm {
+    aspect-ratio: 1;
+    border-radius: 2px;
+    background: var(--gh-0);
+    transition: background 0.5s var(--ease-out-expo), filter 0.4s;
+}
+.ab-heatmap__grid .hm-1 { background: var(--gh-1); }
+.ab-heatmap__grid .hm-2 { background: var(--gh-2); }
+.ab-heatmap__grid .hm-3 { background: var(--gh-3); }
+.ab-heatmap__grid .hm-4 { background: var(--gh-4); }
+.ab-heatmap:hover .ab-heatmap__grid .hm { filter: brightness(1.22); }
+/* the heatmap reads as a GitHub surface — header accent matches its green */
+.ab-heatmap:hover .ab-heatmap__head .hint, .ab-heatmap:focus-visible .ab-heatmap__head .hint { color: var(--gh-4); }
+@media (max-width: 560px) { .ab-heatmap__grid { grid-template-columns: repeat(26, 1fr); } }

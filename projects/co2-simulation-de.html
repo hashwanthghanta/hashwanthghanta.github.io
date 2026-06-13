@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <meta name="theme-color" content="#0C0C0C">
+    <meta name="theme-color" content="#0A0A0B">
     <title>Case Study: Post-Combustion-CO₂-Abscheidungs-Simulation — Hashwanth Ghanta</title>
     <meta name="description" content="Wie ein fünfköpfiges OVGU-Magdeburg-Team eine interaktive Unity- + Blender-Simulation der Post-Combustion-CO₂-Abscheidung gebaut hat. Meine Rolle: Unity-, Blender- &amp; UI-Entwickler — Modellierung, Skripte, Demo-Screen, Interfaces, Walkthrough-Video.">
     <link rel="canonical" href="https://hashwanthghanta.github.io/projects/co2-simulation-de.html">
@@ -17,33 +17,28 @@
     <meta property="og:title" content="Case Study: Unity CO₂-Abscheidungs-Simulation — OVGU Magdeburg">
     <meta property="og:description" content="Fünfköpfiges OVGU-Team. Unity 2022 LTS + Blender 4.x. 1000-MW-Referenzkraftwerk, 30 wt% MEA, 90% Abscheideziel.">
     <meta property="og:image" content="https://hashwanthghanta.github.io/Images/co2-simulation.gif">
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230C0C0C'/%3E%3Ctext x='50' y='66' font-family='Inter,sans-serif' font-size='52' font-weight='900' fill='%23ff6b35' text-anchor='middle'%3EHG%3C/text%3E%3C/svg%3E">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230A0A0B'/%3E%3Ctext x='50' y='66' font-family='Inter,sans-serif' font-size='52' font-weight='900' fill='%234ADE80' text-anchor='middle'%3EHG%3C/text%3E%3C/svg%3E">
+    <link rel="preload" href="../fonts/clash-700.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="../css/tokens.css">
     <style>
         :root {
-            --bg: #0a0807; --text: #D7E2EA; --text-dim: rgba(215,226,234,0.72);
-            --accent-cool: #67e8f9; --accent-cool-deep: #0e7490;
-            --accent-warm: #ff6b35; --accent-warm-soft: #ffb07a;
-            --border-soft: rgba(215,226,234,0.18);
-            --code-bg: rgba(0,0,0,0.4);
+            --bg: var(--void); --text: var(--ink); --text-dim: var(--ink-dim);
+            --accent-cool: var(--signal); --accent-cool-deep: var(--signal);
+            --accent-warm: var(--signal); --accent-warm-soft: var(--amber);
+            --border-soft: var(--line);
+            --code-bg: var(--panel-2);
         }
         *,*::before,*::after { margin:0; padding:0; box-sizing:border-box; }
         body {
-            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-            color: var(--text); line-height: 1.65;
-            background:
-                radial-gradient(ellipse 70% 50% at 12% -5%, rgba(255,107,53,0.16), transparent 60%),
-                radial-gradient(ellipse 80% 55% at 50% 110%, rgba(180,80,30,0.12), transparent 65%),
-                var(--bg);
-            background-attachment: fixed;
+            font-family: var(--font-body);
+            color: var(--ink); line-height: 1.65;
+            background: var(--void);
             min-height: 100vh;
             -webkit-font-smoothing: antialiased;
         }
-        :focus-visible { outline: 2.5px solid #FFD400; outline-offset: 3px; }
-        a { color: var(--accent-cool); text-underline-offset: 3px; }
-        a:hover, a:focus-visible { color: #fff; }
+        :focus-visible { outline: 2.5px solid var(--signal); outline-offset: 3px; }
+        a { color: var(--signal); text-underline-offset: 3px; }
+        a:hover, a:focus-visible { color: var(--ink); }
         .wrap { max-width: 780px; margin: 0 auto; padding: clamp(2rem, 5vw, 4rem) 1.5rem 6rem; }
         .top-row {
             display: flex; justify-content: space-between; align-items: center;
@@ -72,8 +67,8 @@
             margin-bottom: 0.6rem;
         }
         h1 {
-            font-family: 'Fraunces', Georgia, serif;
-            font-style: italic; font-weight: 700;
+            font-family: var(--font-display);
+            font-weight: 700;
             font-size: clamp(2.3rem, 6vw, 3.6rem);
             letter-spacing: -0.02em;
             line-height: 1.05;
@@ -155,14 +150,14 @@
             font-size: 0.9rem;
         }
         h2 {
-            font-family: 'Fraunces', Georgia, serif;
+            font-family: var(--font-display);
             font-style: normal; font-weight: 700;
             font-size: 1.8rem;
             margin: 3rem 0 1rem;
             color: var(--accent-warm);
         }
         h3 {
-            font-family: 'Fraunces', Georgia, serif;
+            font-family: var(--font-display);
             font-style: normal;
             font-size: 1.2rem;
             margin: 1.5rem 0 0.5rem;
@@ -295,7 +290,7 @@
 <body>
     <main class="wrap">
         <div class="top-row">
-            <a href="/#projects" class="back">← Zurück zum Portfolio · Projekte</a>
+            <a href="../index.html#systems" class="back">← Zurück zum Portfolio · Systeme</a>
             <a href="co2-simulation.html" class="lang-swap" hreflang="en" lang="en" onclick="try{localStorage.setItem('lang','en')}catch(e){}">Read in English →</a>
         </div>
 
@@ -557,10 +552,27 @@
             <a class="cta-btn cta-primary" href="https://play.unity.com/en/games/30f22392-532c-41e1-b925-6191a9ea99c2/post-combustion-co-carbon-capture" target="_blank" rel="noopener noreferrer">
                 Live-Demo öffnen →
             </a>
-            <a class="cta-btn cta-ghost" href="/#projects">Zurück zu den Projekten</a>
+            <a class="cta-btn cta-ghost" href="../index.html#systems">Zurück zu den Projekten</a>
         </div>
 
         <p class="foot">Fragen zum Unity-Build, zur Blender-Pipeline oder zur verfahrenstechnischen Grundlage? <a href="mailto:hashwanthghanta@gmail.com">hashwanthghanta@gmail.com</a> · <a href="https://github.com/hashwanthghanta" target="_blank" rel="noopener noreferrer">GitHub</a></p>
     </main>
+<style>
+  .reveal-init { opacity: 0; transform: translateY(22px); }
+  .reveal-in { opacity: 1; transform: none; transition: opacity .7s cubic-bezier(.16,1,.3,1), transform .7s cubic-bezier(.16,1,.3,1); }
+  @media (prefers-reduced-motion: reduce){ .reveal-init{opacity:1;transform:none} }
+</style>
+<script>
+(function(){
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (!('IntersectionObserver' in window)) return;
+  var els = document.querySelectorAll('h2, figure, .unity-embed, .callout, table, .team-grid, .diagram, .meta-strip, .lede, .spec-table');
+  els.forEach(function(el){ el.classList.add('reveal-init'); });
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('reveal-in'); io.unobserve(en.target); } });
+  }, { threshold: 0.1, rootMargin: '0px 0px -6% 0px' });
+  els.forEach(function(el){ io.observe(el); });
+})();
+</script>
 </body>
 </html>

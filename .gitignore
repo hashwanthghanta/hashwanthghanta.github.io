@@ -12,3 +12,11 @@ CLAUDE.md
 chrome_stderr.log
 output.html
 *.log
+
+# Tooling / scratch (never ship)
+.letta/
+.playwright-mcp/
+REDESIGN_READINESS.md
+graphify-out/
+PORTFOLIO_BRAIN.md
+TERMINAL_THEME_MASTER_HANDOFF.md

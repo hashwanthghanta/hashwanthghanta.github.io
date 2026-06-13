@@ -2,33 +2,36 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
+    <!-- JS marker: reveal-hiding CSS is scoped to html.js, so a no-JS load
+         renders every section visible. Must run before stylesheets. -->
+    <script>document.documentElement.classList.add("js");</script>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <!-- Scroll restoration policy:
-         • Reload / fresh navigation with NO hash → reset to hero (top).
-         • Reload / fresh navigation WITH a hash (e.g. /#projects from a case-study
-           "Back to portfolio" link) → browser scrolls to that anchor.
-         • Browser back/forward (e.g. user hits back from case study) → keep
-           default "auto" restoration so they land on the projects card they left from.
-         This must run in <head> so it executes BEFORE the browser does its
-         own scroll restore. Inline script, no defer. -->
+    <!-- Clear any stale service worker + caches from the old single-file site so the
+         rebuilt portfolio always loads fresh (the old SW cached now-deleted files). -->
+    <script>
+        (function () {
+            if ("serviceWorker" in navigator) {
+                navigator.serviceWorker.getRegistrations().then(function (regs) {
+                    regs.forEach(function (r) { r.unregister(); });
+                }).catch(function () {});
+            }
+            if (window.caches && caches.keys) {
+                caches.keys().then(function (keys) {
+                    keys.forEach(function (k) { caches.delete(k); });
+                }).catch(function () {});
+            }
+        })();
+    </script>
+    <!-- Scroll restoration policy (must run before browser restore). -->
     <script>
         (function () {
             if (!("scrollRestoration" in history)) return;
             var navEntries = (performance.getEntriesByType && performance.getEntriesByType("navigation")) || [];
             var navType = navEntries[0] && navEntries[0].type;
-            var isBackForward = navType === "back_forward";
-
-            // On back/forward navigation, let the browser restore the previous scroll.
-            // On reload / new navigation, take control.
-            if (isBackForward) return;
-
+            if (navType === "back_forward") return;
             history.scrollRestoration = "manual";
             var hash = window.location.hash;
-            // Respect explicit deep-link hashes — browser will scroll to that anchor.
             if (hash && hash !== "#" && hash !== "#top") return;
-
-            // No hash → pin to top. Repeat on key paint events + a brief rAF window
-            // to outlast any late-firing restore from third-party scripts / iOS Safari.
             var pin = function () { window.scrollTo(0, 0); };
             pin();
             document.addEventListener("DOMContentLoaded", pin, { once: true });
@@ -43,13 +46,12 @@
             }, { once: true });
         })();
     </script>
+
     <title>Hashwanth Ghanta — Software Developer | M.Sc. Digital Engineering | Available Q2 2026 Germany</title>
     <meta name="description" content="Backend, iOS (SwiftUI) and Unity simulation developer. M.Sc. Digital Engineering @ OVGU Magdeburg. Available Q2 2026 Germany — working-student, hybrid or remote.">
     <meta name="keywords" content="working student, Werkstudent, Germany, Magdeburg, backend developer, iOS developer, SwiftUI, Unity 3D, simulation, C#, Python, SQL, OVGU, Digital Engineering, available 2026">
     <meta name="author" content="Hashwanth Ghanta">
     <link rel="canonical" href="https://hashwanthghanta.github.io/">
-    <!-- Language alternates — the same URL serves EN + DE via a client-side toggle.
-         Marking both lets Google's recruiter-side search surface the page in either market. -->
     <link rel="alternate" hreflang="en" href="https://hashwanthghanta.github.io/">
     <link rel="alternate" hreflang="de" href="https://hashwanthghanta.github.io/">
     <link rel="alternate" hreflang="x-default" href="https://hashwanthghanta.github.io/">
@@ -69,23 +71,20 @@
     <meta name="twitter:description" content="7-phase Unity CO₂ simulation, 55-ticker SwiftUI watchlist, IoT helmet prototype. Available Q2 2026 (Werkstudent, Germany).">
     <meta name="twitter:image" content="https://hashwanthghanta.github.io/Images/hash.jpeg">
 
-    <!-- Favicons — full set generated from Images/hash.jpeg via sips. SVG kept as the
-         preferred modern format (HG monogram) for sharp rendering at any size. -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230C0C0C'/%3E%3Ctext x='50' y='66' font-family='Inter,system-ui,sans-serif' font-size='52' font-weight='900' fill='%23ff6b35' text-anchor='middle'%3EHG%3C/text%3E%3C/svg%3E">
+    <!-- Favicons -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230A0A0B'/%3E%3Ctext x='50' y='66' font-family='monospace' font-size='46' font-weight='700' fill='%234ADE80' text-anchor='middle'%3EHG%3C/text%3E%3C/svg%3E">
     <link rel="icon" type="image/png" sizes="32x32" href="Images/favicon/icon-32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="Images/favicon/icon-16.png">
     <link rel="apple-touch-icon" sizes="180x180" href="Images/favicon/icon-180.png">
     <link rel="shortcut icon" href="Images/favicon/icon-32.png">
-    <meta name="theme-color" id="meta-theme-color" content="#0C0C0C">
-    <script>(function(){var m=document.getElementById("meta-theme-color");if(m&&window.matchMedia("(prefers-color-scheme:light)").matches)m.setAttribute("content","#F5F2EC");})()</script>
+    <meta name="theme-color" id="meta-theme-color" content="#0A0A0B">
 
     <!-- PWA manifest -->
     <link rel="manifest" href="manifest.webmanifest">
-
     <!-- View Transitions opt-in (Chromium) -->
     <meta name="view-transition" content="same-origin">
 
-    <!-- Schema.org / JSON-LD — Person, for recruiter-side Google search -->
+    <!-- Schema.org / JSON-LD — Person -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -96,406 +95,546 @@
       "jobTitle": "Software Developer (Backend, iOS, Unity Simulation)",
       "description": "M.Sc. Digital Engineering student. Available Q2 2026 for working-student roles (hybrid or remote, Germany).",
       "email": "mailto:hashwanthghanta@gmail.com",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Magdeburg",
-        "addressCountry": "DE"
-      },
-      "alumniOf": [
-        {
-          "@type": "EducationalOrganization",
-          "name": "Otto-von-Guericke-Universität Magdeburg",
-          "url": "https://www.ovgu.de/"
-        },
-        {
-          "@type": "EducationalOrganization",
-          "name": "VIT-AP University",
-          "url": "https://vitap.ac.in/"
-        }
-      ],
-      "knowsLanguage": [
-        { "@type": "Language", "name": "English", "alternateName": "en" },
-        { "@type": "Language", "name": "German",  "alternateName": "de" }
-      ],
-      "knowsAbout": [
-        "Unity 3D", "Blender", "C#", "Swift", "SwiftUI", "Python", "SQL", "JavaScript",
-        "Data Visualization", "Power BI", "IoT", "Arduino", "Embedded C",
-        "Post-combustion CO2 capture simulation", "iOS development", "Bilingual product development (EN/DE)"
-      ],
-      "hasOccupation": {
-        "@type": "Occupation",
-        "name": "Software Developer (Backend, iOS, Unity Simulation)",
-        "occupationLocation": { "@type": "Country", "name": "Germany" },
-        "estimatedSalary": null
-      },
-      "subjectOf": [
-        {
-          "@type": "CreativeWork",
-          "name": "Post-Combustion CO2 Capture Simulation — case study",
-          "url": "https://hashwanthghanta.github.io/projects/co2-simulation.html"
-        }
-      ],
+      "address": { "@type": "PostalAddress", "addressLocality": "Magdeburg", "addressCountry": "DE" },
       "sameAs": [
         "https://github.com/hashwanthghanta",
         "https://www.linkedin.com/in/hashwanthghanta"
       ],
-      "seeks": {
-        "@type": "JobPosting",
-        "title": "Working student (Werkstudent) — Backend, iOS, Simulation, or Data Engineering",
-        "employmentType": "PART_TIME",
-        "jobLocationType": "TELECOMMUTE",
-        "jobLocation": { "@type": "Place", "address": { "@type": "PostalAddress", "addressCountry": "DE" } },
-        "datePosted": "2026-05-24"
-      }
+      "alumniOf": [
+        { "@type": "EducationalOrganization", "name": "Otto-von-Guericke-Universität Magdeburg", "url": "https://www.ovgu.de/" },
+        { "@type": "EducationalOrganization", "name": "VIT-AP University", "url": "https://vitap.ac.in/" }
+      ]
     }
     </script>
 
-    <!-- LCP element preload — hero portrait. fetchpriority=high tells the browser
-         to grab this ahead of fonts/scripts and dropped mobile LCP from 6.2s. -->
-    <link rel="preload" as="image" href="Images/hash-850.jpg" fetchpriority="high">
+    <!-- Critical font preloads (2 only) -->
+    <link rel="preload" href="fonts/clash-700.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="fonts/inter-400.woff2" as="font" type="font/woff2" crossorigin>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://cdn.simpleicons.org" crossorigin>
-    <link rel="prefetch" href="projects/co2-simulation.html" as="document">
-    <link rel="prefetch" href="projects/stockwatch.html" as="document">
-    <!-- Inter (sans, body) + Fraunces (serif, hero name + section titles) + JetBrains Mono (labels).
-         Loaded with the print/onload trick so Google Fonts CSS never blocks first paint.
-         Render-blocking-requests Lighthouse insight (1,630ms savings) gets cleared by this. -->
-    <link rel="preload" as="style" crossorigin href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" onload="this.onload=null;this.rel='stylesheet';">
-    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,700&family=JetBrains+Mono:wght@400;500;600;700&display=swap"></noscript>
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js" defer></script>
-    <!-- Speculation rules — pre-render case study pages in Chromium on hover/pointer-down -->
-    <script type="speculationrules">
-    {"prerender":[{"source":"list","urls":["projects/co2-simulation.html","projects/stockwatch.html","projects/iot-helmet.html"]}]}
-    </script>
-    <link rel="stylesheet" href="styles.css">
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/tokens.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/shell.css">
+    <link rel="stylesheet" href="css/sections.css">
+    <link rel="stylesheet" href="css/chapters.css">
+    <link rel="stylesheet" href="css/motion.css">
 </head>
-<body data-theme="dark">
+<body>
+    <!-- Theme init — first thing, prevents flash of wrong theme. -->
+    <script>
+        (function () {
+            var t;
+            try { t = localStorage.getItem("theme"); } catch (e) {}
+            if (t !== "light" && t !== "dark") t = "dark";   /* ALWAYS default to dark — ignore the OS colour scheme; only honour an explicit user toggle saved in localStorage */
+            document.body.setAttribute("data-theme", t);
+            document.documentElement.style.colorScheme = t;
+            var m = document.getElementById("meta-theme-color");
+            if (m) m.setAttribute("content", t === "light" ? "#F4F4F2" : "#0A0A0B");
+            /* boot plays unless reduced-motion or a deep-link hash */
+            var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+            var hash = location.hash;
+            if (!reduced && !(hash && hash !== "#" && hash !== "#top")) {
+                document.body.classList.add("is-booting");
+            }
+        })();
+    </script>
 
-<!-- Loading Curtain -->
-<div class="loading-curtain" id="loading-curtain" aria-hidden="true">
-    <div class="curtain-inner">
-        <span class="curtain-logo">HG</span>
-        <div class="curtain-track">
-            <div class="curtain-bar" id="curtain-bar"></div>
+    <!-- BOOT — terminal start-up + upward wipe (Phase 1) -->
+    <div class="boot" id="boot" role="dialog" aria-modal="true" aria-label="System boot sequence — activate Skip to enter the site">
+        <div class="boot__inner" aria-hidden="true">
+            <div class="boot__lines"></div>
+            <div class="boot__progress"><span class="boot__bar"></span></div>
+            <div class="boot__pct mono"><span>BOOT</span><span><span class="boot__pct-val">000</span>%</span></div>
         </div>
+        <button type="button" class="boot__skip">Skip intro</button>
     </div>
-</div>
 
-<!-- Scroll Progress Bar -->
-<div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+    <!-- Atmosphere -->
+    <div class="aura" aria-hidden="true"></div>
+    <div class="blueprint" aria-hidden="true"></div>
+    <div class="grain" aria-hidden="true"></div>
 
-<a class="skip-link" href="#main">Skip to main content</a>
+    <!-- custom cursor -->
+    <div class="cursor-ring" aria-hidden="true"></div>
+    <div class="cursor-dot" aria-hidden="true"></div>
 
-<nav class="topnav" role="navigation" aria-label="Main">
-    <a href="#hero" class="nav-logo" aria-label="Hashwanth Ghanta — home">
-        <svg class="nav-logo-mark" viewBox="0 0 100 50" role="img" aria-hidden="true" focusable="false">
-            <!-- H — two uprights joined by a crossbar -->
-            <path class="hg-letter" d="M8 8 H18 V22 H34 V8 H44 V42 H34 V30 H18 V42 H8 Z"/>
-            <!-- G — blocky to read as one monogram with the H -->
-            <path class="hg-letter" d="M52 8 H82 V18 H62 V32 H72 V26 H82 V42 H52 Z"/>
-            <!-- Accent dot — ring + scroll-scrubbed fill (reading progress) -->
-            <circle class="hg-dot-ring" cx="92" cy="38" r="5"/>
-            <circle class="hg-dot-fill" cx="92" cy="38" r="5"/>
-        </svg>
-        <span class="sr-only">HG</span>
-    </a>
-    <ul class="nav-links" role="list">
-        <li><a href="#about"     data-i18n="nav_about">About</a></li>
-        <li><a href="#projects"  data-i18n="nav_projects">Projects</a></li>
-        <li><a href="#skills"    data-i18n="nav_skills">Skills</a></li>
-        <li><a href="#track"     data-i18n="nav_track">Experience</a></li>
-        <li><a href="#education" data-i18n="nav_education">Education</a></li>
-        <li><a href="#contact"   data-i18n="nav_contact">Contact</a></li>
-    </ul>
-    <div class="nav-ctrls">
-        <button class="cmdk-trigger" id="cmdk-trigger" type="button" aria-label="Open command menu (press Cmd+K or Ctrl+K)" aria-haspopup="dialog" aria-controls="cmdk-palette">
-            <svg viewBox="0 0 24 24" aria-hidden="true" width="14" height="14"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="m20 20-3.5-3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-            <span class="cmdk-trigger-text">Search</span>
-            <kbd class="cmdk-kbd"><span class="cmdk-mod">⌘</span>K</kbd>
-        </button>
-        <button class="icon-btn theme-toggle" id="theme-toggle" type="button" aria-label="Switch to light theme" aria-pressed="false">🌙</button>
-        <button class="lang-btn active" data-lang="en" type="button" onclick="setLanguage('en')" aria-label="English (current language)" aria-pressed="true"><span class="lang-flag" aria-hidden="true">🇬🇧</span> EN</button>
-        <button class="lang-btn"        data-lang="de" type="button" onclick="setLanguage('de')" aria-label="Auf Deutsch umschalten" aria-pressed="false"><span class="lang-flag" aria-hidden="true">🇩🇪</span> DE</button>
-        <button class="hamburger" id="hamburger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-drawer">
-            <svg class="icon-menu" viewBox="0 0 24 24" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-            <svg class="icon-x"    viewBox="0 0 24 24" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18"/><line x1="6" y1="18" x2="18" y2="6"/></svg>
-        </button>
-    </div>
-</nav>
+    <a class="skip-link" href="#main">Skip to content</a>
 
-<div class="drawer-overlay" id="drawer-overlay" aria-hidden="true"></div>
-<aside class="mobile-drawer" id="mobile-drawer" role="dialog" aria-modal="true" aria-labelledby="drawer-title" aria-hidden="true" inert>
-    <h2 class="sr-only" id="drawer-title">Menu</h2>
-    <nav class="drawer-nav" aria-label="Mobile menu">
-        <a href="#about"     data-i18n="nav_about">About</a>
-        <a href="#projects"  data-i18n="nav_projects">Projects</a>
-        <a href="#skills"    data-i18n="nav_skills">Skills</a>
-        <a href="#track"     data-i18n="nav_track">Experience</a>
-        <a href="#education" data-i18n="nav_education">Education</a>
-        <a href="#contact"   data-i18n="nav_contact">Contact</a>
+    <!-- single persistent polite live region (copy / theme / language announcements) -->
+    <p id="sr-live" class="sr-only" role="status" aria-live="polite"></p>
+
+    <!-- ========== HEADER ========== -->
+    <header class="app-header">
+        <a class="brand" href="#top" aria-label="Hashwanth Ghanta — home"><span class="dot"></span>HG.SYSTEMS</a>
+        <nav class="app-nav" aria-label="Sections" data-i18n-attr="aria-label:a11y_sections">
+            <a href="#about"><span class="n">02</span> <span data-i18n="nav_about">About</span></a>
+            <a href="#simulation"><span class="n">03</span> <span data-i18n="nav_simulation">Simulation</span></a>
+            <a href="#systems"><span class="n">04</span> <span data-i18n="nav_systems">Systems</span></a>
+            <a href="#stack"><span class="n">06</span> <span data-i18n="nav_stack">Stack</span></a>
+            <a href="#trajectory"><span class="n">07</span> <span data-i18n="nav_trajectory">Trajectory</span></a>
+            <a href="#handshake"><span class="n">09</span> <span data-i18n="nav_contact">Contact</span></a>
+        </nav>
+        <div class="toggles">
+            <button type="button" class="toggle-btn cmdk-trigger" id="cmdk-trigger" aria-haspopup="dialog" aria-controls="cmdk" aria-keyshortcuts="Meta+K Control+K" aria-label="Open command menu (Ctrl+K or Command+K)" data-i18n-attr="aria-label:a11y_cmdk_open">
+                <svg viewBox="0 0 24 24" width="13" height="13" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+                <kbd aria-hidden="true">⌘K</kbd>
+            </button>
+            <button type="button" class="toggle-btn theme-btn" aria-pressed="false" aria-label="Switch theme">
+                <svg class="ico ico-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+                <svg class="ico ico-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+            </button>
+            <span class="lang-group" role="group" aria-label="Language" data-i18n-attr="aria-label:a11y_language">
+                <button type="button" class="lang-btn" data-lang="en" aria-pressed="true"><span>EN</span></button>
+                <button type="button" class="lang-btn" data-lang="de" aria-pressed="false"><span>DE</span></button>
+            </span>
+            <button type="button" class="toggle-btn hamburger" id="hamburger" aria-expanded="false" aria-controls="drawer" aria-label="Open menu" data-i18n-attr="aria-label:a11y_open_menu">
+                <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- ========== MOBILE DRAWER (native dialog) ========== -->
+    <dialog class="drawer" id="drawer" aria-labelledby="drawer-h" data-lenis-prevent>
+        <div class="drawer__top">
+            <h2 class="drawer__title mono" id="drawer-h" data-i18n="drawer_title">Menu</h2>
+            <button type="button" class="toggle-btn drawer__close" id="drawer-close" aria-label="Close menu" data-i18n-attr="aria-label:a11y_close_menu">
+                <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+            </button>
+        </div>
+        <nav class="drawer__nav" aria-label="Sections" data-i18n-attr="aria-label:a11y_sections">
+            <ul>
+                <li><a href="#identity"><span class="n">01</span> <span data-i18n="nav_identity">Identity</span></a></li>
+                <li><a href="#about"><span class="n">02</span> <span data-i18n="nav_about">About</span></a></li>
+                <li><a href="#simulation"><span class="n">03</span> <span data-i18n="nav_simulation">Simulation</span></a></li>
+                <li><a href="#systems"><span class="n">04</span> <span data-i18n="nav_systems">Systems</span></a></li>
+                <li><a href="#capabilities"><span class="n">05</span> <span data-i18n="nav_capabilities">Capabilities</span></a></li>
+                <li><a href="#stack"><span class="n">06</span> <span data-i18n="nav_stack">Stack</span></a></li>
+                <li><a href="#trajectory"><span class="n">07</span> <span data-i18n="nav_trajectory">Trajectory</span></a></li>
+                <li><a href="#now"><span class="n">08</span> <span data-i18n="nav_now">Now</span></a></li>
+                <li><a href="#handshake"><span class="n">09</span> <span data-i18n="nav_contact">Contact</span></a></li>
+            </ul>
+        </nav>
+        <p class="drawer__foot mono">HG.SYSTEMS · MAGDEBURG</p>
+    </dialog>
+
+    <!-- ========== GLOBAL SCROLL THREAD (fills top→bottom across the whole site) ========== -->
+    <div class="scroll-thread" aria-hidden="true"><span class="scroll-thread__fill" id="scroll-thread-fill"></span></div>
+
+    <!-- ========== CHAPTER-HUD RAIL ========== -->
+    <nav class="chapter-rail" aria-label="Chapters" data-i18n-attr="aria-label:a11y_chapters">
+        <a href="#identity" aria-label="01 — Identity" data-i18n-attr="aria-label:rail_01"><span class="num">01</span><span class="tick"></span></a>
+        <a href="#about" aria-label="02 — About" data-i18n-attr="aria-label:rail_02"><span class="num">02</span><span class="tick"></span></a>
+        <a href="#simulation" aria-label="03 — Simulation" data-i18n-attr="aria-label:rail_03"><span class="num">03</span><span class="tick"></span></a>
+        <a href="#systems" aria-label="04 — Systems" data-i18n-attr="aria-label:rail_04"><span class="num">04</span><span class="tick"></span></a>
+        <a href="#capabilities" aria-label="05 — Capabilities" data-i18n-attr="aria-label:rail_05"><span class="num">05</span><span class="tick"></span></a>
+        <a href="#stack" aria-label="06 — Stack" data-i18n-attr="aria-label:rail_06"><span class="num">06</span><span class="tick"></span></a>
+        <a href="#trajectory" aria-label="07 — Trajectory" data-i18n-attr="aria-label:rail_07"><span class="num">07</span><span class="tick"></span></a>
+        <a href="#now" aria-label="08 — Now building" data-i18n-attr="aria-label:rail_08"><span class="num">08</span><span class="tick"></span></a>
+        <a href="#handshake" aria-label="09 — Contact" data-i18n-attr="aria-label:rail_09"><span class="num">09</span><span class="tick"></span></a>
     </nav>
-    <div class="drawer-cta">
-        <a href="#contact" class="contact-btn" data-i18n="btn_contact_me">Contact Me</a>
-    </div>
-    <div class="drawer-lang">
-        <button class="lang-btn active" data-lang="en" type="button" onclick="setLanguage('en')" aria-label="English (current language)" aria-pressed="true"><span class="lang-flag" aria-hidden="true">🇬🇧</span> EN</button>
-        <button class="lang-btn"        data-lang="de" type="button" onclick="setLanguage('de')" aria-label="Auf Deutsch umschalten" aria-pressed="false"><span class="lang-flag" aria-hidden="true">🇩🇪</span> DE</button>
-    </div>
-</aside>
 
-<main id="main" tabindex="-1">
+    <!-- ========== HUD CORNERS ========== -->
+    <div class="hud hud--bl scan" aria-hidden="true">MAGDEBURG <span class="k" id="hud-clock">--:--:--</span></div>
+    <div class="hud hud--br" aria-hidden="true">SCROLL <span class="k" id="hud-scroll">000</span>%</div>
 
-<!-- ================== HERO ================== -->
-<section id="hero" aria-labelledby="hero-h1">
-    <div class="hero-headline-wrap hero-stagger">
-        <!-- Inline avatar — appears ONLY on phones (≤540px). Replaces the desktop portrait card
-             so the photo isn't a floating square on mobile but is paired with the name. -->
-        <span class="hero-inline-avatar" aria-hidden="true">
-            <img src="Images/hash-avatar.jpg" width="56" height="56" alt="" loading="eager" decoding="async">
-        </span>
-        <h1 class="hero-headline hero-heading" id="hero-h1">Hashwanth Ghanta</h1>
-    </div>
+    <button type="button" class="to-top" id="to-top" aria-label="Back to top" data-i18n-attr="aria-label:a11y_back_top">
+        <span aria-hidden="true">↑</span>
+    </button>
 
-    <div class="hero-body">
-        <div class="hero-left hero-stagger">
-            <div class="hero-portrait-wrap" id="hero-portrait-wrap" aria-hidden="true">
-                <div class="hero-portrait-clip">
-                    <img src="Images/hash-850.jpg" srcset="Images/hash-850.jpg 850w" sizes="(max-width: 860px) 0px, 425px"
-                         width="425" height="492"
-                         alt="" loading="eager" decoding="async" fetchpriority="high">
-                </div>
-            </div>
-        </div>
+    <span id="top"></span>
 
-        <div class="hero-right hero-stagger">
-            <span class="hero-open-badge" data-i18n="hero_open">Actively Searching — Working Student (Hybrid or Remote)</span>
-            <p class="hero-intro" data-i18n="hero_intro">
-                M.Sc. Digital Engineering at OVGU Magdeburg — a programme spanning backend systems, databases, data science, simulation, AI, and software engineering. I shipped a 7-phase Unity 3D CO₂ capture simulation and I'm building an AI adaptive learning system with LLMs. Open to working-student roles across backend, frontend, data engineering, analytics, databases, iOS, simulation — or any tech domain. I pick up new technologies fast. Hybrid or remote, starting Q2 2026.
-            </p>
-            <div class="hero-skills-track-wrap" id="hero-skills-track-wrap" aria-label="Core skills"></div>
-            <div class="hero-cta-row">
-                <a href="resume.pdf" class="resume-btn" id="resume-btn"
-                   download="Hashwanth_Ghanta_CV_English.pdf"
-                   aria-label="Download resume (PDF)">
-                    <span data-i18n="btn_resume">Resume</span>
-                </a>
-                <a href="#projects" class="projects-btn" id="projects-btn" aria-label="Jump to Projects">
-                    <span data-i18n="btn_projects">View Projects</span>
-                </a>
-                <a href="#contact" class="contact-btn" data-i18n="btn_get_in_touch">Get In Touch</a>
-            </div>
-        </div>
-    </div>
-</section>
+    <!-- ========== MAIN ========== -->
+    <main id="main">
+        <!-- ============ 01 IDENTITY (hero) ============ -->
+        <section class="section hero" id="identity" aria-labelledby="hero-h">
+            <canvas class="hero-canvas" id="hero-canvas" aria-hidden="true"></canvas>
+            <div class="shell hero-grid">
+                <header class="section-head hero-head">
+                    <span class="coord">SEC.01 / IDENTITY</span>
+                    <span class="coord-sep"></span>
+                    <span class="coord-id">SYSTEMS · ONLINE</span>
+                </header>
 
-<!-- ================== ABOUT ================== -->
-<section id="about" aria-labelledby="about-h2">
-    <div class="about-inner">
-        <h2 class="about-title hero-heading reveal" id="about-h2" data-i18n="about_h2">About Me</h2>
-        <p class="about-text" id="about-text" data-i18n="about_text">
-            I'm an M.Sc. Digital Engineering student at OVGU Magdeburg focused on backend, simulation, and iOS. I ship things end-to-end — Unity 3D simulations in C#, native SwiftUI apps with live finance data, IoT prototypes on Arduino. I care about clean code, measurable outcomes, and the boring details that make software actually work.
-        </p>
-        <div class="about-meta" aria-label="Quick facts">
-            <div class="about-stat reveal" style="transition-delay: 0.1s;"><div class="about-stat-val">7</div><div class="about-stat-lbl" data-i18n="stat_phases">Unity simulation phases shipped</div></div>
-            <div class="about-stat reveal" style="transition-delay: 0.2s;"><div class="about-stat-val">55+</div><div class="about-stat-lbl" data-i18n="stat_projects">Live stock tickers across 6 exchanges</div></div>
-            <div class="about-stat reveal" style="transition-delay: 0.3s;"><div class="about-stat-val">1,000+</div><div class="about-stat-lbl" data-i18n="stat_available">Participants led at VITOPIA 2024</div></div>
-        </div>
-
-        <div class="creds-callout reveal" style="transition-delay: 0.35s;" aria-label="Availability and languages">
-            <div class="creds-row"><span class="creds-lbl" data-i18n="creds_avail_lbl">Availability</span><span class="creds-val" data-i18n="creds_avail_val">Working Student · Q2 2026 · hybrid or remote</span></div>
-            <div class="creds-row"><span class="creds-lbl" data-i18n="creds_status_lbl">Work status</span><span class="creds-val" data-i18n="creds_status_val">Enrolled student in Germany — eligible for Werkstudent roles</span></div>
-            <div class="creds-row"><span class="creds-lbl" data-i18n="creds_lang_lbl">Languages</span><span class="creds-val" data-i18n="creds_lang_val">English (fluent) · German A2 (enrolled at OVGU)</span></div>
-        </div>
-
-        <div class="live-strip live-strip-single reveal" style="transition-delay: 0.45s;" aria-label="Live signals">
-            <div class="live-tile live-clock" aria-live="polite">
-                <span class="live-tile-ico" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 7v5l3 2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-                </span>
-                <div class="live-tile-body">
-                    <span class="live-tile-lbl">Magdeburg now</span>
-                    <span class="live-tile-val" id="live-clock-val">—</span>
-                </div>
-            </div>
-        </div>
-
-        <a class="github-heatmap-wrap reveal" id="github-heatmap" style="transition-delay: 0.55s;"
-           href="https://github.com/hashwanthghanta" target="_blank" rel="noopener noreferrer"
-           aria-label="Open my GitHub profile to see the real contribution graph (opens in new tab)">
-            <div class="github-heatmap-head">
-                <span data-i18n="heatmap_title">GitHub activity</span>
-                <span class="github-heatmap-hint" data-i18n="heatmap_hint">illustrative · open profile for live graph →</span>
-            </div>
-            <div class="github-heatmap-grid" id="github-heatmap-grid" aria-hidden="true"></div>
-            <div class="github-heatmap-foot" data-i18n="heatmap_cta">@hashwanthghanta — open profile to see the real graph →</div>
-        </a>
-        <div class="repo-badges reveal" id="repo-badges" style="transition-delay: 0.6s;" aria-label="Portfolio last updated">
-            <a href="https://github.com/hashwanthghanta/hashwanthghanta.github.io" target="_blank" rel="noopener noreferrer" aria-label="Portfolio repository — last commit on GitHub">
-                <img src="https://img.shields.io/github/last-commit/hashwanthghanta/hashwanthghanta.github.io?style=flat-square&color=0891b2&label=portfolio%20updated" alt="Date of the most recent portfolio update" loading="lazy" decoding="async">
-            </a>
-        </div>
-        <div class="reveal" style="transition-delay: 0.4s;">
-            <a href="#contact" class="contact-btn" data-i18n="btn_contact_me">Contact Me</a>
-        </div>
-    </div>
-</section>
-
-<!-- ================== SERVICES ================== -->
-<section id="services" aria-labelledby="services-h2">
-    <h2 class="services-title reveal" id="services-h2" data-i18n="services_h2">What I Do</h2>
-    <ol class="services-list" id="services-list"></ol>
-</section>
-
-<!-- ================== PROJECTS ================== -->
-<section id="projects" aria-labelledby="projects-h2">
-    <h2 class="projects-title hero-heading reveal" id="projects-h2" data-i18n="projects_h2">Projects</h2>
-    <div class="projects-stack" id="projects-stack"></div>
-</section>
-
-<!-- ================== SKILLS ================== -->
-<section id="skills" aria-labelledby="skills-h2">
-    <div class="skills-eyebrow reveal" data-i18n="skills_eyebrow">What I work with</div>
-    <h2 class="skills-title hero-heading reveal" id="skills-h2" data-i18n="skills_h2">Skills</h2>
-    <div class="skills-grid" id="skills-grid"></div>
-</section>
-
-<!-- ================== TRACK RECORD ================== -->
-<section id="track" aria-labelledby="track-h2">
-    <div class="track-eyebrow reveal" data-i18n="track_eyebrow">Track Record</div>
-    <h2 class="track-title hero-heading reveal" id="track-h2" data-i18n="track_h2">Shipped &amp; Led</h2>
-    <ol class="track-list" id="track-list"></ol>
-</section>
-
-<!-- ================== EDUCATION ================== -->
-<section id="education" aria-labelledby="education-h2">
-    <div class="edu-eyebrow reveal" data-i18n="edu_eyebrow">Academic Background</div>
-    <h2 class="edu-title hero-heading reveal" id="education-h2" data-i18n="education_h2">Where I Studied</h2>
-    <div class="edu-grid" id="edu-grid"></div>
-</section>
-
-<!-- ================== CONTACT ================== -->
-<section id="contact" aria-labelledby="contact-h2">
-    <h2 class="contact-title hero-heading reveal" id="contact-h2" data-i18n="contact_h2">Let's Connect</h2>
-    <p class="contact-lede reveal" style="transition-delay: 0.1s;" data-i18n="contact_lede">
-        Actively searching for working-student roles — hybrid or remote — in 3D visualization, simulation, or software development across Germany. Immediately available.
-    </p>
-
-    <div class="contact-body">
-        <div class="contact-side reveal" style="transition-delay: 0.15s;">
-            <figure class="contact-photo" aria-hidden="true">
-                <img src="Images/hash2.jpeg" width="744" height="992" alt="" loading="lazy" decoding="async">
-            </figure>
-            <div class="contact-cards-stack">
-                <a class="contact-card" href="mailto:hashwanthghanta@gmail.com">
-                    <span class="contact-lbl" data-i18n="ct_email">Email</span>
-                    <span class="contact-val">hashwanthghanta@gmail.com</span>
-                </a>
-                <a class="contact-card" href="https://linkedin.com/in/hashwanthghanta" target="_blank" rel="noopener noreferrer">
-                    <span class="contact-lbl" data-i18n="ct_linkedin">LinkedIn</span>
-                    <span class="contact-val">linkedin.com/in/hashwanthghanta</span>
-                    <span class="sr-only"> (opens in new tab)</span>
-                </a>
-                <a class="contact-card" href="https://github.com/hashwanthghanta" target="_blank" rel="noopener noreferrer">
-                    <span class="contact-lbl" data-i18n="ct_github">GitHub</span>
-                    <span class="contact-val">github.com/hashwanthghanta</span>
-                    <span class="sr-only"> (opens in new tab)</span>
-                </a>
-                <div class="contact-card">
-                    <span class="contact-lbl" data-i18n="ct_location">Location</span>
-                    <span class="contact-val">Magdeburg, Germany</span>
+                <div class="hero-main">
+                    <p class="hero-status mono">
+                        <span class="ping" aria-hidden="true"></span>
+                        <span data-i18n="h3_status">OPEN · WORKING STUDENT · Q2 2026</span>
+                    </p>
+                    <p class="term-cmd" aria-hidden="true"><span class="pr">~ $</span> whoami</p>
+                    <h1 id="hero-h" class="hero-title">HASHWANTH<br>GHANTA</h1>
+                    <p class="hero-sub mono" data-i18n="h3_sub">M.Sc. Digital Engineering / OVGU Magdeburg</p>
+                    <p class="term-cmd" aria-hidden="true"><span class="pr">~ $</span> cat profile.txt</p>
+                    <p class="hero-about" data-i18n="h3_about">M.Sc. Digital Engineering student at OVGU Magdeburg. I've shipped a 7-phase Unity CO₂ capture simulation, a native SwiftUI iOS watchlist with live market data, and IoT safety prototypes — and I'm now building an LLM-driven adaptive learning system. I'm after a working-student role from Q2 2026 across backend, iOS, data or simulation — hybrid or remote, anywhere in Germany. I pick up new stacks fast.</p>
+                    <div class="hero-cta">
+                        <a class="btn btn--signal" href="#simulation" data-magnetic>
+                            <span data-i18n="cta_sim">Run simulation</span><span class="btn-arrow" aria-hidden="true">↓</span>
+                        </a>
+                        <a class="btn btn--ghost" id="resume-btn" href="resume.pdf" download="Hashwanth_Ghanta_CV_English.pdf" target="_blank" rel="noopener noreferrer" data-magnetic aria-label="Résumé.pdf — download CV (PDF)">
+                            <span data-i18n="cta_resume">Résumé.pdf</span>
+                        </a>
+                        <a class="btn btn--text" href="#handshake"><span data-i18n="cta_contact">Contact</span></a>
+                    </div>
+                    <p class="hero-caret" aria-hidden="true"><span class="pr">~ $</span> <b></b></p>
                 </div>
             </div>
 
-            <div class="contact-quick-actions" aria-label="Quick actions">
-                <button class="ghost-btn contact-quick-btn" id="contact-share" type="button">
-                    <svg viewBox="0 0 24 24" aria-hidden="true" width="14" height="14"><path d="M4 12v7a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7M16 6l-4-4-4 4M12 2v13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                    Share portfolio
-                </button>
+            <aside class="pcard-mount" id="pcard-mount" aria-label="Profile card" data-i18n-attr="aria-label:a11y_profilecard">
+                <div class="pcard" id="pcard">
+                    <div class="pcard__inner" id="pcard-inner">
+                        <span class="pcard__holo" aria-hidden="true"></span>
+                        <span class="pcard__grain" aria-hidden="true"></span>
+                        <div class="pcard__head">
+                            <p class="pcard__name">Hashwanth Ghanta</p>
+                            <p class="pcard__role mono" data-i18n="pc_role">Software Developer</p>
+                        </div>
+                        <div class="pcard__photo">
+                            <img src="Images/hash2.jpeg" width="744" height="992" alt="" loading="eager" fetchpriority="high" decoding="async" draggable="false">
+                        </div>
+                        <div class="pcard__foot">
+                            <span class="pcard__status">
+                                <span class="ping" aria-hidden="true"></span>
+                                <span class="pcard__handle mono">@hashwanthghanta</span>
+                                <span class="pcard__open mono" data-i18n="pc_status">Open to work</span>
+                            </span>
+                            <a class="pcard__cta mono" href="#handshake" data-i18n="pc_contact">Contact me</a>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </section>
+
+        <!-- ============ 02 ABOUT — dossier panel + lanyard ID ============ -->
+        <section class="section about" id="about" aria-labelledby="about-h">
+            <div class="shell">
+                <header class="section-head">
+                    <span class="coord">SEC.02 / ABOUT</span>
+                    <span class="coord-sep"></span>
+                    <span class="coord-id">PERSONNEL FILE</span>
+                </header>
+
+                <div class="ab-panel" data-reveal>
+                    <div class="ab-bar" aria-hidden="true">
+                        <span class="tl-dots"><i></i><i></i><i></i></span>
+                        <span class="ab-bar__title">hashwanth@portfolio: ~ $ cat about.md</span>
+                    </div>
+                    <span class="ab-contours" aria-hidden="true"></span>
+                    <div class="ab-grid">
+                        <div class="ab-main">
+                            <h2 id="about-h" data-i18n="about_h2">About Me</h2>
+                            <p class="ab-text" data-i18n="about_text"></p>
+
+                            <dl class="ab-creds">
+                                <div class="ab-cred"><dt class="mono" data-i18n="creds_avail_lbl">Availability</dt><dd data-i18n="creds_avail_val"></dd></div>
+                                <div class="ab-cred"><dt class="mono" data-i18n="creds_lang_lbl">Languages</dt><dd data-i18n="creds_lang_val"></dd></div>
+                            </dl>
+
+                            <div class="ab-stats" id="ab-stats"></div>
+                            <p class="ab-sign mono" data-i18n="ab_sign"></p>
+                        </div>
+
+                        <aside class="idcard-mount" id="idcard-mount" aria-label="Student ID card" data-i18n-attr="aria-label:a11y_studentid_mount">
+                            <span class="lanyard-pin" aria-hidden="true"></span>
+                            <svg class="lanyard-rope" id="lanyard-rope" aria-hidden="true" preserveAspectRatio="none">
+                                <path id="rope-path" class="rope-band"></path>
+                                <path id="rope-edge" class="rope-edge"></path>
+                                <path id="rope-stripe" class="rope-stripe"></path>
+                            </svg>
+                            <div class="idcard" id="idcard" role="img" aria-label="Hashwanth Ghanta — M.Sc. Digital Engineering student ID, OVGU Magdeburg" data-i18n-attr="aria-label:a11y_idcard;data-cursor:cursor_drag" data-cursor="DRAG" aria-describedby="idcard-hint">
+                                <span class="idcard-clip" aria-hidden="true"></span>
+                                <div class="idcard-face">
+                                    <span class="idcard-hole" aria-hidden="true"></span>
+                                    <div class="idcard-head">
+                                        <img class="idcard-logo" src="Images/ovgu-logo.svg" width="132" height="46" alt="" aria-hidden="true" draggable="false">
+                                    </div>
+                                    <div class="idcard-photo">
+                                        <img src="Images/hash.jpeg" width="220" height="240" alt="" loading="lazy" decoding="async" draggable="false">
+                                    </div>
+                                    <div class="idcard-name">Hashwanth Ghanta</div>
+                                    <div class="idcard-role">M.Sc. Digital Engineering</div>
+                                    <div class="idcard-meta mono"><span data-i18n="badge_cap">ID · MAGDEBURG · DE</span></div>
+                                </div>
+                            </div>
+                            <span id="idcard-hint" class="sr-only" data-i18n="idcard_hint">Drag the card in any direction and release — it drops and swings on its lanyard.</span>
+                        </aside>
+                    </div>
+
+                    <a class="ab-heatmap" id="ab-heatmap" href="https://github.com/hashwanthghanta" target="_blank" rel="noopener noreferrer">
+                        <span class="ab-heatmap__head mono">
+                            <span data-i18n="heatmap_title">GitHub activity</span>
+                            <span class="hint" data-i18n="heatmap_hint">illustrative · open profile for live graph →</span>
+                        </span>
+                        <span class="ab-heatmap__grid" id="ab-heatmap-grid" aria-hidden="true"></span>
+                        <span class="sr-only" data-i18n="a11y_heatmap">GitHub activity — open my GitHub profile to see the real contribution graph (opens in new tab)</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ 03 THE SIMULATION ============ -->
+        <section class="section sim" id="simulation" aria-labelledby="sim-h">
+            <div class="sim-track">
+                <div class="sim-pin">
+                    <div class="sim-stage shell">
+                        <header class="section-head sim-head">
+                            <span class="coord">SEC.03 / SIMULATION</span>
+                            <span class="coord-sep"></span>
+                            <span class="coord-id" data-i18n="sim_eyebrow">The Simulation</span>
+                        </header>
+
+                        <h2 id="sim-h" class="sim-title">
+                            <span class="stagenum" id="sim-stagenum">STAGE 01 / 04</span>
+                            CO₂ CAPTURE
+                        </h2>
+
+                        <div class="sim-readouts" aria-hidden="true">
+                            <div class="readout"><span class="lbl">CO₂ in</span><span class="val" id="ro-co2">12.4%</span></div>
+                            <div class="readout is-signal"><span class="lbl">Capture</span><span class="val" id="ro-capture">0%</span></div>
+                            <div class="readout is-signal"><span class="lbl">Purity</span><span class="val" id="ro-purity">—</span></div>
+                        </div>
+
+                        <div class="sim-canvas-wrap framed">
+                            <canvas id="co2-canvas" aria-hidden="true"></canvas>
+                            <div class="sim-stagelabel" id="sim-stagelabel"><span class="sn">01</span> <span id="sim-stagename">FLUE GAS IN</span></div>
+                        </div>
+
+                        <p class="sim-caption mono" id="sim-caption" aria-live="polite"></p>
+
+                        <div class="sim-cta" id="sim-cta">
+                            <span class="readout" style="text-align:left"><span class="lbl">Build</span><span class="val" style="font-size:1.1rem">7-phase coroutine · 4 stages · C# · Unity · Blender</span></span>
+                            <a class="btn btn--ghost" id="sim-co2-build" href="https://play.unity.com/en/games/30f22392-532c-41e1-b925-6191a9ea99c2/post-combustion-co-carbon-capture" target="_blank" rel="noopener noreferrer"><span data-i18n="sim_cta_build">Play the WebGL build</span><span class="sr-only"> (opens in new tab)</span></a>
+                            <a class="btn btn--ghost" id="sim-co2-case" href="projects/co2-simulation.html"><span data-i18n="sim_cta_case">Read case study</span></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- reduced-motion / no-JS fallback: 4 static figures -->
+                <div class="sim-static shell" aria-hidden="false">
+                    <figure class="sim-fig"><span class="fnum">STAGE 01</span><h3>Flue gas in</h3><p>Grey flue-gas stream enters the absorber at CO₂ ≈ 12.4%.</p></figure>
+                    <figure class="sim-fig"><span class="fnum">STAGE 02</span><h3>Absorber</h3><p>Particles meet the solvent stream and are captured — capture rate climbs toward 95%.</p></figure>
+                    <figure class="sim-fig"><span class="fnum">STAGE 03</span><h3>Desorber</h3><p>Amber heat releases a pure CO₂ stream upward — purity exceeds 95%.</p></figure>
+                    <figure class="sim-fig"><span class="fnum">STAGE 04</span><h3>Output</h3><p>Compressed CO₂ exits. Built as a 7-phase Unity coroutine with Blender models in C#.</p></figure>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ 03 SYSTEMS (project rail) ============ -->
+        <section class="section systems" id="systems" aria-labelledby="systems-h">
+            <div class="systems-track" id="systems-track">
+                <div class="rail-pin">
+                    <div class="rail-head">
+                        <span class="coord">SEC.04 / SYSTEMS</span>
+                        <h2 id="systems-h" class="sr-only" data-i18n="systems_eyebrow">Selected Systems</h2>
+                        <span class="coord-sep"></span>
+                        <span class="rail-progress"><span class="cur" id="rail-cur">01</span> / <span id="rail-total">05</span></span>
+                    </div>
+                    <div class="rail-viewport">
+                        <div class="rail-cards" id="projects-rail"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ 05 CAPABILITIES (what I do) ============ -->
+        <section class="section capabilities" id="capabilities" aria-labelledby="cap-h">
+            <div class="shell">
+                <header class="section-head">
+                    <span class="coord">SEC.05 / CAPABILITIES</span>
+                    <span class="coord-sep"></span>
+                    <span class="coord-id">MODULES · LOADED</span>
+                </header>
+                <h2 id="cap-h" data-i18n="services_h2" style="margin-bottom:var(--space-block)">What I Do</h2>
+                <ol class="cap-list" id="cap-list"></ol>
+            </div>
+        </section>
+
+        <!-- ============ 06 STACK ============ -->
+        <section class="section stack" id="stack" aria-labelledby="stack-h">
+            <div class="shell">
+                <header class="section-head">
+                    <span class="coord">SEC.06 / STACK</span>
+                    <span class="coord-sep"></span>
+                    <span class="coord-id">EVIDENCE · NOT RATINGS</span>
+                </header>
+                <h2 id="stack-h" data-i18n="stack_eyebrow2" style="margin-bottom:0.8rem">The Stack</h2>
+                <p class="stack-hint" data-i18n="stack_proof_hint">Hover or focus a cell — it names where I used it.</p>
+                <div class="stack-matrix" id="stack-matrix" role="list"></div>
+            </div>
+            <div class="stack-marquee" id="stack-marquee" aria-hidden="true">
+                <div class="marquee-row" id="marquee-row"></div>
+            </div>
+        </section>
+
+        <!-- ============ 07 TRAJECTORY ============ -->
+        <section class="section trajectory" id="trajectory" aria-labelledby="traj-h">
+            <div class="shell">
+                <header class="section-head">
+                    <span class="coord">SEC.07 / TRAJECTORY</span>
+                    <span class="coord-sep"></span>
+                    <span class="coord-id">EDUCATION + WORK</span>
+                </header>
+                <h2 id="traj-h" data-i18n="traj_eyebrow" style="margin-bottom:var(--space-block)">Trajectory</h2>
+                <div class="traj" id="traj">
+                    <svg class="traj-line" aria-hidden="true" preserveAspectRatio="none" viewBox="0 0 120 1000">
+                        <path class="bg" d="M60 0 V1000" pathLength="1"></path>
+                        <path class="fg" id="traj-fg" d="M60 0 V1000" pathLength="1"></path>
+                    </svg>
+                    <ol class="traj-list" id="traj-list"></ol>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ 08 NOW — live processes ============ -->
+        <section class="section now" id="now" aria-labelledby="now-h">
+            <div class="shell">
+                <header class="section-head">
+                    <span class="coord">SEC.08 / NOW</span>
+                    <span class="coord-sep"></span>
+                    <span class="coord-id mono" id="now-stamp">PROC · LIVE</span>
+                </header>
+                <h2 id="now-h" data-i18n="now_h2">Now Building</h2>
+                <p class="now-intro" data-i18n="now_intro">Live processes — what is running right now.</p>
+                <ul class="now-list" id="now-list"></ul>
+            </div>
+        </section>
+
+        <!-- ============ 09 HANDSHAKE (contact) ============ -->
+        <section class="section handshake" id="handshake" aria-labelledby="hand-h">
+            <div class="shell">
+                <header class="section-head">
+                    <span class="coord">SEC.09 / HANDSHAKE</span>
+                    <span class="coord-sep"></span>
+                    <span class="coord-id">RESPONSE &lt; 24H</span>
+                </header>
+                <h2 id="hand-h" data-i18n="hand_eyebrow">Handshake</h2>
+                <p class="hand-intro" data-i18n="hand_intro">Open to working-student roles from Q2 2026 — hybrid or remote, Germany. Tell me what you're building.</p>
+
+                <div class="hand-grid">
+                    <div class="terminal">
+                        <div class="terminal__bar" aria-hidden="true">
+                            <span class="dot sig"></span><span class="dot"></span><span class="dot"></span>
+                            &nbsp;&gt; let's_connect
+                        </div>
+                        <form class="terminal__body" id="contact-form" novalidate>
+                            <div class="tfield">
+                                <label for="cf-name">name</label>
+                                <input class="tinput" id="cf-name" name="from_name" type="text" autocomplete="name" required placeholder="Jane Recruiter">
+                            </div>
+                            <div class="tfield">
+                                <label for="cf-email">email</label>
+                                <input class="tinput" id="cf-email" name="from_email" type="email" autocomplete="email" required placeholder="jane@company.com">
+                            </div>
+                            <div class="tfield">
+                                <label for="cf-msg">message</label>
+                                <textarea class="tinput" id="cf-msg" name="message" required placeholder="We're hiring a working student for…"></textarea>
+                            </div>
+                            <div class="cf-hp" aria-hidden="true">
+                                <label for="cf-website">Leave this field empty</label>
+                                <input id="cf-website" name="website" type="text" tabindex="-1" autocomplete="off">
+                            </div>
+                            <button type="submit" class="btn btn--signal" data-magnetic>
+                                <span data-i18n="btn_get_in_touch">Get In Touch</span><span class="btn-arrow" aria-hidden="true">↗</span>
+                            </button>
+                            <p class="cf-status" id="cf-status" role="status" aria-live="polite"></p>
+                        </form>
+                    </div>
+
+                    <div class="readouts-col">
+                        <div class="ro-row">
+                            <div style="min-width:0"><span class="ro-k">Email</span><br><a class="ro-v" href="mailto:hashwanthghanta@gmail.com">hashwanthghanta@gmail.com</a></div>
+                            <button type="button" class="ro-copy" data-copy="hashwanthghanta@gmail.com" aria-label="Copy email address" data-i18n-attr="aria-label:a11y_copy_email">COPY</button>
+                        </div>
+                        <div class="ro-row">
+                            <div style="min-width:0"><span class="ro-k">LinkedIn</span><br><a class="ro-v" href="https://www.linkedin.com/in/hashwanthghanta" target="_blank" rel="noopener noreferrer">in/hashwanthghanta<span class="sr-only"> (opens in new tab)</span></a></div>
+                            <button type="button" class="ro-copy" data-copy="https://www.linkedin.com/in/hashwanthghanta" aria-label="Copy LinkedIn URL" data-i18n-attr="aria-label:a11y_copy_linkedin">COPY</button>
+                        </div>
+                        <div class="ro-row">
+                            <div style="min-width:0"><span class="ro-k">GitHub</span><br><a class="ro-v" href="https://github.com/hashwanthghanta" target="_blank" rel="noopener noreferrer">github.com/hashwanthghanta<span class="sr-only"> (opens in new tab)</span></a></div>
+                            <button type="button" class="ro-copy" data-copy="https://github.com/hashwanthghanta" aria-label="Copy GitHub URL" data-i18n-attr="aria-label:a11y_copy_github">COPY</button>
+                        </div>
+                        <div class="ro-row">
+                            <div style="min-width:0"><span class="ro-k">Location</span><br><span class="ro-v">Magdeburg, DE · hybrid / remote</span></div>
+                        </div>
+                        <button type="button" class="btn btn--ghost ro-share" id="ro-share">
+                            <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 10.7 6.8-3.9M8.6 13.3l6.8 3.9"/></svg>
+                            <span data-i18n="share_btn">Share this portfolio</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ========== COMMAND PALETTE (⌘K, native dialog) ========== -->
+    <dialog class="cmdk" id="cmdk" aria-label="Command palette" data-i18n-attr="aria-label:a11y_cmdk_label" data-lenis-prevent>
+        <div class="cmdk__card">
+            <div class="cmdk__bar" aria-hidden="true">
+                <span class="tl-dots"><i></i><i></i><i></i></span>
+                <span class="cmdk__bartitle">hashwanth@portfolio: ~ — zsh — ⌘K</span>
+            </div>
+            <div class="cmdk__search">
+                <span class="cmdk__prompt mono" aria-hidden="true">~ $</span>
+                <input type="text" class="cmdk__input" id="cmdk-input" role="combobox" aria-expanded="true" aria-controls="cmdk-list" aria-autocomplete="list" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Jump to section, switch theme, copy email…" data-i18n-attr="placeholder:cmdk_placeholder">
+                <kbd class="cmdk__esc mono" aria-hidden="true">esc</kbd>
+            </div>
+            <ul class="cmdk__list" id="cmdk-list" role="listbox" aria-label="Commands" data-i18n-attr="aria-label:a11y_commands"></ul>
+            <p class="cmdk__empty mono" id="cmdk-empty" data-i18n="cmdk_empty" hidden>No matches</p>
+            <p class="sr-only" id="cmdk-count" role="status" aria-live="polite"></p>
+            <div class="cmdk__foot mono" aria-hidden="true">
+                <span><kbd>↑</kbd><kbd>↓</kbd> <span data-i18n="cmdk_hint_nav">navigate</span></span>
+                <span><kbd>↵</kbd> <span data-i18n="cmdk_hint_sel">select</span></span>
+                <span><kbd>esc</kbd> <span data-i18n="cmdk_hint_close">close</span></span>
             </div>
         </div>
+    </dialog>
 
-        <form class="contact-form reveal" id="contact-form" style="transition-delay: 0.3s;" aria-label="Contact form" novalidate>
-            <h3 data-i18n="cf_heading">Send a message</h3>
-            <div>
-                <label for="cf-name" data-i18n="cf_name">Your name</label>
-                <input id="cf-name" name="name" type="text" autocomplete="name" placeholder="Jane Doe" required>
+    <!-- ============ SHUTDOWN — monument footer ============ -->
+    <footer class="shutdown" role="contentinfo">
+        <div class="shell">
+            <div class="foot-meta">
+                <nav aria-label="Secondary" data-i18n-attr="aria-label:a11y_secondary">
+                    <a href="now.html" id="footer-now">/now</a>
+                    <a href="uses.html" id="footer-uses">/uses</a>
+                    <a href="projects/co2-simulation.html" id="footer-co2">/co2-case-study</a>
+                </nav>
+                <nav aria-label="Social" data-i18n-attr="aria-label:a11y_social">
+                    <a href="https://github.com/hashwanthghanta" target="_blank" rel="noopener noreferrer">GITHUB<span class="sr-only"> (opens in new tab)</span></a>
+                    <a href="https://www.linkedin.com/in/hashwanthghanta" target="_blank" rel="noopener noreferrer">LINKEDIN<span class="sr-only"> (opens in new tab)</span></a>
+                    <a href="mailto:hashwanthghanta@gmail.com">EMAIL</a>
+                </nav>
+                <span><span class="sig">©</span> 2026 HASHWANTH GHANTA</span>
             </div>
-            <div>
-                <label for="cf-email" data-i18n="cf_email">Email address</label>
-                <input id="cf-email" name="email" type="email" autocomplete="email" placeholder="jane@company.com" required>
+            <div class="monument" aria-hidden="true">
+                <span class="mtext">HASHWANTH GHANTA</span>
+                <span class="mfill" id="monument-fill">HASHWANTH GHANTA</span>
             </div>
-            <div>
-                <label for="cf-msg" data-i18n="cf_msg">Message</label>
-                <textarea id="cf-msg" name="message" placeholder="Tell me about the role, timeline, and project goals." required></textarea>
-            </div>
-            <!-- Honeypot — hidden from humans, bots fill it in -->
-            <div style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;" aria-hidden="true">
-                <label for="cf-website">Leave this empty</label>
-                <input id="cf-website" name="website" type="text" tabindex="-1" autocomplete="off">
-            </div>
-            <button type="submit" class="contact-btn" data-i18n="btn_send">Send Message</button>
-            <p class="contact-form-status" id="cf-status" role="status" aria-live="polite"></p>
-        </form>
-    </div>
-</section>
-
-</main>
-
-<footer class="site-footer">
-    <div class="footer-name"><span id="footer-year">© 2026</span> · Hashwanth Ghanta</div>
-    <nav class="footer-links" aria-label="Footer links">
-        <a id="footer-now"   href="now.html">/now</a>
-        <a id="footer-uses"  href="uses.html">/uses</a>
-        <a id="footer-co2"   href="projects/co2-simulation.html">CO₂ case study</a>
-        <a href="https://github.com/hashwanthghanta" target="_blank" rel="noopener noreferrer">GitHub<span class="sr-only"> (opens in new tab)</span></a>
-        <a href="https://linkedin.com/in/hashwanthghanta" target="_blank" rel="noopener noreferrer">LinkedIn<span class="sr-only"> (opens in new tab)</span></a>
-        <a href="mailto:hashwanthghanta@gmail.com">Email</a>
-    </nav>
-</footer>
-
-<nav class="section-nav" id="section-nav" aria-label="Section navigation"></nav>
-
-<button class="back-to-top" id="back-to-top" type="button" aria-label="Back to top">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
-</button>
-
-<!-- ================== PROJECT MODAL ================== -->
-<div class="project-modal" id="project-modal" role="dialog" aria-modal="true" aria-labelledby="project-modal-title" aria-describedby="project-modal-desc" aria-hidden="true" inert>
-    <div class="project-modal-card">
-        <div class="project-modal-top">
-            <div>
-                <div class="project-modal-sub" id="project-modal-period"></div>
-                <h2 class="project-modal-title" id="project-modal-title"></h2>
-            </div>
-            <button class="modal-close" id="project-modal-close" type="button" aria-label="Close project details">✕</button>
+            <p class="foot-idle">&gt; system idle<span class="c">_</span></p>
         </div>
-        <p class="project-modal-desc" id="project-modal-desc"></p>
-        <div id="project-modal-highlights"></div>
-        <div class="project-modal-stack-title" id="project-modal-stack-title">Tech Stack</div>
-        <div class="project-modal-tags" id="project-modal-tags"></div>
-        <div class="project-modal-actions" id="project-modal-actions"></div>
-    </div>
-</div>
+    </footer>
 
-<!-- ================== COMMAND PALETTE (⌘K) ================== -->
-<div class="cmdk-overlay" id="cmdk-palette" role="dialog" aria-modal="true" aria-labelledby="cmdk-input" aria-hidden="true" inert>
-    <div class="cmdk-card" role="document">
-        <div class="cmdk-search">
-            <svg viewBox="0 0 24 24" aria-hidden="true" width="18" height="18"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="m20 20-3.5-3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-            <input type="text" id="cmdk-input" class="cmdk-input" autocomplete="off" spellcheck="false" placeholder="Jump to section, switch theme, copy email…" aria-label="Command search">
-            <kbd class="cmdk-escape">esc</kbd>
-        </div>
-        <ul class="cmdk-list" id="cmdk-list" role="listbox" aria-label="Commands"></ul>
-        <div class="cmdk-empty" id="cmdk-empty" hidden>No matches</div>
-        <div class="cmdk-footer">
-            <kbd>↑</kbd><kbd>↓</kbd> navigate · <kbd>↵</kbd> select · <kbd>esc</kbd> close
-        </div>
-    </div>
-</div>
-
-<script src="data.js" defer></script>
-<script src="app.js" defer></script>
+    <!-- data dictionary (EN/DE) — survivor -->
+    <script src="data.js"></script>
+    <!-- vendor (self-hosted, defer) -->
+    <script defer src="vendor/gsap.min.js"></script>
+    <script defer src="vendor/ScrollTrigger.min.js"></script>
+    <script defer src="vendor/lenis.min.js"></script>
+    <!-- app modules (order matters: i18n → scroll → main → boot) -->
+    <script defer src="js/i18n.js"></script>
+    <script defer src="js/scroll.js"></script>
+    <script defer src="js/main.js"></script>
+    <script defer src="js/hero-particles.js"></script>
+    <script defer src="js/profilecard.js"></script>
+    <script defer src="js/about.js"></script>
+    <script defer src="js/idcard.js"></script>
+    <script defer src="js/co2-sim.js"></script>
+    <script defer src="js/projects.js"></script>
+    <script defer src="js/panels.js"></script>
+    <script defer src="js/stack.js"></script>
+    <script defer src="js/trajectory.js"></script>
+    <script defer src="js/cmdk.js"></script>
+    <script defer src="js/drawer.js"></script>
+    <script defer src="js/scramble.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script defer src="js/contact.js"></script>
+    <script defer src="js/boot.js"></script>
 </body>
 </html>

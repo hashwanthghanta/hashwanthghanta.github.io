@@ -3,149 +3,81 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <meta name="theme-color" content="#0C0C0C">
     <title>Now — Hashwanth Ghanta</title>
     <meta name="description" content="What I'm working on this week. Inspired by nownownow.com.">
     <link rel="canonical" href="https://hashwanthghanta.github.io/now.html">
     <link rel="alternate" hreflang="en" href="https://hashwanthghanta.github.io/now.html">
     <link rel="alternate" hreflang="de" href="https://hashwanthghanta.github.io/now-de.html">
     <script>
-        (function(){
-            try { if (localStorage.getItem('lang') === 'de') location.replace('now-de.html' + location.hash); } catch(e){}
-        })();
+        (function(){ try { if (localStorage.getItem('lang') === 'de') location.replace('now-de.html' + location.hash); } catch(e){} })();
     </script>
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230C0C0C'/%3E%3Ctext x='50' y='66' font-family='Inter,system-ui,sans-serif' font-size='52' font-weight='900' fill='%23ff6b35' text-anchor='middle'%3EHG%3C/text%3E%3C/svg%3E">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;1,9..144,700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg: #0a0807; --text: #D7E2EA; --text-dim: rgba(215,226,234,0.7);
-            --accent-cool: #67e8f9; --accent-warm: #ff6b35;
-            --border-soft: rgba(215,226,234,0.18);
-        }
-        *,*::before,*::after { margin:0; padding:0; box-sizing:border-box; }
-        body {
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            color: var(--text); line-height: 1.6;
-            background:
-                radial-gradient(ellipse 70% 50% at 12% -5%, rgba(255,107,53,0.16), transparent 60%),
-                radial-gradient(ellipse 80% 55% at 50% 110%, rgba(180,80,30,0.12), transparent 65%),
-                var(--bg);
-            background-attachment: fixed;
-            min-height: 100vh;
-        }
-        :focus-visible { outline: 2.5px solid #FFD400; outline-offset: 3px; }
-        a { color: var(--accent-cool); text-underline-offset: 3px; }
-        a:hover, a:focus-visible { color: #fff; }
-        .wrap { max-width: 720px; margin: 0 auto; padding: clamp(2rem, 6vw, 5rem) 1.5rem 6rem; }
-        .back {
-            display: inline-flex; align-items: center; gap: 0.4rem;
-            font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase;
-            color: var(--text-dim); text-decoration: none;
-            margin-bottom: 2.5rem;
-        }
-        .back:hover { color: var(--text); }
-        .top-row {
-            display: flex; justify-content: space-between; align-items: center;
-            gap: 1rem; flex-wrap: wrap;
-            margin-bottom: 2.5rem;
-        }
-        .top-row .back { margin-bottom: 0; }
-        .lang-swap {
-            font-family: ui-monospace, "JetBrains Mono", Menlo, monospace;
-            font-size: 0.75rem;
-            color: var(--text-dim); text-decoration: none;
-            padding: 0.35rem 0.7rem;
-            border: 1px solid var(--border-soft);
-            border-radius: 999px;
-        }
-        .lang-swap:hover { color: var(--text); border-color: var(--accent-cool); }
-        h1 {
-            font-family: 'Fraunces', Georgia, serif;
-            font-style: italic; font-weight: 700;
-            font-size: clamp(2.5rem, 8vw, 4.5rem);
-            letter-spacing: -0.02em;
-            line-height: 0.95;
-            margin-bottom: 0.5rem;
-        }
-        .updated {
-            font-family: ui-monospace, "JetBrains Mono", Menlo, monospace;
-            font-size: 0.75rem; letter-spacing: 0.08em;
-            color: var(--text-dim);
-            margin-bottom: 2.5rem;
-        }
-        h2 {
-            font-family: 'Fraunces', Georgia, serif;
-            font-style: italic; font-weight: 700;
-            font-size: 1.6rem;
-            margin: 2.5rem 0 0.8rem;
-            color: var(--accent-warm);
-        }
-        p { margin-bottom: 1rem; }
-        ul { list-style: none; padding: 0; }
-        li {
-            position: relative;
-            padding-left: 1.4rem;
-            margin-bottom: 0.6rem;
-        }
-        li::before {
-            content: "→";
-            position: absolute; left: 0;
-            color: var(--accent-cool);
-        }
-        .foot {
-            margin-top: 4rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid var(--border-soft);
-            font-size: 0.85rem; color: var(--text-dim);
-        }
-    </style>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230B0E14'/%3E%3Ctext x='50' y='66' font-family='monospace' font-size='46' font-weight='700' fill='%23B8FF29' text-anchor='middle'%3EHG%3C/text%3E%3C/svg%3E">
+    <meta name="theme-color" id="meta-theme-color" content="#0B0E14">
+    <link rel="preload" href="fonts/clash-700.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="fonts/inter-400.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="css/tokens.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/subpage.css">
 </head>
 <body>
-    <main class="wrap">
-        <div class="top-row">
-            <a href="/" class="back">← Back to portfolio</a>
-            <a href="now-de.html" class="lang-swap" hreflang="de" lang="de" onclick="try{localStorage.setItem('lang','de')}catch(e){}">Auf Deutsch lesen →</a>
+    <script>
+        (function () {
+            var t; try { t = localStorage.getItem("theme"); } catch (e) {}
+            if (!t) t = (window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches) ? "light" : "dark";
+            document.body.setAttribute("data-theme", t);
+            document.documentElement.style.colorScheme = t;
+            var m = document.getElementById("meta-theme-color");
+            if (m) m.setAttribute("content", t === "light" ? "#F2F4F1" : "#0B0E14");
+        })();
+    </script>
+    <div class="blueprint" aria-hidden="true"></div>
+    <div class="grain" aria-hidden="true"></div>
+
+    <main class="sub-wrap" id="main">
+        <div class="sub-top">
+            <a href="index.html" class="sub-back">Back to portfolio</a>
+            <a href="now-de.html" class="sub-lang" hreflang="de" lang="de" onclick="try{localStorage.setItem('lang','de')}catch(e){}">Auf Deutsch →</a>
         </div>
+
+        <p class="sub-eyebrow">SEC.NOW / STATUS</p>
         <h1>What I'm doing now</h1>
-        <p class="updated">Updated 2026-05-24</p>
+        <p class="sub-updated">> last_update 2026-05-24 · MAGDEBURG, DE</p>
 
-        <p>This page is a snapshot of what I'm focused on this month. Inspired by <a href="https://nownownow.com/" target="_blank" rel="noopener noreferrer">nownownow.com</a>.</p>
+        <p>A snapshot of what I'm focused on this month. Inspired by <a href="https://nownownow.com/" target="_blank" rel="noopener noreferrer">nownownow.com<span class="sr-only"> (opens in new tab)</span></a>.</p>
 
-        <h2>Recently shipped</h2>
+        <h2><span class="hx">01</span>Recently shipped</h2>
         <ul>
-            <li><strong>Post-combustion CO₂ capture Unity simulation — final 7-phase build shipped in April 2026.</strong> Submitted as final coursework for the OVGU Digital Engineering Project module. <a href="projects/co2-simulation.html">Read the case study →</a></li>
+            <li><strong>Post-combustion CO₂ capture Unity simulation — final 7-phase build shipped April 2026.</strong> Submitted as final coursework for the OVGU Digital Engineering Project module. <a href="projects/co2-simulation.html">Read the case study →</a></li>
         </ul>
 
-        <h2>Building</h2>
+        <h2><span class="hx">02</span>Building</h2>
         <ul>
-            <li>An <strong>Adaptive Learning Pathway System</strong> for the OVGU Human-Centred AI course (SS 2026) — a four-person team project building an LLM-driven tutor that adapts content level per user via Chain-of-Thought prompting, with an LLM-as-Judge bias-evaluation layer running on the side. Stack: Gemini + local Llama 3 via Ollama, LangChain orchestration, Guardrails AI on input + output. Paper due 10 July 2026.</li>
-            <li>Polishing the StockWatch SwiftUI iOS app — adding sparkline previews for the watchlist grid and translating the new news strings to German.</li>
-            <li>Updating this portfolio (the page you're reading) — tighter copy, proof-link skills, command palette, case-study pages, full EN/DE language switch.</li>
+            <li>An <strong>Adaptive Learning Pathway System</strong> for the OVGU Human-Centred AI course (SS 2026) — a four-person team project building an LLM-driven tutor that adapts content level per user via Chain-of-Thought prompting, with an LLM-as-Judge bias-evaluation layer. Stack: Gemini + local Llama 3 via Ollama, LangChain orchestration, Guardrails AI on input + output. Paper due 10 July 2026.</li>
+            <li>Polishing the StockWatch SwiftUI iOS app — sparkline previews for the watchlist grid and German news strings.</li>
+            <li>Rebuilding this portfolio as a running CO₂-capture instrument panel — pinned scrollytelling, particle hero, full EN/DE switch.</li>
         </ul>
 
-        <h2>Learning</h2>
+        <h2><span class="hx">03</span>Learning</h2>
         <ul>
-            <li>LLM evaluation tooling — ROUGE, perplexity scoring, LLM-as-Judge bias pipelines, and GGUF 4-bit / 8-bit quantization for local inference. Picked up via the HCAI project above.</li>
+            <li>LLM evaluation tooling — ROUGE, perplexity scoring, LLM-as-Judge bias pipelines, and GGUF 4-bit / 8-bit quantization for local inference.</li>
             <li>Practical View Transitions API + scroll-driven CSS animations.</li>
             <li>German A2 — enrolled at OVGU, building day-to-day vocabulary while watching technical talks auf Deutsch.</li>
         </ul>
 
-        <h2>Looking for</h2>
+        <h2><span class="hx">04</span>Looking for</h2>
         <ul>
             <li>Working-student role (Werkstudent) starting Q2 2026, hybrid or remote, anywhere in Germany.</li>
             <li>Backend, iOS (SwiftUI), simulation, or data engineering. Open to product-engineering roles too.</li>
             <li>Companies that ship things, not companies that talk about shipping things.</li>
         </ul>
 
-        <h2>Off-screen</h2>
+        <h2><span class="hx">05</span>Off-screen</h2>
         <ul>
             <li>Walking around Magdeburg — first proper spring here.</li>
             <li>Reading <em>Working in Public</em> by Nadia Eghbal.</li>
         </ul>
 
-        <p class="foot">Reach me: <a href="mailto:hashwanthghanta@gmail.com">hashwanthghanta@gmail.com</a> · <a href="https://github.com/hashwanthghanta" target="_blank" rel="noopener noreferrer">GitHub</a> · <a href="https://linkedin.com/in/hashwanthghanta" target="_blank" rel="noopener noreferrer">LinkedIn</a></p>
+        <p class="sub-foot">> reach_me · <a href="mailto:hashwanthghanta@gmail.com">hashwanthghanta@gmail.com</a> · <a href="https://github.com/hashwanthghanta" target="_blank" rel="noopener noreferrer">GitHub<span class="sr-only"> (opens in new tab)</span></a> · <a href="https://www.linkedin.com/in/hashwanthghanta" target="_blank" rel="noopener noreferrer">LinkedIn<span class="sr-only"> (opens in new tab)</span></a></p>
     </main>
 </body>
 </html>

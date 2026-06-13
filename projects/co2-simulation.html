@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <meta name="theme-color" content="#0C0C0C">
+    <meta name="theme-color" content="#0A0A0B">
     <title>Case Study: Post-Combustion CO₂ Capture Simulation — Hashwanth Ghanta</title>
     <meta name="description" content="How a five-person OVGU Magdeburg team built an interactive Unity + Blender simulation of post-combustion CO₂ capture. My role: Unity, Blender &amp; UI Developer — modelling, scripting, full demo screen, interfaces, and the walkthrough video. Real numbers, real architecture, real tradeoffs.">
     <link rel="canonical" href="https://hashwanthghanta.github.io/projects/co2-simulation.html">
@@ -17,33 +17,35 @@
     <meta property="og:title" content="Case Study: Unity CO₂ Capture Simulation — OVGU Magdeburg">
     <meta property="og:description" content="Five-person OVGU team. Unity 2022 LTS + Blender 4.x. 1000 MW reference plant, 30 wt% MEA, 90% capture target.">
     <meta property="og:image" content="https://hashwanthghanta.github.io/Images/co2-simulation.gif">
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230C0C0C'/%3E%3Ctext x='50' y='66' font-family='Kanit,sans-serif' font-size='52' font-weight='900' fill='%23ff6b35' text-anchor='middle'%3EHG%3C/text%3E%3C/svg%3E">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;800;900&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;1,9..144,700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230A0A0B'/%3E%3Ctext x='50' y='66' font-family='Kanit,sans-serif' font-size='52' font-weight='900' fill='%234ADE80' text-anchor='middle'%3EHG%3C/text%3E%3C/svg%3E">
+    <link rel="preload" href="../fonts/clash-700.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="../css/tokens.css">
     <style>
+        /* Cross-document view transitions — smooth crossfade to/from the main site */
+        @view-transition { navigation: auto; }
+        @media (prefers-reduced-motion: reduce) {
+            ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
+        }
+        /* Screen-reader-only utility (sub-page has no styles.css link) */
+        .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
         :root {
-            --bg: #0a0807; --text: #D7E2EA; --text-dim: rgba(215,226,234,0.72);
-            --accent-cool: #67e8f9; --accent-cool-deep: #0e7490;
-            --accent-warm: #ff6b35; --accent-warm-soft: #ffb07a;
-            --border-soft: rgba(215,226,234,0.18);
-            --code-bg: rgba(0,0,0,0.4);
+            --bg: var(--void); --text: var(--ink); --text-dim: var(--ink-dim);
+            --accent-cool: var(--signal); --accent-cool-deep: var(--signal);
+            --accent-warm: var(--signal); --accent-warm-soft: var(--amber);
+            --border-soft: var(--line);
+            --code-bg: var(--panel-2);
         }
         *,*::before,*::after { margin:0; padding:0; box-sizing:border-box; }
         body {
-            font-family: 'Kanit', system-ui, sans-serif;
-            color: var(--text); line-height: 1.65;
-            background:
-                radial-gradient(ellipse 70% 50% at 12% -5%, rgba(255,107,53,0.16), transparent 60%),
-                radial-gradient(ellipse 80% 55% at 50% 110%, rgba(180,80,30,0.12), transparent 65%),
-                var(--bg);
-            background-attachment: fixed;
+            font-family: var(--font-body);
+            color: var(--ink); line-height: 1.65;
+            background: var(--void);
             min-height: 100vh;
             -webkit-font-smoothing: antialiased;
         }
-        :focus-visible { outline: 2.5px solid #FFD400; outline-offset: 3px; }
-        a { color: var(--accent-cool); text-underline-offset: 3px; }
-        a:hover, a:focus-visible { color: #fff; }
+        :focus-visible { outline: 2.5px solid var(--signal); outline-offset: 3px; }
+        a { color: var(--signal); text-underline-offset: 3px; }
+        a:hover, a:focus-visible { color: var(--ink); }
         .wrap { max-width: 780px; margin: 0 auto; padding: clamp(2rem, 5vw, 4rem) 1.5rem 6rem; }
         .back {
             display: inline-flex; align-items: center; gap: 0.4rem;
@@ -73,8 +75,8 @@
             margin-bottom: 0.6rem;
         }
         h1 {
-            font-family: 'Fraunces', Georgia, serif;
-            font-style: italic; font-weight: 700;
+            font-family: var(--font-display);
+            font-weight: 700;
             font-size: clamp(2.3rem, 6vw, 3.6rem);
             letter-spacing: -0.02em;
             line-height: 1.05;
@@ -156,14 +158,14 @@
             font-size: 0.9rem;
         }
         h2 {
-            font-family: 'Fraunces', Georgia, serif;
-            font-style: italic; font-weight: 700;
+            font-family: var(--font-display);
+            font-weight: 700;
             font-size: 1.8rem;
             margin: 3rem 0 1rem;
             color: var(--accent-warm);
         }
         h3 {
-            font-family: 'Fraunces', Georgia, serif;
+            font-family: var(--font-display);
             font-style: italic;
             font-size: 1.2rem;
             margin: 1.5rem 0 0.5rem;
@@ -302,7 +304,7 @@
 <body>
     <main class="wrap">
         <div class="top-row">
-            <a href="/#projects" class="back">← Back to portfolio · Projects</a>
+            <a href="../index.html#systems" class="back">← Back to portfolio · Systems</a>
             <a href="co2-simulation-de.html" class="lang-swap" hreflang="de" lang="de" onclick="try{localStorage.setItem('lang','de')}catch(e){}">Auf Deutsch lesen →</a>
         </div>
 
@@ -344,6 +346,7 @@
                 <a class="unity-embed-pop" href="https://play.unity.com/en/games/30f22392-532c-41e1-b925-6191a9ea99c2/post-combustion-co-carbon-capture" target="_blank" rel="noopener noreferrer">
                     Open full-screen
                     <svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path d="M14 4h6v6M20 4 10 14M11 5H4v15h15v-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <span class="sr-only">(opens in new tab)</span>
                 </a>
             </div>
         </section>
@@ -569,12 +572,29 @@
 
         <div class="cta-row">
             <a class="cta-btn cta-primary" href="https://play.unity.com/en/games/30f22392-532c-41e1-b925-6191a9ea99c2/post-combustion-co-carbon-capture" target="_blank" rel="noopener noreferrer">
-                Play the live demo →
+                Play the live demo →<span class="sr-only"> (opens in new tab)</span>
             </a>
             <a class="cta-btn cta-ghost" href="/#projects">Back to projects</a>
         </div>
 
-        <p class="foot">Questions about the Unity build, the Blender pipeline, or the chemical-engineering basis? <a href="mailto:hashwanthghanta@gmail.com">hashwanthghanta@gmail.com</a> · <a href="https://github.com/hashwanthghanta" target="_blank" rel="noopener noreferrer">GitHub</a></p>
+        <p class="foot">Questions about the Unity build, the Blender pipeline, or the chemical-engineering basis? <a href="mailto:hashwanthghanta@gmail.com">hashwanthghanta@gmail.com</a> · <a href="https://github.com/hashwanthghanta" target="_blank" rel="noopener noreferrer">GitHub<span class="sr-only"> (opens in new tab)</span></a></p>
     </main>
+<style>
+  .reveal-init { opacity: 0; transform: translateY(22px); }
+  .reveal-in { opacity: 1; transform: none; transition: opacity .7s cubic-bezier(.16,1,.3,1), transform .7s cubic-bezier(.16,1,.3,1); }
+  @media (prefers-reduced-motion: reduce){ .reveal-init{opacity:1;transform:none} }
+</style>
+<script>
+(function(){
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (!('IntersectionObserver' in window)) return;
+  var els = document.querySelectorAll('h2, figure, .unity-embed, .callout, table, .team-grid, .diagram, .meta-strip, .lede, .spec-table');
+  els.forEach(function(el){ el.classList.add('reveal-init'); });
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('reveal-in'); io.unobserve(en.target); } });
+  }, { threshold: 0.1, rootMargin: '0px 0px -6% 0px' });
+  els.forEach(function(el){ io.observe(el); });
+})();
+</script>
 </body>
 </html>

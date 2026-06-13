@@ -1,0 +1,51 @@
+/* ============================================================
+   MOTION — keyframes + reveal scaffolding. Grows phase by phase.
+   Every effect is compositor-friendly (transform/opacity/clip-path)
+   and gated by prefers-reduced-motion with a static fallback.
+============================================================ */
+
+/* enter-reveal primitive (IntersectionObserver toggles .is-in).
+   Gated on html.js so a no-JS load shows every section fully. */
+html.js [data-reveal] {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity var(--dur-slow) var(--ease-out-expo),
+                transform var(--dur-slow) var(--ease-out-expo);
+    will-change: opacity, transform;
+}
+html.js [data-reveal].is-in {
+    opacity: 1;
+    transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html.js [data-reveal] {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+}
+
+/* ============================================================
+   VIEW TRANSITIONS
+   Default cross-fade for lang swap; circular clip-path expand
+   from the toggle for theme swap (#33, #34).
+============================================================ */
+::view-transition-old(root),
+::view-transition-new(root) {
+    animation-duration: var(--dur-normal);
+}
+
+html.vt-circle::view-transition-old(root) { animation: none; }
+html.vt-circle::view-transition-new(root) {
+    animation: vt-clip-in var(--dur-slow) var(--ease-out-expo);
+    clip-path: circle(0 at var(--vt-x, 50%) var(--vt-y, 50%));
+}
+@keyframes vt-clip-in {
+    from { clip-path: circle(0 at var(--vt-x, 50%) var(--vt-y, 50%)); }
+    to   { clip-path: circle(160vmax at var(--vt-x, 50%) var(--vt-y, 50%)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    ::view-transition-old(root), ::view-transition-new(root) { animation: none !important; }
+}

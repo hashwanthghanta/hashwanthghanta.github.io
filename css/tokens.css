@@ -1,0 +1,183 @@
+/* ============================================================
+   TOKENS — "Obsidian / Signal" design system
+   Single source of truth for color, type, space, motion.
+   DARK is default; LIGHT = "blueprint paper" engineering sheet.
+============================================================ */
+
+/* ---- Self-hosted fonts (woff2 subsets, swap) ---- */
+@font-face {
+    font-family: "Clash Display";
+    src: url("../fonts/clash-600.woff2") format("woff2");
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: "Clash Display";
+    src: url("../fonts/clash-700.woff2") format("woff2");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: "Inter";
+    src: url("../fonts/inter-400.woff2") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: "Inter";
+    src: url("../fonts/inter-500.woff2") format("woff2");
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: "Inter";
+    src: url("../fonts/inter-600.woff2") format("woff2");
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: "Inter";
+    src: url("../fonts/inter-700.woff2") format("woff2");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: "JetBrains Mono";
+    src: url("../fonts/jbmono-400.woff2") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: "JetBrains Mono";
+    src: url("../fonts/jbmono-500.woff2") format("woff2");
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: "JetBrains Mono";
+    src: url("../fonts/jbmono-700.woff2") format("woff2");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+:root {
+    /* ---- DARK (default) — TERMINAL / TUI (lookbook A) ---- */
+    --void:        #0A0A0B;        /* true terminal black */
+    --panel:       #111214;
+    --panel-2:     #16181B;
+    --ink:         #E4E4E7;
+    --ink-dim:     rgba(228, 228, 231, 0.70);   /* AA: ~7:1 on --void for body text */
+    --ink-faint:   rgba(228, 228, 231, 0.60);   /* AA: ~5.5:1 on --void/--panel for small text */
+    --line:        #26272B;
+    --line-strong: #34363B;
+    --signal:      #4ADE80;        /* phosphor green — THE primary accent */
+    --signal-dim:  rgba(74, 222, 128, 0.16);
+    --signal-glow: rgba(74, 222, 128, 0.42);
+    --cyan:        #38BDF8;         /* syntax: keywords / links (7:1 on void) */
+    --magenta:     #F472B6;         /* syntax: strings / role (6.4:1 on void) */
+    --amber:       #FBBF24;         /* syntax: warnings / values (9:1 on void) */
+    /* Theme-C editorial highlight — electric yellow, used sparingly (13:1 on void) */
+    --accent2:     #F0FF3C;
+    --accent2-dim: rgba(240, 255, 60, 0.16);
+    --accent2-glow:rgba(240, 255, 60, 0.40);
+    --grey-gas:    rgba(228, 228, 231, 0.55);    /* co2-sim particle gas */
+
+    /* GitHub contribution-graph palette (dark) — its own identity, not the signal */
+    --gh-0: rgba(57, 211, 83, 0.07);
+    --gh-1: #0e4429;
+    --gh-2: #006d32;
+    --gh-3: #26a641;
+    --gh-4: #39d353;
+
+    /* ---- Type families — mono-dominant terminal; Clash for the hero display cut ---- */
+    --font-display: "Clash Display", "Inter", system-ui, sans-serif;
+    --font-body:    "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+    --font-mono:    "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+    /* ---- Type scale (fluid) ---- */
+    --text-hero:   clamp(3.5rem, 9vw, 11rem);
+    --text-chapter:clamp(2.6rem, 6vw, 6rem);
+    --text-h2:     clamp(1.9rem, 3.4vw, 3rem);
+    --text-h3:     clamp(1.3rem, 2vw, 1.75rem);
+    --text-lead:   clamp(1.05rem, 1.4vw, 1.35rem);
+    --text-base:   clamp(1rem, 0.94rem + 0.3vw, 1.125rem);
+    --text-sm:     0.875rem;
+    --text-mono:   0.75rem;        /* HUD labels */
+    --text-mono-sm:0.6875rem;
+
+    /* ===== ADJUST THE "## " HEADING GAP HERE (whole site) =====
+       Distance between the two hashes in every "## Heading". Bigger = wider gap.
+       Try 0.1em (tight) · 0.14em (default) · 0.25em (wide). */
+    --hash-gap: 0.14em;
+
+    /* ---- Spacing ---- */
+    --space-section: clamp(5rem, 4rem + 7vw, 12rem);
+    --space-block:   clamp(2.5rem, 2rem + 3vw, 5rem);
+    --gutter:        clamp(1.25rem, 4vw, 3rem);
+    --col-gap:       clamp(1rem, 2vw, 1.75rem);
+    --maxw:          1440px;
+
+    /* ---- Motion ---- */
+    --dur-fast:    150ms;
+    --dur-normal:  320ms;
+    --dur-slow:    600ms;
+    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-in-out:   cubic-bezier(0.65, 0, 0.35, 1);
+    --stagger:     80ms;
+
+    /* ---- Geometry ---- */
+    --radius:      4px;
+    --radius-lg:   8px;
+    --tick:        7px;            /* corner tick length */
+    --focus-ring:  2.5px;
+
+    /* ---- Z-index scale ---- */
+    --z-grain:     1;
+    --z-hud:       40;
+    --z-nav:       50;
+    --z-cursor:    9998;
+    --z-boot:      9999;
+
+    color-scheme: dark;
+}
+
+body[data-theme="light"] {
+    /* ---- LIGHT — "paper terminal" (off-white sheet, darkened phosphor) ---- */
+    --void:        #F4F4F2;        /* off-white paper */
+    --panel:       #FFFFFF;
+    --panel-2:     #ECECEA;
+    --ink:         #101113;
+    --ink-dim:     rgba(16, 17, 19, 0.70);   /* AA on paper for body text */
+    --ink-faint:   rgba(16, 17, 19, 0.62);   /* AA: ~5.4:1 on paper for small text */
+    --line:        rgba(16, 17, 19, 0.14);
+    --line-strong: rgba(16, 17, 19, 0.26);
+    /* paper-terminal syntax palette — vivid but AA-compliant on #F4F4F2 */
+    --signal:      #0F7A35;         /* terminal green — ~5:1 */
+    --signal-dim:  rgba(15, 122, 53, 0.14);
+    --signal-glow: rgba(15, 122, 53, 0.30);
+    --cyan:        #0E7490;         /* teal-cyan — ~4.8:1 */
+    --magenta:     #BE185D;         /* pink-red — ~5.7:1 */
+    --amber:       #C2410C;         /* burnt orange — ~5:1 */
+    --accent2:     #9A5D00;         /* gold — ~4.8:1 (AA small text safe; large/decorative use) */
+    --accent2-dim: rgba(154, 93, 0, 0.16);
+    --accent2-glow:rgba(154, 93, 0, 0.30);
+    --grey-gas:    rgba(16, 17, 19, 0.45);
+
+    /* GitHub contribution-graph palette (light) */
+    --gh-0: #ebedf0;
+    --gh-1: #9be9a8;
+    --gh-2: #40c463;
+    --gh-3: #30a14e;
+    --gh-4: #216e39;
+
+    color-scheme: light;
+}
