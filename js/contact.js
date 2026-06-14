@@ -22,11 +22,29 @@
         var form = document.getElementById("contact-form");
         var status = document.getElementById("cf-status");
         if (!form) return;
-        if (typeof emailjs === "undefined") {
-            window.addEventListener("load", setupForm, { once: true });
-            return;
+        if (typeof emailjs !== "undefined") {
+            try { emailjs.init({ publicKey: EMAIL.pub }); } catch (e) {}
         }
-        try { emailjs.init({ publicKey: EMAIL.pub }); } catch (e) {}
+
+        var btn = form.querySelector('button[type="submit"]');
+        var COOLDOWN_MS = 60000;
+
+        function checkCooldown() {
+            var lastSent = sessionStorage.getItem("contact_last_sent");
+            if (lastSent) {
+                var remaining = COOLDOWN_MS - (Date.now() - Number(lastSent));
+                if (remaining > 0) {
+                    if (btn) btn.disabled = true;
+                    setTimeout(function () {
+                        if (btn) btn.disabled = false;
+                    }, remaining);
+                    return remaining;
+                }
+            }
+            if (btn) btn.disabled = false;
+            return 0;
+        }
+        checkCooldown();
 
         /* #cf-status is a role="status" live region — set the FULL string at
            once so screen readers announce the complete confirmation, not a
@@ -42,6 +60,16 @@
             e.preventDefault();
             var hp = form.querySelector('[name="website"]');
             if (hp && hp.value) return;                 /* bot */
+
+            var remaining = checkCooldown();
+            if (remaining > 0) {
+                status.className = "cf-status err";
+                status.textContent = HG.lang === "de"
+                    ? "> bitte warte " + Math.ceil(remaining / 1000) + "s vor der nächsten übertragung."
+                    : "> please wait " + Math.ceil(remaining / 1000) + "s before sending again.";
+                return;
+            }
+
             /* explicit, programmatically-associated error identification (WCAG 3.3.1) */
             var firstBad = null;
             fields.forEach(function (f) {
@@ -57,6 +85,13 @@
                 firstBad.focus();
                 return;
             }
+
+            if (typeof emailjs === "undefined") {
+                status.className = "cf-status err";
+                setStatus(status, ERR[HG.lang] || ERR.en);
+                return;
+            }
+
             status.className = "cf-status";
             status.textContent = HG.lang === "de" ? "> wird gesendet…" : "> sending…";
             emailjs.send(EMAIL.service, EMAIL.template, {
@@ -66,10 +101,13 @@
             }).then(function () {
                 status.className = "cf-status ok";
                 setStatus(status, OK[HG.lang] || OK.en);
+                sessionStorage.setItem("contact_last_sent", Date.now().toString());
+                checkCooldown();
                 form.reset();
-            }, function () {
+            }, function (error) {
                 status.className = "cf-status err";
                 setStatus(status, ERR[HG.lang] || ERR.en);
+                console.error("EmailJS transmission failed:", error);
             });
         });
     }

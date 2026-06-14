@@ -475,8 +475,9 @@ body[data-theme="light"] .idcard:focus-visible .idcard-face::after { opacity: 0.
 }
 @media (max-width: 1180px) { .pcard__open { display: none; } }
 @media (max-width: 980px) {
-    .hero { display: block; }            /* stack text then card */
-    .pcard-mount { position: static; width: auto; display: flex; justify-content: center; margin-top: 1rem; }
+    .hero { display: block; }
+    .hero-grid { display: flex; flex-direction: column; }
+    .pcard-mount { position: static; width: auto; display: flex; justify-content: center; margin-top: 0; margin-bottom: 1.5rem; order: -1; }
     .pcard { animation: none; width: clamp(280px, 80vw, 360px); }
     .pcard__inner { transform: none !important; }
 }

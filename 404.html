@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>404 — Not Found · Hashwanth Ghanta</title>
+<style>
+  :root {
+    --void: #0A0A0B;
+    --ink: #E4E4E7;
+    --ink-dim: #9A9AA2;
+    --signal: #4ADE80;
+    --line: #27272A;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    height: 100%;
+    margin: 0;
+  }
+  body {
+    background: var(--void);
+    color: var(--ink);
+    font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+  }
+  .card {
+    max-width: 36rem;
+    width: 100%;
+    border: 1px solid var(--line);
+    border-radius: 0.5rem;
+    overflow: hidden;
+    background: #111113;
+  }
+  .titlebar {
+    display: flex;
+    gap: 0.4rem;
+    align-items: center;
+    padding: 0.6rem 0.9rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .dot {
+    width: 0.65rem;
+    height: 0.65rem;
+    border-radius: 50%;
+    background: var(--line);
+  }
+  .titlebar span:last-child {
+    margin-left: 0.5rem;
+    font-size: 0.75rem;
+    color: var(--ink-dim);
+    letter-spacing: 0.06em;
+  }
+  .body {
+    padding: 1.75rem 1.5rem 2rem;
+  }
+  .prompt { color: var(--signal); }
+  .line {
+    font-size: 0.85rem;
+    color: var(--ink-dim);
+    letter-spacing: 0.04em;
+    margin: 0 0 0.4rem;
+  }
+  h1 {
+    font-family: inherit;
+    font-size: clamp(2.5rem, 8vw, 4rem);
+    line-height: 1;
+    margin: 0.6rem 0 0.4rem;
+    letter-spacing: -0.02em;
+  }
+  .heading {
+    font-size: 0.95rem;
+    color: var(--ink);
+    margin: 0 0 0.25rem;
+    letter-spacing: 0.04em;
+  }
+  .heading::before { content: "## "; color: var(--signal); }
+  p.copy {
+    font-size: 0.9rem;
+    color: var(--ink-dim);
+    line-height: 1.6;
+    margin: 0 0 1.5rem;
+  }
+  .actions {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+  a.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.6rem 1rem;
+    border: 1px solid var(--line);
+    border-radius: 0.35rem;
+    color: var(--ink);
+    text-decoration: none;
+    font-size: 0.85rem;
+    letter-spacing: 0.04em;
+    transition: border-color 0.15s ease, color 0.15s ease;
+  }
+  a.btn:hover, a.btn:focus-visible {
+    border-color: var(--signal);
+    color: var(--signal);
+  }
+  a.btn--signal {
+    border-color: var(--signal);
+    color: var(--signal);
+  }
+</style>
+</head>
+<body>
+  <main class="card">
+    <div class="titlebar" aria-hidden="true">
+      <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+      <span>~/404</span>
+    </div>
+    <div class="body">
+      <p class="line"><span class="prompt">hashwanth@magdeburg:~$</span> cd /requested-page</p>
+      <p class="line">bash: cd: /requested-page: No such file or directory</p>
+      <h1>404</h1>
+      <p class="heading">Page not found</p>
+      <p class="copy">This route doesn't exist — diese Seite existiert nicht. The page may have moved, or the link might be off.</p>
+      <div class="actions">
+        <a class="btn btn--signal" href="/">&larr; Back to home</a>
+        <a class="btn" href="https://github.com/hashwanthghanta" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

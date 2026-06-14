@@ -4,7 +4,7 @@
 ============================================================ */
 (function () {
     "use strict";
-    var HG = window.HG;
+    var HG = window.HG || { reduced: false };
     var FINE = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 
     /* ---------- custom cursor ---------- */
@@ -15,16 +15,32 @@
         if (!dot || !ring) return;
         document.body.classList.add("has-cursor");
         var mx = innerWidth / 2, my = innerHeight / 2, rx = mx, ry = my;
+        var active = false;
+        function startLoop() {
+            if (active) return;
+            active = true;
+            requestAnimationFrame(raf);
+        }
         window.addEventListener("pointermove", function (e) {
             mx = e.clientX; my = e.clientY;
             dot.style.transform = "translate(" + mx + "px," + my + "px)";
+            startLoop();
         }, { passive: true });
         function raf() {
-            rx += (mx - rx) * 0.18; ry += (my - ry) * 0.18;
+            if (!active) return;
+            var dx = mx - rx;
+            var dy = my - ry;
+            if (Math.abs(dx) < 0.05 && Math.abs(dy) < 0.05) {
+                rx = mx; ry = my;
+                ring.style.transform = "translate(" + rx + "px," + ry + "px)";
+                active = false;
+                return;
+            }
+            rx += dx * 0.18; ry += dy * 0.18;
             ring.style.transform = "translate(" + rx + "px," + ry + "px)";
             requestAnimationFrame(raf);
         }
-        requestAnimationFrame(raf);
+        startLoop();
         var hot = "a, button, input, textarea, select, [data-hot]";
         document.addEventListener("pointerover", function (e) {
             if (e.target.closest && e.target.closest(hot)) ring.classList.add("is-hot");
@@ -111,12 +127,56 @@
         }
         var io = new IntersectionObserver(function (entries) {
             entries.forEach(function (en) {
-                if (en.isIntersecting) { en.target.classList.add("is-in"); io.unobserve(en.target); }
+                if (en.isIntersecting) {
+                    var el = en.target;
+                    el.style.willChange = "opacity, transform";
+                    el.addEventListener("transitionend", function clear() {
+                        el.style.willChange = "";
+                        el.removeEventListener("transitionend", clear);
+                    });
+                    el.classList.add("is-in");
+                    io.unobserve(el);
+                }
             });
         }, { threshold: 0.12, rootMargin: "0px 0px -8% 0px" });
         els.forEach(function (el) { io.observe(el); });
         HG.on("sections:reveal-scan", function () {
             document.querySelectorAll("[data-reveal]:not(.is-in)").forEach(function (el) { io.observe(el); });
+        });
+    }
+
+    /* ---------- hero caret payoff (rotating taglines) ---------- */
+    function setupHeroCaret() {
+        var el = document.querySelector(".hero-caret-text");
+        if (!el) return;
+        var TYPE_MS = 38, ERASE_MS = 22, HOLD_MS = 2200, GAP_MS = 400;
+        var i = 0, timer;
+
+        function cycle() {
+            var lines = HG.data().hero_taglines || [];
+            if (!lines.length) return;
+            var text = lines[i % lines.length];
+            if (HG.reduced) { el.textContent = text; return; }
+            var pos = 0;
+            (function type() {
+                el.textContent = text.slice(0, pos);
+                if (pos++ < text.length) { timer = setTimeout(type, TYPE_MS); return; }
+                timer = setTimeout(erase, HOLD_MS);
+            })();
+            function erase() {
+                el.textContent = text.slice(0, pos);
+                if (pos-- > 0) { timer = setTimeout(erase, ERASE_MS); return; }
+                i++;
+                timer = setTimeout(cycle, GAP_MS);
+            }
+        }
+
+        cycle();
+        HG.on("langchange", function () {
+            clearTimeout(timer);
+            i = 0;
+            el.textContent = "";
+            cycle();
         });
     }
 
@@ -174,6 +234,7 @@
         setupClock();
         setupTelemetry();
         setupReveals();
+        setupHeroCaret();
         setupMagnetic();
         setupToTop();
         wireToggles();

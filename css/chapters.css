@@ -132,14 +132,18 @@
 
 /* ---- reduced-motion / no-JS static fallback: 4 figures ---- */
 .sim-static { display: none; }
-.no-pin .sim-pin, .no-pin .sim-track-spacer { display: none; }
-.no-pin .sim-static {
+.no-pin .sim-pin, .no-pin .sim-track-spacer,
+html:not(.js) .sim-pin, html:not(.js) .sim-track-spacer { display: none; }
+.no-pin .sim-track, html:not(.js) .sim-track { height: auto !important; }
+.no-pin .sim-static, html:not(.js) .sim-static {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: var(--col-gap);
     padding-block: var(--space-block);
 }
-@media (max-width: 760px) { .no-pin .sim-static { grid-template-columns: 1fr; } }
+@media (max-width: 760px) {
+    .no-pin .sim-static, html:not(.js) .sim-static { grid-template-columns: 1fr; }
+}
 .sim-fig {
     border: 1px solid var(--line);
     border-radius: var(--radius);
@@ -535,7 +539,8 @@ textarea.tinput { resize: vertical; min-height: 5.5rem; }
     flex: none;
     font-family: var(--font-mono); font-size: var(--text-mono-sm); letter-spacing: 0.06em;
     color: var(--ink-faint); border: 1px solid var(--line); border-radius: var(--radius);
-    padding: 0.3rem 0.55rem; transition: color var(--dur-fast), border-color var(--dur-fast);
+    padding: 0.55rem 0.75rem; min-height: 44px; min-width: 44px; display: inline-flex; align-items: center; justify-content: center;
+    transition: color var(--dur-fast), border-color var(--dur-fast);
 }
 .ro-copy:hover, .ro-copy:focus-visible { color: var(--signal); border-color: var(--signal); }
 .ro-copy.done { color: var(--signal); border-color: var(--signal); }

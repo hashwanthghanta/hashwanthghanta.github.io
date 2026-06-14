@@ -16,7 +16,7 @@
     </script>
     <meta property="og:title" content="Case Study: Unity CO₂-Abscheidungs-Simulation — OVGU Magdeburg">
     <meta property="og:description" content="Fünfköpfiges OVGU-Team. Unity 2022 LTS + Blender 4.x. 1000-MW-Referenzkraftwerk, 30 wt% MEA, 90% Abscheideziel.">
-    <meta property="og:image" content="https://hashwanthghanta.github.io/Images/co2-simulation.gif">
+    <meta property="og:image" content="https://hashwanthghanta.github.io/Images/co2-simulation.webp">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230A0A0B'/%3E%3Ctext x='50' y='66' font-family='Inter,sans-serif' font-size='52' font-weight='900' fill='%234ADE80' text-anchor='middle'%3EHG%3C/text%3E%3C/svg%3E">
     <link rel="preload" href="../fonts/clash-700.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="../css/tokens.css">
@@ -288,6 +288,14 @@
     </style>
 </head>
 <body>
+    <script>
+        (function () {
+            var t; try { t = localStorage.getItem("theme"); } catch (e) {}
+            if (t !== "light" && t !== "dark") t = "dark";
+            document.body.setAttribute("data-theme", t);
+            document.documentElement.style.colorScheme = t;
+        })();
+    </script>
     <main class="wrap">
         <div class="top-row">
             <a href="../index.html#systems" class="back">← Zurück zum Portfolio · Systeme</a>
@@ -307,7 +315,7 @@
         </div>
 
         <figure>
-            <img src="../Images/co2-simulation.gif" width="800" height="450" alt="Animiertes GIF der CO₂-Abscheidungs-Simulation: Rauchgas tritt links in den Absorber ein, rich MEA strömt zum Stripper rechts, CO₂-Moleküle füllen den Lagertank." loading="lazy" decoding="async">
+            <img src="../Images/co2-simulation.webp" width="800" height="450" alt="Animiertes GIF der CO₂-Abscheidungs-Simulation: Rauchgas tritt links in den Absorber ein, rich MEA strömt zum Stripper rechts, CO₂-Moleküle füllen den Lagertank." loading="lazy" decoding="async">
             <figcaption>Die Simulation durchläuft ihre siebenphasige Coroutine — Rauchgas-Einlass, MEA-Absorption, Lösungsmittel-Transfer, Strippen, Kompression, Lagerung und Lean-MEA-Rückführung.</figcaption>
         </figure>
 

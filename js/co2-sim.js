@@ -32,11 +32,7 @@
         ]
     };
 
-    /* reduced-motion → static fallback, no canvas */
-    if (HG.reduced) {
-        section.classList.add("no-pin");
-        return;
-    }
+    /* reduced-motion check moved to initST / render */
 
     var ctx = canvas.getContext("2d", { alpha: true });
     var DPR = Math.min(window.devicePixelRatio || 1, 2);
@@ -46,6 +42,15 @@
 
     function css(varName, fb) {
         return getComputedStyle(document.body).getPropertyValue(varName).trim() || fb;
+    }
+
+    var inkVal = "", sigVal = "", amberVal = "", lineVal = "", dimVal = "";
+    function updateColors() {
+        inkVal = css("--grey-gas", "rgba(228,228,231,0.55)");
+        sigVal = css("--signal", "#4ADE80");
+        amberVal = css("--amber", "#FBBF24");
+        lineVal = css("--line", "#26272B");
+        dimVal = css("--ink-faint", "rgba(228,228,231,0.6)");
     }
 
     function resize() {
@@ -201,13 +206,14 @@
     }
 
     function render(t) {
+        if (HG.reduced) return;
         if (!running) return;
         ctx.clearRect(0, 0, W, H);
-        var ink = css("--grey-gas", "rgba(228,228,231,0.55)");
-        var sig = css("--signal", "#4ADE80");
-        var amber = css("--amber", "#FBBF24");
-        var line = css("--line", "#26272B");
-        var dim = css("--ink-faint", "rgba(228,228,231,0.6)");
+        var ink = inkVal;
+        var sig = sigVal;
+        var amber = amberVal;
+        var line = lineVal;
+        var dim = dimVal;
         drawPlant(sig, line, dim, amber);
 
         var p = progress;
@@ -240,6 +246,7 @@
     var elLabelNum = elLabel ? elLabel.querySelector(".sn") : null;
     var elCap = document.getElementById("sim-caption");
     var elCta = document.getElementById("sim-cta");
+    var srLive = document.getElementById("sr-live");
     var twTimer = 0;
 
     function typewrite(text) {
@@ -251,7 +258,11 @@
         caret.className = "tw-caret";
         elCap.appendChild(caret);
         twTimer = setInterval(function () {
-            if (i >= text.length) { clearInterval(twTimer); return; }
+            if (i >= text.length) {
+                clearInterval(twTimer);
+                if (srLive) srLive.textContent = text;
+                return;
+            }
             caret.insertAdjacentText("beforebegin", text[i]);
             i++;
         }, 16);
@@ -289,6 +300,10 @@
     function stop() { running = false; if (raf) cancelAnimationFrame(raf); raf = 0; }
 
     function initST() {
+        if (HG.reduced) {
+            section.classList.add("no-pin");
+            return;
+        }
         if (typeof window.ScrollTrigger === "undefined") {
             /* no GSAP: fall back to static figures */
             section.classList.add("no-pin");
@@ -314,9 +329,19 @@
     }, { passive: true });
 
     HG.on("langchange", function () { var s = curStage; curStage = -1; setStage(s < 0 ? 0 : s); });
-    document.addEventListener("visibilitychange", function () { if (document.hidden) stop(); });
+    HG.on("themechange", updateColors);
+
+    function isVisible() {
+        var r = canvas.getBoundingClientRect();
+        return r.bottom > 0 && r.top < window.innerHeight;
+    }
+    document.addEventListener("visibilitychange", function () {
+        if (document.hidden) stop();
+        else if (isVisible()) start();
+    });
 
     function boot() {
+        updateColors();
         resize(); spawn(); setProgress(0); initST();
     }
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(boot);

@@ -1,7 +1,22 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
+    <!-- Content Security Policy — hash-based for the 5 inline <script> blocks
+         (no nonces possible on a static GitHub Pages site); 'unsafe-inline' is
+         scoped to style-src only, for the handful of inline style="" attributes. -->
+    <meta http-equiv="Content-Security-Policy" content="
+        default-src 'self';
+        script-src 'self' 'sha256-WZRJfWvsnNCPcxzZwvyhovnZGqhZaC+8gPGPRbx6wTk=' 'sha256-yXnIhWBECmSm1UOrG70P9oJamrM48KBXuLMTZr0TBnI=' 'sha256-dF6sF4ipWeXV1T0V0HXixMHtnPkR1C+JtXf9zXqeBDQ=' 'sha256-J3OtBIPB8e0rg9dkWRkkW1D6ssBBUL81LXU7bst9JJw=' 'sha256-xxtQvhtxsWXvKE7nByfl3BRzz5Pif2QRchLVI3ltaEg=' https://cdn.jsdelivr.net https://static.cloudflareinsights.com;
+        style-src 'self' 'unsafe-inline';
+        img-src 'self' data:;
+        font-src 'self';
+        connect-src 'self' https://api.emailjs.com https://cloudflareinsights.com;
+        frame-src 'none';
+        object-src 'none';
+        base-uri 'self';
+        form-action 'self';
+    ">
     <!-- JS marker: reveal-hiding CSS is scoped to html.js, so a no-JS load
          renders every section visible. Must run before stylesheets. -->
     <script>document.documentElement.classList.add("js");</script>
@@ -47,19 +62,20 @@
         })();
     </script>
 
-    <title>Hashwanth Ghanta — Software Developer | M.Sc. Digital Engineering | Available Q2 2026 Germany</title>
+    <title>Hashwanth Ghanta — Backend / iOS / Unity Simulation Developer | M.Sc. Digital Engineering | Available Q2 2026 Germany</title>
     <meta name="description" content="Backend, iOS (SwiftUI) and Unity simulation developer. M.Sc. Digital Engineering @ OVGU Magdeburg. Available Q2 2026 Germany — working-student, hybrid or remote.">
     <meta name="keywords" content="working student, Werkstudent, Germany, Magdeburg, backend developer, iOS developer, SwiftUI, Unity 3D, simulation, C#, Python, SQL, OVGU, Digital Engineering, available 2026">
     <meta name="author" content="Hashwanth Ghanta">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
     <link rel="canonical" href="https://hashwanthghanta.github.io/">
-    <link rel="alternate" hreflang="en" href="https://hashwanthghanta.github.io/">
-    <link rel="alternate" hreflang="de" href="https://hashwanthghanta.github.io/">
+    <link rel="alternate" hreflang="en" href="https://hashwanthghanta.github.io/?lang=en">
+    <link rel="alternate" hreflang="de" href="https://hashwanthghanta.github.io/?lang=de">
     <link rel="alternate" hreflang="x-default" href="https://hashwanthghanta.github.io/">
 
     <!-- Open Graph -->
     <meta property="og:title" content="Hashwanth Ghanta — Backend / iOS / Unity Simulation Developer">
     <meta property="og:description" content="7-phase Unity CO₂ simulation, 55-ticker SwiftUI watchlist, IoT helmet prototype. Available Q2 2026 (Werkstudent, Germany).">
-    <meta property="og:image" content="https://hashwanthghanta.github.io/Images/hash.jpeg">
+    <meta property="og:image" content="https://hashwanthghanta.github.io/Images/og-image.webp">
     <meta property="og:url" content="https://hashwanthghanta.github.io/">
     <meta property="og:type" content="website">
     <meta property="og:locale" content="en_US">
@@ -69,7 +85,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Hashwanth Ghanta — Backend / iOS / Unity Simulation Developer">
     <meta name="twitter:description" content="7-phase Unity CO₂ simulation, 55-ticker SwiftUI watchlist, IoT helmet prototype. Available Q2 2026 (Werkstudent, Germany).">
-    <meta name="twitter:image" content="https://hashwanthghanta.github.io/Images/hash.jpeg">
+    <meta name="twitter:image" content="https://hashwanthghanta.github.io/Images/og-image.webp">
 
     <!-- Favicons -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230A0A0B'/%3E%3Ctext x='50' y='66' font-family='monospace' font-size='46' font-weight='700' fill='%234ADE80' text-anchor='middle'%3EHG%3C/text%3E%3C/svg%3E">
@@ -84,40 +100,69 @@
     <!-- View Transitions opt-in (Chromium) -->
     <meta name="view-transition" content="same-origin">
 
-    <!-- Schema.org / JSON-LD — Person -->
+    <!-- Schema.org / JSON-LD — @graph: Person + WebSite -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "Person",
-      "name": "Hashwanth Ghanta",
-      "url": "https://hashwanthghanta.github.io/",
-      "image": "https://hashwanthghanta.github.io/Images/hash.jpeg",
-      "jobTitle": "Software Developer (Backend, iOS, Unity Simulation)",
-      "description": "M.Sc. Digital Engineering student. Available Q2 2026 for working-student roles (hybrid or remote, Germany).",
-      "email": "mailto:hashwanthghanta@gmail.com",
-      "address": { "@type": "PostalAddress", "addressLocality": "Magdeburg", "addressCountry": "DE" },
-      "sameAs": [
-        "https://github.com/hashwanthghanta",
-        "https://www.linkedin.com/in/hashwanthghanta"
-      ],
-      "alumniOf": [
-        { "@type": "EducationalOrganization", "name": "Otto-von-Guericke-Universität Magdeburg", "url": "https://www.ovgu.de/" },
-        { "@type": "EducationalOrganization", "name": "VIT-AP University", "url": "https://vitap.ac.in/" }
+      "@graph": [
+        {
+          "@type": "Person",
+          "@id": "https://hashwanthghanta.github.io/#person",
+          "name": "Hashwanth Ghanta",
+          "url": "https://hashwanthghanta.github.io/",
+          "image": "https://hashwanthghanta.github.io/Images/hash2.webp",
+          "jobTitle": "Software Developer (Backend, iOS, Unity Simulation)",
+          "description": "M.Sc. Digital Engineering student. Available Q2 2026 for working-student roles (hybrid or remote, Germany).",
+          "email": "mailto:hashwanthghanta@gmail.com",
+          "address": { "@type": "PostalAddress", "addressLocality": "Magdeburg", "addressCountry": "DE" },
+          "sameAs": [
+            "https://github.com/hashwanthghanta",
+            "https://www.linkedin.com/in/hashwanthghanta"
+          ],
+          "alumniOf": [
+            { "@type": "EducationalOrganization", "name": "Otto-von-Guericke-Universität Magdeburg", "url": "https://www.ovgu.de/" },
+            { "@type": "EducationalOrganization", "name": "VIT-AP University", "url": "https://vitap.ac.in/" }
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://hashwanthghanta.github.io/#website",
+          "url": "https://hashwanthghanta.github.io/",
+          "name": "Hashwanth Ghanta — Portfolio",
+          "description": "Backend, iOS (SwiftUI) and Unity simulation developer portfolio.",
+          "inLanguage": ["en", "de"],
+          "publisher": { "@id": "https://hashwanthghanta.github.io/#person" }
+        }
       ]
     }
     </script>
+
+    <!-- Resource hints — EmailJS SDK is loaded from jsdelivr near end of body -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+    <link rel="preconnect" href="https://static.cloudflareinsights.com" crossorigin>
+    <link rel="dns-prefetch" href="https://static.cloudflareinsights.com">
+    <link rel="preconnect" href="https://api.emailjs.com" crossorigin>
+    <link rel="dns-prefetch" href="https://api.emailjs.com">
+
+    <!-- Cloudflare Web Analytics -->
+    <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "YOUR_CLOUDFLARE_ANALYTICS_TOKEN"}'></script>
+    <!-- End Cloudflare Web Analytics -->
 
     <!-- Critical font preloads (2 only) -->
     <link rel="preload" href="fonts/clash-700.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="fonts/inter-400.woff2" as="font" type="font/woff2" crossorigin>
 
+    <!-- Hero image preload -->
+    <link rel="preload" href="Images/hash2.webp" as="image" type="image/webp">
+
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="css/tokens.css">
-    <link rel="stylesheet" href="css/base.css">
-    <link rel="stylesheet" href="css/shell.css">
-    <link rel="stylesheet" href="css/sections.css">
-    <link rel="stylesheet" href="css/chapters.css">
-    <link rel="stylesheet" href="css/motion.css">
+    <link rel="stylesheet" href="css/tokens.css?v=20260614">
+    <link rel="stylesheet" href="css/base.css?v=20260614">
+    <link rel="stylesheet" href="css/shell.css?v=20260614">
+    <link rel="stylesheet" href="css/sections.css?v=20260614">
+    <link rel="stylesheet" href="css/chapters.css?v=20260614">
+    <link rel="stylesheet" href="css/motion.css?v=20260614">
 </head>
 <body>
     <!-- Theme init — first thing, prevents flash of wrong theme. -->
@@ -140,7 +185,7 @@
     </script>
 
     <!-- BOOT — terminal start-up + upward wipe (Phase 1) -->
-    <div class="boot" id="boot" role="dialog" aria-modal="true" aria-label="System boot sequence — activate Skip to enter the site">
+    <div class="boot" id="boot" role="dialog" aria-label="System boot sequence — activate Skip to enter the site" tabindex="-1">
         <div class="boot__inner" aria-hidden="true">
             <div class="boot__lines"></div>
             <div class="boot__progress"><span class="boot__bar"></span></div>
@@ -260,21 +305,22 @@
                         <span class="ping" aria-hidden="true"></span>
                         <span data-i18n="h3_status">OPEN · WORKING STUDENT · Q2 2026</span>
                     </p>
-                    <p class="term-cmd" aria-hidden="true"><span class="pr">~ $</span> whoami</p>
-                    <h1 id="hero-h" class="hero-title">HASHWANTH<br>GHANTA</h1>
+                    <p class="term-cmd" aria-hidden="true"><span class="pr">hashwanth@magdeburg:~$</span> whoami</p>
+                    <h1 id="hero-h" class="hero-title">HASHWANTH GHANTA</h1>
                     <p class="hero-sub mono" data-i18n="h3_sub">M.Sc. Digital Engineering / OVGU Magdeburg</p>
-                    <p class="term-cmd" aria-hidden="true"><span class="pr">~ $</span> cat profile.txt</p>
+                    <p class="hero-pitch" data-i18n="h3_pitch"></p>
+                    <p class="term-cmd" aria-hidden="true"><span class="pr">hashwanth@magdeburg:~$</span> cat profile.txt</p>
                     <p class="hero-about" data-i18n="h3_about">M.Sc. Digital Engineering student at OVGU Magdeburg. I've shipped a 7-phase Unity CO₂ capture simulation, a native SwiftUI iOS watchlist with live market data, and IoT safety prototypes — and I'm now building an LLM-driven adaptive learning system. I'm after a working-student role from Q2 2026 across backend, iOS, data or simulation — hybrid or remote, anywhere in Germany. I pick up new stacks fast.</p>
                     <div class="hero-cta">
-                        <a class="btn btn--signal" href="#simulation" data-magnetic>
-                            <span data-i18n="cta_sim">Run simulation</span><span class="btn-arrow" aria-hidden="true">↓</span>
+                        <a class="btn btn--signal" id="resume-btn" href="resume.pdf" download="Hashwanth_Ghanta_CV_English.pdf" target="_blank" rel="noopener noreferrer" data-magnetic aria-label="Résumé.pdf — download CV (PDF)">
+                            <span data-i18n="cta_resume">Résumé.pdf</span><span class="btn-arrow" aria-hidden="true">↗</span>
                         </a>
-                        <a class="btn btn--ghost" id="resume-btn" href="resume.pdf" download="Hashwanth_Ghanta_CV_English.pdf" target="_blank" rel="noopener noreferrer" data-magnetic aria-label="Résumé.pdf — download CV (PDF)">
-                            <span data-i18n="cta_resume">Résumé.pdf</span>
+                        <a class="btn btn--ghost" href="#simulation" data-magnetic>
+                            <span data-i18n="cta_sim">Run simulation</span><span class="btn-arrow" aria-hidden="true">↓</span>
                         </a>
                         <a class="btn btn--text" href="#handshake"><span data-i18n="cta_contact">Contact</span></a>
                     </div>
-                    <p class="hero-caret" aria-hidden="true"><span class="pr">~ $</span> <b></b></p>
+                    <p class="hero-caret" aria-hidden="true"><span class="pr">hashwanth@magdeburg:~$</span> <span class="hero-caret-text"></span><b></b></p>
                 </div>
             </div>
 
@@ -288,7 +334,10 @@
                             <p class="pcard__role mono" data-i18n="pc_role">Software Developer</p>
                         </div>
                         <div class="pcard__photo">
-                            <img src="Images/hash2.jpeg" width="744" height="992" alt="" loading="eager" fetchpriority="high" decoding="async" draggable="false">
+                            <picture>
+                                <source srcset="Images/hash2.webp" type="image/webp">
+                                <img src="Images/hash2.jpeg" width="744" height="992" alt="" loading="eager" fetchpriority="high" decoding="async" draggable="false">
+                            </picture>
                         </div>
                         <div class="pcard__foot">
                             <span class="pcard__status">
@@ -339,7 +388,7 @@
                                 <path id="rope-edge" class="rope-edge"></path>
                                 <path id="rope-stripe" class="rope-stripe"></path>
                             </svg>
-                            <div class="idcard" id="idcard" role="img" aria-label="Hashwanth Ghanta — M.Sc. Digital Engineering student ID, OVGU Magdeburg" data-i18n-attr="aria-label:a11y_idcard;data-cursor:cursor_drag" data-cursor="DRAG" aria-describedby="idcard-hint" data-lenis-prevent>
+                            <div class="idcard" id="idcard" role="button" aria-label="Hashwanth Ghanta — M.Sc. Digital Engineering student ID, OVGU Magdeburg" data-i18n-attr="aria-label:a11y_idcard;data-cursor:cursor_drag" data-cursor="DRAG" aria-describedby="idcard-hint" data-lenis-prevent>
                                 <span class="idcard-clip" aria-hidden="true"></span>
                                 <div class="idcard-face">
                                     <span class="idcard-hole" aria-hidden="true"></span>
@@ -347,7 +396,7 @@
                                         <img class="idcard-logo" src="Images/ovgu-logo.svg" width="132" height="46" alt="" aria-hidden="true" draggable="false">
                                     </div>
                                     <div class="idcard-photo">
-                                        <img src="Images/hash.jpeg" width="220" height="240" alt="" loading="lazy" decoding="async" draggable="false">
+                                        <img src="Images/hash_id.webp" width="220" height="240" alt="" loading="lazy" decoding="async" draggable="false">
                                     </div>
                                     <div class="idcard-name">Hashwanth Ghanta</div>
                                     <div class="idcard-role">M.Sc. Digital Engineering</div>
@@ -397,7 +446,7 @@
                             <div class="sim-stagelabel" id="sim-stagelabel"><span class="sn">01</span> <span id="sim-stagename">FLUE GAS IN</span></div>
                         </div>
 
-                        <p class="sim-caption mono" id="sim-caption" aria-live="polite"></p>
+                        <p class="sim-caption mono" id="sim-caption"></p>
 
                         <div class="sim-cta" id="sim-cta">
                             <span class="readout" style="text-align:left"><span class="lbl">Build</span><span class="val" style="font-size:1.1rem">7-phase coroutine · 4 stages · C# · Unity · Blender</span></span>
@@ -409,10 +458,10 @@
 
                 <!-- reduced-motion / no-JS fallback: 4 static figures -->
                 <div class="sim-static shell" aria-hidden="false">
-                    <figure class="sim-fig"><span class="fnum">STAGE 01</span><h3>Flue gas in</h3><p>Grey flue-gas stream enters the absorber at CO₂ ≈ 12.4%.</p></figure>
-                    <figure class="sim-fig"><span class="fnum">STAGE 02</span><h3>Absorber</h3><p>Particles meet the solvent stream and are captured — capture rate climbs toward 95%.</p></figure>
-                    <figure class="sim-fig"><span class="fnum">STAGE 03</span><h3>Desorber</h3><p>Amber heat releases a pure CO₂ stream upward — purity exceeds 95%.</p></figure>
-                    <figure class="sim-fig"><span class="fnum">STAGE 04</span><h3>Output</h3><p>Compressed CO₂ exits. Built as a 7-phase Unity coroutine with Blender models in C#.</p></figure>
+                    <figure class="sim-fig"><span class="fnum" data-i18n="sim_static_stage01">STAGE 01</span><h3 data-i18n="sim_static_title01">Flue gas in</h3><p data-i18n="sim_static_desc01">Grey flue-gas stream enters the absorber at CO₂ ≈ 12.4%.</p></figure>
+                    <figure class="sim-fig"><span class="fnum" data-i18n="sim_static_stage02">STAGE 02</span><h3 data-i18n="sim_static_title02">Absorber</h3><p data-i18n="sim_static_desc02">Particles meet the solvent stream and are captured — capture rate climbs toward 95%.</p></figure>
+                    <figure class="sim-fig"><span class="fnum" data-i18n="sim_static_stage03">STAGE 03</span><h3 data-i18n="sim_static_title03">Desorber</h3><p data-i18n="sim_static_desc03">Amber heat releases a pure CO₂ stream upward — purity exceeds 95%.</p></figure>
+                    <figure class="sim-fig"><span class="fnum" data-i18n="sim_static_stage04">STAGE 04</span><h3 data-i18n="sim_static_title04">Output</h3><p data-i18n="sim_static_desc04">Compressed CO₂ exits. Built as a 7-phase Unity coroutine with Blender models in C#.</p></figure>
                 </div>
             </div>
         </section>
@@ -517,15 +566,15 @@
                         <form class="terminal__body" id="contact-form" novalidate>
                             <div class="tfield">
                                 <label for="cf-name">name</label>
-                                <input class="tinput" id="cf-name" name="from_name" type="text" autocomplete="name" required placeholder="Jane Recruiter">
+                                <input class="tinput" id="cf-name" name="from_name" type="text" autocomplete="name" required placeholder="Jane Recruiter" maxlength="100">
                             </div>
                             <div class="tfield">
                                 <label for="cf-email">email</label>
-                                <input class="tinput" id="cf-email" name="from_email" type="email" autocomplete="email" required placeholder="jane@company.com">
+                                <input class="tinput" id="cf-email" name="from_email" type="email" autocomplete="email" required placeholder="jane@company.com" maxlength="254">
                             </div>
                             <div class="tfield">
                                 <label for="cf-msg">message</label>
-                                <textarea class="tinput" id="cf-msg" name="message" required placeholder="We're hiring a working student for…"></textarea>
+                                <textarea class="tinput" id="cf-msg" name="message" required placeholder="We're hiring a working student for…" maxlength="2000"></textarea>
                             </div>
                             <div class="cf-hp" aria-hidden="true">
                                 <label for="cf-website">Leave this field empty</label>
@@ -573,7 +622,7 @@
             </div>
             <div class="cmdk__search">
                 <span class="cmdk__prompt mono" aria-hidden="true">~ $</span>
-                <input type="text" class="cmdk__input" id="cmdk-input" role="combobox" aria-expanded="true" aria-controls="cmdk-list" aria-autocomplete="list" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Jump to section, switch theme, copy email…" data-i18n-attr="placeholder:cmdk_placeholder">
+                <input type="text" class="cmdk__input" id="cmdk-input" role="combobox" aria-expanded="false" aria-controls="cmdk-list" aria-autocomplete="list" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Jump to section, switch theme, copy email…" data-i18n-attr="placeholder:cmdk_placeholder">
                 <kbd class="cmdk__esc mono" aria-hidden="true">esc</kbd>
             </div>
             <ul class="cmdk__list" id="cmdk-list" role="listbox" aria-label="Commands" data-i18n-attr="aria-label:a11y_commands"></ul>
@@ -612,29 +661,29 @@
     </footer>
 
     <!-- data dictionary (EN/DE) — survivor -->
-    <script src="data.js"></script>
+    <script defer src="data.js?v=20260614"></script>
     <!-- vendor (self-hosted, defer) -->
-    <script defer src="vendor/gsap.min.js"></script>
-    <script defer src="vendor/ScrollTrigger.min.js"></script>
-    <script defer src="vendor/lenis.min.js"></script>
+    <script defer src="vendor/gsap.min.js?v=20260614" fetchpriority="low"></script>
+    <script defer src="vendor/ScrollTrigger.min.js?v=20260614" fetchpriority="low"></script>
+    <script defer src="vendor/lenis.min.js?v=20260614"></script>
     <!-- app modules (order matters: i18n → scroll → main → boot) -->
-    <script defer src="js/i18n.js"></script>
-    <script defer src="js/scroll.js"></script>
-    <script defer src="js/main.js"></script>
-    <script defer src="js/hero-particles.js"></script>
-    <script defer src="js/profilecard.js"></script>
-    <script defer src="js/about.js"></script>
-    <script defer src="js/idcard.js"></script>
-    <script defer src="js/co2-sim.js"></script>
-    <script defer src="js/projects.js"></script>
-    <script defer src="js/panels.js"></script>
-    <script defer src="js/stack.js"></script>
-    <script defer src="js/trajectory.js"></script>
-    <script defer src="js/cmdk.js"></script>
-    <script defer src="js/drawer.js"></script>
-    <script defer src="js/scramble.js"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-    <script defer src="js/contact.js"></script>
-    <script defer src="js/boot.js"></script>
+    <script defer src="js/i18n.js?v=20260614"></script>
+    <script defer src="js/scroll.js?v=20260614"></script>
+    <script defer src="js/main.js?v=20260614"></script>
+    <script defer src="js/hero-particles.js?v=20260614"></script>
+    <script defer src="js/profilecard.js?v=20260614"></script>
+    <script defer src="js/about.js?v=20260614"></script>
+    <script defer src="js/idcard.js?v=20260614"></script>
+    <script defer src="js/co2-sim.js?v=20260614"></script>
+    <script defer src="js/projects.js?v=20260614"></script>
+    <script defer src="js/panels.js?v=20260614"></script>
+    <script defer src="js/stack.js?v=20260614"></script>
+    <script defer src="js/trajectory.js?v=20260614"></script>
+    <script defer src="js/cmdk.js?v=20260614"></script>
+    <script defer src="js/drawer.js?v=20260614"></script>
+    <script defer src="js/scramble.js?v=20260614"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4.4.1/dist/email.min.js" integrity="sha384-SALc35EccAf6RzGw4iNsyj7kTPr33K7RoGzYu+7heZhT8s0GZouafRiCg1qy44AS" crossorigin="anonymous"></script>
+    <script defer src="js/contact.js?v=20260614"></script>
+    <script defer src="js/boot.js?v=20260614"></script>
 </body>
 </html>

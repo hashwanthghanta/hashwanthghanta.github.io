@@ -18,6 +18,9 @@
     var MOBILE = function () { return window.matchMedia("(max-width: 760px)").matches; };
     var AMP = 0.13;            /* wave amplitude as fraction of width */
     var tip = null;
+    var trajHeight = 1;
+    var trajDocumentTop = 0;
+    var nodeData = [];
 
     function strip(html) {
         var d = document.createElement("div");
@@ -105,7 +108,18 @@
         var side = 0;
         rows.forEach(function (row) {
             var rr = row.getBoundingClientRect();
-            var y = rr.top - r.top + (row.classList.contains("traj-node") ? 1.9 * 16 + 7 : rr.height / 2);
+            var y;
+            if (row.classList.contains("traj-node")) {
+                var dot = row.querySelector(".node-dot");
+                if (dot) {
+                    var dotRect = dot.getBoundingClientRect();
+                    y = dotRect.top - r.top + dotRect.height / 2;
+                } else {
+                    y = rr.top - r.top + 1.9 * 16 + 7;
+                }
+            } else {
+                y = rr.top - r.top + rr.height / 2;
+            }
             if (row.classList.contains("traj-node")) {
                 var x = MOBILE() ? 8 : cx + (side % 2 === 0 ? -amp : amp);
                 side++;
@@ -139,16 +153,31 @@
             tip.setAttribute("r", "5");
             svg.appendChild(tip);
         }
+
+        /* Cache bounds to prevent DOM queries during scroll events */
+        trajHeight = H;
+        trajDocumentTop = r.top + window.scrollY;
+        var nodes = list.querySelectorAll(".traj-node");
+        nodeData = [];
+        nodes.forEach(function (n) {
+            var dot = n.querySelector(".node-dot");
+            if (!dot) return;
+            var nr = dot.getBoundingClientRect();
+            nodeData.push({
+                el: n,
+                dotDocumentY: nr.top + window.scrollY + nr.height / 2
+            });
+        });
     }
 
     function draw() {
         var traj = document.getElementById("traj");
         if (!traj) return;
-        var nodes = list.querySelectorAll(".traj-node");
         HG.scroll.on(function () {
-            var r = traj.getBoundingClientRect();
+            var scrollY = window.scrollY;
+            var rTop = trajDocumentTop - scrollY;
             var center = window.innerHeight * 0.5;
-            var p = (center - r.top) / Math.max(1, r.height);
+            var p = (center - rTop) / trajHeight;
             p = Math.max(0, Math.min(1, p));
             if (fg) fg.style.strokeDashoffset = HG.reduced ? 0 : (1 - p);
             /* glowing tip rides the curve at the scroll point */
@@ -158,12 +187,10 @@
                 tip.setAttribute("cy", pt.y.toFixed(1));
                 tip.style.opacity = p > 0.005 && p < 0.995 ? 1 : 0;
             }
-            nodes.forEach(function (n) {
-                var dot = n.querySelector(".node-dot");
-                if (!dot) return;
-                var nr = dot.getBoundingClientRect();
-                var dist = Math.abs((nr.top + nr.height / 2) - center);
-                n.classList.toggle("is-pulse", dist < window.innerHeight * 0.18);
+            nodeData.forEach(function (data) {
+                var dotViewportY = data.dotDocumentY - scrollY;
+                var dist = Math.abs(dotViewportY - center);
+                data.el.classList.toggle("is-pulse", dist < window.innerHeight * 0.18);
             });
         });
         if (HG.reduced && fg) fg.style.strokeDashoffset = 0;

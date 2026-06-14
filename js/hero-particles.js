@@ -19,11 +19,11 @@
     var running = false, assembled = 0, raf = 0;
     var W = 0, H = 0;
 
-    function inkColor() {
-        return getComputedStyle(document.body).getPropertyValue("--ink").trim() || "#E4E4E7";
-    }
-    function signalColor() {
-        return getComputedStyle(document.body).getPropertyValue("--signal").trim() || "#4ADE80";
+    var inkVal = "", sigVal = "";
+    function updateColors() {
+        var style = getComputedStyle(document.body);
+        inkVal = style.getPropertyValue("--ink").trim() || "#E4E4E7";
+        sigVal = style.getPropertyValue("--signal").trim() || "#4ADE80";
     }
 
     function buildTargets() {
@@ -54,7 +54,7 @@
         var img = octx.getImageData(0, 0, off.width, off.height).data;
         var isMobile = W < 760;
         var gap = isMobile ? 7 : 5;             /* sampling step in CSS px */
-        var cap = isMobile ? 1000 : 3000;
+        var cap = isMobile ? 1000 : 1500;
         var pts = [];
         for (var y = 0; y < H; y += gap) {
             for (var x = 0; x < W; x += gap) {
@@ -90,7 +90,7 @@
         if (!running) return;
         ctx.clearRect(0, 0, W, H);
         assembled = Math.min(1, assembled + 0.012);
-        var ink = inkColor(), sig = signalColor();
+        var ink = inkVal, sig = sigVal;
         /* light paper needs denser, more opaque particles to read against white */
         var light = document.body.getAttribute("data-theme") === "light";
         var baseA = light ? 0.78 : 0.5, sigA = light ? 0.95 : 0.85, szBoost = light ? 0.8 : 0;
@@ -144,6 +144,7 @@
     }, { threshold: 0.02 });
 
     function boot() {
+        updateColors();
         spawn();
         io.observe(canvas);
         start();
@@ -163,7 +164,7 @@
         resizeT = setTimeout(function () { spawn(); }, 200);
     }, { passive: true });
 
-    HG.on("themechange", function () { /* colors re-read each frame; nothing to do */ });
+    HG.on("themechange", updateColors);
 
     if (document.fonts && document.fonts.ready) {
         document.fonts.ready.then(boot);

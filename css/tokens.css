@@ -161,10 +161,10 @@ body[data-theme="light"] {
     --line:        rgba(16, 17, 19, 0.14);
     --line-strong: rgba(16, 17, 19, 0.26);
     /* paper-terminal syntax palette — vivid but AA-compliant on #F4F4F2 */
-    --signal:      #0F7A35;         /* terminal green — ~5:1 */
-    --signal-dim:  rgba(15, 122, 53, 0.14);
-    --signal-glow: rgba(15, 122, 53, 0.30);
-    --cyan:        #0E7490;         /* teal-cyan — ~4.8:1 */
+    --signal:      #0D6B2E;         /* terminal green — ~5.8:1 */
+    --signal-dim:  rgba(13, 107, 46, 0.14);
+    --signal-glow: rgba(13, 107, 46, 0.30);
+    --cyan:        #0B6178;         /* teal-cyan — ~5.6:1 */
     --magenta:     #BE185D;         /* pink-red — ~5.7:1 */
     --amber:       #C2410C;         /* burnt orange — ~5:1 */
     --accent2:     #9A5D00;         /* gold — ~4.8:1 (AA small text safe; large/decorative use) */

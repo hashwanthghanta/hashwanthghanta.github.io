@@ -4,7 +4,7 @@
 ============================================================ */
 (function () {
     "use strict";
-    var HG = window.HG;
+    var HG = window.HG || { reduced: false };
     var boot = document.getElementById("boot");
     if (!boot) { document.body.classList.remove("is-booting"); return; }
 
@@ -37,6 +37,7 @@
     var done = false;
     function finish(instant) {
         if (done) return; done = true;
+        document.removeEventListener("keydown", onKey);
         function reveal() {
             setInert(false);
             boot.remove();

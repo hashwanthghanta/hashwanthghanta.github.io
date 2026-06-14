@@ -32,10 +32,9 @@
     /* original brand colours (icons render in colour, invert to dark on the green hover) */
     var CLR = {
         unity: "#FFFFFF", swift: "#F05138", blender: "#E87D0D", python: "#4B8BBE",
-        javascript: "#F7DF1E", greensock: "#0AE448", arduino: "#00979D", figma: "#F24E1E",
+        javascript: "#F7DF1E", greensock: "#0AE448", figma: "#F24E1E",
         git: "#F05032", github: "#FFFFFF", jira: "#2684FF", langchain: "#2DD4BF", apple: "#FFFFFF"
     };
-
     var CELLS = [
         { l: "UNITY",        ic: "unity",       cat: "Engine · 3D",      en: "7-phase CO₂ simulation, live on Unity Play",     de: "7-Phasen-CO₂-Simulation, live auf Unity Play" },
         { l: "C#",           mono: "C#",        cat: "Language",         en: "11 scripts — Singleton + partial-ECS",            de: "11 Skripte — Singleton + partielles ECS" },
@@ -62,7 +61,8 @@
         { l: "URP",          ic: "unity",       cat: "Render Pipeline",  en: "Unity render pipeline for the CO₂ sim",            de: "Unity-Render-Pipeline für die CO₂-Sim" },
         { l: "JIRA",         ic: "jira",        cat: "Agile",            en: "Agile tracking on team projects",                  de: "Agile-Tracking in Teamprojekten" }
     ];
-    var WORDS = ["BACKEND", "SIMULATION", "iOS", "FRONTEND", "DATA", "ANALYTICS", "AI / LLMs"];
+
+    var WORDS = ["BACKEND", "SIMULATION", "iOS", "FRONTEND", "DATA", "ANALYTICS", "AI / LLMs", "CODING", "VIBE CODING"];
 
     function render() {
         var lang = HG.lang;
@@ -70,7 +70,7 @@
            ("where I used it") crossfades in on hover/focus. The proof stays in
            the DOM (a11y tree) so screen readers always read it. Cells are
            focusable so keyboard users can reveal the proof too. */
-        matrix.innerHTML = CELLS.map(function (c, i) {
+        matrix.innerHTML = CELLS.map(function (c) {
             var hasIcon = c.ic && ICONS[c.ic];
             var glyph = hasIcon
                 ? ICONS[c.ic]
@@ -83,8 +83,8 @@
                 '<span class="scell__slot">' +
                     '<span class="cat" aria-hidden="true">' + c.cat + "</span>" +
                     '<span class="proof">' + (c[lang] || c.en) + "</span>" +
-                "</span>" +
-            "</div>";
+                '</span>' +
+            '</div>';
         }).join("");
         wave();
     }
@@ -138,11 +138,28 @@
     function velocitySkew() {
         if (HG.reduced || !marqueeWrap) return;
         var lastY = window.scrollY, skew = 0;
-        HG.scroll.on(function (p) {
-            var dy = p.y - lastY; lastY = p.y;
-            var target = Math.max(-6, Math.min(6, dy * 0.25));
-            skew += (target - skew) * 0.2;
+        var active = false;
+        function tick() {
+            var currY = window.scrollY;
+            var dy = currY - lastY;
+            lastY = currY;
+            var targetSkew = Math.max(-6, Math.min(6, dy * 0.25));
+            skew += (targetSkew - skew) * 0.15;
+            if (Math.abs(skew) < 0.01 && Math.abs(dy) < 0.1) {
+                skew = 0;
+                marqueeWrap.style.transform = "";
+                active = false;
+                return;
+            }
             marqueeWrap.style.transform = "skewX(" + skew.toFixed(2) + "deg)";
+            requestAnimationFrame(tick);
+        }
+        HG.scroll.on(function () {
+            if (!active) {
+                active = true;
+                lastY = window.scrollY;
+                requestAnimationFrame(tick);
+            }
         });
     }
 

@@ -163,7 +163,12 @@ body.is-booting .hud, body.is-booting .chapter-rail { opacity: 0; }
     font-family: var(--font-mono);
     font-size: var(--text-mono-sm);
     letter-spacing: 0.06em;
-    padding: 0.35rem 0.55rem;
+    padding: 0.55rem 0.65rem;
+    min-height: 44px;
+    min-width: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     line-height: 1;
     color: inherit;
     opacity: 0.55;
@@ -231,6 +236,7 @@ body.is-booting .hud, body.is-booting .chapter-rail { opacity: 0; }
 .chapter-rail a {
     display: flex; align-items: center; gap: 0.55rem;
     color: var(--ink-faint);
+    min-height: 44px;
     transition: color var(--dur-fast) var(--ease-out-expo);
 }
 .chapter-rail a .num { width: 2ch; }

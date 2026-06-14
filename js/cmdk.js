@@ -156,11 +156,14 @@
         input.value = "";
         filter("");
         dlg.showModal();
+        input.setAttribute("aria-expanded", "true");
         input.focus();
     }
     function close() { dlg.close(); }
 
     dlg.addEventListener("close", function () {
+        /* covers both close() and native ESC dismissal */
+        input.setAttribute("aria-expanded", "false");
         /* plain close → focus returns to the trigger (jump() already moved
            focus to a heading; refocusing a hidden-behind-scroll trigger is
            skipped if focus already moved) */
